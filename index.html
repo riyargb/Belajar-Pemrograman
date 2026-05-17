@@ -5,265 +5,116 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 <title>Salman · Dev Journal</title>
 <meta name="theme-color" content="#0a0a0f">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Dev Journal">
-<link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Clash+Display:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-
-:root{
-  --bg:#0a0a0f;
-  --s1:#0f0f18;
-  --s2:#141420;
-  --border:#1e1e2e;
-  --border2:#2a2a3e;
-  --green:#00ff88;
-  --orange:#ff6b35;
-  --blue:#4fc3f7;
-  --purple:#a78bfa;
-  --red:#ff4757;
-  --text:#e2e8f0;
-  --muted:#555570;
-  --muted2:#3a3a55;
-}
-
+:root{--bg:#0a0a0f;--s1:#0f0f18;--s2:#141420;--border:#1e1e2e;--border2:#2a2a3e;--green:#00ff88;--orange:#ff6b35;--blue:#4fc3f7;--purple:#a78bfa;--red:#ff4757;--text:#e2e8f0;--muted:#555570;--muted2:#3a3a55}
 html,body{height:100%;overflow:hidden}
-
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:'Space Mono',monospace;
-  display:flex;
-  flex-direction:column;
-  height:100dvh;
-}
-
-/* ── TOP BAR ── */
-.topbar{
-  display:flex;align-items:center;justify-content:space-between;
-  padding:12px 16px;
-  background:var(--s1);
-  border-bottom:1px solid var(--border);
-  flex-shrink:0;
-}
-.topbar-title{
-  font-family:'Clash Display',sans-serif;
-  font-size:16px;font-weight:700;letter-spacing:-0.5px;
-}
+body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;display:flex;flex-direction:column;height:100dvh;background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(124,58,237,.12) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 10% 80%,rgba(0,255,136,.07) 0%,transparent 60%)}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--s1);border-bottom:1px solid var(--border);flex-shrink:0}
+.topbar-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:-0.5px;white-space:nowrap}
 .topbar-title span{color:var(--green)}
-.streak{
-  font-size:10px;color:var(--orange);
-  display:flex;align-items:center;gap:4px;
-}
-
-/* ── TABS ── */
-.tabs{
-  display:flex;
-  background:var(--s1);
-  border-bottom:1px solid var(--border);
-  flex-shrink:0;
-}
-.tab{
-  flex:1;padding:10px 0;
-  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
-  color:var(--muted);
-  border:none;background:none;cursor:pointer;
-  border-bottom:2px solid transparent;
-  transition:all .2s;
-}
+.streak{font-size:10px;color:var(--orange);display:flex;align-items:center;gap:4px;white-space:nowrap}
+.tabs{display:flex;background:var(--s1);border-bottom:1px solid var(--border);flex-shrink:0}
+.tab{flex:1;padding:10px 0;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-family:'Space Mono',monospace}
 .tab.active{color:var(--green);border-bottom-color:var(--green)}
-
-/* ── SCROLL AREA ── */
-.pane{
-  flex:1;overflow-y:auto;
-  display:none;
-  padding:16px;
-  padding-bottom:80px;
-}
+.pane{flex:1;overflow-y:auto;display:none;padding:16px;padding-bottom:80px}
 .pane.active{display:block}
 .pane::-webkit-scrollbar{width:3px}
 .pane::-webkit-scrollbar-thumb{background:var(--border2)}
-
-/* ── GLOBAL PROGRESS ── */
-.g-progress{
-  background:var(--s2);border:1px solid var(--border);
-  border-radius:6px;padding:14px;margin-bottom:16px;
-}
+.lang-banner{display:flex;gap:10px;margin-bottom:16px}
+.lang-btn{flex:1;padding:12px 8px;border-radius:6px;border:1px solid var(--border2);background:var(--s2);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-align:center;text-decoration:none;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.lang-btn:hover{border-color:var(--blue);color:var(--blue)}
+.lang-btn .flag{font-size:20px}
+.lang-btn .lname{font-size:9px;letter-spacing:2px}
+.g-progress{background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:16px}
 .g-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .g-label{font-size:10px;color:var(--muted);letter-spacing:1px}
 .g-count{font-size:11px;color:var(--green);font-weight:700}
 .g-bar-bg{height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
 .g-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--purple));border-radius:2px;transition:width .5s ease}
-
-/* ── PHASE CARD ── */
-.phase{
-  background:var(--s2);border:1px solid var(--border);
-  border-radius:6px;margin-bottom:10px;overflow:hidden;
-  transition:border-color .3s;
-}
+.phase{background:var(--s2);border:1px solid var(--border);border-radius:6px;margin-bottom:10px;overflow:hidden;transition:border-color .3s}
 .phase.active-phase{border-color:rgba(0,255,136,.3)}
 .phase.done-phase{border-color:rgba(0,255,136,.15);background:#0d1a12}
-
-.ph-header{
-  display:flex;align-items:center;gap:10px;
-  padding:12px 14px;cursor:pointer;user-select:none;
-}
-.ph-num{
-  font-size:9px;letter-spacing:2px;color:var(--green);
-  background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);
-  padding:2px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0;
-}
-.ph-title{font-size:13px;font-weight:700;font-family:'Clash Display',sans-serif;flex:1}
+.ph-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none}
+.ph-num{font-size:9px;letter-spacing:2px;color:var(--green);background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);padding:2px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.ph-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;flex:1}
 .ph-stat{font-size:9px;color:var(--muted);white-space:nowrap}
 .ph-arrow{font-size:9px;color:var(--muted);transition:transform .2s}
 .phase.open .ph-arrow{transform:rotate(90deg)}
-
 .ph-body{display:none;padding:0 14px 14px}
 .phase.open .ph-body{display:block}
-
 .ph-minibar{height:2px;background:var(--border2);border-radius:1px;margin-bottom:12px;overflow:hidden}
 .ph-minibar-fill{height:100%;background:var(--green);border-radius:1px;transition:width .3s}
-
-/* ── ITEM ── */
-.item{
-  display:flex;align-items:flex-start;gap:10px;
-  padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);
-  cursor:pointer;
-}
+.item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer}
 .item:last-child{border-bottom:none}
-.cb{
-  width:15px;height:15px;flex-shrink:0;margin-top:1px;
-  border:1.5px solid var(--muted2);border-radius:2px;
-  display:flex;align-items:center;justify-content:center;
-  font-size:9px;transition:all .15s;
-}
+.cb{width:15px;height:15px;flex-shrink:0;margin-top:1px;border:1.5px solid var(--muted2);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .15s}
 .item.chk .cb{background:var(--green);border-color:var(--green);color:#000}
 .item-txt{font-size:11px;line-height:1.55;color:var(--text);transition:color .2s}
 .item.chk .item-txt{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(0,255,136,.35)}
-
-/* ── NOTEBOOK ── */
-.nb-date{
-  font-size:10px;color:var(--muted);letter-spacing:1px;
-  margin-bottom:12px;text-align:center;
-}
-
-/* Quick note input */
-.nb-input-wrap{
-  background:var(--s2);border:1px solid var(--border2);
-  border-radius:6px;padding:12px;margin-bottom:16px;
-}
-.nb-input-top{display:flex;gap:8px;margin-bottom:8px}
-.nb-textarea{
-  width:100%;background:transparent;border:none;
-  color:var(--text);font-family:'Space Mono',monospace;
-  font-size:12px;resize:none;outline:none;
-  min-height:70px;line-height:1.6;
-}
+.nb-input-wrap{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:12px;margin-bottom:16px}
+.nb-textarea{width:100%;background:transparent;border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:12px;resize:none;outline:none;min-height:70px;line-height:1.6}
 .nb-textarea::placeholder{color:var(--muted2)}
-
 .nb-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.nb-tag{
-  font-size:9px;letter-spacing:1px;padding:3px 10px;
-  border-radius:2px;border:1px solid var(--border2);
-  background:transparent;color:var(--muted);cursor:pointer;
-  transition:all .15s;
-}
-.nb-tag.sel{border-color:currentColor}
-.nb-tag[data-t="skip"].sel{color:var(--red);background:rgba(255,71,87,.08)}
-.nb-tag[data-t="done"].sel{color:var(--green);background:rgba(0,255,136,.08)}
-.nb-tag[data-t="struggle"].sel{color:var(--orange);background:rgba(255,107,53,.08)}
-.nb-tag[data-t="plan"].sel{color:var(--blue);background:rgba(79,195,247,.08)}
-.nb-tag[data-t="insight"].sel{color:var(--purple);background:rgba(167,139,250,.08)}
-
-.nb-save{
-  width:100%;padding:9px;
-  background:var(--green);color:#000;
-  border:none;border-radius:4px;
-  font-family:'Space Mono',monospace;font-size:11px;font-weight:700;
-  letter-spacing:1px;cursor:pointer;transition:opacity .15s;
-}
-.nb-save:hover{opacity:.85}
-
-/* Notes list */
-.nb-list-title{
-  font-size:9px;letter-spacing:2px;color:var(--muted);
-  margin-bottom:10px;text-transform:uppercase;
-}
-
-.note-card{
-  background:var(--s2);border:1px solid var(--border);
-  border-radius:6px;padding:12px;margin-bottom:8px;
-  position:relative;
-}
-.note-card.type-skip{border-left:3px solid var(--red)}
-.note-card.type-done{border-left:3px solid var(--green)}
-.note-card.type-struggle{border-left:3px solid var(--orange)}
+.nb-tag{font-size:9px;letter-spacing:1px;padding:3px 10px;border-radius:2px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;font-family:'Space Mono',monospace}
+.nb-tag[data-t="skip"].sel{color:#ff4757;background:rgba(255,71,87,.08);border-color:#ff4757}
+.nb-tag[data-t="done"].sel{color:#00ff88;background:rgba(0,255,136,.08);border-color:#00ff88}
+.nb-tag[data-t="struggle"].sel{color:#ff6b35;background:rgba(255,107,53,.08);border-color:#ff6b35}
+.nb-tag[data-t="plan"].sel{color:var(--blue);background:rgba(79,195,247,.08);border-color:var(--blue)}
+.nb-tag[data-t="insight"].sel{color:#a78bfa;background:rgba(167,139,250,.08);border-color:#a78bfa}
+.nb-save{width:100%;padding:9px;background:var(--green);color:#000;border:none;border-radius:4px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer}
+.nb-list-title{font-size:9px;letter-spacing:2px;color:var(--muted);margin-bottom:10px;text-transform:uppercase}
+.note-card{background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px;position:relative}
+.note-card.type-skip{border-left:3px solid #ff4757}
+.note-card.type-done{border-left:3px solid #00ff88}
+.note-card.type-struggle{border-left:3px solid #ff6b35}
 .note-card.type-plan{border-left:3px solid var(--blue)}
-.note-card.type-insight{border-left:3px solid var(--purple)}
-
+.note-card.type-insight{border-left:3px solid #a78bfa}
 .note-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.note-type{
-  font-size:8px;letter-spacing:1.5px;text-transform:uppercase;
-  padding:2px 7px;border-radius:2px;font-weight:700;
-}
-.type-skip .note-type{color:var(--red);background:rgba(255,71,87,.12)}
-.type-done .note-type{color:var(--green);background:rgba(0,255,136,.12)}
-.type-struggle .note-type{color:var(--orange);background:rgba(255,107,53,.12)}
+.note-type{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:700}
+.type-skip .note-type{color:#ff4757;background:rgba(255,71,87,.12)}
+.type-done .note-type{color:#00ff88;background:rgba(0,255,136,.12)}
+.type-struggle .note-type{color:#ff6b35;background:rgba(255,107,53,.12)}
 .type-plan .note-type{color:var(--blue);background:rgba(79,195,247,.12)}
-.type-insight .note-type{color:var(--purple);background:rgba(167,139,250,.12)}
-
+.type-insight .note-type{color:#a78bfa;background:rgba(167,139,250,.12)}
 .note-date{font-size:9px;color:var(--muted)}
-.note-del{
-  position:absolute;top:10px;right:10px;
-  background:none;border:none;color:var(--muted2);
-  font-size:14px;cursor:pointer;line-height:1;padding:2px 5px;
-}
-.note-del:hover{color:var(--red)}
+.note-del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted2);font-size:14px;cursor:pointer;line-height:1;padding:2px 5px}
+.note-del:hover{color:#ff4757}
 .note-text{font-size:11px;line-height:1.6;color:var(--text);white-space:pre-wrap}
-
-.empty-notes{
-  text-align:center;padding:40px 20px;
-  font-size:11px;color:var(--muted);line-height:2;
-}
-
-/* ── BOTTOM HINT ── */
-.bottom-hint{
-  position:fixed;bottom:0;left:0;right:0;
-  padding:8px;text-align:center;
-  font-size:9px;color:var(--muted2);letter-spacing:1px;
-  background:var(--bg);border-top:1px solid var(--border);
-  pointer-events:none;
-}
+.empty-notes{text-align:center;padding:40px 20px;font-size:11px;color:var(--muted);line-height:2}
+.bottom-hint{position:fixed;bottom:0;left:0;right:0;padding:8px;text-align:center;font-size:9px;color:var(--muted2);letter-spacing:1px;background:var(--bg);border-top:1px solid var(--border);pointer-events:none}
 </style>
 </head>
 <body>
-
 <div class="topbar">
   <div class="topbar-title">Salman · <span>Dev</span></div>
   <div class="streak" id="streak">🔥 0 hari streak</div>
 </div>
-
 <div class="tabs">
   <button class="tab active" onclick="switchTab('roadmap',this)">📍 Roadmap</button>
   <button class="tab" onclick="switchTab('notebook',this)">📓 Catatan</button>
 </div>
-
 <div class="pane active" id="pane-roadmap">
+  <div class="lang-banner">
+    <a href="english-roadmap.html" class="lang-btn">
+      <span class="flag">🇺🇸</span>
+      <span class="lname">ENGLISH</span>
+    </a>
+    <a href="english-roadmap.html" class="lang-btn">
+      <span class="flag">🇯🇵</span>
+      <span class="lname">JAPANESE</span>
+    </a>
+  </div>
   <div class="g-progress">
-    <div class="g-row">
-      <span class="g-label">TOTAL PROGRESS</span>
-      <span class="g-count" id="gcnt">0/0</span>
-    </div>
+    <div class="g-row"><span class="g-label">TOTAL PROGRESS</span><span class="g-count" id="gcnt">0/0</span></div>
     <div class="g-bar-bg"><div class="g-bar" id="gbar" style="width:0%"></div></div>
   </div>
   <div id="roadmap"></div>
 </div>
-
 <div class="pane" id="pane-notebook">
-  <div class="nb-date" id="nb-date"></div>
-
+  <div style="font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:12px;text-align:center" id="nb-date"></div>
   <div class="nb-input-wrap">
-    <textarea class="nb-textarea" id="nb-text" placeholder="Hari ini gw skip... / gw udah belajar... / stuck di... / plan besok..."></textarea>
+    <textarea class="nb-textarea" id="nb-text" placeholder="Hari ini gw skip... / udah belajar... / stuck di... / plan besok..."></textarea>
     <div class="nb-tags">
       <button class="nb-tag" data-t="skip" onclick="toggleTag(this)">⛔ Skip</button>
       <button class="nb-tag" data-t="done" onclick="toggleTag(this)">✅ Selesai</button>
@@ -273,67 +124,46 @@ body{
     </div>
     <button class="nb-save" onclick="saveNote()">+ Simpan Catatan</button>
   </div>
-
   <div class="nb-list-title">Riwayat Catatan</div>
   <div id="nb-list"></div>
 </div>
-
 <div class="bottom-hint">data tersimpan di browser · tidak hilang kalau gak dihapus</div>
-
 <script>
-// ── DATA ──
-const PHASES = [
+const PHASES=[
   {id:"p1",num:"FASE 01",title:"Python Basic",items:["Variables & tipe data (int, str, float, bool)","Input & Output (print, input)","Operasi aritmatika & string","Kondisional — if, elif, else","Loop — for & while","Break, continue, pass","Fungsi (def, return, parameter)","Scope variabel (local vs global)","List & indexing","Dictionary & key-value","Tuple & Set","Mini project: kalkulator / to-do list"]},
   {id:"p2",num:"FASE 02",title:"Python Intermediate",items:["List comprehension","Lambda & higher-order function (map, filter)","Error handling (try, except, finally)","File I/O (baca & tulis file)","Modules & import (os, sys, math, random)","OOP — class, object, method","OOP — inheritance & encapsulation","Decorator & generator","Virtual environment & pip","Mini project: OOP-based app"]},
-  {id:"p3",num:"FASE 03",title:"SQL & Database",items:["Konsep RDBMS & tabel","SELECT, WHERE, ORDER BY, LIMIT","INSERT, UPDATE, DELETE","JOIN (INNER, LEFT, RIGHT)","GROUP BY & aggregate (COUNT, SUM, AVG)","Subquery & nested query","Index & optimasi query","Koneksi Python ↔ DB (sqlite3 / psycopg2)","ORM dasar (SQLAlchemy / Prisma)","Mini project: CRUD app dengan DB"]},
+  {id:"p3",num:"FASE 03",title:"SQL & Database",items:["Konsep RDBMS & tabel","SELECT, WHERE, ORDER BY, LIMIT","INSERT, UPDATE, DELETE","JOIN (INNER, LEFT, RIGHT)","GROUP BY & aggregate (COUNT, SUM, AVG)","Subquery & nested query","Index & optimasi query","Koneksi Python ke DB (sqlite3 / psycopg2)","ORM dasar (SQLAlchemy / Prisma)","Mini project: CRUD app dengan DB"]},
   {id:"p4",num:"FASE 04",title:"Data & Analisis",items:["NumPy — array & operasi","Pandas — DataFrame, read_csv, filtering","Pandas — groupby, merge, pivot","Matplotlib & Seaborn — visualisasi dasar","Exploratory Data Analysis (EDA)","Cleaning data — handle null, duplicate","Statistik dasar (mean, median, std, korelasi)","Mini project: analisis dataset nyata (Kaggle)"]},
   {id:"p5",num:"FASE 05",title:"Machine Learning Dasar",items:["Konsep ML — supervised vs unsupervised","Scikit-learn — pipeline dasar","Regresi Linear & Logistik","Decision Tree & Random Forest","K-Means Clustering","Train/test split & cross-validation","Evaluasi model (accuracy, F1, RMSE, AUC)","Feature engineering & selection","Mini project: model klasifikasi / prediksi"]},
   {id:"p6",num:"FASE 06",title:"AI Engineer Track",items:["Konsep LLM & Transformer","OpenAI API / Anthropic API — dasar","Prompt engineering — zero-shot, few-shot, CoT","RAG (Retrieval-Augmented Generation)","LangChain / LlamaIndex dasar","Vector database (Pinecone / ChromaDB)","Fine-tuning konsep & praktik","Membuat chatbot / AI app sederhana","Deploy model ke cloud (Render / HuggingFace Spaces)","MLOps dasar — versioning, monitoring","Mini project: AI-powered app (portofolio)"]},
   {id:"p7",num:"FASE 07",title:"Cloud & Tools",items:["Git & GitHub (commit, branch, PR)","Docker dasar — container & image","CLI / Bash scripting","REST API — cara kerja & consume","FastAPI / Flask — buat API sendiri","Cloud dasar: AWS / GCP / Azure","CI/CD konsep (GitHub Actions)","Portofolio GitHub — rapi & documented"]},
 ];
-
-// ── STATE ──
-function load(k,def){try{const v=localStorage.getItem(k);return v?JSON.parse(v):def}catch{return def}}
+function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
-
-let checks = load('sal_checks',{});
-let opens  = load('sal_opens',{});
-let notes  = load('sal_notes',[]);
-let selTag = null;
-
-// ── STREAK ──
+let checks=load('sal_checks',{});
+let opens=load('sal_opens',{});
+let notes=load('sal_notes',[]);
+let selTag=null;
 function updateStreak(){
-  const today = new Date().toDateString();
-  const last  = load('sal_lastday','');
-  let streak  = load('sal_streak',0);
-  const doneToday = Object.keys(checks).some(k=>checks[k]);
-  if(doneToday){
-    if(last !== today){
-      const yesterday = new Date(); yesterday.setDate(yesterday.getDate()-1);
-      streak = last === yesterday.toDateString() ? streak+1 : 1;
-      save('sal_streak',streak);
-      save('sal_lastday',today);
-    }
+  const today=new Date().toDateString();
+  const last=load('sal_lastday','');
+  let streak=load('sal_streak',0);
+  const doneToday=Object.keys(checks).some(k=>checks[k]);
+  if(doneToday&&last!==today){
+    const y=new Date();y.setDate(y.getDate()-1);
+    streak=last===y.toDateString()?streak+1:1;
+    save('sal_streak',streak);save('sal_lastday',today);
   }
-  document.getElementById('streak').textContent = '🔥 '+streak+' hari streak';
+  document.getElementById('streak').textContent='🔥 '+streak+' hari streak';
 }
-
-// ── TAB ──
 function switchTab(id,btn){
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('pane-'+id).classList.add('active');
   btn.classList.add('active');
-  if(id==='notebook') renderNotes();
+  if(id==='notebook')renderNotes();
 }
-
-// ── ROADMAP ──
-function countPhase(p){
-  let done=0;
-  p.items.forEach((_,i)=>{if(checks[p.id+'_'+i])done++});
-  return{done,total:p.items.length};
-}
-
+function countPhase(p){let done=0;p.items.forEach((_,i)=>{if(checks[p.id+'_'+i])done++});return{done,total:p.items.length}}
 function updateGlobal(){
   let td=0,tt=0;
   PHASES.forEach(p=>{const c=countPhase(p);td+=c.done;tt+=c.total});
@@ -341,118 +171,52 @@ function updateGlobal(){
   document.getElementById('gcnt').textContent=td+'/'+tt+' ('+pct+'%)';
   document.getElementById('gbar').style.width=pct+'%';
 }
-
 function renderRoadmap(){
-  const cont=document.getElementById('roadmap');
-  cont.innerHTML='';
+  const cont=document.getElementById('roadmap');cont.innerHTML='';
   PHASES.forEach(p=>{
     const{done,total}=countPhase(p);
     const isOpen=!!opens[p.id];
     const el=document.createElement('div');
     el.className='phase'+(done===total?' done-phase':done>0?' active-phase':'')+(isOpen?' open':'');
     el.id='ph-'+p.id;
-    el.innerHTML=`
-      <div class="ph-header" onclick="togglePhase('${p.id}')">
-        <span class="ph-num">${p.num}</span>
-        <span class="ph-title">${p.title}</span>
-        <span class="ph-stat" id="stat-${p.id}">${done}/${total}</span>
-        <span class="ph-arrow">▶</span>
-      </div>
-      <div class="ph-body">
-        <div class="ph-minibar"><div class="ph-minibar-fill" id="mb-${p.id}" style="width:${total?done/total*100:0}%"></div></div>
-        ${p.items.map((it,i)=>{
-          const chk=!!checks[p.id+'_'+i];
-          return`<div class="item${chk?' chk':''}" onclick="toggleItem('${p.id}',${i},this)">
-            <div class="cb">${chk?'✓':''}</div>
-            <span class="item-txt">${it}</span>
-          </div>`;
-        }).join('')}
-      </div>`;
+    el.innerHTML=`<div class="ph-header" onclick="togglePhase('${p.id}')"><span class="ph-num">${p.num}</span><span class="ph-title">${p.title}</span><span class="ph-stat" id="stat-${p.id}">${done}/${total}</span><span class="ph-arrow">▶</span></div><div class="ph-body"><div class="ph-minibar"><div class="ph-minibar-fill" id="mb-${p.id}" style="width:${total?done/total*100:0}%"></div></div>${p.items.map((it,i)=>{const chk=!!checks[p.id+'_'+i];return`<div class="item${chk?' chk':''}" onclick="toggleItem('${p.id}',${i},this)"><div class="cb">${chk?'✓':''}</div><span class="item-txt">${it}</span></div>`}).join('')}</div>`;
     cont.appendChild(el);
   });
   updateGlobal();
 }
-
-function togglePhase(id){
-  opens[id]=!opens[id];
-  save('sal_opens',opens);
-  const el=document.getElementById('ph-'+id);
-  el.classList.toggle('open',opens[id]);
-}
-
+function togglePhase(id){opens[id]=!opens[id];save('sal_opens',opens);document.getElementById('ph-'+id).classList.toggle('open',opens[id])}
 function toggleItem(pid,idx,el){
-  const key=pid+'_'+idx;
-  checks[key]=!checks[key];
-  save('sal_checks',checks);
-  el.classList.toggle('chk',checks[key]);
-  el.querySelector('.cb').textContent=checks[key]?'✓':'';
-  const p=PHASES.find(x=>x.id===pid);
-  const{done,total}=countPhase(p);
+  const key=pid+'_'+idx;checks[key]=!checks[key];save('sal_checks',checks);
+  el.classList.toggle('chk',checks[key]);el.querySelector('.cb').textContent=checks[key]?'✓':'';
+  const p=PHASES.find(x=>x.id===pid);const{done,total}=countPhase(p);
   document.getElementById('stat-'+pid).textContent=done+'/'+total;
   document.getElementById('mb-'+pid).style.width=(total?done/total*100:0)+'%';
   const ph=document.getElementById('ph-'+pid);
   ph.className='phase'+(done===total?' done-phase':done>0?' active-phase':'')+(opens[pid]?' open':'');
-  updateGlobal();
-  updateStreak();
+  updateGlobal();updateStreak();
 }
-
-// ── NOTEBOOK ──
 function toggleTag(btn){
   const t=btn.dataset.t;
   if(selTag===t){selTag=null;btn.classList.remove('sel')}
-  else{
-    document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));
-    selTag=t;btn.classList.add('sel');
-  }
+  else{document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));selTag=t;btn.classList.add('sel')}
 }
-
 function saveNote(){
-  const txt=document.getElementById('nb-text').value.trim();
-  if(!txt)return;
+  const txt=document.getElementById('nb-text').value.trim();if(!txt)return;
   const note={id:Date.now(),text:txt,type:selTag||'plan',date:new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};
-  notes.unshift(note);
-  save('sal_notes',notes);
+  notes.unshift(note);save('sal_notes',notes);
   document.getElementById('nb-text').value='';
-  document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));
-  selTag=null;
-  renderNotes();
-  updateStreak();
-}
-
-function deleteNote(id){
-  notes=notes.filter(n=>n.id!==id);
-  save('sal_notes',notes);
+  document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));selTag=null;
   renderNotes();
 }
-
-const TYPE_LABEL={skip:'⛔ Skip',done:'✅ Selesai',struggle:'😤 Stuck',plan:'📌 Plan',insight:'💡 Insight'};
-
+function deleteNote(id){notes=notes.filter(n=>n.id!==id);save('sal_notes',notes);renderNotes()}
+const TL={skip:'⛔ Skip',done:'✅ Selesai',struggle:'😤 Stuck',plan:'📌 Plan',insight:'💡 Insight'};
 function renderNotes(){
   const list=document.getElementById('nb-list');
-  if(!notes.length){
-    list.innerHTML='<div class="empty-notes">belum ada catatan<br><span style="color:var(--muted2)">tulis dulu di atas ↑</span></div>';
-    return;
-  }
-  list.innerHTML=notes.map(n=>`
-    <div class="note-card type-${n.type}">
-      <div class="note-meta">
-        <span class="note-type">${TYPE_LABEL[n.type]||n.type}</span>
-        <span class="note-date">${n.date}</span>
-      </div>
-      <button class="note-del" onclick="deleteNote(${n.id})">×</button>
-      <div class="note-text">${escHtml(n.text)}</div>
-    </div>
-  `).join('');
+  if(!notes.length){list.innerHTML='<div class="empty-notes">belum ada catatan<br><span style="color:var(--muted2)">tulis dulu di atas</span></div>';return}
+  list.innerHTML=notes.map(n=>`<div class="note-card type-${n.type}"><div class="note-meta"><span class="note-type">${TL[n.type]||n.type}</span><span class="note-date">${n.date}</span></div><button class="note-del" onclick="deleteNote(${n.id})">×</button><div class="note-text">${n.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</div></div>`).join('');
 }
-
-function escHtml(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
-
-// ── INIT ──
-document.getElementById('nb-date').textContent=
-  new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
-
-renderRoadmap();
-updateStreak();
+document.getElementById('nb-date').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
+renderRoadmap();updateStreak();
 </script>
 </body>
 </html>

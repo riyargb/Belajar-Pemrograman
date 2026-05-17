@@ -3,41 +3,43 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>Salman · English & Japanese</title>
+<title>Salman · Language</title>
 <meta name="theme-color" content="#0a0a0f">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{--bg:#0a0a0f;--s1:#0f0f18;--s2:#141420;--border:#1e1e2e;--border2:#2a2a3e;--en:#4fc3f7;--jp:#ff6b9d;--text:#e2e8f0;--muted:#555570;--muted2:#3a3a55}
 html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;display:flex;flex-direction:column;height:100dvh;background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(79,195,247,.08) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 10% 80%,rgba(255,107,157,.07) 0%,transparent 60%)}
+body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;display:flex;flex-direction:column;height:100dvh}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--s1);border-bottom:1px solid var(--border);flex-shrink:0}
-.topbar-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:-0.5px}
+.topbar-title{font-size:16px;font-weight:800;letter-spacing:-0.5px;white-space:nowrap;font-family:'Syne',sans-serif}
 .topbar-title span{color:var(--en)}
-.back-btn{font-size:10px;color:var(--muted);text-decoration:none;border:1px solid var(--border2);padding:4px 10px;border-radius:2px}
+.back-btn{font-size:9px;color:var(--muted);text-decoration:none;border:1px solid var(--border2);padding:4px 10px;border-radius:2px;white-space:nowrap;font-family:'Space Mono',monospace}
 .tabs{display:flex;background:var(--s1);border-bottom:1px solid var(--border);flex-shrink:0}
-.tab{flex:1;padding:10px 0;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-family:'Space Mono',monospace}
+.tab{flex:1;padding:10px 0;font-size:9px;letter-spacing:1px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-family:'Space Mono',monospace}
 .tab.en.active{color:var(--en);border-bottom-color:var(--en)}
 .tab.jp.active{color:var(--jp);border-bottom-color:var(--jp)}
+.tab.nb.active{color:#a78bfa;border-bottom-color:#a78bfa}
 .pane{flex:1;overflow-y:auto;display:none;padding:16px;padding-bottom:80px}
 .pane.active{display:block}
 .pane::-webkit-scrollbar{width:3px}
 .pane::-webkit-scrollbar-thumb{background:var(--border2)}
-.g-progress{background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:16px}
-.g-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.g-label{font-size:10px;color:var(--muted);letter-spacing:1px}
-.g-count{font-size:11px;font-weight:700}
-.g-count.en{color:var(--en)}.g-count.jp{color:var(--jp)}
-.g-bar-bg{height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
-.g-bar.en{height:100%;background:linear-gradient(90deg,var(--en),#a78bfa);border-radius:2px;transition:width .5s ease}
-.g-bar.jp{height:100%;background:linear-gradient(90deg,var(--jp),#ff9a3c);border-radius:2px;transition:width .5s ease}
-.phase{background:var(--s2);border:1px solid var(--border);border-radius:6px;margin-bottom:10px;overflow:hidden;transition:border-color .3s}
+.dual-progress{display:flex;gap:10px;margin-bottom:16px}
+.dp-card{flex:1;background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:12px}
+.dp-label{font-size:9px;letter-spacing:1px;color:var(--muted);margin-bottom:6px}
+.dp-count{font-size:13px;font-weight:700;margin-bottom:6px}
+.dp-count.en{color:var(--en)}.dp-count.jp{color:var(--jp)}
+.dp-bar-bg{height:3px;background:var(--border2);border-radius:2px;overflow:hidden}
+.dp-bar{height:100%;border-radius:2px;transition:width .5s}
+.dp-bar.en{background:var(--en)}.dp-bar.jp{background:var(--jp)}
+.phase{background:var(--s2);border:1px solid var(--border);border-radius:6px;margin-bottom:10px;overflow:hidden}
 .phase.en.active-phase{border-color:rgba(79,195,247,.3)}
 .phase.jp.active-phase{border-color:rgba(255,107,157,.3)}
 .phase.done-phase{border-color:rgba(0,255,136,.15);background:#0d1a12}
 .ph-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none}
-.ph-num.en{font-size:9px;letter-spacing:2px;color:var(--en);background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2);padding:2px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0}
-.ph-num.jp{font-size:9px;letter-spacing:2px;color:var(--jp);background:rgba(255,107,157,.08);border:1px solid rgba(255,107,157,.2);padding:2px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.ph-num{font-size:9px;letter-spacing:2px;padding:2px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0}
+.ph-num.en{color:var(--en);background:rgba(79,195,247,.08);border:1px solid rgba(79,195,247,.2)}
+.ph-num.jp{color:var(--jp);background:rgba(255,107,157,.08);border:1px solid rgba(255,107,157,.2)}
 .ph-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;flex:1}
 .ph-stat{font-size:9px;color:var(--muted);white-space:nowrap}
 .ph-arrow{font-size:9px;color:var(--muted);transition:transform .2s}
@@ -45,28 +47,26 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
 .ph-body{display:none;padding:0 14px 14px}
 .phase.open .ph-body{display:block}
 .ph-minibar{height:2px;background:var(--border2);border-radius:1px;margin-bottom:12px;overflow:hidden}
-.ph-minibar-fill.en{height:100%;background:var(--en);border-radius:1px;transition:width .3s}
-.ph-minibar-fill.jp{height:100%;background:var(--jp);border-radius:1px;transition:width .3s}
+.ph-minibar-fill{height:100%;border-radius:1px;transition:width .3s}
+.ph-minibar-fill.en{background:var(--en)}.ph-minibar-fill.jp{background:var(--jp)}
 .item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer}
 .item:last-child{border-bottom:none}
 .cb{width:15px;height:15px;flex-shrink:0;margin-top:1px;border:1.5px solid var(--muted2);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .15s}
 .item.chk.en .cb{background:var(--en);border-color:var(--en);color:#000}
 .item.chk.jp .cb{background:var(--jp);border-color:var(--jp);color:#000}
-.item-txt{font-size:11px;line-height:1.55;color:var(--text);transition:color .2s}
+.item-txt{font-size:11px;line-height:1.55;color:var(--text)}
 .item.chk .item-txt{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(255,255,255,.2)}
 .nb-input-wrap{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:12px;margin-bottom:16px}
 .nb-textarea{width:100%;background:transparent;border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:12px;resize:none;outline:none;min-height:70px;line-height:1.6}
 .nb-textarea::placeholder{color:var(--muted2)}
 .nb-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.nb-tag{font-size:9px;letter-spacing:1px;padding:3px 10px;border-radius:2px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;font-family:'Space Mono',monospace}
+.nb-tag{font-size:9px;letter-spacing:1px;padding:3px 10px;border-radius:2px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;font-family:'Space Mono',monospace;transition:all .15s}
 .nb-tag[data-t="skip"].sel{color:#ff4757;background:rgba(255,71,87,.08);border-color:#ff4757}
 .nb-tag[data-t="done"].sel{color:#00ff88;background:rgba(0,255,136,.08);border-color:#00ff88}
 .nb-tag[data-t="struggle"].sel{color:#ff6b35;background:rgba(255,107,53,.08);border-color:#ff6b35}
 .nb-tag[data-t="plan"].sel{color:var(--en);background:rgba(79,195,247,.08);border-color:var(--en)}
 .nb-tag[data-t="insight"].sel{color:#a78bfa;background:rgba(167,139,250,.08);border-color:#a78bfa}
-.nb-save{width:100%;padding:9px;border:none;border-radius:4px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:opacity .15s}
-.nb-save.en{background:var(--en);color:#000}
-.nb-save.jp{background:var(--jp);color:#000}
+.nb-save{width:100%;padding:9px;background:#a78bfa;color:#000;border:none;border-radius:4px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer}
 .nb-list-title{font-size:9px;letter-spacing:2px;color:var(--muted);margin-bottom:10px;text-transform:uppercase}
 .note-card{background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px;position:relative}
 .note-card.type-skip{border-left:3px solid #ff4757}
@@ -82,79 +82,126 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
 .type-plan .note-type{color:var(--en);background:rgba(79,195,247,.12)}
 .type-insight .note-type{color:#a78bfa;background:rgba(167,139,250,.12)}
 .note-date{font-size:9px;color:var(--muted)}
-.note-del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted2);font-size:14px;cursor:pointer;line-height:1;padding:2px 5px}
+.note-del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted2);font-size:14px;cursor:pointer;padding:2px 5px}
 .note-del:hover{color:#ff4757}
 .note-text{font-size:11px;line-height:1.6;color:var(--text);white-space:pre-wrap}
 .empty-notes{text-align:center;padding:40px 20px;font-size:11px;color:var(--muted);line-height:2}
-.nav-links{display:flex;gap:8px;margin-bottom:16px}
-.nav-link{flex:1;padding:10px;text-align:center;border-radius:4px;font-size:10px;letter-spacing:1px;text-decoration:none;border:1px solid var(--border2);color:var(--muted);transition:all .2s}
-.nav-link.active-en{border-color:var(--en);color:var(--en);background:rgba(79,195,247,.06)}
-.nav-link.active-jp{border-color:var(--jp);color:var(--jp);background:rgba(255,107,157,.06)}
 .bottom-hint{position:fixed;bottom:0;left:0;right:0;padding:8px;text-align:center;font-size:9px;color:var(--muted2);letter-spacing:1px;background:var(--bg);border-top:1px solid var(--border);pointer-events:none}
 </style>
 </head>
 <body>
 <div class="topbar">
-  <div class="topbar-title">Salman · <span>Lang</span></div>
-  <a href="index.html" class="back-btn">← Dev Roadmap</a>
+  <div class="topbar-title">Salman &middot; <span>Lang</span></div>
+  <a href="index.html" class="back-btn">← Dev</a>
 </div>
 <div class="tabs">
   <button class="tab en active" onclick="switchTab('en',this)">🇺🇸 English</button>
   <button class="tab jp" onclick="switchTab('jp',this)">🇯🇵 Japanese</button>
+  <button class="tab nb" onclick="switchTab('nb',this)">📓 Catatan</button>
 </div>
+
 <div class="pane active" id="pane-en">
-  <div class="g-progress">
-    <div class="g-row"><span class="g-label">ENGLISH PROGRESS</span><span class="g-count en" id="gcnt-en">0/0</span></div>
-    <div class="g-bar-bg"><div class="g-bar en" id="gbar-en" style="width:0%"></div></div>
+  <div class="dual-progress">
+    <div class="dp-card">
+      <div class="dp-label">🇺🇸 ENGLISH</div>
+      <div class="dp-count en" id="gcnt-en">0/0</div>
+      <div class="dp-bar-bg"><div class="dp-bar en" id="gbar-en" style="width:0%"></div></div>
+    </div>
+    <div class="dp-card">
+      <div class="dp-label">🇯🇵 JAPANESE</div>
+      <div class="dp-count jp" id="gcnt-jp-side">0/0</div>
+      <div class="dp-bar-bg"><div class="dp-bar jp" id="gbar-jp-side" style="width:0%"></div></div>
+    </div>
   </div>
   <div id="roadmap-en"></div>
 </div>
+
 <div class="pane" id="pane-jp">
-  <div class="g-progress">
-    <div class="g-row"><span class="g-label">JAPANESE PROGRESS</span><span class="g-count jp" id="gcnt-jp">0/0</span></div>
-    <div class="g-bar-bg"><div class="g-bar jp" id="gbar-jp" style="width:0%"></div></div>
+  <div class="dual-progress">
+    <div class="dp-card">
+      <div class="dp-label">🇺🇸 ENGLISH</div>
+      <div class="dp-count en" id="gcnt-en-side">0/0</div>
+      <div class="dp-bar-bg"><div class="dp-bar en" id="gbar-en-side" style="width:0%"></div></div>
+    </div>
+    <div class="dp-card">
+      <div class="dp-label">🇯🇵 JAPANESE</div>
+      <div class="dp-count jp" id="gcnt-jp">0/0</div>
+      <div class="dp-bar-bg"><div class="dp-bar jp" id="gbar-jp" style="width:0%"></div></div>
+    </div>
   </div>
   <div id="roadmap-jp"></div>
 </div>
+
+<div class="pane" id="pane-nb">
+  <div style="font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:12px;text-align:center" id="nb-date"></div>
+  <div class="nb-input-wrap">
+    <textarea class="nb-textarea" id="nb-text" placeholder="Latihan English hari ini... / skip Anki... / stuck di hiragana... / plan besok..."></textarea>
+    <div class="nb-tags">
+      <button class="nb-tag" data-t="skip" onclick="toggleTag(this)">⛔ Skip</button>
+      <button class="nb-tag" data-t="done" onclick="toggleTag(this)">✅ Selesai</button>
+      <button class="nb-tag" data-t="struggle" onclick="toggleTag(this)">😤 Stuck</button>
+      <button class="nb-tag" data-t="plan" onclick="toggleTag(this)">📌 Plan</button>
+      <button class="nb-tag" data-t="insight" onclick="toggleTag(this)">💡 Insight</button>
+    </div>
+    <button class="nb-save" onclick="saveNote()">+ Simpan Catatan</button>
+  </div>
+  <div class="nb-list-title">Riwayat Catatan Bahasa</div>
+  <div id="nb-list"></div>
+</div>
+
 <div class="bottom-hint">data tersimpan otomatis · tidak hilang</div>
+
 <script>
 const EN_PHASES=[
   {id:"en1",num:"LEVEL 01",title:"Foundation",items:["Alphabet & pronunciation dasar","Greeting & self-introduction","Numbers, days, months","Common nouns & verbs","Present tense (I am, You are, He is)","Simple questions (What, Where, Who)","Kosakata 500 kata pertama","App: Duolingo / BBC Learning English"]},
-  {id:"en2",num:"LEVEL 02",title:"Basic Grammar",items:["Past tense (regular & irregular verb)","Future tense (will, going to)","Articles (a, an, the)","Prepositions (in, on, at, by)","Adjectives & adverbs","Countable vs uncountable nouns","Kosakata 1000 kata","Latihan: tulis diary 3 kalimat/hari"]},
-  {id:"en3",num:"LEVEL 03",title:"Intermediate",items:["Present perfect (have/has + V3)","Conditional sentences (if clause)","Passive voice","Modal verbs (can, could, should, must)","Phrasal verbs 50 paling umum","Reading: artikel tech bahasa Inggris","Kosakata 2000 kata","Podcast: 15 menit/hari (EnglishPod / BBC)"]},
-  {id:"en4",num:"LEVEL 04",title:"Speaking & Listening",items:["Shadowing technique — tirukan native speaker","Latihan pronunciation dengan Elsa Speak","Nonton YouTube tech tanpa subtitle","Speaking practice: rekam suara sendiri","Join English Discord / Reddit community","Ikut online speaking club (italki / HelloTalk)","Presentasi singkat 2 menit dalam bahasa Inggris","IELTS/TOEFL vocabulary set"]},
+  {id:"en2",num:"LEVEL 02",title:"Basic Grammar",items:["Past tense (regular & irregular verb)","Future tense (will, going to)","Articles (a, an, the)","Prepositions (in, on, at, by)","Adjectives & adverbs","Countable vs uncountable nouns","Kosakata 1000 kata","Latihan: tulis diary 3 kalimat per hari"]},
+  {id:"en3",num:"LEVEL 03",title:"Intermediate",items:["Present perfect (have/has + V3)","Conditional sentences (if clause)","Passive voice","Modal verbs (can, could, should, must)","Phrasal verbs 50 paling umum","Reading: artikel tech bahasa Inggris","Kosakata 2000 kata","Podcast: 15 menit per hari (BBC / EnglishPod)"]},
+  {id:"en4",num:"LEVEL 04",title:"Speaking & Listening",items:["Shadowing technique — tirukan native speaker","Latihan pronunciation dengan Elsa Speak","Nonton YouTube tech tanpa subtitle","Speaking practice: rekam suara sendiri","Join English Discord / Reddit community","Ikut online speaking club (italki / HelloTalk)","Presentasi singkat 2 menit dalam Inggris","IELTS / TOEFL vocabulary set"]},
   {id:"en5",num:"LEVEL 05",title:"Professional English",items:["Business email writing","Technical writing — dokumentasi kode","LinkedIn profile full English","CV & cover letter bahasa Inggris","Mock interview bahasa Inggris","Presentasi project dalam bahasa Inggris","TOEIC / IELTS target score 6.5+","Reading: medium.com tech articles tiap hari"]},
 ];
 const JP_PHASES=[
-  {id:"jp1",num:"レベル 01",title:"Hiragana & Katakana",items:["Hiragana — a i u e o (あいうえお)","Hiragana — ka ki ku ke ko (かきくけこ)","Hiragana — sa si su se so & ta ti tu te to","Hiragana — na ni nu ne no & ha hi hu he ho","Hiragana — ma mi mu me mo & ya yu yo","Hiragana — ra ri ru re ro & wa wo n","Katakana — baris pertama (ア イ ウ エ オ)","Katakana — semua baris selesai","Dakuten & handakuten (が、ざ、ば、ぱ)","Latihan baca teks hiragana sederhana"]},
-  {id:"jp2",num:"レベル 02",title:"Basic Vocabulary & Kanji",items:["Salam — おはよう、こんにちは、ありがとう","Angka 1-100 dalam Jepang","Hari, bulan, waktu dalam Jepang","Kosakata N5 — 800 kata dasar","Kanji N5 — 100 kanji pertama (日月火水木金土)","Partikel dasar — は、が、を、に、で、と","Kalimat sederhana — わたしは〜です","App: Anki deck N5 / WaniKani"]},
-  {id:"jp3",num:"レベル 03",title:"Grammar N5-N4",items:["Verb groups — godan & ichidan","Te-form (〜て) untuk request & sambung kalimat","Nai-form (〜ない) negasi","Masu-form — formal speech","Adjective i & na","〜たい (mau melakukan sesuatu)","〜ている (sedang / kebiasaan)","〜から、〜ので (karena)","Grammar: Genki I selesai"]},
-  {id:"jp4",num:"レベル 04",title:"N4 Level",items:["Kanji N4 — 300 kanji total","Kosakata N4 — 1500 kata","Potential form (〜られる、〜える)","Passive form (〜られる)","Causative form (〜させる)","〜なければならない (harus)","〜てもいい (boleh)","Reading: NHK Web Easy artikel","Listening: Japanese Pod 101","Ujian JLPT N4 target"]},
-  {id:"jp5",num:"レベル 05",title:"Conversation & Tech",items:["Keigo — bahasa sopan (〜ます、〜ございます)","Percakapan sehari-hari 10 topik","Kosakata IT dalam bahasa Jepang","Baca job posting perusahaan Jepang","Nonton anime tanpa subtitle (slice of life)","HelloTalk / Tandem — chat native speaker","Perkenalan diri formal dalam bahasa Jepang","JLPT N3 target untuk kerja di Jepang"]},
+  {id:"jp1",num:"レベル 01",title:"Hiragana & Katakana",items:["Hiragana baris a i u e o (あいうえお)","Hiragana baris ka ki ku ke ko","Hiragana baris sa ta na ha","Hiragana baris ma ya ra wa","Katakana baris pertama (ア イ ウ エ オ)","Katakana semua baris selesai","Dakuten & handakuten (が ざ ば ぱ)","Latihan baca teks hiragana sederhana","Latihan tulis hiragana & katakana dari memori","Quiz mandiri — hafal semua tanpa liat"]},
+  {id:"jp2",num:"レベル 02",title:"Basic Vocabulary",items:["Salam — ohayou, konnichiwa, arigatou","Angka 1-100 dalam bahasa Jepang","Hari, bulan, waktu dalam Jepang","Kosakata N5 — 800 kata dasar","Kanji N5 — 100 kanji pertama","Partikel dasar — wa ga wo ni de to","Kalimat sederhana — watashi wa desu","App: Anki deck N5 / WaniKani"]},
+  {id:"jp3",num:"レベル 03",title:"Grammar N5-N4",items:["Verb groups — godan & ichidan","Te-form untuk request & sambung kalimat","Nai-form negasi","Masu-form — formal speech","Adjective i & na","Tai-form (mau melakukan sesuatu)","Te-iru (sedang / kebiasaan)","Kara & node (karena)","Grammar: Genki I selesai","Mini latihan: tulis 5 kalimat per hari"]},
+  {id:"jp4",num:"レベル 04",title:"N4 Level",items:["Kanji N4 — 300 kanji total","Kosakata N4 — 1500 kata","Potential form","Passive form","Causative form","Nakereba naranai (harus)","Te mo ii (boleh)","Reading: NHK Web Easy","Listening: Japanese Pod 101","Target ujian JLPT N4"]},
+  {id:"jp5",num:"レベル 05",title:"Conversation & Tech",items:["Keigo — bahasa sopan formal","Percakapan sehari-hari 10 topik","Kosakata IT dalam bahasa Jepang","Baca job posting perusahaan Jepang","Nonton anime tanpa subtitle (slice of life)","HelloTalk / Tandem — chat native speaker","Perkenalan diri formal dalam bahasa Jepang","Target JLPT N3 untuk kerja di Jepang"]},
 ];
+
 function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 let checks=load('sal_lang_checks',{});
 let opens=load('sal_lang_opens',{});
+let notes=load('sal_lang_notes',[]);
+let selTag=null;
+
 function switchTab(id,btn){
   document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('pane-'+id).classList.add('active');
   btn.classList.add('active');
+  if(id==='nb')renderNotes();
 }
-function countP(phases,p){let done=0;p.items.forEach((_,i)=>{if(checks[p.id+'_'+i])done++});return{done,total:p.items.length}}
-function updateGlobal(type,phases){
-  let td=0,tt=0;
-  phases.forEach(p=>{const c=countP(phases,p);td+=c.done;tt+=c.total});
-  const pct=tt?Math.round(td/tt*100):0;
-  document.getElementById('gcnt-'+type).textContent=td+'/'+tt+' ('+pct+'%)';
-  document.getElementById('gbar-'+type).style.width=pct+'%';
+
+function countP(p){let done=0;p.items.forEach((_,i)=>{if(checks[p.id+'_'+i])done++});return{done,total:p.items.length}}
+
+function updateGlobals(){
+  let etd=0,ett=0,jtd=0,jtt=0;
+  EN_PHASES.forEach(p=>{const c=countP(p);etd+=c.done;ett+=c.total});
+  JP_PHASES.forEach(p=>{const c=countP(p);jtd+=c.done;jtt+=c.total});
+  const ep=ett?Math.round(etd/ett*100):0;
+  const jp=jtt?Math.round(jtd/jtt*100):0;
+  const enTxt=etd+'/'+ett+' ('+ep+'%)';
+  const jpTxt=jtd+'/'+jtt+' ('+jp+'%)';
+  ['gcnt-en','gcnt-en-side'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=enTxt});
+  ['gcnt-jp','gcnt-jp-side'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=jpTxt});
+  ['gbar-en','gbar-en-side'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=ep+'%'});
+  ['gbar-jp','gbar-jp-side'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=jp+'%'});
 }
+
 function renderPhases(type,phases,containerId){
-  const cont=document.getElementById(containerId);
-  cont.innerHTML='';
+  const cont=document.getElementById(containerId);cont.innerHTML='';
   phases.forEach(p=>{
-    const{done,total}=countP(phases,p);
+    const{done,total}=countP(p);
     const isOpen=!!opens[p.id];
     const el=document.createElement('div');
     el.className='phase '+type+(done===total?' done-phase':done>0?' active-phase':'')+(isOpen?' open':'');
@@ -171,20 +218,53 @@ function renderPhases(type,phases,containerId){
     </div>`;
     cont.appendChild(el);
   });
-  updateGlobal(type,phases);
+  updateGlobals();
 }
-function togglePhase(id){opens[id]=!opens[id];save('sal_lang_opens',opens);const el=document.getElementById('ph-'+id);el.classList.toggle('open',opens[id])}
+
+function togglePhase(id){
+  opens[id]=!opens[id];save('sal_lang_opens',opens);
+  document.getElementById('ph-'+id).classList.toggle('open',opens[id]);
+}
+
 function toggleItem(type,pid,idx,el){
   const key=pid+'_'+idx;checks[key]=!checks[key];save('sal_lang_checks',checks);
   el.classList.toggle('chk',checks[key]);
   el.querySelector('.cb').textContent=checks[key]?'✓':'';
   const phases=type==='en'?EN_PHASES:JP_PHASES;
   const p=phases.find(x=>x.id===pid);
-  const{done,total}=countP(phases,p);
+  const{done,total}=countP(p);
   document.getElementById('stat-'+pid).textContent=done+'/'+total;
   document.getElementById('mb-'+pid).style.width=(total?done/total*100:0)+'%';
-  updateGlobal(type,phases);
+  updateGlobals();
 }
+
+function toggleTag(btn){
+  const t=btn.dataset.t;
+  if(selTag===t){selTag=null;btn.classList.remove('sel')}
+  else{document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));selTag=t;btn.classList.add('sel')}
+}
+
+function saveNote(){
+  const txt=document.getElementById('nb-text').value.trim();if(!txt)return;
+  const note={id:Date.now(),text:txt,type:selTag||'plan',date:new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};
+  notes.unshift(note);save('sal_lang_notes',notes);
+  document.getElementById('nb-text').value='';
+  document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));selTag=null;
+  renderNotes();
+}
+
+function deleteNote(id){notes=notes.filter(n=>n.id!==id);save('sal_lang_notes',notes);renderNotes()}
+
+const TL={skip:'⛔ Skip',done:'✅ Selesai',struggle:'😤 Stuck',plan:'📌 Plan',insight:'💡 Insight'};
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
+
+function renderNotes(){
+  const list=document.getElementById('nb-list');
+  if(!notes.length){list.innerHTML='<div class="empty-notes">belum ada catatan<br><span style="color:var(--muted2)">tulis dulu di atas</span></div>';return}
+  list.innerHTML=notes.map(n=>`<div class="note-card type-${n.type}"><div class="note-meta"><span class="note-type">${TL[n.type]||n.type}</span><span class="note-date">${n.date}</span></div><button class="note-del" onclick="deleteNote(${n.id})">×</button><div class="note-text">${esc(n.text)}</div></div>`).join('');
+}
+
+document.getElementById('nb-date').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
 renderPhases('en',EN_PHASES,'roadmap-en');
 renderPhases('jp',JP_PHASES,'roadmap-jp');
 </script>
