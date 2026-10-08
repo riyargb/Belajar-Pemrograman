@@ -129,18 +129,47 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
 </div>
 <div class="bottom-hint">data tersimpan di browser · tidak hilang kalau gak dihapus</div>
 <script>
-const PHASES=[
-  {id:"p1",num:"FASE 01",title:"Python Basic",items:["Variables & tipe data (int, str, float, bool)","Input & Output (print, input)","Operasi aritmatika & string","Kondisional — if, elif, else","Loop — for & while","Break, continue, pass","Fungsi (def, return, parameter)","Scope variabel (local vs global)","List & indexing","Dictionary & key-value","Tuple & Set","Mini project: kalkulator / to-do list"]},
-  {id:"p2",num:"FASE 02",title:"Python Intermediate",items:["List comprehension","Lambda & higher-order function (map, filter)","Error handling (try, except, finally)","File I/O (baca & tulis file)","Modules & import (os, sys, math, random)","OOP — class, object, method","OOP — inheritance & encapsulation","Decorator & generator","Virtual environment & pip","Mini project: OOP-based app"]},
-  {id:"p3",num:"FASE 03",title:"SQL & Database",items:["Konsep RDBMS & tabel","SELECT, WHERE, ORDER BY, LIMIT","INSERT, UPDATE, DELETE","JOIN (INNER, LEFT, RIGHT)","GROUP BY & aggregate (COUNT, SUM, AVG)","Subquery & nested query","Index & optimasi query","Koneksi Python ke DB (sqlite3 / psycopg2)","ORM dasar (SQLAlchemy / Prisma)","Mini project: CRUD app dengan DB"]},
-  {id:"p4",num:"FASE 04",title:"Data & Analisis",items:["NumPy — array & operasi","Pandas — DataFrame, read_csv, filtering","Pandas — groupby, merge, pivot","Matplotlib & Seaborn — visualisasi dasar","Exploratory Data Analysis (EDA)","Cleaning data — handle null, duplicate","Statistik dasar (mean, median, std, korelasi)","Mini project: analisis dataset nyata (Kaggle)"]},
-  {id:"p5",num:"FASE 05",title:"Machine Learning Dasar",items:["Konsep ML — supervised vs unsupervised","Scikit-learn — pipeline dasar","Regresi Linear & Logistik","Decision Tree & Random Forest","K-Means Clustering","Train/test split & cross-validation","Evaluasi model (accuracy, F1, RMSE, AUC)","Feature engineering & selection","Mini project: model klasifikasi / prediksi"]},
-  {id:"p6",num:"FASE 06",title:"AI Engineer Track",items:["Konsep LLM & Transformer","OpenAI API / Anthropic API — dasar","Prompt engineering — zero-shot, few-shot, CoT","RAG (Retrieval-Augmented Generation)","LangChain / LlamaIndex dasar","Vector database (Pinecone / ChromaDB)","Fine-tuning konsep & praktik","Membuat chatbot / AI app sederhana","Deploy model ke cloud (Render / HuggingFace Spaces)","MLOps dasar — versioning, monitoring","Mini project: AI-powered app (portofolio)"]},
-  {id:"p7",num:"FASE 07",title:"Cloud & Tools",items:["Git & GitHub (commit, branch, PR)","Docker dasar — container & image","CLI / Bash scripting","REST API — cara kerja & consume","FastAPI / Flask — buat API sendiri","Cloud dasar: AWS / GCP / Azure","CI/CD konsep (GitHub Actions)","Portofolio GitHub — rapi & documented"]},
-];
+const PHASES=[{"id":"l1","num":"LEVEL 01","title":"Fundamental Python","items":["Apa itu Python","Instalasi & Python environment","Cara menjalankan Python","print()","Comment","Variables","Aturan penamaan variabel","Tipe data","str — string","int — integer","float","bool — boolean","None","Input user — input()","Konversi tipe data","Operator aritmatika","Operator perbandingan","Operator logika","Assignment operator","F-string","Error dasar Python"]},{"id":"l2","num":"LEVEL 02","title":"Control Flow","items":["if, elif, else","Nested if","Kondisi dengan operator logika","while loop","for loop","range()","break","continue","pass","Nested loop","Simple menu program"]},{"id":"l3","num":"LEVEL 03","title":"Data Structures","items":["List","List indexing","List slicing","Menambah data ke list","Menghapus data dari list","Tuple","Set","Dictionary","Dictionary key-value","Nested list","Nested dictionary","Memilih struktur data yang tepat","List comprehension","Dictionary & Set comprehension"]},{"id":"l4","num":"LEVEL 04","title":"Function","items":["Function — def","Parameter & argument","return","Default parameter","Keyword argument","*args","**kwargs","Scope variabel","Local vs global","Lambda","Higher-order function","map() & filter()","Recursion","Mini project function-based"]},{"id":"l5","num":"LEVEL 05","title":"String & Data Processing","items":["String manipulation","String methods","split()","join()","replace()","strip()","String formatting","Regex dasar","Parsing & validasi data"]},{"id":"l6","num":"LEVEL 06","title":"File & Data","items":["Membaca file","Menulis file","with open()","TXT file","CSV file","JSON file","Serialization","Path & folder","os module","pathlib"]},{"id":"l7","num":"LEVEL 07","title":"Error Handling","items":["Error vs exception","try & except","else & finally","Multiple exceptions","raise","Custom exception","Debugging","Mini project error-safe program"]},{"id":"l8","num":"LEVEL 08","title":"Object-Oriented Programming","items":["Konsep OOP","Class","Object","Attribute","Method","__init__()","self","Encapsulation","Inheritance","Polymorphism","Abstraction","Dunder methods","property","classmethod & staticmethod","Composition"]},{"id":"l9","num":"LEVEL 09","title":"Module & Package","items":["Module","import","from ... import","Custom module","Package","__init__.py","Python standard library","pip","Virtual environment — venv","requirements.txt"]},{"id":"l10","num":"LEVEL 10","title":"Advanced Python","items":["Iterable & iterator","iter() & next()","Generator","yield","Decorator","Closure","Context manager","with statement","dataclass","Type hints dasar","*args & **kwargs advanced","Unpacking","Walrus operator","Pattern matching","Functional programming","Threading dasar","Multiprocessing dasar","async & await","asyncio","Kapan menggunakan concurrency"]},{"id":"l11","num":"LEVEL 11","title":"Modern Python","items":["Modern Python syntax","typing module","Generic","Optional","Union","Literal","Protocol","Dataclass lanjutan","Enum","Modern pattern matching"]},{"id":"l12","num":"LEVEL 12","title":"Database & SQL","items":["Konsep database","RDBMS & tabel","Primary key & foreign key","SELECT","WHERE","ORDER BY","LIMIT","INSERT","UPDATE","DELETE","JOIN — INNER","JOIN — LEFT","JOIN — RIGHT","GROUP BY","COUNT, SUM, AVG","Subquery & nested query","Index & optimasi query","SQLite","Python + sqlite3","Python + psycopg2","CRUD","Parameterized query","Database relationships","ORM","SQLAlchemy","Mini project CRUD app dengan database"]},{"id":"l13","num":"LEVEL 13","title":"API & Internet","items":["Konsep HTTP","Request & response","HTTP methods","REST API","JSON API","Library requests","GET, POST, PUT, PATCH, DELETE","API authentication","Consume REST API","Membuat API dengan FastAPI"]},{"id":"l14","num":"LEVEL 14","title":"Web Development","items":["Konsep web","Client & server","Flask","Routing","Template","Forms","Session","Authentication","FastAPI backend","Backend architecture","Mini project web app"]},{"id":"l15","num":"LEVEL 15","title":"Automation","items":["File automation","Folder automation","Web scraping","BeautifulSoup","Selenium","Playwright","CLI automation script","Work automation project"]},{"id":"l16","num":"LEVEL 16","title":"Data Science & Analysis","items":["NumPy — array","NumPy — operasi array","Pandas — DataFrame","Pandas — read_csv","Pandas — filtering","Pandas — groupby","Pandas — merge","Pandas — pivot","Matplotlib","Seaborn","Exploratory Data Analysis — EDA","Data cleaning","Handle null & duplicate","Statistik dasar","Mean, median & standard deviation","Korelasi","Analisis dataset nyata","Mini project Kaggle"]},{"id":"l17","num":"LEVEL 17","title":"Machine Learning","items":["Konsep Machine Learning","Supervised vs unsupervised learning","Scikit-learn","Pipeline dasar","Regresi Linear","Regresi Logistik","Decision Tree","Random Forest","K-Means Clustering","Train/test split","Cross-validation","Accuracy","F1 Score","RMSE","AUC","Feature engineering","Feature selection","Mini project klasifikasi","Mini project prediksi"]},{"id":"l18","num":"LEVEL 18","title":"AI Engineer","items":["Konsep LLM","Transformer","OpenAI API dasar","Anthropic API dasar","Prompt engineering","Zero-shot prompting","Few-shot prompting","Chain-of-thought concept","RAG","LangChain dasar","LlamaIndex dasar","Vector database","Pinecone","ChromaDB","Fine-tuning konsep","Fine-tuning praktik","Membuat chatbot","Membuat AI app","Deploy ke Render","HuggingFace Spaces","MLOps dasar","Versioning & monitoring","Mini project AI-powered app"]},{"id":"l19","num":"LEVEL 19","title":"Professional Python + Cloud & Tools","items":["PEP8","Clean Code","SOLID","Design Patterns","Logging","Configuration management","Environment variables",".env","Project structure","Documentation","Dependency management","Python packaging","Git","GitHub","Commit","Branch","Pull Request","Docker","Container & image","CLI / Bash scripting","CI/CD","GitHub Actions","Cloud dasar","AWS","GCP","Azure","Unit testing","unittest","pytest","Test case","Mocking","Debugging profesional","Code coverage","Portfolio GitHub rapi & documented"]},{"id":"l20","num":"LEVEL 20","title":"PROJECT MASTER","items":["Project Calculator","Project Kasir","Project To-Do List","Project Login System","Project CRUD","Project Database","Project REST API","Project Web App","Project Automation Bot","Project Data Analysis","Project Machine Learning","Project AI App","FINAL PROJECT — Python portfolio"]}];
 function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
 let checks=load('sal_checks',{});
+// ROADMAP V2 MIGRATION
+if(!load('sal_roadmap_v2',false)){
+  const migration={
+    "p1_0":["l1_5"],
+    "p1_1":["l1_3","l1_13"],
+    "p1_2":["l1_15"],
+    "p1_3":["l2_0"],
+    "p1_4":["l2_4"],
+    "p1_5":["l2_7"],
+    "p1_6":["l4_0"],
+    "p1_7":["l4_7"],
+    "p1_8":["l3_0"],
+    "p1_9":["l3_7"],
+    "p1_10":["l3_5","l3_6"],
+    "p1_11":["l20_0"],
+    "p2_0":["l3_12"],
+    "p2_1":["l4_9"],
+    "p2_2":["l7_1"],
+    "p2_3":["l6_0"],
+    "p2_4":["l9_0"],
+    "p2_5":["l8_1"],
+    "p2_6":["l8_8"],
+    "p2_7":["l10_4"],
+    "p2_8":["l9_8"],
+    "p2_9":["l20_4"]
+  };
+
+  Object.entries(migration).forEach(([oldKey,newKeys])=>{
+    if(checks[oldKey]){
+      newKeys.forEach(k=>checks[k]=true);
+    }
+  });
+
+  save('sal_checks',checks);
+  save('sal_roadmap_v2',true);
+}
+
 let opens=load('sal_opens',{});
 let notes=load('sal_notes',[]);
 let selTag=null;
