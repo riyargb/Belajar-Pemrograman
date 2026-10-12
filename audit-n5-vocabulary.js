@@ -37,7 +37,7 @@ for (const scriptTag of appScripts) {
 const requiredUiIds = [
   "vocab-lab", "vl-stats", "vl-progress", "vl-search", "vl-category", "vl-level",
   "vl-card", "vl-count", "vl-reveal", "vl-next", "vl-mark",
-  "vl-unlearned", "vl-all", "vl-list-toggle", "vl-list", "vl-level",
+  "vl-unlearned", "vl-all", "vl-list-toggle", "vl-list",
 ];
 for (const id of requiredUiIds) {
   assert.ok(html.includes('id="' + id + '"') || html.includes("id='" + id + "'"), 'Missing vocabulary UI element id="' + id + '"');
