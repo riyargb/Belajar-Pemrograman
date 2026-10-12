@@ -199,6 +199,47 @@ button{cursor:pointer}
     </div>
   </div>
   <div id="roadmap-jp"></div>
+<!-- SALMAN_VOCAB_LAB_V1 -->
+<style>
+.vl-wrap{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--text)}
+.vl-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+.vl-title{font-size:18px;font-weight:800;letter-spacing:.2px}
+.vl-sub{font-size:12px;color:var(--muted);line-height:1.6;margin-top:5px}
+.vl-tag{font-size:10px;padding:5px 8px;border-radius:999px;background:var(--soft);color:var(--accent);font-weight:800}
+.vl-stats{font-size:12px;color:var(--muted);margin:12px 0 7px}
+.vl-bar{height:7px;background:var(--soft);border-radius:99px;overflow:hidden;margin-bottom:12px}
+.vl-bar-fill{height:100%;width:0;background:linear-gradient(90deg,#91b99a,#efaa91);transition:width .2s}
+.vl-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}
+.vl-input,.vl-select{min-width:0;width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);font:inherit;font-size:12px}
+.vl-card{min-height:210px;border:1px solid var(--line);border-radius:15px;padding:18px;background:var(--bg);text-align:center;display:flex;flex-direction:column;justify-content:center;gap:8px}
+.vl-jp{font-size:34px;font-weight:800;line-height:1.35}
+.vl-kana{font-size:16px;color:var(--accent)}
+.vl-meaning{font-size:17px;font-weight:700}
+.vl-detail{font-size:12px;line-height:1.8;text-align:left;margin-top:7px;padding-top:10px;border-top:1px dashed var(--line)}
+.vl-buttons{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.vl-btn{flex:1;min-width:100px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--soft);color:var(--text);font:inherit;font-size:12px;font-weight:700;cursor:pointer}
+.vl-btn.primary{background:var(--accent);color:white;border-color:transparent}
+.vl-btn:disabled{opacity:.45}
+.vl-count{font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
+.vl-list{display:grid;gap:6px;margin-top:12px}
+.vl-row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);text-align:left}
+.vl-row-main{flex:1;min-width:0}
+.vl-row-jp{font-weight:800;font-size:17px}
+.vl-row-sub{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
+.vl-check{accent-color:var(--accent);width:18px;height:18px}
+@media(max-width:420px){.vl-controls{grid-template-columns:1fr}.vl-wrap{padding:12px}.vl-jp{font-size:30px}}
+</style>
+<section class="vl-wrap" id="vocab-lab">
+  <div class="vl-head"><div><div class="vl-title">単語 LAB / Kosakata Jepang</div><div class="vl-sub">Target awal 400 kosakata. Cari kata, buka kartu, tandai hafal, dan pantau progres di perangkat ini.</div></div><span class="vl-tag">N5 · 400 kata</span></div>
+  <div class="vl-stats" id="vl-stats">Memuat 400 kosakata...</div><div class="vl-bar"><div class="vl-bar-fill" id="vl-progress"></div></div>
+  <div class="vl-controls"><input class="vl-input" id="vl-search" placeholder="Cari Jepang, kana, atau arti..." aria-label="Cari kosakata"><select class="vl-select" id="vl-category" aria-label="Filter kelas kata"><option value="ALL">Semua kategori</option></select></div>
+  <div class="vl-card" id="vl-card" aria-live="polite"></div><div class="vl-count" id="vl-count"></div>
+  <div class="vl-buttons"><button class="vl-btn primary" id="vl-reveal">Lihat jawaban</button><button class="vl-btn" id="vl-next">Kata berikutnya →</button><button class="vl-btn" id="vl-mark">✓ Tandai hafal</button></div>
+  <div class="vl-buttons"><button class="vl-btn" id="vl-unlearned">Belum hafal</button><button class="vl-btn" id="vl-all">Tampilkan semua</button><button class="vl-btn" id="vl-list-toggle">Daftar kata</button></div>
+  <div class="vl-list" id="vl-list" hidden></div>
+  <div class="vl-sub">Catatan: target belajar 400 kata ini adalah daftar belajar praktis, bukan daftar resmi tertutup JLPT. Contoh kalimat memakai pola sederhana untuk membantu mengingat lema.</div>
+</section>
+<!-- END SALMAN_VOCAB_LAB_V1 -->
 <!-- SALMAN_KANJI_LAB_V1 -->
 <section class="kl-wrap" id="kanji-lab">
   <div class="kl-head">
@@ -270,6 +311,7 @@ button{cursor:pointer}
   <div id="nb-list"></div>
 </div>
 <div class="bottom-hint">data tersimpan otomatis · tidak hilang</div>
+<script src="data/vocabulary-n5-batch1.js"></script>
 <script>
 (function(){
  const root=document.documentElement,btn=document.getElementById('theme-toggle'),meta=document.getElementById('theme-color-meta');
