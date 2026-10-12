@@ -2,6 +2,8 @@
 
 Tanggal pemeriksaan: 13 Oktober 2026
 
+Pembaruan tindak lanjut: branch `fix/kanji-audit-cleanup` memperbaiki tiga spasi salah pada contoh kalimat dan memperkuat pemeriksaan struktural. Perubahan ini belum melengkapi dataset hingga 300 kanji; status rilis tetap terblokir sampai target dan pemeriksaan linguistik dipenuhi.
+
 ## Ringkasan
 
 **Status rilis: TERBLOKIR — target 300 kanji belum terpenuhi.**
@@ -34,13 +36,13 @@ Audit ini tidak dapat mengonfirmasi adanya PR terpisah berisi 100 kanji N5 dan 2
 1. Dataset kurang 200 entri: ada 49 label N5 dan 51 label N4, bukan 100 + 200.
 2. Label level perlu ditinjau secara editorial. JLPT tidak menerbitkan daftar resmi kanji tertutup yang membuktikan level setiap karakter.
 3. Progres hafalan menggunakan karakter sebagai kunci. Pertahankan pendekatan ini saat dataset diperluas agar progres tidak hilang.
-4. Kuis mengambil pilihan jawaban salah dari seluruh dataset, meskipun pengguna memilih level tertentu. Kuis N5 dapat menampilkan pilihan kanji berlabel N4; sebaiknya distraktor mengikuti level terpilih.
+4. Perbaikan distraktor kuis sudah tercatat pada commit sebelumnya; perubahan baru ini tidak mengubah logika kuis.
 5. Audit otomatis tidak membuktikan kebenaran bacaan onyomi/kunyomi, arti, kosakata, contoh kalimat, atau terjemahan.
 
 ## Langkah penutupan
 
-- Tambahkan dan tinjau 51 kanji N5 lagi untuk mencapai 100.
-- Tambahkan dan tinjau 149 kanji N4 lagi untuk mencapai 200.
+- Tambahkan dan tinjau 51 kanji N5 lagi untuk mencapai 100. (Belum selesai.)
+- Tambahkan dan tinjau 149 kanji N4 lagi untuk mencapai 200. (Belum selesai.)
 - Periksa bacaan, arti, kosakata contoh, kalimat, dan terjemahan setiap entri.
 - Perbaiki distraktor kuis agar mengikuti level yang sedang dipilih.
 - Tambahkan pemeriksaan otomatis jumlah, keunikan, kolom, dan integrasi setelah dataset diperbarui.
