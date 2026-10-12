@@ -35,7 +35,7 @@ const VOCAB_N4_BATCH1 = [
   {jp:"枝",kana:"えだ",arti:"ranting; cabang",kelas:"kata benda",contoh:"強い風で木の枝が折れました。",bacaan:"つよいかぜできのえだがおれました。",terjemahan:"Ranting pohon patah karena angin kencang."},
   {jp:"選ぶ",kana:"えらぶ",arti:"memilih",kelas:"kata kerja",contoh:"旅行の行き先を家族と選びました。",bacaan:"りょこうのいきさきをかぞくとえらびました。",terjemahan:"Saya memilih tujuan perjalanan bersama keluarga."},
   {jp:"遠慮",kana:"えんりょ",arti:"menahan diri; sungkan",kelas:"kata benda",contoh:"遠慮しないで、もっと食べてください。",bacaan:"えんりょしないで、もっとたべてください。",terjemahan:"Jangan sungkan, silakan makan lebih banyak."},
-  {jp:"オートバイ",kana:"おーとばい",arti:"sepeda motor",kelas:"kata benda",contoh:"兄はオートバイで会社へ通っています。",bacaan:"あにはおーとばいでかいしゃへかよっています。",terjemahan:"Kakak laki-laki saya pergi bekerja naik sepeda motor."},
+  {jp:"オートバイ",kana:"オートバイ",arti:"sepeda motor",kelas:"kata benda",contoh:"兄はオートバイで会社へ通っています。",bacaan:"あにはおーとばいでかいしゃへかよっています。",terjemahan:"Kakak laki-laki saya pergi bekerja naik sepeda motor."},
   {jp:"お祝い",kana:"おいわい",arti:"perayaan; ucapan selamat",kelas:"kata benda",contoh:"友達の結婚のお祝いを買いました。",bacaan:"ともだちのけっこんのおいわいをかいました。",terjemahan:"Saya membeli hadiah untuk merayakan pernikahan teman."},
   {jp:"おかげ",kana:"おかげ",arti:"berkat; berkat bantuan",kelas:"kata benda",contoh:"先生のおかげで試験に合格しました。",bacaan:"せんせいのおかげでしけんにごうかくしました。",terjemahan:"Berkat guru, saya lulus ujian."},
   {jp:"おかしい",kana:"おかしい",arti:"aneh; lucu",kelas:"kata sifat-i",contoh:"この時計は時間が少しおかしいです。",bacaan:"このとけいはじかんがすこしおかしいです。",terjemahan:"Waktu pada jam ini agak tidak tepat."},
