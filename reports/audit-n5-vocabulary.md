@@ -36,6 +36,17 @@ Pemeriksaan Node.js berjalan di GitHub Actions dan lulus. Ini membuktikan pemeri
 5. Memperbaiki urutan pemuatan kedua file data agar keduanya tersedia sebelum kode antarmuka kosakata berjalan.
 6. Menambahkan workflow GitHub Actions supaya audit struktur dan integrasi statis berjalan otomatis pada perubahan berikutnya.
 
+## Pemeriksaan bahasa lanjutan — 13 Oktober 2026
+
+Dalam pemeriksaan lanjutan, ditemukan dan diperbaiki dua masalah pada contoh kalimat:
+
+1. `国`: `国へ行きたいです。` diterjemahkan secara janggal sebagai “Saya ingin pergi ke negara.” Diganti menjadi `私の国はインドネシアです。` (“Negara saya adalah Indonesia.”).
+2. `泳ぐ`: contoh kalimatnya identik dengan entri `海`. Diganti menjadi `毎週プールで泳ぎます。` (“Saya berenang di kolam renang setiap minggu.”).
+
+Setelah perbaikan tersebut, contoh kalimat yang identik tidak lagi ditemukan dalam pemeriksaan duplikasi data.
+
+**Status audit bahasa:** ini adalah tinjauan editorial awal, bukan validasi oleh penutur asli atau sertifikasi materi JLPT. Masih diperlukan peninjauan menyeluruh untuk nuansa, bacaan kanji berdasarkan konteks, ketepatan seluruh terjemahan, serta kesesuaian level. Kandidat pada bagian berikut diperlakukan sebagai kosakata tambahan untuk ditinjau, bukan otomatis salah atau harus dihapus.
+
 ## Kosakata yang perlu ditinjau untuk level JLPT
 
 Validator menandai 33 kandidat sebagai **materi tambahan yang perlu diperiksa**, bukan menyatakan kata-kata ini pasti bukan N5:
