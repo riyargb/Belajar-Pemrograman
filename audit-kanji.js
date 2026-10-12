@@ -25,6 +25,7 @@ if (unique.size !== entries.length) errors.push("Duplicate kanji characters dete
 if (n5 !== 100) errors.push("N5 target is 100; found " + n5 + ".");
 if (n4 !== 200) errors.push("N4 target is 200; found " + n4 + ".");
 for (const entry of entries) {
+  if (Array.from(entry.k).length !== 1) errors.push(entry.k + ": key must be exactly one kanji character.");
   for (const field of ["m", "on", "v", "s"]) {
     if (!entry[field].trim()) errors.push(entry.k + " (" + entry.l + "): required field " + field + " is empty.");
   }
