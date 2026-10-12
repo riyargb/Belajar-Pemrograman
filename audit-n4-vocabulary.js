@@ -9,8 +9,8 @@ const path = require("node:path");
 
 const dataDir = path.join(__dirname, "data");
 const n4Files = fs.readdirSync(dataDir)
-  .filter(name => /^vocabulary-n4-batch\\d+\\.js$/.test(name))
-  .sort((a, b) => Number(a.match(/batch(\\d+)/)[1]) - Number(b.match(/batch(\\d+)/)[1]));
+  .filter(name => /^vocabulary-n4-batch\d+\.js$/.test(name))
+  .sort((a, b) => Number(a.match(/batch(\d+)/)[1]) - Number(b.match(/batch(\d+)/)[1]));
 assert.ok(n4Files.length > 0, "At least one N4 vocabulary batch must exist.");
 
 const n5Files = ["vocabulary-n5-batch1.js", "vocabulary-n5-batch2.js"];
