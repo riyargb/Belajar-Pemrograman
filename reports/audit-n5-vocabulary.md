@@ -68,6 +68,11 @@ JLPT tidak menerbitkan daftar kosakata resmi yang lengkap dan tertutup untuk tia
 - Daftar kandidat level diselaraskan dengan data terbaru: `汽車` telah diganti menjadi `電車` dalam batch 2.
 - Hasil ini memperkuat pemeriksaan struktur, tetapi **belum membuktikan** semua bacaan kanji, terjemahan, nuansa kalimat, atau klasifikasi level sudah benar. Pemeriksaan bahasa secara menyeluruh tetap perlu dilakukan secara editorial.
 
+### Perbaikan konteks kosakata keluarga
+
+- `お父さん`, `お母さん`, `お兄さん`, `お姉さん`, dan `奥さん` kini memakai contoh dengan konteks keluarga orang lain (`田中さんの...`) agar selaras dengan penjelasan maknanya.
+- `主人` mendapat contoh kalimat yang lebih informatif; catatan makna menyebutnya sebagai sebutan tradisional.
+
 ## Batas audit
 
 - Skrip memeriksa jumlah, keunikan, kolom, kategori, bacaan, tanda baca, konsistensi katakana, dan urutan pemuatan data.
