@@ -11,7 +11,7 @@ const VOCAB_N5_BATCH1 = [
   {jp:"皆さん",kana:"みなさん",arti:"semuanya (sopan)",kelas:"kata benda",contoh:"皆さん、おはようございます。",bacaan:"みなさん、おはようございます。",terjemahan:"Selamat pagi semuanya."},
   {jp:"自分",kana:"じぶん",arti:"diri sendiri",kelas:"kata benda",contoh:"自分の名前を書きます。",bacaan:"じぶんのなまえをかきます。",terjemahan:"Saya menulis nama sendiri."},
   {jp:"誰",kana:"だれ",arti:"siapa",kelas:"kata tanya",contoh:"あの人は誰ですか。",bacaan:"あのひとはだれですか。",terjemahan:"Siapa orang itu?"},
-  {jp:"何",kana:"なに",arti:"apa",kelas:"kata tanya",contoh:"これは何ですか。",bacaan:"これはなにですか。",terjemahan:"Apa ini?"},
+  {jp:"何",kana:"なに",arti:"apa",kelas:"kata tanya",contoh:"これは何ですか。",bacaan:"これはなんですか。",terjemahan:"Apa ini?"},
   {jp:"どなた",kana:"どなた",arti:"siapa (sopan)",kelas:"kata tanya",contoh:"あの方はどなたですか。",bacaan:"あのかたはどなたですか。",terjemahan:"Siapakah orang itu?"},
   {jp:"どれ",kana:"どれ",arti:"yang mana",kelas:"kata tanya",contoh:"あなたのかばんはどれですか。",bacaan:"あなたのかばんはどれですか。",terjemahan:"Tas Anda yang mana?"},
   {jp:"どの",kana:"どの",arti:"yang mana (diikuti benda)",kelas:"kata tanya",contoh:"どの本が好きですか。",bacaan:"どのほんがすきですか。",terjemahan:"Buku yang mana yang Anda sukai?"},
