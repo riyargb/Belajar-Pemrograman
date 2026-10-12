@@ -54,9 +54,19 @@ Selain itu, entri transportasi `汽車` diganti menjadi `電車` karena `電車`
 
 Validator menandai 33 kandidat sebagai **materi tambahan yang perlu diperiksa**, bukan menyatakan kata-kata ini pasti bukan N5:
 
-`台風`, `薬局`, `警察`, `警官`, `運転手`, `地震`, `汽車`, `新幹線`, `地下鉄`, `予約`, `会議`, `説明`, `連絡`, `経験`, `習慣`, `社会`, `歴史`, `科学`, `経済`, `政治`, `方法`, `種類`, `部分`, `途中`, `場合`, `近所`, `特に`, `なるべく`, `とにかく`, `せっかく`, `危険`, `必要`, `十分`.
+`台風`, `薬局`, `警察`, `警官`, `運転手`, `地震`, `電車`, `新幹線`, `地下鉄`, `予約`, `会議`, `説明`, `連絡`, `経験`, `習慣`, `社会`, `歴史`, `科学`, `経済`, `政治`, `方法`, `種類`, `部分`, `途中`, `場合`, `近所`, `特に`, `なるべく`, `とにかく`, `せっかく`, `危険`, `必要`, `十分`.
 
 JLPT tidak menerbitkan daftar kosakata resmi yang lengkap dan tertutup untuk tiap level. Karena itu, daftar tersebut harus diperlakukan sebagai daftar tinjauan, bukan batas resmi N5. Beberapa kata dapat tetap berguna sebagai materi tambahan untuk pemula.
+
+
+## Pemeriksaan tambahan — 13 Oktober 2026
+
+- Jumlah entri yang terbaca: **800** (400 per batch).
+- Tidak ditemukan kata kepala duplikat atau contoh kalimat yang identik dalam pemeriksaan otomatis saat ini.
+- Tidak ditemukan kolom wajib kosong.
+- Kolom `kana` tidak memuat kanji; kolom `bacaan` seluruhnya memakai karakter kana/tanda baca yang diizinkan oleh pemeriksaan statis.
+- Daftar kandidat level diselaraskan dengan data terbaru: `汽車` telah diganti menjadi `電車` dalam batch 2.
+- Hasil ini memperkuat pemeriksaan struktur, tetapi **belum membuktikan** semua bacaan kanji, terjemahan, nuansa kalimat, atau klasifikasi level sudah benar. Pemeriksaan bahasa secara menyeluruh tetap perlu dilakukan secara editorial.
 
 ## Batas audit
 
