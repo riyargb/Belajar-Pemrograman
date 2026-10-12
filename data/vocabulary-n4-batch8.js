@@ -39,7 +39,7 @@ const VOCAB_N4_BATCH8 = [
   {jp:"乾杯",kana:"かんぱい",arti:"bersulang",kelas:"kata benda",contoh:"みんなで乾杯して、食事を始めました。",bacaan:"みんなでかんぱいして、しょくじをはじめました。",terjemahan:"Kami bersulang bersama lalu mulai makan."},
   {jp:"期間",kana:"きかん",arti:"periode; jangka waktu",kelas:"kata benda",contoh:"申し込みの期間は今月末までです。",bacaan:"もうしこみのきかんはこんげつまつまでです。",terjemahan:"Periode pendaftaran berlangsung sampai akhir bulan ini."},
   {jp:"期待",kana:"きたい",arti:"harapan; mengharapkan",kelas:"kata benda",contoh:"新しい映画に大きな期待をしています。",bacaan:"あたらしいえいがにおおきなきたいをしています。",terjemahan:"Saya menaruh harapan besar pada film baru itu."},
-  {jp:"気づく",kana:"きづく",arti:"menyadari",kelas:"kata kerja",contoh:"財布がないことに駅で気づきました。",bacaan:"さいふがないことにえきで気づきました。",terjemahan:"Saya menyadari dompet saya hilang di stasiun."},
+  {jp:"気づく",kana:"きづく",arti:"menyadari",kelas:"kata kerja",contoh:"財布がないことに駅で気づきました。",bacaan:"さいふがないことにえきできづきました。",terjemahan:"Saya menyadari dompet saya hilang di stasiun."},
   {jp:"急行",kana:"きゅうこう",arti:"kereta ekspres",kelas:"kata benda",contoh:"急行に乗ると、早く目的地に着きます。",bacaan:"きゅうこうにのると、はやくもくてきちにつきます。",terjemahan:"Jika naik kereta ekspres, kita cepat tiba di tujuan."},
   {jp:"教育",kana:"きょういく",arti:"pendidikan",kelas:"kata benda",contoh:"子どもの教育について家族と話しました。",bacaan:"こどものきょういくについてかぞくとはなしました。",terjemahan:"Saya berbicara dengan keluarga tentang pendidikan anak."},
   {jp:"教授",kana:"きょうじゅ",arti:"profesor",kelas:"kata benda",contoh:"教授は研究の結果を発表しました。",bacaan:"きょうじゅはけんきゅうのけっかをはっぴょうしました。",terjemahan:"Profesor mempresentasikan hasil penelitian."},
