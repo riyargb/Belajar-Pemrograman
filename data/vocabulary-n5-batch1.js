@@ -150,7 +150,7 @@ const VOCAB_N5_BATCH1 = [
   {jp:"美術館",kana:"びじゅつかん",arti:"museum seni",kelas:"kata benda",contoh:"美術館で有名な絵を見ました。",bacaan:"びじゅつかんでゆうめいなえをみました。",terjemahan:"Saya melihat lukisan terkenal di museum seni."},
   {jp:"博物館",kana:"はくぶつかん",arti:"museum",kelas:"kata benda",contoh:"博物館で昔の道具を見ました。",bacaan:"はくぶつかんでむかしのどうぐをみました。",terjemahan:"Saya melihat peralatan zaman dahulu di museum."},
   {jp:"神社",kana:"じんじゃ",arti:"kuil Shinto",kelas:"kata benda",contoh:"神社でお参りをしました。",bacaan:"じんじゃでおまいりをしました。",terjemahan:"Saya berdoa di kuil Shinto."},
-  {jp:"寺",kana:"てら",arti:"kuil Buddha",kelas:"kata benda",contoh:"古い寺を見学しました。",bacaan:"ふるいおてらをけんがくしました。",terjemahan:"Saya mengunjungi kuil Buddha kuno."},
+  {jp:"寺",kana:"てら",arti:"kuil Buddha",kelas:"kata benda",contoh:"古い寺を見学しました。",bacaan:"ふるいてらをけんがくしました。",terjemahan:"Saya mengunjungi kuil Buddha kuno."},
   {jp:"山",kana:"やま",arti:"gunung",kelas:"kata benda",contoh:"山の上から町が見えます。",bacaan:"やまのうえからまちがみえます。",terjemahan:"Kota terlihat dari atas gunung."},
   {jp:"川",kana:"かわ",arti:"sungai",kelas:"kata benda",contoh:"川の水は冷たいです。",bacaan:"かわのみずはつめたいです。",terjemahan:"Air sungai itu dingin."},
   {jp:"海",kana:"うみ",arti:"laut",kelas:"kata benda",contoh:"夏に海で泳ぎます。",bacaan:"なつにうみでおよぎます。",terjemahan:"Saya berenang di laut pada musim panas."},
