@@ -207,7 +207,7 @@ const VOCAB_N5_BATCH2 = [
   {jp:"現金",kana:"げんきん",arti:"uang tunai",kelas:"kata benda",contoh:"この店では現金で払います。",bacaan:"このみせではげんきんではらいます。",terjemahan:"Di toko ini, saya membayar dengan uang tunai."},
   {jp:"値段",kana:"ねだん",arti:"harga",kelas:"kata benda",contoh:"値段を教えてください。",bacaan:"ねだんをおしえてください。",terjemahan:"Tolong beri tahu harganya."},
   {jp:"料金",kana:"りょうきん",arti:"biaya",kelas:"kata benda",contoh:"電車の料金を駅で確認しました。",bacaan:"でんしゃのりょうきんをえきでかくにんしました。",terjemahan:"Saya memeriksa tarif kereta di stasiun."},
-  {jp:"無料",kana:"むりょう",arti:"gratis",kelas:"kata benda",contoh:"この博物館は子供は無料です。",bacaan:"このはくぶつかんはこどもはむりょうです。",terjemahan:"Anak-anak bisa masuk museum ini secara gratis."},
+  {jp:"無料",kana:"むりょう",arti:"gratis",kelas:"kata benda",contoh:"子供はこの博物館に無料で入れます。",bacaan:"こどもはこのはくぶつかんにむりょうではいれます。",terjemahan:"Anak-anak bisa masuk museum ini secara gratis."},
   {jp:"有料",kana:"ゆうりょう",arti:"berbayar",kelas:"kata benda",contoh:"この駐車場は有料なので、お金がかかります。",bacaan:"このちゅうしゃじょうはゆうりょうなので、おかねがかかります。",terjemahan:"Tempat parkir ini berbayar, jadi perlu mengeluarkan uang."},
   {jp:"買い物",kana:"かいもの",arti:"belanja",kelas:"kata benda",contoh:"週末に買い物をします。",bacaan:"しゅうまつにかいものをします。",terjemahan:"Saya berbelanja pada akhir pekan."},
   {jp:"売り場",kana:"うりば",arti:"bagian penjualan",kelas:"kata benda",contoh:"野菜売り場はどこですか。",bacaan:"やさいうりばはどこですか。",terjemahan:"Di mana bagian penjualan sayuran?"},
