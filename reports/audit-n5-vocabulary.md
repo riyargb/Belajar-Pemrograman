@@ -157,6 +157,17 @@ Penyelenggara JLPT menjelaskan bahwa daftar kosakata, kanji, dan tata bahasa dal
 - Workflow GitHub Actions otomatis dijalankan untuk memvalidasi perubahan ini. Hasil final workflow perlu dinyatakan berdasarkan status run yang selesai, bukan status antre.
 - Pemeriksaan linguistik tetap memerlukan verifikasi makna, konteks pemakaian, dan bacaan kata per kata; validator otomatis tidak menggantikan peninjauan tersebut.
 
+### Penutupan putaran pemeriksaan N5 — 13 Oktober 2026
+
+Seluruh **800 entri** ditinjau kembali dalam satu putaran editorial untuk memeriksa makna, kecocokan contoh, bacaan kana, dan terjemahan. Dua ketidaksesuaian yang terkonfirmasi pada putaran ini diperbaiki:
+
+1. **寺** — bacaan contoh dikoreksi dari `ふるいおてらをけんがくしました。` menjadi `ふるいてらをけんがくしました。`, sesuai kalimat `古い寺を見学しました。`.
+2. **砂** — tanda koma yang tidak ada pada kalimat Jepang dihapus dari kolom bacaan agar tanda baca contoh dan bacaan konsisten.
+
+Makna **戸** juga sudah diperluas menjadi “pintu; daun pintu”, bukan hanya “pintu geser”. Validator diperkuat untuk membandingkan jumlah tanda baca Jepang antara kolom `contoh` dan `bacaan`, sehingga jenis ketidaksesuaian yang ditemukan pada `砂` dapat dicegah pada perubahan berikutnya.
+
+**Status praktis:** daftar 800 kata dapat dipakai sebagai materi belajar pemula berorientasi N5. Daftar ini bukan daftar resmi JLPT yang tertutup: 33 kata masih ditandai validator sebagai kandidat materi tambahan untuk ditinjau levelnya, dan pembanding komunitas OpenJLPT cocok persis dengan 404 headword. Angka tersebut tidak berarti sisanya otomatis salah; JLPT tidak menyediakan daftar kosakata resmi lengkap per level. Jadi, audit editorial satu putaran dan pemeriksaan struktur sudah dilakukan, sementara klaim “setiap kata pasti resmi N5” tidak dapat dibuat.
+
 ## File terkait
 
 - [Batch 1](../data/vocabulary-n5-batch1.js)
