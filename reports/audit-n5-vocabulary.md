@@ -79,6 +79,15 @@ JLPT tidak menerbitkan daftar kosakata resmi yang lengkap dan tertutup untuk tia
 - Memperbaiki contoh `酒` dan `ビール` yang sebelumnya menyebut minum alkohol setiap pagi; contoh baru menggunakan konteks makan malam dan berkumpul bersama teman.
 - Bacaan kana dan terjemahan diperbarui mengikuti kalimat baru. Ini adalah penyuntingan editorial, bukan pengesahan tingkat JLPT.
 
+### Audit sekaligus: lingkungan, cuaca, makanan, dan ungkapan sehari-hari
+
+Pemeriksaan editorial tambahan menemukan beberapa contoh yang secara tata bahasa dapat dipahami tetapi tidak cocok dengan makna atau konteks sehari-hari. Perbaikan diterapkan pada 35 entri di Batch 2, terutama:
+
+- Bentuk alam/cuaca (`砂`, `葉`, `丘`, `池`, `湖`, `浜`, `砂浜`, `雲`, `星`, `太陽`, `氷`, `煙`, `温度`, `気温`, `季節`) diberi contoh yang lebih sesuai secara semantis; contoh yang sebelumnya menempatkan pantai, danau, suhu, dan sebagainya secara janggal di gunung diperbaiki.
+- Bahan makanan (`玉葱`, `人参`, `じゃが芋`, `大根`, `キャベツ`, `白菜`, `胡瓜`, `茄子`, `豆`, `味噌`, `酢`, `油`) diberi contoh penggunaan yang lebih alami dalam memasak.
+- Ungkapan makanan (`朝ご飯`, `昼ご飯`, `晩ご飯`, `弁当`, `お菓子`) diperbaiki agar terjemahan bahasa Indonesianya alami dan contoh tidak sekadar mengulang pola yang sama.
+- `無料` kini memakai konteks masuk museum gratis untuk anak-anak, `農場` memakai contoh pemeliharaan hewan ternak, dan `指` memakai contoh menunjukkan lokasi di peta.
+
 ## Batas audit
 
 - Skrip memeriksa jumlah, keunikan, kolom, kategori, bacaan, tanda baca, konsistensi katakana, dan urutan pemuatan data.
