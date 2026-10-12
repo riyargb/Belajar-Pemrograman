@@ -71,7 +71,7 @@ const VOCAB_N5_BATCH2 = [
   {jp:"歯磨き粉",kana:"はみがきこ",arti:"pasta gigi",kelas:"kata benda",contoh:"歯磨き粉を歯ブラシにつけます。",bacaan:"はみがきこをはぶらしにつけます。",terjemahan:"Saya mengoleskan pasta gigi pada sikat gigi."},
   {jp:"タオル",kana:"タオル",arti:"handuk",kelas:"kata benda",contoh:"タオルで手を拭きます。",bacaan:"たおるでてをふきます。",terjemahan:"Saya mengeringkan tangan dengan handuk."},
   {jp:"シャンプー",kana:"シャンプー",arti:"sampo",kelas:"kata benda",contoh:"シャンプーで髪を洗います。",bacaan:"しゃんぷーでかみをあらいます。",terjemahan:"Saya mencuci rambut dengan sampo."},
-  {jp:"砂",kana:"すな",arti:"pasir",kelas:"kata benda",contoh:"砂浜で砂の城を作りました。",bacaan:"すなはまで、すなのしろをつくりました。",terjemahan:"Saya membuat istana pasir di pantai berpasir."},
+  {jp:"砂",kana:"すな",arti:"pasir",kelas:"kata benda",contoh:"砂浜で砂の城を作りました。",bacaan:"すなはまですなのしろをつくりました。",terjemahan:"Saya membuat istana pasir di pantai berpasir."},
   {jp:"葉",kana:"は",arti:"daun",kelas:"kata benda",contoh:"秋になると、木の葉が赤くなります。",bacaan:"あきになると、きのはがあかくなります。",terjemahan:"Saat musim gugur tiba, daun-daun pohon menjadi merah."},
   {jp:"丘",kana:"おか",arti:"bukit",kelas:"kata benda",contoh:"丘の上から町が見えます。",bacaan:"おかのうえからまちがみえます。",terjemahan:"Kota terlihat dari atas bukit."},
   {jp:"池",kana:"いけ",arti:"kolam",kelas:"kata benda",contoh:"公園の池に魚がいます。",bacaan:"こうえんのいけにさかながいます。",terjemahan:"Ada ikan di kolam taman."},
