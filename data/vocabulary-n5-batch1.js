@@ -82,7 +82,7 @@ const VOCAB_N5_BATCH1 = [
   {jp:"生徒",kana:"せいと",arti:"murid",kelas:"kata benda",contoh:"生徒は教室にいます。",bacaan:"せいとはきょうしつにいます。",terjemahan:"Murid berada di ruang kelas."},
   {jp:"大学生",kana:"だいがくせい",arti:"mahasiswa",kelas:"kata benda",contoh:"大学生はアルバイトをしています。",bacaan:"だいがくせいはあるばいとをしています。",terjemahan:"Mahasiswa bekerja paruh waktu."},
   {jp:"留学生",kana:"りゅうがくせい",arti:"mahasiswa asing",kelas:"kata benda",contoh:"留学生は日本語を勉強しています。",bacaan:"りゅうがくせいはにほんごをべんきょうしています。",terjemahan:"Mahasiswa asing sedang belajar bahasa Jepang."},
-  {jp:"会社員",kana:"かいしゃいん",arti:"pegawai perusahaan",kelas:"kata benda",contoh:"父は東京の会社で働いています。",bacaan:"ちちはとうきょうのかいしゃではたらいています。",terjemahan:"Ayah saya bekerja di sebuah perusahaan di Tokyo."},
+  {jp:"会社員",kana:"かいしゃいん",arti:"pegawai perusahaan",kelas:"kata benda",contoh:"父は会社員です。",bacaan:"ちちはかいしゃいんです。",terjemahan:"Ayah saya adalah pegawai perusahaan."},
   {jp:"社員",kana:"しゃいん",arti:"karyawan",kelas:"kata benda",contoh:"社員は会議室に集まりました。",bacaan:"しゃいんはかいぎしつにあつまりました。",terjemahan:"Para karyawan berkumpul di ruang rapat."},
   {jp:"医者",kana:"いしゃ",arti:"dokter",kelas:"kata benda",contoh:"医者に診てもらいます。",bacaan:"いしゃにみてもらいます。",terjemahan:"Saya memeriksakan diri ke dokter."},
   {jp:"看護師",kana:"かんごし",arti:"perawat",kelas:"kata benda",contoh:"看護師が病人を助けました。",bacaan:"かんごしがびょうにんをたすけました。",terjemahan:"Perawat membantu orang yang sakit."},
