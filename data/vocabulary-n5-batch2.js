@@ -208,7 +208,7 @@ const VOCAB_N5_BATCH2 = [
   {jp:"値段",kana:"ねだん",arti:"harga",kelas:"kata benda",contoh:"値段を教えてください。",bacaan:"ねだんをおしえてください。",terjemahan:"Tolong beri tahu harganya."},
   {jp:"料金",kana:"りょうきん",arti:"biaya",kelas:"kata benda",contoh:"料金を払います。",bacaan:"りょうきんをはらいます。",terjemahan:"Saya membayar biaya."},
   {jp:"無料",kana:"むりょう",arti:"gratis",kelas:"kata benda",contoh:"この博物館は子供は無料です。",bacaan:"このはくぶつかんはこどもはむりょうです。",terjemahan:"Anak-anak bisa masuk museum ini secara gratis."},
-  {jp:"有料",kana:"ゆうりょう",arti:"berbayar",kelas:"kata benda",contoh:"この駐車場を使うには料金が必要です。",bacaan:"このちゅうしゃじょうをつかうにはりょうきんがひつようです。",terjemahan:"Untuk menggunakan tempat parkir ini, perlu membayar biaya."},
+  {jp:"有料",kana:"ゆうりょう",arti:"berbayar",kelas:"kata benda",contoh:"この駐車場は有料なので、お金がかかります。",bacaan:"このちゅうしゃじょうはゆうりょうなので、おかねがかかります。",terjemahan:"Tempat parkir ini berbayar, jadi perlu mengeluarkan uang."},
   {jp:"買い物",kana:"かいもの",arti:"belanja",kelas:"kata benda",contoh:"週末に買い物をします。",bacaan:"しゅうまつにかいものをします。",terjemahan:"Saya berbelanja pada akhir pekan."},
   {jp:"売り場",kana:"うりば",arti:"bagian penjualan",kelas:"kata benda",contoh:"野菜売り場はどこですか。",bacaan:"やさいうりばはどこですか。",terjemahan:"Di mana bagian penjualan sayuran?"},
   {jp:"商品",kana:"しょうひん",arti:"barang dagangan",kelas:"kata benda",contoh:"店の商品を見て回ります。",bacaan:"みせのしょうひんをみてまわります。",terjemahan:"Saya berkeliling melihat barang dagangan di toko."},
