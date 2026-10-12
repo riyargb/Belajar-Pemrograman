@@ -84,9 +84,38 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
 .note-date{font-size:9px;color:var(--muted)}
 .note-del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted2);font-size:14px;cursor:pointer;padding:2px 5px}
 .note-del:hover{color:#ff4757}
-.note-text{font-size:11px;line-height:1.6;color:var(--text);white-space:pre-wrap}
+.note-text{font-size:11px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere}
 .empty-notes{text-align:center;padding:40px 20px;font-size:11px;color:var(--muted);line-height:2}
 .bottom-hint{position:fixed;bottom:0;left:0;right:0;padding:8px;text-align:center;font-size:9px;color:var(--muted2);letter-spacing:1px;background:var(--bg);border-top:1px solid var(--border);pointer-events:none}
+
+/* SALMAN_KANJI_LAB_V1 */
+.kl-wrap{margin:18px 0 28px;padding:14px;background:var(--s2);border:1px solid var(--border);border-radius:8px}
+.kl-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.kl-title{font-size:14px;font-weight:700;color:var(--jp)}
+.kl-sub{font-size:10px;color:var(--muted);line-height:1.7;margin-top:4px}
+.kl-stats{font-size:10px;color:var(--text);margin:10px 0}
+.kl-bar{height:5px;background:var(--border2);border-radius:5px;overflow:hidden;margin:8px 0 14px}
+.kl-bar-fill{height:100%;background:var(--jp);width:0%;transition:width .2s}
+.kl-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.kl-input,.kl-select{width:100%;min-width:0;padding:10px;background:var(--bg);border:1px solid var(--border2);border-radius:5px;color:var(--text);font-size:11px}
+.kl-buttons{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+.kl-btn{padding:9px 11px;border:1px solid var(--border2);background:var(--bg);color:var(--text);border-radius:5px;font-size:10px;cursor:pointer}
+.kl-btn.primary{background:var(--jp);color:#101010;border-color:var(--jp);font-weight:700}
+.kl-card{padding:20px 14px;text-align:center;background:var(--bg);border:1px solid var(--border2);border-radius:8px;min-height:215px;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px}
+.kl-kanji{font-size:64px;line-height:1.2;font-weight:700}
+.kl-reading{font-size:12px;line-height:1.8;color:var(--text)}
+.kl-meaning{font-size:15px;font-weight:700}
+.kl-detail{font-size:11px;line-height:1.9;color:var(--muted);text-align:left;margin-top:12px;overflow-wrap:anywhere}
+.kl-tag{font-size:9px;padding:3px 7px;border:1px solid var(--border2);border-radius:4px;color:var(--jp)}
+.kl-count{font-size:10px;color:var(--muted)}
+.kl-quiz-question{font-size:13px;line-height:1.8;margin:14px 0}
+.kl-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kl-option{padding:12px 8px;white-space:normal;line-height:1.5}
+.kl-feedback{font-size:11px;line-height:1.8;margin-top:12px;overflow-wrap:anywhere}
+.kl-feedback.good{color:#00d68f}.kl-feedback.bad{color:#ff6b6b}
+.kl-hidden{display:none!important}
+@media(max-width:420px){.kl-wrap{padding:10px}.kl-controls{grid-template-columns:1fr}.kl-kanji{font-size:56px}.kl-options{grid-template-columns:1fr 1fr}}
+
 </style>
 </head>
 <body>
@@ -94,6 +123,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
   <div class="topbar-title">Salman &middot; <span>Lang</span></div>
   <a href="index.html" class="back-btn">← Dev</a>
 </div>
+
 <div class="tabs">
   <button class="tab en active" onclick="switchTab('en',this)">🇺🇸 English</button>
   <button class="tab jp" onclick="switchTab('jp',this)">🇯🇵 Japanese</button>
@@ -124,12 +154,67 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
       <div class="dp-bar-bg"><div class="dp-bar en" id="gbar-en-side" style="width:0%"></div></div>
     </div>
     <div class="dp-card">
-      <div class="dp-label">🇯🇵 JAPANESE</div>
+      <div class="dp-label">🇯🇵 JAPANESE · TARGET JLPT N4</div>
       <div class="dp-count jp" id="gcnt-jp">0/0</div>
       <div class="dp-bar-bg"><div class="dp-bar jp" id="gbar-jp" style="width:0%"></div></div>
     </div>
   </div>
   <div id="roadmap-jp"></div>
+
+<!-- SALMAN_KANJI_LAB_V1 -->
+<section class="kl-wrap" id="kanji-lab">
+  <div class="kl-head">
+    <div>
+      <div class="kl-title">漢字 LAB / Kanji Flashcards</div>
+      <div class="kl-sub">Belajar kanji melalui arti, bacaan, kosakata, dan contoh kalimat.</div>
+    </div>
+    <span class="kl-tag">N5 + N4</span>
+  </div>
+  <div class="kl-stats" id="kl-stats">Memuat progres...</div>
+  <div class="kl-bar"><div class="kl-bar-fill" id="kl-progress"></div></div>
+  <div class="kl-controls">
+    <select class="kl-select" id="kl-level" aria-label="Filter level">
+      <option value="ALL">Semua level</option>
+      <option value="N5">JLPT N5</option>
+      <option value="N4">JLPT N4</option>
+    </select>
+    <input class="kl-input" id="kl-search" placeholder="Cari kanji, arti, atau kosakata..." aria-label="Cari kanji">
+  </div>
+  <div class="kl-buttons">
+    <button class="kl-btn primary" onclick="klNext()">Kartu berikutnya →</button>
+    <button class="kl-btn" onclick="klFlip()">Lihat jawaban</button>
+    <button class="kl-btn" onclick="klMark()">✓ Tandai hafal</button>
+    <button class="kl-btn" onclick="klResetCard()">Ulangi kartu</button>
+  </div>
+  <div class="kl-card" id="kl-card" aria-live="polite"></div>
+  <div class="kl-count" id="kl-count" style="margin-top:10px"></div>
+  <div class="kl-buttons">
+    <button class="kl-btn" onclick="klQuizStart()">Mulai kuis pilihan ganda</button>
+    <button class="kl-btn" onclick="klShowOnlyUnlearned()">Belum hafal</button>
+    <button class="kl-btn" onclick="klShowAll()">Tampilkan semua</button>
+  </div>
+  <div id="kl-quiz" class="kl-hidden">
+    <div class="kl-card">
+      <div class="kl-tag">KANJI QUIZ</div>
+      <div class="kl-count" id="kl-q-count"></div>
+      <div class="kl-quiz-question" id="kl-q-question"></div>
+      <div class="kl-options" id="kl-q-options"></div>
+      <div class="kl-feedback" id="kl-q-feedback" aria-live="polite"></div>
+      <div class="kl-buttons">
+        <button class="kl-btn primary" id="kl-q-next" onclick="klQuizNext()" disabled>Soal berikutnya →</button>
+        <button class="kl-btn" onclick="klQuizStart()">Ulangi kuis</button>
+      </div>
+    </div>
+  </div>
+  <div class="kl-sub" style="margin-top:12px">
+    Progres tersimpan otomatis di browser/perangkat ini. Daftar di bawah adalah dataset awal untuk fitur; jumlahnya belum mencakup seluruh target belajar kumulatif sekitar 300 kanji.
+    Daftar JLPT kanji tidak diterbitkan sebagai daftar resmi tertutup yang definitif.
+  </div>
+</section>
+
+  <div style="font-size:10px;line-height:1.7;color:var(--muted);padding:8px 2px 16px">
+    Ini roadmap dan checklist belajar, bukan ujian JLPT resmi. Tandai materi setelah lu benar-benar menguasainya dan uji pemahaman dengan soal latihan.
+  </div>
 </div>
 
 <div class="pane" id="pane-nb">
@@ -157,55 +242,225 @@ const EN_PHASES=[
   {id:"en2",num:"LEVEL 02",title:"Basic Grammar",items:["Past tense (regular & irregular verb)","Future tense (will, going to)","Articles (a, an, the)","Prepositions (in, on, at, by)","Adjectives & adverbs","Countable vs uncountable nouns","Kosakata 1000 kata","Latihan: tulis diary 3 kalimat per hari"]},
   {id:"en3",num:"LEVEL 03",title:"Intermediate",items:["Present perfect (have/has + V3)","Conditional sentences (if clause)","Passive voice","Modal verbs (can, could, should, must)","Phrasal verbs 50 paling umum","Reading: artikel tech bahasa Inggris","Kosakata 2000 kata","Podcast: 15 menit per hari (BBC / EnglishPod)"]},
   {id:"en4",num:"LEVEL 04",title:"Speaking & Listening",items:["Shadowing technique — tirukan native speaker","Latihan pronunciation dengan Elsa Speak","Nonton YouTube tech tanpa subtitle","Speaking practice: rekam suara sendiri","Join English Discord / Reddit community","Ikut online speaking club (italki / HelloTalk)","Presentasi singkat 2 menit dalam Inggris","IELTS / TOEFL vocabulary set"]},
-  {id:"en5",num:"LEVEL 05",title:"Professional English",items:["Business email writing","Technical writing — dokumentasi kode","LinkedIn profile full English","CV & cover letter bahasa Inggris","Mock interview bahasa Inggris","Presentasi project dalam bahasa Inggris","TOEIC / IELTS target score 6.5+","Reading: medium.com tech articles tiap hari"]},
-];
-const JP_PHASES=[
-  {id:"jp1",num:"レベル 01",title:"Hiragana & Katakana",items:["Hiragana baris a i u e o (あいうえお)","Hiragana baris ka ki ku ke ko","Hiragana baris sa ta na ha","Hiragana baris ma ya ra wa","Katakana baris pertama (ア イ ウ エ オ)","Katakana semua baris selesai","Dakuten & handakuten (が ざ ば ぱ)","Latihan baca teks hiragana sederhana","Latihan tulis hiragana & katakana dari memori","Quiz mandiri — hafal semua tanpa liat"]},
-  {id:"jp2",num:"レベル 02",title:"Basic Vocabulary",items:["Salam — ohayou, konnichiwa, arigatou","Angka 1-100 dalam bahasa Jepang","Hari, bulan, waktu dalam Jepang","Kosakata N5 — 800 kata dasar","Kanji N5 — 100 kanji pertama","Partikel dasar — wa ga wo ni de to","Kalimat sederhana — watashi wa desu","App: Anki deck N5 / WaniKani"]},
-  {id:"jp3",num:"レベル 03",title:"Grammar N5-N4",items:["Verb groups — godan & ichidan","Te-form untuk request & sambung kalimat","Nai-form negasi","Masu-form — formal speech","Adjective i & na","Tai-form (mau melakukan sesuatu)","Te-iru (sedang / kebiasaan)","Kara & node (karena)","Grammar: Genki I selesai","Mini latihan: tulis 5 kalimat per hari"]},
-  {id:"jp4",num:"レベル 04",title:"N4 Level",items:["Kanji N4 — 300 kanji total","Kosakata N4 — 1500 kata","Potential form","Passive form","Causative form","Nakereba naranai (harus)","Te mo ii (boleh)","Reading: NHK Web Easy","Listening: Japanese Pod 101","Target ujian JLPT N4"]},
-  {id:"jp5",num:"レベル 05",title:"Conversation & Tech",items:["Keigo — bahasa sopan formal","Percakapan sehari-hari 10 topik","Kosakata IT dalam bahasa Jepang","Baca job posting perusahaan Jepang","Nonton anime tanpa subtitle (slice of life)","HelloTalk / Tandem — chat native speaker","Perkenalan diri formal dalam bahasa Jepang","Target JLPT N3 untuk kerja di Jepang"]},
+  {id:"en5",num:"LEVEL 05",title:"Professional English",items:["Business email writing","Technical writing — dokumentasi kode","LinkedIn profile full English","CV & cover letter bahasa Inggris","Mock interview bahasa Inggris","Presentasi project dalam bahasa Inggris","TOEIC / IELTS target score 6.5+","Reading: medium.com tech articles tiap hari"]}
 ];
 
-function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}}
-function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
-let checks=load('sal_lang_checks',{});
-let opens=load('sal_lang_opens',{});
-let notes=load('sal_lang_notes',[]);
+const JP_PHASES=[
+  {
+    id:"n4_01",num:"LEVEL 01",title:"Kana Review & Pronunciation",
+    items:[
+      "Review Hiragana: semua baris tanpa romaji",
+      "Review Katakana: semua baris tanpa romaji",
+      "Dakuten dan handakuten: が・ざ・だ・ば・ぱ",
+      "Kombinasi kana: きゃ・しゅ・ちょ",
+      "Sokuon っ dan bunyi konsonan ganda",
+      "Bunyi panjang: おばさん vs おばあさん",
+      "Membaca angka, waktu, nama, dan kata serapan",
+      "Latihan membaca kalimat pendek tanpa romaji",
+      "Checkpoint: tes baca kana dan bunyi khusus"
+    ]
+  },
+  {
+    id:"n4_02",num:"LEVEL 02",title:"N5 Foundation & Grammar",
+    items:[
+      "Pola kalimat: A は B です",
+      "Kalimat negatif dan lampau: ではありません・でした",
+      "Partikel: は・が・を・に・で・へ",
+      "Partikel: と・も・の・から・まで",
+      "Kata tanya: 何・誰・どこ・いつ・どうして",
+      "Kata benda dan kata sifat い・な",
+      "Kata kerja bentuk ます dan perubahan waktunya",
+      "Bentuk kamus dan bentuk ない",
+      "Bentuk て: cara membentuk dan penggunaannya",
+      "～てください・～てもいい・～てはいけない",
+      "～ています: aktivitas yang sedang berlangsung dan kebiasaan",
+      "～たい: menyatakan keinginan",
+      "Bilangan, tanggal, waktu, penghitung benda",
+      "Checkpoint: tes campuran tata bahasa N5"
+    ]
+  },
+  {
+    id:"n4_03",num:"LEVEL 03",title:"N5 Vocabulary, Kanji & Reading",
+    items:[
+      "Kosakata: keluarga dan orang",
+      "Kosakata: rumah, sekolah, dan pekerjaan",
+      "Kosakata: makanan, belanja, dan uang",
+      "Kosakata: waktu, cuaca, dan aktivitas sehari-hari",
+      "Kanji dasar: angka, hari, waktu, dan orang",
+      "Kanji dasar: tempat, arah, dan aktivitas",
+      "Membaca kosakata kanji di dalam kalimat",
+      "Membedakan kata yang bunyinya mirip",
+      "Membaca paragraf sederhana dengan bantuan konteks",
+      "Latihan mengambil informasi dari jadwal sederhana",
+      "Checkpoint: tes kosakata, kanji, dan reading N5"
+    ]
+  },
+  {
+    id:"n4_04",num:"LEVEL 04",title:"N4 Grammar Core",
+    items:[
+      "Plain form: bentuk biasa kata kerja dan kalimat",
+      "Perubahan kata kerja: kamus・ない・た・なかった",
+      "Bentuk potensial: kemampuan melakukan sesuatu",
+      "Bentuk niat dan rencana: ～つもり・～予定",
+      "Tujuan: ～ために・～ように",
+      "Pengalaman: ～たことがある",
+      "Sambil melakukan: ～ながら",
+      "Hasil atau penyesalan: ～てしまう",
+      "Kewajiban: ～なければならない",
+      "Tidak wajib: ～なくてもいい",
+      "Dugaan dan pendapat: ～と思う・～かもしれない",
+      "Kutipan dan ucapan: ～と言う",
+      "Alasan: ～ので・～のに",
+      "Syarat: ～たら・～なら・～ば",
+      "Perbandingan pola grammar yang mirip",
+      "Checkpoint: tes grammar N4 tanpa melihat catatan"
+    ]
+  },
+  {
+    id:"n4_05",num:"LEVEL 05",title:"N4 Vocabulary & Kanji",
+    items:[
+      "Kosakata aktivitas sehari-hari tingkat N4",
+      "Kosakata pekerjaan, sekolah, dan hubungan sosial",
+      "Kosakata perjalanan, transportasi, dan lokasi",
+      "Kosakata kesehatan, kondisi, dan perasaan",
+      "Kosakata perubahan, kemungkinan, dan keputusan",
+      "Membaca kanji melalui kata gabungan",
+      "Membedakan bacaan kanji berdasarkan kosakata",
+      "Sinonim dan ungkapan dengan makna serupa",
+      "Memilih kosakata sesuai konteks kalimat",
+      "Menentukan penggunaan kata yang tepat",
+      "Mengulang kosakata dengan spaced repetition",
+      "Checkpoint: tes kosakata dan kanji kumulatif"
+    ]
+  },
+  {
+    id:"n4_06",num:"LEVEL 06",title:"Reading Comprehension N4",
+    items:[
+      "Memahami kalimat pendek dengan kanji dasar",
+      "Menentukan ide utama dalam paragraf",
+      "Mencari informasi spesifik dalam teks",
+      "Memahami pesan dan email sederhana",
+      "Membaca pengumuman dan jadwal",
+      "Mencocokkan informasi dari beberapa kalimat",
+      "Memahami hubungan sebab dan akibat",
+      "Menentukan maksud penulis berdasarkan konteks",
+      "Latihan membaca dengan batas waktu",
+      "Checkpoint: simulasi reading N4"
+    ]
+  },
+  {
+    id:"n4_07",num:"LEVEL 07",title:"Listening Comprehension N4",
+    items:[
+      "Mengenali kata kunci dalam percakapan",
+      "Memahami waktu, tempat, dan orang yang terlibat",
+      "Task-based comprehension: tindakan yang harus dilakukan",
+      "Memahami poin penting dalam percakapan",
+      "Memilih respons yang sesuai dengan situasi",
+      "Latihan percakapan pendek tanpa melihat transkrip",
+      "Mendengarkan ulang dan mencatat kesalahan",
+      "Latihan audio dengan kecepatan yang meningkat",
+      "Checkpoint: latihan listening dengan batas waktu"
+    ]
+  },
+  {
+    id:"n4_08",num:"LEVEL 08",title:"JLPT N4 Exam Preparation",
+    items:[
+      "Latihan kosakata dan kanji dengan format JLPT",
+      "Latihan memilih grammar yang sesuai",
+      "Latihan menyusun bagian kalimat",
+      "Latihan grammar dalam konteks teks",
+      "Latihan reading dengan batas waktu",
+      "Latihan listening dengan batas waktu",
+      "Simulasi sesi kosakata: 25 menit",
+      "Simulasi grammar dan reading: 55 menit",
+      "Simulasi listening: 35 menit",
+      "Evaluasi kesalahan dan ulangi materi yang lemah",
+      "Simulasi lengkap dengan semua sesi",
+      "Checkpoint akhir: evaluasi skor dan kesiapan ujian"
+    ]
+  }
+];
+
+function load(k,d){
+  try{
+    const v=localStorage.getItem(k);
+    return v?JSON.parse(v):d;
+  }catch(e){
+    return d;
+  }
+}
+function save(k,v){
+  try{
+    localStorage.setItem(k,JSON.stringify(v));
+  }catch(e){
+    console.warn("Tidak dapat menyimpan data lokal",e);
+  }
+}
+
+let checks=load("sal_lang_checks",{});
+let opens=load("sal_lang_opens",{});
+let notes=load("sal_lang_notes",[]);
 let selTag=null;
 
 function switchTab(id,btn){
-  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('pane-'+id).classList.add('active');
-  btn.classList.add('active');
-  if(id==='nb')renderNotes();
+  document.querySelectorAll(".pane").forEach(p=>p.classList.remove("active"));
+  document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("pane-"+id).classList.add("active");
+  btn.classList.add("active");
+  if(id==="nb")renderNotes();
 }
 
-function countP(p){let done=0;p.items.forEach((_,i)=>{if(checks[p.id+'_'+i])done++});return{done,total:p.items.length}}
+function countP(p){
+  let done=0;
+  p.items.forEach((_,i)=>{
+    if(checks[p.id+"_"+i])done++;
+  });
+  return{done,total:p.items.length};
+}
 
 function updateGlobals(){
   let etd=0,ett=0,jtd=0,jtt=0;
-  EN_PHASES.forEach(p=>{const c=countP(p);etd+=c.done;ett+=c.total});
-  JP_PHASES.forEach(p=>{const c=countP(p);jtd+=c.done;jtt+=c.total});
+  EN_PHASES.forEach(p=>{
+    const c=countP(p);
+    etd+=c.done;ett+=c.total;
+  });
+  JP_PHASES.forEach(p=>{
+    const c=countP(p);
+    jtd+=c.done;jtt+=c.total;
+  });
   const ep=ett?Math.round(etd/ett*100):0;
   const jp=jtt?Math.round(jtd/jtt*100):0;
-  const enTxt=etd+'/'+ett+' ('+ep+'%)';
-  const jpTxt=jtd+'/'+jtt+' ('+jp+'%)';
-  ['gcnt-en','gcnt-en-side'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=enTxt});
-  ['gcnt-jp','gcnt-jp-side'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent=jpTxt});
-  ['gbar-en','gbar-en-side'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=ep+'%'});
-  ['gbar-jp','gbar-jp-side'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.width=jp+'%'});
+  const enTxt=etd+"/"+ett+" ("+ep+"%)";
+  const jpTxt=jtd+"/"+jtt+" ("+jp+"%)";
+  ["gcnt-en","gcnt-en-side"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent=enTxt;
+  });
+  ["gcnt-jp","gcnt-jp-side"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.textContent=jpTxt;
+  });
+  ["gbar-en","gbar-en-side"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.style.width=ep+"%";
+  });
+  ["gbar-jp","gbar-jp-side"].forEach(id=>{
+    const el=document.getElementById(id);
+    if(el)el.style.width=jp+"%";
+  });
 }
 
 function renderPhases(type,phases,containerId){
-  const cont=document.getElementById(containerId);cont.innerHTML='';
+  const cont=document.getElementById(containerId);
+  cont.innerHTML="";
   phases.forEach(p=>{
     const{done,total}=countP(p);
     const isOpen=!!opens[p.id];
-    const el=document.createElement('div');
-    el.className='phase '+type+(done===total?' done-phase':done>0?' active-phase':'')+(isOpen?' open':'');
-    el.id='ph-'+p.id;
+    const el=document.createElement("div");
+    el.className="phase "+type+
+      (done===total?" done-phase":done>0?" active-phase":"")+
+      (isOpen?" open":"");
+    el.id="ph-"+p.id;
     el.innerHTML=`<div class="ph-header" onclick="togglePhase('${p.id}')">
       <span class="ph-num ${type}">${p.num}</span>
       <span class="ph-title">${p.title}</span>
@@ -214,7 +469,13 @@ function renderPhases(type,phases,containerId){
     </div>
     <div class="ph-body">
       <div class="ph-minibar"><div class="ph-minibar-fill ${type}" id="mb-${p.id}" style="width:${total?done/total*100:0}%"></div></div>
-      ${p.items.map((it,i)=>{const chk=!!checks[p.id+'_'+i];return`<div class="item${chk?' chk':''} ${type}" onclick="toggleItem('${type}','${p.id}',${i},this)"><div class="cb">${chk?'✓':''}</div><span class="item-txt">${it}</span></div>`}).join('')}
+      ${p.items.map((it,i)=>{
+        const chk=!!checks[p.id+"_"+i];
+        return `<div class="item${chk?" chk":""} ${type}" onclick="toggleItem('${type}','${p.id}',${i},this)">
+          <div class="cb">${chk?"✓":""}</div>
+          <span class="item-txt">${it}</span>
+        </div>`;
+      }).join("")}
     </div>`;
     cont.appendChild(el);
   });
@@ -222,51 +483,400 @@ function renderPhases(type,phases,containerId){
 }
 
 function togglePhase(id){
-  opens[id]=!opens[id];save('sal_lang_opens',opens);
-  document.getElementById('ph-'+id).classList.toggle('open',opens[id]);
+  opens[id]=!opens[id];
+  save("sal_lang_opens",opens);
+  document.getElementById("ph-"+id).classList.toggle("open",opens[id]);
 }
 
 function toggleItem(type,pid,idx,el){
-  const key=pid+'_'+idx;checks[key]=!checks[key];save('sal_lang_checks',checks);
-  el.classList.toggle('chk',checks[key]);
-  el.querySelector('.cb').textContent=checks[key]?'✓':'';
-  const phases=type==='en'?EN_PHASES:JP_PHASES;
+  const key=pid+"_"+idx;
+  checks[key]=!checks[key];
+  save("sal_lang_checks",checks);
+  el.classList.toggle("chk",checks[key]);
+  el.querySelector(".cb").textContent=checks[key]?"✓":"";
+  const phases=type==="en"?EN_PHASES:JP_PHASES;
   const p=phases.find(x=>x.id===pid);
   const{done,total}=countP(p);
-  document.getElementById('stat-'+pid).textContent=done+'/'+total;
-  document.getElementById('mb-'+pid).style.width=(total?done/total*100:0)+'%';
+  document.getElementById("stat-"+pid).textContent=done+"/"+total;
+  document.getElementById("mb-"+pid).style.width=(total?done/total*100:0)+"%";
+  const phaseEl=document.getElementById("ph-"+pid);
+  phaseEl.classList.toggle("done-phase",done===total);
+  phaseEl.classList.toggle("active-phase",done>0&&done<total);
   updateGlobals();
 }
 
 function toggleTag(btn){
   const t=btn.dataset.t;
-  if(selTag===t){selTag=null;btn.classList.remove('sel')}
-  else{document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));selTag=t;btn.classList.add('sel')}
+  if(selTag===t){
+    selTag=null;
+    btn.classList.remove("sel");
+  }else{
+    document.querySelectorAll(".nb-tag").forEach(b=>b.classList.remove("sel"));
+    selTag=t;
+    btn.classList.add("sel");
+  }
 }
 
 function saveNote(){
-  const txt=document.getElementById('nb-text').value.trim();if(!txt)return;
-  const note={id:Date.now(),text:txt,type:selTag||'plan',date:new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};
-  notes.unshift(note);save('sal_lang_notes',notes);
-  document.getElementById('nb-text').value='';
-  document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));selTag=null;
+  const txt=document.getElementById("nb-text").value.trim();
+  if(!txt)return;
+  const note={
+    id:Date.now(),
+    text:txt,
+    type:selTag||"plan",
+    date:new Date().toLocaleDateString("id-ID",{
+      weekday:"short",day:"numeric",month:"short",
+      hour:"2-digit",minute:"2-digit"
+    })
+  };
+  notes.unshift(note);
+  save("sal_lang_notes",notes);
+  document.getElementById("nb-text").value="";
+  document.querySelectorAll(".nb-tag").forEach(b=>b.classList.remove("sel"));
+  selTag=null;
   renderNotes();
 }
 
-function deleteNote(id){notes=notes.filter(n=>n.id!==id);save('sal_lang_notes',notes);renderNotes()}
-
-const TL={skip:'⛔ Skip',done:'✅ Selesai',struggle:'😤 Stuck',plan:'📌 Plan',insight:'💡 Insight'};
-function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;')}
-
-function renderNotes(){
-  const list=document.getElementById('nb-list');
-  if(!notes.length){list.innerHTML='<div class="empty-notes">belum ada catatan<br><span style="color:var(--muted2)">tulis dulu di atas</span></div>';return}
-  list.innerHTML=notes.map(n=>`<div class="note-card type-${n.type}"><div class="note-meta"><span class="note-type">${TL[n.type]||n.type}</span><span class="note-date">${n.date}</span></div><button class="note-del" onclick="deleteNote(${n.id})">×</button><div class="note-text">${esc(n.text)}</div></div>`).join('');
+function deleteNote(id){
+  notes=notes.filter(n=>n.id!==id);
+  save("sal_lang_notes",notes);
+  renderNotes();
 }
 
-document.getElementById('nb-date').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
-renderPhases('en',EN_PHASES,'roadmap-en');
-renderPhases('jp',JP_PHASES,'roadmap-jp');
+const TL={
+  skip:"⛔ Skip",
+  done:"✅ Selesai",
+  struggle:"😤 Stuck",
+  plan:"📌 Plan",
+  insight:"💡 Insight"
+};
+
+function esc(s){
+  return String(s)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
+function renderNotes(){
+  const list=document.getElementById("nb-list");
+  if(!notes.length){
+    list.innerHTML='<div class="empty-notes">belum ada catatan<br><span style="color:var(--muted2)">tulis dulu di atas</span></div>';
+    return;
+  }
+  list.innerHTML=notes.map(n=>
+    `<div class="note-card type-${esc(n.type)}">
+      <div class="note-meta">
+        <span class="note-type">${esc(TL[n.type]||n.type)}</span>
+        <span class="note-date">${esc(n.date)}</span>
+      </div>
+      <button class="note-del" onclick="deleteNote(${Number(n.id)})">×</button>
+      <div class="note-text">${esc(n.text)}</div>
+    </div>`
+  ).join("");
+}
+
+document.getElementById("nb-date").textContent=
+  new Date().toLocaleDateString("id-ID",{
+    weekday:"long",day:"numeric",month:"long",year:"numeric"
+  }).toUpperCase();
+
+
+// SALMAN_KANJI_LAB_V1
+const KL_DATA = [
+ {k:"日",l:"N5",m:"hari; matahari",on:"ニチ・ジツ",kun:"ひ・か",v:"日本（にほん）— Jepang",s:"日本へ行きます。— Saya pergi ke Jepang."},
+ {k:"月",l:"N5",m:"bulan",on:"ゲツ・ガツ",kun:"つき",v:"月曜日（げつようび）— Senin",s:"月曜日に学校へ行きます。— Saya pergi ke sekolah hari Senin."},
+ {k:"火",l:"N5",m:"api",on:"カ",kun:"ひ",v:"火曜日（かようび）— Selasa",s:"今日は火曜日です。— Hari ini hari Selasa."},
+ {k:"水",l:"N5",m:"air",on:"スイ",kun:"みず",v:"水（みず）— air",s:"水を飲みます。— Saya minum air."},
+ {k:"木",l:"N5",m:"pohon; kayu",on:"モク・ボク",kun:"き",v:"木（き）— pohon",s:"あそこに木があります。— Ada pohon di sana."},
+ {k:"金",l:"N5",m:"emas; uang",on:"キン",kun:"かね",v:"お金（おかね）— uang",s:"お金がありません。— Saya tidak punya uang."},
+ {k:"土",l:"N5",m:"tanah",on:"ド・ト",kun:"つち",v:"土曜日（どようび）— Sabtu",s:"土曜日は休みです。— Sabtu libur."},
+ {k:"人",l:"N5",m:"orang",on:"ジン・ニン",kun:"ひと",v:"日本人（にほんじん）— orang Jepang",s:"あの人は先生です。— Orang itu guru."},
+ {k:"山",l:"N5",m:"gunung",on:"サン",kun:"やま",v:"富士山（ふじさん）— Gunung Fuji",s:"山に登ります。— Saya mendaki gunung."},
+ {k:"川",l:"N5",m:"sungai",on:"セン",kun:"かわ",v:"川（かわ）— sungai",s:"川の水はきれいです。— Air sungainya bersih."},
+ {k:"田",l:"N5",m:"sawah",on:"デン",kun:"た",v:"田中（たなか）— Tanaka",s:"田中さんは学生です。— Tanaka adalah siswa."},
+ {k:"口",l:"N5",m:"mulut",on:"コウ・ク",kun:"くち",v:"入口（いりぐち）— pintu masuk",s:"入口はあそこです。— Pintu masuk ada di sana."},
+ {k:"目",l:"N5",m:"mata",on:"モク",kun:"め",v:"目（め）— mata",s:"目が痛いです。— Mata saya sakit."},
+ {k:"耳",l:"N5",m:"telinga",on:"ジ",kun:"みみ",v:"耳（みみ）— telinga",s:"耳で聞きます。— Mendengar dengan telinga."},
+ {k:"手",l:"N5",m:"tangan",on:"シュ",kun:"て",v:"手紙（てがみ）— surat",s:"手紙を書きます。— Saya menulis surat."},
+ {k:"足",l:"N5",m:"kaki; cukup",on:"ソク",kun:"あし・た",v:"足（あし）— kaki",s:"足が痛いです。— Kaki saya sakit."},
+ {k:"力",l:"N5",m:"kekuatan",on:"リョク・リキ",kun:"ちから",v:"力（ちから）— kekuatan",s:"力があります。— Saya punya kekuatan."},
+ {k:"大",l:"N5",m:"besar",on:"ダイ・タイ",kun:"おお",v:"大学（だいがく）— universitas",s:"大学で勉強します。— Saya belajar di universitas."},
+ {k:"小",l:"N5",m:"kecil",on:"ショウ",kun:"ちい・こ",v:"小さい（ちいさい）— kecil",s:"小さい犬がいます。— Ada anjing kecil."},
+ {k:"中",l:"N5",m:"dalam; tengah",on:"チュウ",kun:"なか",v:"中国（ちゅうごく）— Tiongkok",s:"箱の中に本があります。— Ada buku di dalam kotak."},
+ {k:"上",l:"N5",m:"atas",on:"ジョウ",kun:"うえ・あ",v:"上手（じょうず）— mahir",s:"机の上に本があります。— Ada buku di atas meja."},
+ {k:"下",l:"N5",m:"bawah",on:"カ・ゲ",kun:"した・さ",v:"下手（へた）— tidak mahir",s:"猫は机の下にいます。— Kucing ada di bawah meja."},
+ {k:"左",l:"N5",m:"kiri",on:"サ",kun:"ひだり",v:"左（ひだり）— kiri",s:"左に曲がります。— Belok ke kiri."},
+ {k:"右",l:"N5",m:"kanan",on:"ウ・ユウ",kun:"みぎ",v:"右（みぎ）— kanan",s:"右を見てください。— Tolong lihat ke kanan."},
+ {k:"東",l:"N5",m:"timur",on:"トウ",kun:"ひがし",v:"東京（とうきょう）— Tokyo",s:"東京に住んでいます。— Saya tinggal di Tokyo."},
+ {k:"西",l:"N5",m:"barat",on:"セイ・サイ",kun:"にし",v:"西口（にしぐち）— pintu barat",s:"西口で会いましょう。— Mari bertemu di pintu barat."},
+ {k:"北",l:"N5",m:"utara",on:"ホク",kun:"きた",v:"北海道（ほっかいどう）— Hokkaido",s:"北へ行きます。— Saya pergi ke utara."},
+ {k:"南",l:"N5",m:"selatan",on:"ナン",kun:"みなみ",v:"南口（みなみぐち）— pintu selatan",s:"南の町です。— Kota di selatan."},
+ {k:"学",l:"N5",m:"belajar",on:"ガク",kun:"まな",v:"学生（がくせい）— pelajar",s:"日本語を学びます。— Saya belajar bahasa Jepang."},
+ {k:"生",l:"N5",m:"hidup; lahir",on:"セイ・ショウ",kun:"い・う・なま",v:"先生（せんせい）— guru",s:"先生に聞きます。— Saya bertanya kepada guru."},
+ {k:"先",l:"N5",m:"sebelum; depan",on:"セン",kun:"さき",v:"先生（せんせい）— guru",s:"先に行ってください。— Silakan pergi duluan."},
+ {k:"年",l:"N5",m:"tahun",on:"ネン",kun:"とし",v:"今年（ことし）— tahun ini",s:"今年は忙しいです。— Tahun ini sibuk."},
+ {k:"時",l:"N5",m:"waktu; jam",on:"ジ",kun:"とき",v:"時間（じかん）— waktu",s:"七時に起きます。— Saya bangun pukul tujuh."},
+ {k:"間",l:"N5",m:"jarak; selama",on:"カン・ケン",kun:"あいだ・ま",v:"時間（じかん）— waktu",s:"二時間勉強しました。— Saya belajar selama dua jam."},
+ {k:"今",l:"N5",m:"sekarang",on:"コン・キン",kun:"いま",v:"今日（きょう）— hari ini",s:"今、勉強しています。— Saya sedang belajar sekarang."},
+ {k:"毎",l:"N5",m:"setiap",on:"マイ",kun:"",v:"毎日（まいにち）— setiap hari",s:"毎日日本語を勉強します。— Saya belajar bahasa Jepang setiap hari."},
+ {k:"語",l:"N5",m:"bahasa; kata",on:"ゴ",kun:"かた",v:"日本語（にほんご）— bahasa Jepang",s:"日本語が好きです。— Saya suka bahasa Jepang."},
+ {k:"読",l:"N5",m:"membaca",on:"ドク・トク",kun:"よ",v:"読む（よむ）— membaca",s:"本を読みます。— Saya membaca buku."},
+ {k:"書",l:"N5",m:"menulis",on:"ショ",kun:"か",v:"書く（かく）— menulis",s:"名前を書いてください。— Tolong tulis nama."},
+ {k:"聞",l:"N5",m:"mendengar; bertanya",on:"ブン・モン",kun:"き",v:"聞く（きく）— mendengar/bertanya",s:"音楽を聞きます。— Saya mendengarkan musik."},
+ {k:"食",l:"N5",m:"makan",on:"ショク",kun:"た",v:"食べる（たべる）— makan",s:"朝ご飯を食べます。— Saya makan sarapan."},
+ {k:"飲",l:"N5",m:"minum",on:"イン",kun:"の",v:"飲む（のむ）— minum",s:"水を飲んでください。— Tolong minum air."},
+ {k:"行",l:"N5",m:"pergi",on:"コウ・ギョウ",kun:"い・ゆ・おこな",v:"行く（いく）— pergi",s:"学校へ行きます。— Saya pergi ke sekolah."},
+ {k:"来",l:"N5",m:"datang",on:"ライ",kun:"く",v:"来る（くる）— datang",s:"友達が来ます。— Teman datang."},
+ {k:"見",l:"N5",m:"melihat",on:"ケン",kun:"み",v:"見る（みる）— melihat",s:"映画を見ます。— Saya menonton film."},
+ {k:"休",l:"N5",m:"istirahat; libur",on:"キュウ",kun:"やす",v:"休み（やすみ）— libur",s:"日曜日に休みます。— Saya beristirahat hari Minggu."},
+ {k:"買",l:"N5",m:"membeli",on:"バイ",kun:"か",v:"買う（かう）— membeli",s:"パンを買います。— Saya membeli roti."},
+ {k:"電",l:"N5",m:"listrik",on:"デン",kun:"",v:"電車（でんしゃ）— kereta",s:"電車で行きます。— Saya pergi naik kereta."},
+ {k:"車",l:"N5",m:"kendaraan; mobil",on:"シャ",kun:"くるま",v:"電車（でんしゃ）— kereta",s:"車があります。— Saya punya mobil."},
+ {k:"道",l:"N4",m:"jalan; cara",on:"ドウ",kun:"みち",v:"道（みち）— jalan",s:"この道をまっすぐ行きます。— Jalan lurus di jalan ini."},
+ {k:"通",l:"N4",m:"melewati; berkomunikasi",on:"ツウ・ツ",kun:"とお・かよ",v:"通学（つうがく）— pergi ke sekolah",s:"毎日電車で通学します。— Saya pergi ke sekolah naik kereta setiap hari."},
+ {k:"場",l:"N4",m:"tempat",on:"ジョウ",kun:"ば",v:"場所（ばしょ）— tempat",s:"待ち合わせの場所です。— Ini tempat janji bertemu."},
+ {k:"所",l:"N4",m:"tempat",on:"ショ",kun:"ところ",v:"住所（じゅうしょ）— alamat",s:"住所を書いてください。— Tolong tulis alamat."},
+ {k:"事",l:"N4",m:"hal; urusan",on:"ジ・ズ",kun:"こと",v:"仕事（しごと）— pekerjaan",s:"仕事があります。— Saya ada pekerjaan."},
+ {k:"思",l:"N4",m:"berpikir; merasa",on:"シ",kun:"おも",v:"思う（おもう）— berpikir",s:"そう思います。— Saya berpikir begitu."},
+ {k:"知",l:"N4",m:"tahu",on:"チ",kun:"し",v:"知る（しる）— mengetahui",s:"その人を知っています。— Saya mengenal orang itu."},
+ {k:"作",l:"N4",m:"membuat",on:"サク・サ",kun:"つく",v:"作る（つくる）— membuat",s:"晩ご飯を作ります。— Saya membuat makan malam."},
+ {k:"使",l:"N4",m:"menggunakan",on:"シ",kun:"つか",v:"使う（つかう）— menggunakan",s:"パソコンを使います。— Saya menggunakan komputer."},
+ {k:"始",l:"N4",m:"memulai",on:"シ",kun:"はじ",v:"始まる（はじまる）— dimulai",s:"授業は九時に始まります。— Pelajaran dimulai pukul sembilan."},
+ {k:"終",l:"N4",m:"berakhir",on:"シュウ",kun:"お",v:"終わる（おわる）— berakhir",s:"仕事は五時に終わります。— Pekerjaan selesai pukul lima."},
+ {k:"開",l:"N4",m:"membuka",on:"カイ",kun:"あ・ひら",v:"開ける（あける）— membuka",s:"窓を開けます。— Saya membuka jendela."},
+ {k:"閉",l:"N4",m:"menutup",on:"ヘイ",kun:"し・と",v:"閉める（しめる）— menutup",s:"ドアを閉めてください。— Tolong tutup pintu."},
+ {k:"住",l:"N4",m:"tinggal",on:"ジュウ",kun:"す",v:"住む（すむ）— tinggal",s:"東京に住んでいます。— Saya tinggal di Tokyo."},
+ {k:"度",l:"N4",m:"kali; derajat",on:"ド・ト",kun:"たび",v:"今度（こんど）— kali ini/nanti",s:"もう一度お願いします。— Sekali lagi, tolong."},
+ {k:"持",l:"N4",m:"membawa; memiliki",on:"ジ",kun:"も",v:"持つ（もつ）— membawa/memiliki",s:"傘を持っています。— Saya membawa payung."},
+ {k:"待",l:"N4",m:"menunggu",on:"タイ",kun:"ま",v:"待つ（まつ）— menunggu",s:"ここで待ってください。— Tolong tunggu di sini."},
+ {k:"送",l:"N4",m:"mengirim; mengantar",on:"ソウ",kun:"おく",v:"送る（おくる）— mengirim",s:"メールを送ります。— Saya mengirim email."},
+ {k:"働",l:"N4",m:"bekerja",on:"ドウ",kun:"はたら",v:"働く（はたらく）— bekerja",s:"銀行で働いています。— Saya bekerja di bank."},
+ {k:"強",l:"N4",m:"kuat",on:"キョウ・ゴウ",kun:"つよ",v:"強い（つよい）— kuat",s:"風が強いです。— Anginnya kencang."},
+ {k:"弱",l:"N4",m:"lemah",on:"ジャク",kun:"よわ",v:"弱い（よわい）— lemah",s:"体が弱いです。— Tubuhnya lemah."},
+ {k:"近",l:"N4",m:"dekat",on:"キン",kun:"ちか",v:"近い（ちかい）— dekat",s:"駅は近いです。— Stasiunnya dekat."},
+ {k:"遠",l:"N4",m:"jauh",on:"エン",kun:"とお",v:"遠い（とおい）— jauh",s:"学校は遠いです。— Sekolahnya jauh."},
+ {k:"早",l:"N4",m:"awal; cepat",on:"ソウ・サッ",kun:"はや",v:"早い（はやい）— cepat/awal",s:"今日は早く起きました。— Hari ini saya bangun lebih awal."},
+ {k:"遅",l:"N4",m:"terlambat; lambat",on:"チ",kun:"おそ・おく",v:"遅い（おそい）— lambat",s:"バスが遅れています。— Bus terlambat."},
+ {k:"多",l:"N4",m:"banyak",on:"タ",kun:"おお",v:"多い（おおい）— banyak",s:"人が多いです。— Banyak orang."},
+ {k:"少",l:"N4",m:"sedikit",on:"ショウ",kun:"すく・すこ",v:"少し（すこし）— sedikit",s:"少し待ってください。— Tunggu sebentar."},
+ {k:"同",l:"N4",m:"sama",on:"ドウ",kun:"おな",v:"同じ（おなじ）— sama",s:"同じ本を読みました。— Saya membaca buku yang sama."},
+ {k:"別",l:"N4",m:"berbeda; memisahkan",on:"ベツ",kun:"わか",v:"別々（べつべつ）— masing-masing",s:"別の方法を考えます。— Saya memikirkan cara lain."},
+ {k:"正",l:"N4",m:"benar",on:"セイ・ショウ",kun:"ただ・まさ",v:"正しい（ただしい）— benar",s:"正しい答えを選びます。— Saya memilih jawaban yang benar."},
+ {k:"有",l:"N4",m:"ada; memiliki",on:"ユウ・ウ",kun:"あ",v:"有名（ゆうめい）— terkenal",s:"有名な店です。— Ini toko terkenal."},
+ {k:"無",l:"N4",m:"tidak ada; tanpa",on:"ム・ブ",kun:"な",v:"無料（むりょう）— gratis",s:"入場は無料です。— Masuk gratis."},
+ {k:"安",l:"N4",m:"murah; tenang",on:"アン",kun:"やす",v:"安い（やすい）— murah",s:"この店は安いです。— Toko ini murah."},
+ {k:"心",l:"N4",m:"hati; pikiran",on:"シン",kun:"こころ",v:"安心（あんしん）— lega/tenang",s:"安心してください。— Tenanglah."},
+ {k:"体",l:"N4",m:"tubuh",on:"タイ・テイ",kun:"からだ",v:"体（からだ）— tubuh",s:"体に気をつけてください。— Jaga kesehatan."},
+ {k:"病",l:"N4",m:"penyakit",on:"ビョウ",kun:"や",v:"病院（びょういん）— rumah sakit",s:"病院へ行きます。— Saya pergi ke rumah sakit."},
+ {k:"院",l:"N4",m:"institusi; gedung",on:"イン",kun:"",v:"病院（びょういん）— rumah sakit",s:"病院は駅の近くです。— Rumah sakit dekat stasiun."},
+ {k:"医",l:"N4",m:"medis; dokter",on:"イ",kun:"",v:"医者（いしゃ）— dokter",s:"医者に聞きます。— Saya bertanya kepada dokter."},
+ {k:"薬",l:"N4",m:"obat",on:"ヤク",kun:"くすり",v:"薬（くすり）— obat",s:"薬を飲みました。— Saya sudah minum obat."},
+ {k:"料",l:"N4",m:"biaya; bahan",on:"リョウ",kun:"",v:"料理（りょうり）— masakan",s:"日本料理が好きです。— Saya suka masakan Jepang."},
+ {k:"理",l:"N4",m:"alasan; logika",on:"リ",kun:"",v:"料理（りょうり）— masakan",s:"料理を作ります。— Saya memasak."},
+ {k:"題",l:"N4",m:"topik; soal",on:"ダイ",kun:"",v:"問題（もんだい）— soal/masalah",s:"問題を読んでください。— Tolong baca soalnya."},
+ {k:"答",l:"N4",m:"jawaban",on:"トウ",kun:"こた",v:"答える（こたえる）— menjawab",s:"質問に答えます。— Saya menjawab pertanyaan."},
+ {k:"質",l:"N4",m:"kualitas; sifat",on:"シツ・シチ",kun:"",v:"質問（しつもん）— pertanyaan",s:"質問があります。— Saya punya pertanyaan."},
+ {k:"問",l:"N4",m:"bertanya; masalah",on:"モン",kun:"と",v:"問題（もんだい）— masalah",s:"先生に質問します。— Saya bertanya kepada guru."},
+ {k:"教",l:"N4",m:"mengajar",on:"キョウ",kun:"おし",v:"教える（おしえる）— mengajar/memberi tahu",s:"日本語を教えてください。— Tolong ajari saya bahasa Jepang."},
+ {k:"習",l:"N4",m:"belajar; berlatih",on:"シュウ",kun:"なら",v:"習う（ならう）— belajar",s:"ピアノを習っています。— Saya belajar piano."},
+ {k:"試",l:"N4",m:"mencoba; ujian",on:"シ",kun:"こころ・ため",v:"試験（しけん）— ujian",s:"明日は試験です。— Besok ujian."},
+ {k:"験",l:"N4",m:"pengalaman; pengujian",on:"ケン・ゲン",kun:"",v:"経験（けいけん）— pengalaman",s:"いい経験になりました。— Ini menjadi pengalaman yang baik."},
+ {k:"世",l:"N4",m:"dunia; generasi",on:"セイ・セ",kun:"よ",v:"世界（せかい）— dunia",s:"世界を旅行したいです。— Saya ingin bepergian keliling dunia."},
+ {k:"界",l:"N4",m:"dunia; batas",on:"カイ",kun:"",v:"世界（せかい）— dunia",s:"世界のニュースを読みます。— Saya membaca berita dunia."}
+];
+
+let klProgress = load("sal_kanji_progress", {});
+let klLevel = "ALL";
+let klList = [];
+let klIndex = 0;
+let klRevealed = false;
+let klQuiz = [];
+let klQIndex = 0;
+let klScore = 0;
+let klAnswered = false;
+
+function klEsc(s) {
+  return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
+function klFiltered() {
+  const q = (document.getElementById("kl-search").value || "").trim().toLowerCase();
+  return KL_DATA.filter(x =>
+    (klLevel === "ALL" || x.l === klLevel) &&
+    (!q || [x.k,x.m,x.on,x.kun,x.v,x.s,x.l].join(" ").toLowerCase().includes(q)) &&
+    !false
+  );
+}
+function klRefresh() {
+  klList = klFiltered();
+  if (klIndex >= klList.length) klIndex = 0;
+  klRender();
+  klUpdateStats();
+}
+function klUpdateStats() {
+  const total = KL_DATA.length;
+  const learned = KL_DATA.filter(x => klProgress[x.k] === true).length;
+  const el = document.getElementById("kl-stats");
+  if (el) el.textContent = `Hafal ${learned}/${total} kanji · ${Math.round(learned/total*100)}%`;
+  const bar = document.getElementById("kl-progress");
+  if (bar) bar.style.width = (learned/total*100) + "%";
+}
+function klRender() {
+  const card = document.getElementById("kl-card");
+  const count = document.getElementById("kl-count");
+  if (!klList.length) {
+    card.innerHTML = '<div class="kl-sub">Tidak ada hasil. Coba ubah pencarian atau filter.</div>';
+    count.textContent = "0 kartu";
+    return;
+  }
+  const x = klList[klIndex];
+  let detail = "";
+  if (klRevealed) {
+    detail = `<div class="kl-detail">
+      <b>Arti:</b> ${klEsc(x.m)}<br>
+      <b>Onyomi:</b> ${klEsc(x.on || "—")}<br>
+      <b>Kunyomi:</b> ${klEsc(x.kun || "—")}<br>
+      <b>Kosakata:</b> ${klEsc(x.v)}<br>
+      <b>Contoh:</b> ${klEsc(x.s)}<br>
+      <b>Status:</b> ${klProgress[x.k] ? "✓ Sudah hafal" : "Belum ditandai hafal"}
+    </div>`;
+  }
+  card.innerHTML = `<span class="kl-tag">${klEsc(x.l)}</span>
+    <div class="kl-kanji">${klEsc(x.k)}</div>
+    ${klRevealed ? `<div class="kl-meaning">${klEsc(x.m)}</div>
+    <div class="kl-reading">音読み: ${klEsc(x.on || "—")}<br>訓読み: ${klEsc(x.kun || "—")}</div>${detail}`
+    : '<div class="kl-sub">Coba ingat arti dan bacaannya sebelum melihat jawaban.</div>'}`;
+  count.textContent = `Kartu ${klIndex+1}/${klList.length} · ${klProgress[x.k] ? "✓ Hafal" : "Belum hafal"}`;
+}
+function klFlip() {
+  if (!klList.length) return;
+  klRevealed = !klRevealed;
+  klRender();
+}
+function klNext() {
+  if (!klList.length) return;
+  klIndex = (klIndex + 1) % klList.length;
+  klRevealed = false;
+  klRender();
+}
+function klResetCard() {
+  klRevealed = false;
+  klRender();
+}
+function klMark() {
+  if (!klList.length) return;
+  const x = klList[klIndex];
+  klProgress[x.k] = !klProgress[x.k];
+  save("sal_kanji_progress", klProgress);
+  klUpdateStats();
+  klRender();
+}
+function klShowOnlyUnlearned() {
+  document.getElementById("kl-search").value = "";
+  klList = KL_DATA.filter(x => (klLevel === "ALL" || x.l === klLevel) && !klProgress[x.k]);
+  klIndex = 0;
+  klRevealed = false;
+  klRender();
+}
+function klShowAll() {
+  document.getElementById("kl-search").value = "";
+  klRefresh();
+}
+function klShuffle(a) {
+  const b = a.slice();
+  for (let i=b.length-1; i>0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [b[i],b[j]] = [b[j],b[i]];
+  }
+  return b;
+}
+function klQuizStart() {
+  const pool = klFiltered();
+  if (pool.length < 2) {
+    alert("Pilih minimal dua kanji untuk memulai kuis.");
+    return;
+  }
+  klQuiz = klShuffle(pool).slice(0, Math.min(10,pool.length));
+  klQIndex = 0;
+  klScore = 0;
+  klAnswered = false;
+  document.getElementById("kl-quiz").classList.remove("kl-hidden");
+  klQuizRender();
+  document.getElementById("kl-quiz").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function klQuizRender() {
+  const x = klQuiz[klQIndex];
+  if (!x) return;
+  klAnswered = false;
+  document.getElementById("kl-q-count").textContent =
+    `Soal ${klQIndex+1}/${klQuiz.length} · Skor ${klScore}`;
+  document.getElementById("kl-q-question").innerHTML =
+    `Apa arti kanji <span class="kl-kanji">${klEsc(x.k)}</span>?`;
+  const wrong = klShuffle(KL_DATA.filter(y=>y.k!==x.k)).slice(0,3);
+  const options = klShuffle([x,...wrong]).slice(0,4);
+  document.getElementById("kl-q-options").innerHTML = options.map((o,i)=>
+    `<button class="kl-btn kl-option" data-kanji="${klEsc(o.k)}"
+      onclick="klQuizAnswer('${klEsc(o.k)}')">${klEsc(o.m)}</button>`
+  ).join("");
+  document.getElementById("kl-q-feedback").textContent = "";
+  document.getElementById("kl-q-feedback").className = "kl-feedback";
+  const next = document.getElementById("kl-q-next");
+  next.disabled = true;
+  next.textContent = klQIndex === klQuiz.length-1 ? "Lihat hasil" : "Soal berikutnya →";
+}
+function klQuizAnswer(k) {
+  if (klAnswered) return;
+  klAnswered = true;
+  const x = klQuiz[klQIndex];
+  const correct = k === x.k;
+  if (correct) klScore++;
+  document.querySelectorAll("#kl-q-options button").forEach(b=>{
+    b.disabled = true;
+    if (b.dataset.kanji === x.k) b.style.borderColor = "#00d68f";
+    if (b.dataset.kanji === k && !correct) b.style.borderColor = "#ff6b6b";
+  });
+  const fb = document.getElementById("kl-q-feedback");
+  fb.className = "kl-feedback " + (correct ? "good" : "bad");
+  fb.textContent = `${correct ? "Benar!" : "Belum tepat."} Jawaban: ${x.k} — ${x.m}. Kosakata: ${x.v}. ${x.s}`;
+  document.getElementById("kl-q-count").textContent =
+    `Soal ${klQIndex+1}/${klQuiz.length} · Skor ${klScore}`;
+  document.getElementById("kl-q-next").disabled = false;
+}
+function klQuizNext() {
+  if (!klAnswered) return;
+  if (klQIndex < klQuiz.length-1) {
+    klQIndex++;
+    klQuizRender();
+  } else {
+    document.getElementById("kl-q-question").innerHTML =
+      `Kuis selesai!<br><span class="kl-kanji">${klScore}/${klQuiz.length}</span>`;
+    document.getElementById("kl-q-options").innerHTML = "";
+    document.getElementById("kl-q-feedback").textContent =
+      `Nilai ${Math.round(klScore/klQuiz.length*100)}%. Ulangi kuis untuk latihan lagi.`;
+    document.getElementById("kl-q-feedback").className = "kl-feedback";
+    document.getElementById("kl-q-count").textContent = "HASIL AKHIR";
+    document.getElementById("kl-q-next").disabled = true;
+  }
+}
+document.getElementById("kl-level").addEventListener("change",e=>{
+  klLevel = e.target.value;
+  klIndex = 0;
+  klRevealed = false;
+  klRefresh();
+});
+document.getElementById("kl-search").addEventListener("input",()=>{
+  klIndex = 0;
+  klRevealed = false;
+  klRefresh();
+});
+klRefresh();
+// END SALMAN_KANJI_LAB_V1
+
+renderPhases("en",EN_PHASES,"roadmap-en");
+renderPhases("jp",JP_PHASES,"roadmap-jp");
 </script>
 </body>
 </html>
