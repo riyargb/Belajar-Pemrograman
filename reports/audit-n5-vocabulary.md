@@ -106,12 +106,25 @@ Pada putaran ini, contoh dan keterangan makna disunting lagi di kedua batch. Per
 
 Perubahan ini merupakan tinjauan editorial berbasis pemeriksaan internal. Bacaan seluruh kanji tetap memerlukan verifikasi bahasa khusus; lolos pemeriksaan struktur tidak otomatis membuktikan bahwa setiap bacaan benar.
 
+### Putaran pemeriksaan lanjutan — 13 Oktober 2026
+
+Penyuntingan tambahan pada putaran ini:
+
+- **Batch 1:** 15 entri diperbaiki, termasuk contoh sapaan, kata ganti, `会社員`, dan beberapa contoh dasar yang terlalu pendek atau kurang kontekstual.
+- **Batch 2:** 31 entri diperbaiki, termasuk kosakata rumah tangga, buah, makanan, anggota tubuh, kesehatan, komunikasi, serta `無料` agar konteks “gratis” lebih alami.
+- Kolom contoh, bacaan kana, dan terjemahan Indonesia diperbarui bersama-sama pada entri yang disunting.
+- Skrip audit diperbarui: kandidat kata tambahan yang perlu dibandingkan dengan bahan belajar N5 sekarang mencakup istilah seperti `薬局`, `警察`, `新幹線`, `経済`, dan `丁寧`; kandidat tersebut bukan vonis bahwa kata-kata itu pasti di luar N5.
+
+### Dasar klasifikasi tingkat JLPT
+
+Penyelenggara JLPT menjelaskan bahwa daftar kosakata, kanji, dan tata bahasa dalam *Test Content Specifications* tidak lagi diterbitkan setelah revisi 2010. Karena itu, daftar ini diperlakukan sebagai **materi belajar berorientasi N5 dengan kosakata tambahan**, bukan daftar resmi yang menjamin setiap entri pasti masuk N5. Rujukan resmi: [JLPT FAQ — Why is “Test Content Specifications” no longer available?](https://www.jlpt.jp/e/faq/index.html) dan [ringkasan kemampuan bahasa tiap level](https://www.jlpt.jp/e/about/levelsummary.html).
+
 ## Batas audit
 
 - Skrip memeriksa jumlah, keunikan, kolom, kategori, bacaan, tanda baca, konsistensi katakana, dan urutan pemuatan data.
 - Skrip tidak bisa memastikan kebenaran setiap terjemahan, nuansa pemakaian, atau tingkat JLPT secara otomatis.
 - Integrasi sudah diperiksa secara statis; pemeriksaan ini bukan pengganti uji klik dan uji tampilan langsung di browser.
-- Klaim yang aman saat ini: struktur 800 entri lulus audit otomatis, perbaikan yang teridentifikasi sudah diterapkan, dan 33 kandidat level ditandai untuk tinjauan lanjutan. Jangan menganggap hasil ini sebagai sertifikasi linguistik 100%.
+- Klaim yang aman saat ini: struktur 800 entri lulus audit otomatis, perbaikan yang teridentifikasi sudah diterapkan, dan kandidat kosakata tambahan ditandai untuk tinjauan lanjutan; daftar tersebut telah diperbarui di skrip audit dan bukan klasifikasi resmi. Jangan menganggap hasil ini sebagai sertifikasi linguistik 100%.
 
 ## File terkait
 
