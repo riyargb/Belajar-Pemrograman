@@ -24,8 +24,9 @@ const errors = [];
 const appScripts = [
   '<script src="data/vocabulary-n5-batch1.js"></script>',
   '<script src="data/vocabulary-n5-batch2.js"></script>',
+  ...Array.from({ length: 16 }, (_, i) => '<script src="data/vocabulary-n4-batch' + (i + 1) + '.js"></script>'),
 ];
-const dataLoader = 'const data = [...(typeof VOCAB_N5_BATCH1';
+const dataLoader = 'const datasets = {';
 const loaderIndex = html.indexOf(dataLoader);
 assert.ok(loaderIndex >= 0, "Vocabulary UI data loader must exist in english-roadmap.html");
 for (const scriptTag of appScripts) {
@@ -34,9 +35,9 @@ for (const scriptTag of appScripts) {
   assert.ok(scriptIndex < loaderIndex, `Vocabulary data must load before the UI loader: ${scriptTag}`);
 }
 const requiredUiIds = [
-  "vocab-lab", "vl-stats", "vl-progress", "vl-search", "vl-category",
+  "vocab-lab", "vl-stats", "vl-progress", "vl-search", "vl-category", "vl-level",
   "vl-card", "vl-count", "vl-reveal", "vl-next", "vl-mark",
-  "vl-unlearned", "vl-all", "vl-list-toggle", "vl-list",
+  "vl-unlearned", "vl-all", "vl-list-toggle", "vl-list", "vl-level",
 ];
 for (const id of requiredUiIds) {
   assert.ok(html.includes('id="' + id + '"') || html.includes("id='" + id + "'"), 'Missing vocabulary UI element id="' + id + '"');
