@@ -115,6 +115,13 @@ Penyuntingan tambahan pada putaran ini:
 - Kolom contoh, bacaan kana, dan terjemahan Indonesia diperbarui bersama-sama pada entri yang disunting.
 - Skrip audit diperbarui: kandidat kata tambahan yang perlu dibandingkan dengan bahan belajar N5 sekarang mencakup istilah seperti `薬局`, `警察`, `新幹線`, `経済`, dan `丁寧`; kandidat tersebut bukan vonis bahwa kata-kata itu pasti di luar N5.
 
+### Putaran penyuntingan lanjutan — 13 Oktober 2026 (keluarga dan sapaan)
+
+- Menambah konteks pada contoh sapaan formal/kasual dan merapikan kapitalisasi terjemahan untuk beberapa ungkapan.
+- Mengganti contoh anggota keluarga yang terlalu berulang dengan konteks yang lebih informatif (aktivitas, pekerjaan, perjalanan, dan hubungan keluarga).
+- Kolom bacaan dan terjemahan diperbarui bersama contoh pada setiap entri yang diubah.
+- Perubahan ini tetap bersifat editorial; pemeriksaan otomatis tidak dapat memastikan seluruh bacaan dan makna sudah tervalidasi oleh penutur asli.
+
 ### Perbandingan silang kosakata
 
 Sebagai pemeriksaan tambahan, 800 entri dibandingkan dengan data kosakata N5 proyek komunitas OpenJLPT (https://github.com/evanclan/OpenJLPT/tree/main/data/csv). Data referensi tersebut berisi 674 headword N5; 404 entri cocok persis berdasarkan ejaan. Ini hanya pembanding eksternal, bukan daftar resmi JLPT. Ketidakcocokan ejaan dapat berasal dari sinonim, variasi ejaan, kata tambahan, atau kosakata di luar daftar referensi dan tidak otomatis membuktikan tingkat kata.
