@@ -98,7 +98,7 @@ const VOCAB_N5_BATCH1 = [
   {jp:"誕生日",kana:"たんじょうび",arti:"ulang tahun",kelas:"kata benda",contoh:"誕生日はいつですか。",bacaan:"たんじょうびはいつですか。",terjemahan:"Kapan ulang tahun Anda?"},
   {jp:"国",kana:"くに",arti:"negara",kelas:"kata benda",contoh:"国へ行きたいです。",bacaan:"くにへいきたいです。",terjemahan:"Saya ingin pergi ke negara."},
   {jp:"日本",kana:"にほん",arti:"Jepang",kelas:"kata benda",contoh:"日本へ行きたいです。",bacaan:"にほんへいきたいです。",terjemahan:"Saya ingin pergi ke Jepang."},
-  {jp:"インドネシア",kana:"いんどねしあ",arti:"Indonesia",kelas:"kata benda",contoh:"インドネシアへ行きたいです。",bacaan:"いんどねしあへいきたいです。",terjemahan:"Saya ingin pergi ke Indonesia."},
+  {jp:"インドネシア",kana:"インドネシア",arti:"Indonesia",kelas:"kata benda",contoh:"インドネシアへ行きたいです。",bacaan:"いんどねしあへいきたいです。",terjemahan:"Saya ingin pergi ke Indonesia."},
   {jp:"外国",kana:"がいこく",arti:"luar negeri",kelas:"kata benda",contoh:"外国へ行きたいです。",bacaan:"がいこくへいきたいです。",terjemahan:"Saya ingin pergi ke luar negeri."},
   {jp:"外国人",kana:"がいこくじん",arti:"orang asing",kelas:"kata benda",contoh:"外国人に英語で話しかけました。",bacaan:"がいこくじんにえいごではなしかけました。",terjemahan:"Saya menyapa orang asing dalam bahasa Inggris."},
   {jp:"日本人",kana:"にほんじん",arti:"orang Jepang",kelas:"kata benda",contoh:"日本人の友達がいます。",bacaan:"にほんじんのともだちがいます。",terjemahan:"Saya punya teman orang Jepang."},
