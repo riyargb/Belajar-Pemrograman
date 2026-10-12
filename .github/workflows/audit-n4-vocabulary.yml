@@ -1,0 +1,28 @@
+name: Audit Japanese N4 Vocabulary
+
+on:
+  push:
+    paths:
+      - "data/vocabulary-n4-batch*.js"
+      - "data/vocabulary-n5-batch*.js"
+      - "audit-n4-vocabulary.js"
+      - ".github/workflows/audit-n4-vocabulary.yml"
+  pull_request:
+    paths:
+      - "data/vocabulary-n4-batch*.js"
+      - "data/vocabulary-n5-batch*.js"
+      - "audit-n4-vocabulary.js"
+      - ".github/workflows/audit-n4-vocabulary.yml"
+
+jobs:
+  structural-and-cross-level-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run N4 vocabulary audit
+        run: node audit-n4-vocabulary.js
