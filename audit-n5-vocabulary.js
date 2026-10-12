@@ -60,6 +60,9 @@ for (const batch of batches) {
     if (/[一-龯]/u.test(entry.bacaan || "")) {
       errors.push(`${label} (${entry.jp}): reading contains kanji`);
     }
+    if (/^[ァ-ヺー]+$/u.test(entry.jp) && entry.kana !== entry.jp) {
+      errors.push(`${label} (${entry.jp}): katakana headword should use matching katakana in "kana"`);
+    }
     if (!/[。？！]$/.test(entry.contoh || "")) {
       errors.push(`${label} (${entry.jp}): example lacks Japanese sentence punctuation`);
     }
@@ -105,6 +108,7 @@ for (const batch of batches) {
   console.log(`- ${batch.name}: ${batch.entries.length} entries`);
 }
 console.log(`- Total entries: ${all.length}`);
+console.log(`- Katakana headword/reading mismatches: ${all.filter(({ jp, kana }) => /^[ァ-ヺー]+$/u.test(jp) && kana !== jp).length}`);
 console.log(`- Unique headwords: ${seen.size}`);
 console.log(`- Repeated example sentences (review warning): ${duplicateExamples.length}`);
 console.log(`- Basic template examples (review warning): ${genericExamples.length}`);
