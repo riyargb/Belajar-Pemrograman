@@ -95,6 +95,17 @@ Pemeriksaan editorial tambahan menemukan beberapa contoh yang secara tata bahasa
 - Contoh `牛乳`, `水`, `お湯`, `醤油`, dan `皿` juga disunting untuk konteks penggunaan yang lebih jelas.
 - Perubahan ini menambahkan 15 penyuntingan contoh di Batch 1; bacaan dan terjemahan diselaraskan dengan kalimat yang baru.
 
+### Pemeriksaan editorial tambahan: arti, contoh, dan terjemahan
+
+Pada putaran ini, contoh dan keterangan makna disunting lagi di kedua batch. Perubahan terbaru mencakup:
+
+- **Batch 1:** 21 entri ditinjau, termasuk pemakaian kata ganti `あなた`, makna kontekstual `彼女`, kata sopan `方`, serta contoh untuk cuaca, sifat, dan situasi sehari-hari.
+- **Batch 2:** 14 entri ditinjau, termasuk `警察`, `料理人`, `形`, `有料`, `政治`, dan beberapa kata sifat; contoh serta terjemahannya dibuat lebih informatif.
+- Contoh `方` diganti lagi agar tidak sama dengan contoh `どなた`. Contoh `有料` juga diperbaiki supaya kata target benar-benar digunakan dalam kalimat.
+- Setiap perubahan contoh disertai penyesuaian kolom `bacaan` dan `terjemahan` yang sesuai.
+
+Perubahan ini merupakan tinjauan editorial berbasis pemeriksaan internal. Bacaan seluruh kanji tetap memerlukan verifikasi bahasa khusus; lolos pemeriksaan struktur tidak otomatis membuktikan bahwa setiap bacaan benar.
+
 ## Batas audit
 
 - Skrip memeriksa jumlah, keunikan, kolom, kategori, bacaan, tanda baca, konsistensi katakana, dan urutan pemuatan data.
