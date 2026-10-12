@@ -88,6 +88,13 @@ Pemeriksaan editorial tambahan menemukan beberapa contoh yang secara tata bahasa
 - Ungkapan makanan (`朝ご飯`, `昼ご飯`, `晩ご飯`, `弁当`, `お菓子`) diperbaiki agar terjemahan bahasa Indonesianya alami dan contoh tidak sekadar mengulang pola yang sama.
 - `無料` kini memakai konteks masuk museum gratis untuk anak-anak, `農場` memakai contoh pemeliharaan hewan ternak, dan `指` memakai contoh menunjukkan lokasi di peta.
 
+### Audit sekaligus: musim dan kebutuhan sehari-hari
+
+- Contoh untuk `春`, `夏`, `秋`, dan `冬` dibuat lebih berbeda dan kontekstual, tidak lagi mengulang pola “saya suka musim ...”.
+- Contoh untuk `りんご`, `みかん`, `バナナ`, `いちご`, `ぶどう`, dan `スイカ` divariasikan agar memberi pola kalimat sehari-hari yang lebih bermanfaat.
+- Contoh `牛乳`, `水`, `お湯`, `醤油`, dan `皿` juga disunting untuk konteks penggunaan yang lebih jelas.
+- Perubahan ini menambahkan 15 penyuntingan contoh di Batch 1; bacaan dan terjemahan diselaraskan dengan kalimat yang baru.
+
 ## Batas audit
 
 - Skrip memeriksa jumlah, keunikan, kolom, kategori, bacaan, tanda baca, konsistensi katakana, dan urutan pemuatan data.
