@@ -1,6 +1,6 @@
 # Audit Kosakata Jepang N5 — 800 Entri
 
-Tanggal audit: 12 Oktober 2026  
+Tanggal audit terakhir diperbarui: 13 Oktober 2026  
 Cakupan: `data/vocabulary-n5-batch1.js`, `data/vocabulary-n5-batch2.js`, `english-roadmap.html`, dan `audit-n5-vocabulary.js`.
 
 ## Ringkasan hasil
@@ -136,10 +136,18 @@ Penyelenggara JLPT menjelaskan bahwa daftar kosakata, kanji, dan tata bahasa dal
 
 ## Batas audit
 
-- Skrip memeriksa jumlah, keunikan, kolom, kategori, bacaan, tanda baca, konsistensi katakana, dan urutan pemuatan data.
+- Skrip memeriksa jumlah, keunikan, kolom, kategori, kolom `kana` dan `bacaan` agar tidak berisi kanji/huruf Latin, tanda baca Jepang pada akhir contoh, konsistensi katakana, dan urutan pemuatan data.
 - Skrip tidak bisa memastikan kebenaran setiap terjemahan, nuansa pemakaian, atau tingkat JLPT secara otomatis.
 - Integrasi sudah diperiksa secara statis; pemeriksaan ini bukan pengganti uji klik dan uji tampilan langsung di browser.
 - Klaim yang aman saat ini: struktur 800 entri lulus audit otomatis, perbaikan yang teridentifikasi sudah diterapkan, dan kandidat kosakata tambahan ditandai untuk tinjauan lanjutan; daftar tersebut telah diperbarui di skrip audit dan bukan klasifikasi resmi. Jangan menganggap hasil ini sebagai sertifikasi linguistik 100%.
+
+
+
+### Pemeriksaan validator tambahan — 13 Oktober 2026
+
+- Validator kini memeriksa bukan hanya kolom `bacaan`, tetapi juga kolom `kana`, agar bacaan kata kepala dan bacaan contoh tidak berisi kanji atau huruf Latin.
+- Workflow GitHub Actions otomatis dijalankan untuk memvalidasi perubahan ini. Hasil final workflow perlu dinyatakan berdasarkan status run yang selesai, bukan status antre.
+- Pemeriksaan linguistik tetap memerlukan verifikasi makna, konteks pemakaian, dan bacaan kata per kata; validator otomatis tidak menggantikan peninjauan tersebut.
 
 ## File terkait
 
