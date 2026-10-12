@@ -4,6 +4,8 @@
 // Structural quality gate for the two curated N5 study lists.
 // Run from the repository root: node audit-n5-vocabulary.js
 const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const html = fs.readFileSync("./english-roadmap.html", "utf8");
 const batch1 = require("./data/vocabulary-n5-batch1.js");
 const batch2 = require("./data/vocabulary-n5-batch2.js");
 
@@ -18,6 +20,27 @@ const allowedCategories = new Set([
 ]);
 const all = [];
 const errors = [];
+
+const appScripts = [
+  '<script src="data/vocabulary-n5-batch1.js"></script>',
+  '<script src="data/vocabulary-n5-batch2.js"></script>',
+];
+const dataLoader = 'const data = [...(typeof VOCAB_N5_BATCH1';
+const loaderIndex = html.indexOf(dataLoader);
+assert.ok(loaderIndex >= 0, "Vocabulary UI data loader must exist in english-roadmap.html");
+for (const scriptTag of appScripts) {
+  const scriptIndex = html.indexOf(scriptTag);
+  assert.ok(scriptIndex >= 0, `Missing app script reference: ${scriptTag}`);
+  assert.ok(scriptIndex < loaderIndex, `Vocabulary data must load before the UI loader: ${scriptTag}`);
+}
+const requiredUiIds = [
+  "vocab-lab", "vl-stats", "vl-progress", "vl-search", "vl-category",
+  "vl-card", "vl-count", "vl-reveal", "vl-next", "vl-mark",
+  "vl-unlearned", "vl-all", "vl-list-toggle", "vl-list",
+];
+for (const id of requiredUiIds) {
+  assert.ok(new RegExp(`\\\\bid=["']${id}["']`).test(html), `Missing vocabulary UI element id="${id}"`);
+}
 
 for (const batch of batches) {
   assert.ok(Array.isArray(batch.entries), `${batch.name} must export an array`);
@@ -76,7 +99,8 @@ const levelReviewCandidates = new Set([
 ]);
 const levelReview = all.filter(({ jp }) => levelReviewCandidates.has(jp));
 
-console.log("N5 vocabulary structural audit");
+console.log("N5 vocabulary structural + static integration audit");
+console.log("- App integration: both data files load before the UI script; required UI IDs are present.");
 for (const batch of batches) {
   console.log(`- ${batch.name}: ${batch.entries.length} entries`);
 }
