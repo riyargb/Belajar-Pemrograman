@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Salman · Language</title>
-<meta name="theme-color" content="#0a0a0f">
+<meta name="theme-color" content="#f7f3e9" id="theme-color-meta">
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -87,7 +87,6 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
 .note-text{font-size:11px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere}
 .empty-notes{text-align:center;padding:40px 20px;font-size:11px;color:var(--muted);line-height:2}
 .bottom-hint{position:fixed;bottom:0;left:0;right:0;padding:8px;text-align:center;font-size:9px;color:var(--muted2);letter-spacing:1px;background:var(--bg);border-top:1px solid var(--border);pointer-events:none}
-
 /* SALMAN_KANJI_LAB_V1 */
 .kl-wrap{margin:18px 0 28px;padding:14px;background:var(--s2);border:1px solid var(--border);border-radius:8px}
 .kl-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
@@ -116,20 +115,61 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
 .kl-hidden{display:none!important}
 @media(max-width:420px){.kl-wrap{padding:10px}.kl-controls{grid-template-columns:1fr}.kl-kanji{font-size:56px}.kl-options{grid-template-columns:1fr 1fr}}
 
+/* SALMAN LANG — warm Japanese redesign layer */
+:root{
+ --bg:#f7f3e9;--s1:#fffdf7;--s2:#eee9dc;--border:#e2dccd;--border2:#cfc6b3;
+ --en:#54765c;--jp:#d77e72;--text:#28372e;--muted:#68766b;--muted2:#879186;
+ --accent:#54765c;--coral:#d77e72;--shadow:0 8px 28px rgba(55,67,49,.07);
+ color-scheme:light;
+}
+html[data-theme="dark"]{
+ --bg:#171b17;--s1:#202720;--s2:#293329;--border:#354236;--border2:#4b5b4b;
+ --en:#a9c6a5;--jp:#efaaa0;--text:#f1eee4;--muted:#b0b8aa;--muted2:#8f9b8e;
+ --accent:#a9c6a5;--coral:#efaaa0;--shadow:0 8px 28px rgba(0,0,0,.18);color-scheme:dark;
+}
+html,body{min-height:0;overscroll-behavior-y:contain}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.55;letter-spacing:0.005em}
+button,input,textarea,select{font:inherit}
+button,a,[role="button"]{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.topbar{padding:12px clamp(14px,4vw,28px);gap:12px;min-height:60px;background:var(--s1);box-shadow:0 2px 12px rgba(55,67,49,.035)}
+.topbar-title{font-size:clamp(17px,4vw,21px);letter-spacing:-.6px}
+.topbar-title span{color:var(--accent)}
+.topbar-actions{display:flex;align-items:center;gap:8px}
+.theme-toggle,.back-btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:40px;padding:8px 12px;border:1px solid var(--border2);border-radius:999px;background:var(--s2);color:var(--text);font-size:12px;text-decoration:none;white-space:nowrap;cursor:pointer}
+.theme-toggle{font-weight:650}
+.tabs{background:var(--s1);padding:0 8px}
+.tab{min-height:48px;padding:12px 6px;font-family:inherit;font-size:clamp(11px,2.8vw,13px);letter-spacing:.02em;text-transform:none;border-bottom-width:3px;color:var(--muted)}
+.tab.active{font-weight:750}
+.tab.en.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab.jp.active{color:var(--coral);border-bottom-color:var(--coral)}
+.tab.nb.active{color:var(--text);border-bottom-color:var(--border2)}
+.main,.content,.page,.scroll-area{scrollbar-color:var(--border2) transparent;scrollbar-width:thin}
+.phase,.note-card,.kl-card,.kl-wrap,.roadmap-card,.panel,.card{border-radius:16px}
+input,textarea,select{max-width:100%;border-radius:10px}
+button{cursor:pointer}
+.bottom-hint{padding:10px 12px;color:var(--muted);font-size:11px}
+@media(max-width:480px){
+ .topbar{padding:10px 12px;min-height:56px}
+ .topbar-title{font-size:17px}
+ .theme-toggle,.back-btn{min-height:38px;padding:7px 10px;font-size:11px}
+ .theme-toggle span{display:none}
+ .tab{min-height:46px;font-size:11px;letter-spacing:0}
+}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
 </style>
 </head>
 <body>
 <div class="topbar">
   <div class="topbar-title">Salman &middot; <span>Lang</span></div>
-  <a href="index.html" class="back-btn">← Dev</a>
+  <div class="topbar-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Aktifkan mode gelap" title="Ganti tema">☾ <span>Mode gelap</span></button><a href="index.html" class="back-btn">← Dev</a></div>
 </div>
-
 <div class="tabs">
   <button class="tab en active" onclick="switchTab('en',this)">🇺🇸 English</button>
   <button class="tab jp" onclick="switchTab('jp',this)">🇯🇵 Japanese</button>
   <button class="tab nb" onclick="switchTab('nb',this)">📓 Catatan</button>
 </div>
-
 <div class="pane active" id="pane-en">
   <div class="dual-progress">
     <div class="dp-card">
@@ -145,7 +185,6 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
   </div>
   <div id="roadmap-en"></div>
 </div>
-
 <div class="pane" id="pane-jp">
   <div class="dual-progress">
     <div class="dp-card">
@@ -160,7 +199,6 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
     </div>
   </div>
   <div id="roadmap-jp"></div>
-
 <!-- SALMAN_KANJI_LAB_V1 -->
 <section class="kl-wrap" id="kanji-lab">
   <div class="kl-head">
@@ -211,12 +249,10 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
     Daftar JLPT kanji tidak diterbitkan sebagai daftar resmi tertutup yang definitif.
   </div>
 </section>
-
   <div style="font-size:10px;line-height:1.7;color:var(--muted);padding:8px 2px 16px">
     Ini roadmap dan checklist belajar, bukan ujian JLPT resmi. Tandai materi setelah lu benar-benar menguasainya dan uji pemahaman dengan soal latihan.
   </div>
 </div>
-
 <div class="pane" id="pane-nb">
   <div style="font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:12px;text-align:center" id="nb-date"></div>
   <div class="nb-input-wrap">
@@ -233,9 +269,16 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
   <div class="nb-list-title">Riwayat Catatan Bahasa</div>
   <div id="nb-list"></div>
 </div>
-
 <div class="bottom-hint">data tersimpan otomatis · tidak hilang</div>
-
+<script>
+(function(){
+ const root=document.documentElement,btn=document.getElementById('theme-toggle'),meta=document.getElementById('theme-color-meta');
+ let saved='';try{saved=localStorage.getItem('sal_lang_theme')||''}catch(e){}
+ const initial=saved==='light'||saved==='dark'?saved:(window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+ function applyTheme(theme){root.dataset.theme=theme;const dark=theme==='dark';if(btn){btn.innerHTML=dark?'☀ <span>Mode terang</span>':'☾ <span>Mode gelap</span>';btn.setAttribute('aria-label',dark?'Aktifkan mode terang':'Aktifkan mode gelap');btn.title=dark?'Ganti ke mode terang':'Ganti ke mode gelap'}if(meta)meta.setAttribute('content',dark?'#171b17':'#f7f3e9');try{localStorage.setItem('sal_lang_theme',theme)}catch(e){}}
+ applyTheme(initial);if(btn)btn.addEventListener('click',()=>applyTheme(root.dataset.theme==='dark'?'light':'dark'));
+})();
+</script>
 <script>
 const EN_PHASES=[
   {id:"en1",num:"LEVEL 01",title:"Foundation",items:["Alphabet & pronunciation dasar","Greeting & self-introduction","Numbers, days, months","Common nouns & verbs","Present tense (I am, You are, He is)","Simple questions (What, Where, Who)","Kosakata 500 kata pertama","App: Duolingo / BBC Learning English"]},
@@ -244,7 +287,6 @@ const EN_PHASES=[
   {id:"en4",num:"LEVEL 04",title:"Speaking & Listening",items:["Shadowing technique — tirukan native speaker","Latihan pronunciation dengan Elsa Speak","Nonton YouTube tech tanpa subtitle","Speaking practice: rekam suara sendiri","Join English Discord / Reddit community","Ikut online speaking club (italki / HelloTalk)","Presentasi singkat 2 menit dalam Inggris","IELTS / TOEFL vocabulary set"]},
   {id:"en5",num:"LEVEL 05",title:"Professional English",items:["Business email writing","Technical writing — dokumentasi kode","LinkedIn profile full English","CV & cover letter bahasa Inggris","Mock interview bahasa Inggris","Presentasi project dalam bahasa Inggris","TOEIC / IELTS target score 6.5+","Reading: medium.com tech articles tiap hari"]}
 ];
-
 const JP_PHASES=[
   {
     id:"n4_01",num:"LEVEL 01",title:"Kana Review & Pronunciation",
@@ -380,7 +422,6 @@ const JP_PHASES=[
     ]
   }
 ];
-
 function load(k,d){
   try{
     const v=localStorage.getItem(k);
@@ -396,12 +437,10 @@ function save(k,v){
     console.warn("Tidak dapat menyimpan data lokal",e);
   }
 }
-
 let checks=load("sal_lang_checks",{});
 let opens=load("sal_lang_opens",{});
 let notes=load("sal_lang_notes",[]);
 let selTag=null;
-
 function switchTab(id,btn){
   document.querySelectorAll(".pane").forEach(p=>p.classList.remove("active"));
   document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
@@ -409,7 +448,6 @@ function switchTab(id,btn){
   btn.classList.add("active");
   if(id==="nb")renderNotes();
 }
-
 function countP(p){
   let done=0;
   p.items.forEach((_,i)=>{
@@ -417,7 +455,6 @@ function countP(p){
   });
   return{done,total:p.items.length};
 }
-
 function updateGlobals(){
   let etd=0,ett=0,jtd=0,jtt=0;
   EN_PHASES.forEach(p=>{
@@ -449,7 +486,6 @@ function updateGlobals(){
     if(el)el.style.width=jp+"%";
   });
 }
-
 function renderPhases(type,phases,containerId){
   const cont=document.getElementById(containerId);
   cont.innerHTML="";
@@ -481,13 +517,11 @@ function renderPhases(type,phases,containerId){
   });
   updateGlobals();
 }
-
 function togglePhase(id){
   opens[id]=!opens[id];
   save("sal_lang_opens",opens);
   document.getElementById("ph-"+id).classList.toggle("open",opens[id]);
 }
-
 function toggleItem(type,pid,idx,el){
   const key=pid+"_"+idx;
   checks[key]=!checks[key];
@@ -504,7 +538,6 @@ function toggleItem(type,pid,idx,el){
   phaseEl.classList.toggle("active-phase",done>0&&done<total);
   updateGlobals();
 }
-
 function toggleTag(btn){
   const t=btn.dataset.t;
   if(selTag===t){
@@ -516,7 +549,6 @@ function toggleTag(btn){
     btn.classList.add("sel");
   }
 }
-
 function saveNote(){
   const txt=document.getElementById("nb-text").value.trim();
   if(!txt)return;
@@ -536,13 +568,11 @@ function saveNote(){
   selTag=null;
   renderNotes();
 }
-
 function deleteNote(id){
   notes=notes.filter(n=>n.id!==id);
   save("sal_lang_notes",notes);
   renderNotes();
 }
-
 const TL={
   skip:"⛔ Skip",
   done:"✅ Selesai",
@@ -550,7 +580,6 @@ const TL={
   plan:"📌 Plan",
   insight:"💡 Insight"
 };
-
 function esc(s){
   return String(s)
     .replace(/&/g,"&amp;")
@@ -559,7 +588,6 @@ function esc(s){
     .replace(/"/g,"&quot;")
     .replace(/'/g,"&#39;");
 }
-
 function renderNotes(){
   const list=document.getElementById("nb-list");
   if(!notes.length){
@@ -577,18 +605,15 @@ function renderNotes(){
     </div>`
   ).join("");
 }
-
 document.getElementById("nb-date").textContent=
   new Date().toLocaleDateString("id-ID",{
     weekday:"long",day:"numeric",month:"long",year:"numeric"
   }).toUpperCase();
-
-
 // SALMAN_KANJI_LAB_V1
 const KL_DATA = [
  {k:"日",l:"N5",m:"hari; matahari",on:"ニチ・ジツ",kun:"ひ・か",v:"日本（にほん）— Jepang",s:"日本へ行きます。— Saya pergi ke Jepang."},
  {k:"月",l:"N5",m:"bulan",on:"ゲツ・ガツ",kun:"つき",v:"月曜日（げつようび）— Senin",s:"月曜日に学校へ行きます。— Saya pergi ke sekolah hari Senin."},
- {k:"火",l:"N5",m:"api",on:"カ",kun:"ひ",v:"火曜日（かようび）— Selasa",s:"今日は火曜日です。— Hari ini hari Selasa."},
+ {k:"火",l:"N5",m:"api",on:"カ",kun:"ひ",v:"火曜日（かようび）— Selasa",s:"今日は火 曜日です。— Hari ini hari Selasa."},
  {k:"水",l:"N5",m:"air",on:"スイ",kun:"みず",v:"水（みず）— air",s:"水を飲みます。— Saya minum air."},
  {k:"木",l:"N5",m:"pohon; kayu",on:"モク・ボク",kun:"き",v:"木（き）— pohon",s:"あそこに木があります。— Ada pohon di sana."},
  {k:"金",l:"N5",m:"emas; uang",on:"キン",kun:"かね",v:"お金（おかね）— uang",s:"お金がありません。— Saya tidak punya uang."},
@@ -596,17 +621,17 @@ const KL_DATA = [
  {k:"人",l:"N5",m:"orang",on:"ジン・ニン",kun:"ひと",v:"日本人（にほんじん）— orang Jepang",s:"あの人は先生です。— Orang itu guru."},
  {k:"山",l:"N5",m:"gunung",on:"サン",kun:"やま",v:"富士山（ふじさん）— Gunung Fuji",s:"山に登ります。— Saya mendaki gunung."},
  {k:"川",l:"N5",m:"sungai",on:"セン",kun:"かわ",v:"川（かわ）— sungai",s:"川の水はきれいです。— Air sungainya bersih."},
- {k:"田",l:"N5",m:"sawah",on:"デン",kun:"た",v:"田中（たなか）— Tanaka",s:"田中さんは学生です。— Tanaka adalah siswa."},
+ {k:"田",l:"N5",m:"sawah",on:"デン",kun:"た",v:"田中（たなか）— Tanaka",s:"田中さん は学生です。— Tanaka adalah siswa."},
  {k:"口",l:"N5",m:"mulut",on:"コウ・ク",kun:"くち",v:"入口（いりぐち）— pintu masuk",s:"入口はあそこです。— Pintu masuk ada di sana."},
  {k:"目",l:"N5",m:"mata",on:"モク",kun:"め",v:"目（め）— mata",s:"目が痛いです。— Mata saya sakit."},
  {k:"耳",l:"N5",m:"telinga",on:"ジ",kun:"みみ",v:"耳（みみ）— telinga",s:"耳で聞きます。— Mendengar dengan telinga."},
- {k:"手",l:"N5",m:"tangan",on:"シュ",kun:"て",v:"手紙（てがみ）— surat",s:"手紙を書きます。— Saya menulis surat."},
- {k:"足",l:"N5",m:"kaki; cukup",on:"ソク",kun:"あし・た",v:"足（あし）— kaki",s:"足が痛いです。— Kaki saya sakit."},
+ {k:"手",l:"N5",m:"tangan",on:"シュ",kun:"て",v:"手紙（てがみ）— surat",s:"手紙を書 きます。— Saya menulis surat."},
+ {k:"足",l:"N5",m:"kaki; cukup",on:"ソク",kun:"あし・た",v:"足（あし）— kaki",s:"足 が痛いです。— Kaki saya sakit."},
  {k:"力",l:"N5",m:"kekuatan",on:"リョク・リキ",kun:"ちから",v:"力（ちから）— kekuatan",s:"力があります。— Saya punya kekuatan."},
  {k:"大",l:"N5",m:"besar",on:"ダイ・タイ",kun:"おお",v:"大学（だいがく）— universitas",s:"大学で勉強します。— Saya belajar di universitas."},
  {k:"小",l:"N5",m:"kecil",on:"ショウ",kun:"ちい・こ",v:"小さい（ちいさい）— kecil",s:"小さい犬がいます。— Ada anjing kecil."},
  {k:"中",l:"N5",m:"dalam; tengah",on:"チュウ",kun:"なか",v:"中国（ちゅうごく）— Tiongkok",s:"箱の中に本があります。— Ada buku di dalam kotak."},
- {k:"上",l:"N5",m:"atas",on:"ジョウ",kun:"うえ・あ",v:"上手（じょうず）— mahir",s:"机の上に本があります。— Ada buku di atas meja."},
+ {k:"上",l:"N5",m:"atas",on:"ジョウ",kun:"うえ・あ",v:"上手（じょうず）— mahir",s:" 机の上に本があります。— Ada buku di atas meja."},
  {k:"下",l:"N5",m:"bawah",on:"カ・ゲ",kun:"した・さ",v:"下手（へた）— tidak mahir",s:"猫は机の下にいます。— Kucing ada di bawah meja."},
  {k:"左",l:"N5",m:"kiri",on:"サ",kun:"ひだり",v:"左（ひだり）— kiri",s:"左に曲がります。— Belok ke kiri."},
  {k:"右",l:"N5",m:"kanan",on:"ウ・ユウ",kun:"みぎ",v:"右（みぎ）— kanan",s:"右を見てください。— Tolong lihat ke kanan."},
@@ -615,13 +640,13 @@ const KL_DATA = [
  {k:"北",l:"N5",m:"utara",on:"ホク",kun:"きた",v:"北海道（ほっかいどう）— Hokkaido",s:"北へ行きます。— Saya pergi ke utara."},
  {k:"南",l:"N5",m:"selatan",on:"ナン",kun:"みなみ",v:"南口（みなみぐち）— pintu selatan",s:"南の町です。— Kota di selatan."},
  {k:"学",l:"N5",m:"belajar",on:"ガク",kun:"まな",v:"学生（がくせい）— pelajar",s:"日本語を学びます。— Saya belajar bahasa Jepang."},
- {k:"生",l:"N5",m:"hidup; lahir",on:"セイ・ショウ",kun:"い・う・なま",v:"先生（せんせい）— guru",s:"先生に聞きます。— Saya bertanya kepada guru."},
+ {k:"生",l:"N5",m:"hidup; lahir",on:"セイ・ショウ",kun:"い・う・なま",v:"先生（せん せい）— guru",s:"先生に聞きます。— Saya bertanya kepada guru."},
  {k:"先",l:"N5",m:"sebelum; depan",on:"セン",kun:"さき",v:"先生（せんせい）— guru",s:"先に行ってください。— Silakan pergi duluan."},
  {k:"年",l:"N5",m:"tahun",on:"ネン",kun:"とし",v:"今年（ことし）— tahun ini",s:"今年は忙しいです。— Tahun ini sibuk."},
- {k:"時",l:"N5",m:"waktu; jam",on:"ジ",kun:"とき",v:"時間（じかん）— waktu",s:"七時に起きます。— Saya bangun pukul tujuh."},
+ {k:"時",l:"N5",m:"waktu; jam",on:"ジ",kun:"とき",v:"時間（じかん）— waktu",s:"七時 に起きます。— Saya bangun pukul tujuh."},
  {k:"間",l:"N5",m:"jarak; selama",on:"カン・ケン",kun:"あいだ・ま",v:"時間（じかん）— waktu",s:"二時間勉強しました。— Saya belajar selama dua jam."},
  {k:"今",l:"N5",m:"sekarang",on:"コン・キン",kun:"いま",v:"今日（きょう）— hari ini",s:"今、勉強しています。— Saya sedang belajar sekarang."},
- {k:"毎",l:"N5",m:"setiap",on:"マイ",kun:"",v:"毎日（まいにち）— setiap hari",s:"毎日日本語を勉強します。— Saya belajar bahasa Jepang setiap hari."},
+ {k:"毎",l:"N5",m:"setiap",on:"マイ",kun:"",v:"毎日（まいにち）— setiap hari",s:"毎 日日本語を勉強します。— Saya belajar bahasa Jepang setiap hari."},
  {k:"語",l:"N5",m:"bahasa; kata",on:"ゴ",kun:"かた",v:"日本語（にほんご）— bahasa Jepang",s:"日本語が好きです。— Saya suka bahasa Jepang."},
  {k:"読",l:"N5",m:"membaca",on:"ドク・トク",kun:"よ",v:"読む（よむ）— membaca",s:"本を読みます。— Saya membaca buku."},
  {k:"書",l:"N5",m:"menulis",on:"ショ",kun:"か",v:"書く（かく）— menulis",s:"名前を書いてください。— Tolong tulis nama."},
@@ -633,7 +658,7 @@ const KL_DATA = [
  {k:"見",l:"N5",m:"melihat",on:"ケン",kun:"み",v:"見る（みる）— melihat",s:"映画を見ます。— Saya menonton film."},
  {k:"休",l:"N5",m:"istirahat; libur",on:"キュウ",kun:"やす",v:"休み（やすみ）— libur",s:"日曜日に休みます。— Saya beristirahat hari Minggu."},
  {k:"買",l:"N5",m:"membeli",on:"バイ",kun:"か",v:"買う（かう）— membeli",s:"パンを買います。— Saya membeli roti."},
- {k:"電",l:"N5",m:"listrik",on:"デン",kun:"",v:"電車（でんしゃ）— kereta",s:"電車で行きます。— Saya pergi naik kereta."},
+ {k:"電",l:"N5",m:"listrik",on:"デン",kun:"",v:"電車（でんしゃ）— kereta",s:"電車で 行きます。— Saya pergi naik kereta."},
  {k:"車",l:"N5",m:"kendaraan; mobil",on:"シャ",kun:"くるま",v:"電車（でんしゃ）— kereta",s:"車があります。— Saya punya mobil."},
  {k:"道",l:"N4",m:"jalan; cara",on:"ドウ",kun:"みち",v:"道（みち）— jalan",s:"この道をまっすぐ行きます。— Jalan lurus di jalan ini."},
  {k:"通",l:"N4",m:"melewati; berkomunikasi",on:"ツウ・ツ",kun:"とお・かよ",v:"通学（つうがく）— pergi ke sekolah",s:"毎日電車で通学します。— Saya pergi ke sekolah naik kereta setiap hari."},
@@ -672,10 +697,10 @@ const KL_DATA = [
  {k:"体",l:"N4",m:"tubuh",on:"タイ・テイ",kun:"からだ",v:"体（からだ）— tubuh",s:"体に気をつけてください。— Jaga kesehatan."},
  {k:"病",l:"N4",m:"penyakit",on:"ビョウ",kun:"や",v:"病院（びょういん）— rumah sakit",s:"病院へ行きます。— Saya pergi ke rumah sakit."},
  {k:"院",l:"N4",m:"institusi; gedung",on:"イン",kun:"",v:"病院（びょういん）— rumah sakit",s:"病院は駅の近くです。— Rumah sakit dekat stasiun."},
- {k:"医",l:"N4",m:"medis; dokter",on:"イ",kun:"",v:"医者（いしゃ）— dokter",s:"医者に聞きます。— Saya bertanya kepada dokter."},
+ {k:"医",l:"N4",m:"medis; dokter",on:"イ",kun:"",v:"医者（いしゃ）— dokter",s:"医者 に聞きます。— Saya bertanya kepada dokter."},
  {k:"薬",l:"N4",m:"obat",on:"ヤク",kun:"くすり",v:"薬（くすり）— obat",s:"薬を飲みました。— Saya sudah minum obat."},
  {k:"料",l:"N4",m:"biaya; bahan",on:"リョウ",kun:"",v:"料理（りょうり）— masakan",s:"日本料理が好きです。— Saya suka masakan Jepang."},
- {k:"理",l:"N4",m:"alasan; logika",on:"リ",kun:"",v:"料理（りょうり）— masakan",s:"料理を作ります。— Saya memasak."},
+ {k:"理",l:"N4",m:"alasan; logika",on:"リ",kun:"",v:"料理（りょうり）— masakan",s:" 料理を作ります。— Saya memasak."},
  {k:"題",l:"N4",m:"topik; soal",on:"ダイ",kun:"",v:"問題（もんだい）— soal/masalah",s:"問題を読んでください。— Tolong baca soalnya."},
  {k:"答",l:"N4",m:"jawaban",on:"トウ",kun:"こた",v:"答える（こたえる）— menjawab",s:"質問に答えます。— Saya menjawab pertanyaan."},
  {k:"質",l:"N4",m:"kualitas; sifat",on:"シツ・シチ",kun:"",v:"質問（しつもん）— pertanyaan",s:"質問があります。— Saya punya pertanyaan."},
@@ -685,9 +710,8 @@ const KL_DATA = [
  {k:"試",l:"N4",m:"mencoba; ujian",on:"シ",kun:"こころ・ため",v:"試験（しけん）— ujian",s:"明日は試験です。— Besok ujian."},
  {k:"験",l:"N4",m:"pengalaman; pengujian",on:"ケン・ゲン",kun:"",v:"経験（けいけん）— pengalaman",s:"いい経験になりました。— Ini menjadi pengalaman yang baik."},
  {k:"世",l:"N4",m:"dunia; generasi",on:"セイ・セ",kun:"よ",v:"世界（せかい）— dunia",s:"世界を旅行したいです。— Saya ingin bepergian keliling dunia."},
- {k:"界",l:"N4",m:"dunia; batas",on:"カイ",kun:"",v:"世界（せかい）— dunia",s:"世界のニュースを読みます。— Saya membaca berita dunia."}
+ {k:"界",l:"N4",m:"dunia; batas",on:"カイ",kun:"",v:"世界（せかい）— dunia",s:"世界 のニュースを読みます。— Saya membaca berita dunia."}
 ];
-
 let klProgress = load("sal_kanji_progress", {});
 let klLevel = "ALL";
 let klList = [];
@@ -697,7 +721,6 @@ let klQuiz = [];
 let klQIndex = 0;
 let klScore = 0;
 let klAnswered = false;
-
 function klEsc(s) {
   return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;")
     .replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
@@ -874,7 +897,6 @@ document.getElementById("kl-search").addEventListener("input",()=>{
 });
 klRefresh();
 // END SALMAN_KANJI_LAB_V1
-
 renderPhases("en",EN_PHASES,"roadmap-en");
 renderPhases("jp",JP_PHASES,"roadmap-jp");
 </script>
