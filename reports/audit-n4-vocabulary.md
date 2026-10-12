@@ -1,30 +1,61 @@
-# Audit Kosakata JLPT N4
+# Audit Kosakata JLPT N4 — 700 Entri
 
-Tanggal mulai: 13 Oktober 2026  
-Status: **Sedang dikerjakan — batch awal, bukan rilis final**
+Tanggal pembaruan: 13 Oktober 2026  
+Status: **700 entri telah disusun; audit otomatis rilis dan pemeriksaan linguistik lanjutan sedang berlangsung.**
 
-## Target kerja
+## Ringkasan data saat ini
 
-Target operasional proyek: 700 entri N4 yang ditinjau. Angka 700 adalah target kurasi proyek, bukan angka resmi JLPT. JLPT tidak menerbitkan daftar kosakata resmi yang lengkap dan tertutup untuk setiap level.
+| Pemeriksaan inventaris | Hasil |
+|---|---:|
+| Target kurasi proyek | 700 entri |
+| Batch data | 16 |
+| Entri terhimpun | 700 |
+| Headword unik di N4 | 700 |
+| Duplikasi headword internal N4 | 0 |
+| Overlap headword dengan 800 entri N5 proyek | 0 |
+| Kolom per entri | 7 |
 
-## Referensi awal
+Data tersimpan pada `data/vocabulary-n4-batch1.js` sampai `data/vocabulary-n4-batch16.js`. Setiap entri berisi `jp`, `kana`, `arti`, `kelas`, `contoh`, `bacaan`, dan `terjemahan`.
 
-- Jepang.org, **Daftar Kosakata JLPT N4 Lengkap**: https://jepang.org/jlpt/n4/kosakata — halaman tersebut menyajikan 582 item dan menjelaskan N4 sebagai tambahan kosakata di atas N5. Diakses 13 Oktober 2026.
-- LTL Japanese, **JLPT N4 Vocabulary List**: https://www.jlpt-quiz.com/blog/jlpt-n4-vocabulary-list — menyajikan daftar 571 kata yang diposisikan sebagai kosakata baru N4. Diakses 13 Oktober 2026.
+Angka di atas merupakan pemeriksaan inventaris lintas file. Hasil audit otomatis lengkap ditentukan oleh workflow GitHub Actions yang menjalankan `node audit-n4-vocabulary.js`; jangan menyimpulkan lulus sebelum workflow terbaru selesai.
 
-Kedua daftar adalah referensi pembelajaran pihak ketiga, bukan daftar resmi JLPT. Daftar proyek akan diperiksa silang dan ditandai jika tingkatnya tidak pasti. Jangan menganggap setiap entri otomatis resmi N4 hanya karena muncul di sebuah daftar.
+## Integrasi aplikasi
 
-## Batch 1 — status awal
+- Semua 16 file N4 ditambahkan sebagai skrip sebelum loader kosakata.
+- Laboratorium kosakata memiliki pemilih level **N5 / N4**.
+- Progres hafalan disimpan dengan kunci terpisah per level agar progres N5 lama tidak bercampur dengan N4.
+- Validator memeriksa bahwa file N4 direferensikan aplikasi dan dimuat sebelum loader.
 
-- Entri disimpan di `data/vocabulary-n4-batch1.js`.
-- Setiap entri memiliki headword, kana, arti Indonesia, kelas kata, contoh Jepang, bacaan contoh, dan terjemahan Indonesia.
-- Audit otomatis memeriksa kolom wajib, kategori, penggunaan kana, tanda baca, duplikasi, dan overlap headword terhadap 800 entri N5 proyek.
-- Pemeriksaan otomatis tidak dapat membuktikan bahwa setiap bacaan kanji, nuansa arti, contoh, terjemahan, atau klasifikasi JLPT sudah benar. Temuan linguistik harus ditinjau dan dicatat selama batch berikutnya dibuat.
+## Referensi pembelajaran
 
-## Rencana produksi
+1. Jepang.org, [Daftar Kosakata JLPT N4 Lengkap](https://jepang.org/jlpt/n4/kosakata) — halaman menyajikan 582 item kosakata N4. Diakses 13 Oktober 2026.
+2. LTL Japanese, [JLPT N4 Vocabulary List](https://www.jlpt-quiz.com/blog/jlpt-n4-vocabulary-list) — halaman menyajikan 571 kata yang diposisikan sebagai kosakata baru N4. Diakses 13 Oktober 2026.
 
-- Bangun hingga 700 entri dalam batch bertahap.
-- Jalankan `node audit-n4-vocabulary.js` setiap kali data berubah.
-- Jangan lanjut menambah batch jika ada hard error.
-- Tinjau manual bacaan dan terjemahan yang ambigu; tandai status level yang belum pasti.
-- Setelah target tercapai, jalankan audit akhir, cek integrasi aplikasi, dan perbarui laporan dengan angka nyata serta semua keterbatasan yang tersisa.
+Referensi tersebut adalah materi pihak ketiga, bukan daftar resmi JLPT. JLPT tidak menerbitkan daftar kosakata resmi yang lengkap dan tertutup untuk tiap level. Karena itu, **700 adalah target kurasi proyek**, bukan angka resmi atau jaminan bahwa semua kata akan muncul dalam ujian N4.
+
+## Metode audit
+
+### Pemeriksaan otomatis
+
+Validator `audit-n4-vocabulary.js` memeriksa:
+
+- file batch dapat dimuat sebagai array;
+- kolom wajib terisi dan kategori termasuk daftar yang diizinkan;
+- kolom bacaan tidak mengandung kanji atau huruf Latin;
+- konsistensi bacaan untuk headword katakana;
+- tanda baca contoh dan bacaan;
+- keunikan headword di antara batch N4;
+- tidak ada headword N4 yang bertumpang tindih dengan data N5 saat ini;
+- total rilis tepat 700;
+- semua skrip batch N4 dimuat sebelum loader aplikasi dan pemilih level tersedia.
+
+### Batasan pemeriksaan
+
+Pemeriksaan otomatis tidak bisa membuktikan seluruh nuansa arti, bacaan kanji berdasarkan konteks, tata bahasa, kewajaran contoh, atau ketepatan terjemahan Indonesia. Sebagian entri adalah kosakata tambahan tingkat dasar-lanjutan yang perlu pemeriksaan editorial; daftar N4 ini tidak boleh disebut sebagai daftar resmi JLPT atau hasil validasi penutur asli.
+
+## Pekerjaan lanjutan sebelum dinyatakan final
+
+- Tunggu hasil workflow audit terbaru dan perbaiki semua hard error jika ada.
+- Tinjau manual contoh, bacaan, makna, dan terjemahan yang berpotensi ambigu.
+- Uji laboratorium kosakata pada tampilan aplikasi: pemilihan level, pencarian, filter, kartu, tandai hafal, dan progres terpisah.
+- Catat setiap temuan linguistik yang masih belum terselesaikan, alih-alih mengklaim semua entri sempurna.
