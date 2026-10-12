@@ -252,7 +252,7 @@ const VOCAB_N5_BATCH2 = [
   {jp:"テスト",kana:"てすと",arti:"tes",kelas:"kata benda",contoh:"テストを確認します。",bacaan:"てすとをかくにんします。",terjemahan:"Saya memeriksa tes."},
   {jp:"質問",kana:"しつもん",arti:"pertanyaan",kelas:"kata benda",contoh:"質問を確認します。",bacaan:"しつもんをかくにんします。",terjemahan:"Saya memeriksa pertanyaan."},
   {jp:"答え",kana:"こたえ",arti:"jawaban",kelas:"kata benda",contoh:"答えを確認します。",bacaan:"こたえをかくにんします。",terjemahan:"Saya memeriksa jawaban."},
-  {jp:"問題",kana:"もんだい",arti:"soal; masalah",kelas:"kata benda",contoh:"問題を確認します。",bacaan:"もんだいをかくにんします。",terjemahan:"Saya memeriksa soal; masalah."},
+  {jp:"問題",kana:"もんだい",arti:"soal; masalah",kelas:"kata benda",contoh:"この問題は難しいです。",bacaan:"このもんだいはむずかしいです。",terjemahan:"Soal ini sulit."},
   {jp:"意味",kana:"いみ",arti:"arti",kelas:"kata benda",contoh:"意味を確認します。",bacaan:"いみをかくにんします。",terjemahan:"Saya memeriksa arti."},
   {jp:"文章",kana:"ぶんしょう",arti:"teks",kelas:"kata benda",contoh:"文章を確認します。",bacaan:"ぶんしょうをかくにんします。",terjemahan:"Saya memeriksa teks."},
   {jp:"漢字",kana:"かんじ",arti:"kanji",kelas:"kata benda",contoh:"漢字を確認します。",bacaan:"かんじをかくにんします。",terjemahan:"Saya memeriksa kanji."},
