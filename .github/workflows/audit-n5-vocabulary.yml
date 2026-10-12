@@ -1,0 +1,28 @@
+name: Audit Japanese N5 Vocabulary
+
+on:
+  push:
+    paths:
+      - "data/vocabulary-n5-batch*.js"
+      - "english-roadmap.html"
+      - "audit-n5-vocabulary.js"
+      - ".github/workflows/audit-n5-vocabulary.yml"
+  pull_request:
+    paths:
+      - "data/vocabulary-n5-batch*.js"
+      - "english-roadmap.html"
+      - "audit-n5-vocabulary.js"
+      - ".github/workflows/audit-n5-vocabulary.yml"
+
+jobs:
+  structural-and-integration-audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run vocabulary audit
+        run: node audit-n5-vocabulary.js
