@@ -6,7 +6,7 @@ const VOCAB_N5_BATCH1 = [
   {jp:"彼",kana:"かれ",arti:"dia laki-laki",kelas:"kata ganti",contoh:"彼は学生です。",bacaan:"かれはがくせいです。",terjemahan:"Dia (laki-laki) adalah pelajar."},
   {jp:"彼女",kana:"かのじょ",arti:"dia perempuan; pacar perempuan (tergantung konteks)",kelas:"kata ganti",contoh:"彼女は毎日、日本語を勉強しています。",bacaan:"かのじょはまいにち、にほんごをべんきょうしています。",terjemahan:"Dia (perempuan) belajar bahasa Jepang setiap hari."},
   {jp:"人",kana:"ひと",arti:"orang",kelas:"kata benda",contoh:"あの人は日本語が上手です。",bacaan:"あのひとはにほんごがじょうずです。",terjemahan:"Orang itu pandai berbahasa Jepang."},
-  {jp:"方",kana:"かた",arti:"orang (bentuk sopan)",kelas:"kata benda",contoh:"あの方はどなたですか。",bacaan:"あのかたはどなたですか。",terjemahan:"Siapakah orang itu? (sopan)"},
+  {jp:"方",kana:"かた",arti:"orang (bentuk sopan)",kelas:"kata benda",contoh:"田中さんは親切な方です。",bacaan:"たなかさんはしんせつなかたです。",terjemahan:"Pak/Bu Tanaka adalah orang yang baik hati (ungkapan sopan)."},
   {jp:"皆",kana:"みんな",arti:"semua orang",kelas:"kata benda",contoh:"皆、元気ですか。",bacaan:"みんな、げんきですか。",terjemahan:"Semuanya, apa kabar?"},
   {jp:"皆さん",kana:"みなさん",arti:"semuanya (sopan)",kelas:"kata benda",contoh:"皆さん、おはようございます。",bacaan:"みなさん、おはようございます。",terjemahan:"Selamat pagi semuanya."},
   {jp:"自分",kana:"じぶん",arti:"diri sendiri",kelas:"kata benda",contoh:"自分の名前を書きます。",bacaan:"じぶんのなまえをかきます。",terjemahan:"Saya menulis nama sendiri."},
