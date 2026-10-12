@@ -59,7 +59,7 @@ for (const entry of all) {
 }
 const duplicateExamples = [...exampleCounts].filter(([, count]) => count > 1);
 const genericExamples = all.filter(({ contoh }) =>
-  /^(これは私の.+です。|ここは.+です。|あの人は.+です。)$/.test(contoh)
+  /^(これは私の.+です。|ここは(?:学校|大学|高校|教室|図書館|会社|事務所|病院|銀行|郵便局|駅|空港|店|デパート|スーパー|コンビニ|レストラン|喫茶店|食堂|ホテル|旅館|家|部屋|台所|玄関|トイレ|庭|建物|公園|動物園|映画館|美術館|博物館|神社|寺|薬局|アパート|マンション|居間|駐車場|市場|本屋|花屋|肉屋|魚屋|八百屋|料理店|会議室|体育館|遊園地|劇場|教会|大使館|市役所|区役所|工場|農場|港|海岸|温泉|プール|運動場)です。)$/.test(contoh)
 );
 
 console.log("N5 vocabulary structural audit");
