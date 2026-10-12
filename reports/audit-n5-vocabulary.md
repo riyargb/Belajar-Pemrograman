@@ -45,6 +45,9 @@ Dalam pemeriksaan lanjutan, ditemukan dan diperbaiki dua masalah pada contoh kal
 
 Setelah perbaikan tersebut, contoh kalimat yang identik tidak lagi ditemukan dalam pemeriksaan duplikasi data.
 
+Selain itu, entri transportasi `汽車` diganti menjadi `電車` karena `電車` lebih umum dan lebih berguna untuk konteks pemula modern, serta contoh `運転手` diubah menjadi kalimat yang lebih langsung dan alami: `運転手がバスを運転しています。`.
+
+
 **Status audit bahasa:** ini adalah tinjauan editorial awal, bukan validasi oleh penutur asli atau sertifikasi materi JLPT. Masih diperlukan peninjauan menyeluruh untuk nuansa, bacaan kanji berdasarkan konteks, ketepatan seluruh terjemahan, serta kesesuaian level. Kandidat pada bagian berikut diperlakukan sebagai kosakata tambahan untuk ditinjau, bukan otomatis salah atau harus dihapus.
 
 ## Kosakata yang perlu ditinjau untuk level JLPT
