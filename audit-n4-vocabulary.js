@@ -6,6 +6,7 @@
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
 const path = require("node:path");
+const html = fs.readFileSync(path.join(__dirname, "english-roadmap.html"), "utf8");
 
 const dataDir = path.join(__dirname, "data");
 const n4Files = fs.readdirSync(dataDir)
@@ -23,6 +24,15 @@ const allowed = new Set([
 ]);
 const all = [];
 const errors = [];
+const loaderIndex = html.indexOf("// SALMAN_VOCAB_LAB_V3");
+if (loaderIndex < 0) errors.push("Vocabulary lab V3 loader is missing from english-roadmap.html.");
+if (!html.includes('id="vl-level"')) errors.push("N5/N4 level selector is missing from english-roadmap.html.");
+for (const file of n4Files) {
+  const tag = '<script src="data/' + file + '"></script>';
+  const index = html.indexOf(tag);
+  if (index < 0) errors.push("App is missing script reference: " + file);
+  else if (loaderIndex >= 0 && index > loaderIndex) errors.push(file + " must load before the vocabulary lab loader.");
+}
 const warnings = [];
 
 for (const file of n4Files) {
@@ -62,6 +72,7 @@ const sentenceCounts = new Map();
 for (const e of all) sentenceCounts.set(e.contoh, (sentenceCounts.get(e.contoh) || 0) + 1);
 for (const [sentence, count] of sentenceCounts) if (count > 1) warnings.push("repeated example (" + count + "): " + sentence);
 
+if (all.length !== 700) errors.push("N4 release target is 700 entries; found " + all.length + ".");
 console.log("N4 total: " + all.length);
 console.log("Unique N4 headwords: " + seen.size);
 console.log("N5 overlap: " + all.filter(e => n5Headwords.has(e.jp)).length);
