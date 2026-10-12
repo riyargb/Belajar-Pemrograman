@@ -95,10 +95,11 @@ const repeatedCommuteTemplate = all.filter(({ contoh }) =>
 // These are review candidates, not an official JLPT classification.
 // JLPT does not publish a definitive, exhaustive vocabulary list.
 const levelReviewCandidates = new Set([
-  "経済", "政治", "社会", "歴史", "科学", "経験", "習慣", "方法", "種類",
-  "部分", "途中", "場合", "近所", "特に", "なるべく", "とにかく", "せっかく",
-  "危険", "必要", "十分", "経験", "予約", "会議", "薬局", "警察", "台風",
-  "地震", "地下鉄", "新幹線", "汽車", "運転手", "警官", "説明", "連絡",
+  "経済", "政治", "社会", "歴史", "科学", "経験", "習慣", "方法", "種類", "部分", "途中", "場合", "近所", "特に",
+  "なるべく", "とにかく", "せっかく", "危険", "必要", "十分", "予約", "会議",
+  "薬局", "警察", "台風", "地震", "地下鉄", "新幹線", "運転手", "警官",
+  "説明", "連絡", "駅員", "料理人", "画家", "天井", "洗濯機", "掃除機",
+  "電子レンジ", "駐車場", "農場", "温度", "気温", "季節", "無料", "有料", "丁寧",
 ]);
 const levelReview = all.filter(({ jp }) => levelReviewCandidates.has(jp));
 
