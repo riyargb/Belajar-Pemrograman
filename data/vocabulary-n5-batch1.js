@@ -59,7 +59,7 @@ const VOCAB_N5_BATCH1 = [
   {jp:"お父さん",kana:"おとうさん",arti:"ayah (orang lain/panggilan)",kelas:"kata benda",contoh:"田中さんのお父さんは元気です。",bacaan:"たなかさんのおとうさんはげんきです。",terjemahan:"Ayah Pak/Bu Tanaka sehat."},
   {jp:"母",kana:"はは",arti:"ibu sendiri",kelas:"kata benda",contoh:"母は料理がとても上手です。",bacaan:"はははりょうりがとてもじょうずです。",terjemahan:"Ibu saya sangat pandai memasak."},
   {jp:"お母さん",kana:"おかあさん",arti:"ibu (orang lain/panggilan)",kelas:"kata benda",contoh:"田中さんのお母さんは元気です。",bacaan:"たなかさんのおかあさんはげんきです。",terjemahan:"Ibu Pak/Bu Tanaka sehat."},
-  {jp:"両親",kana:"りょうしん",arti:"orang tua",kelas:"kata benda",contoh:"両親は家にいます。",bacaan:"りょうしんはいえにいます。",terjemahan:"Orang tua saya ada di rumah."},
+  {jp:"両親",kana:"りょうしん",arti:"orang tua",kelas:"kata benda",contoh:"両親は来月、日本へ旅行します。",bacaan:"りょうしんはらいげつ、にほんへりょこうします。",terjemahan:"Orang tua saya akan berwisata ke Jepang bulan depan."},
   {jp:"兄",kana:"あに",arti:"kakak laki-laki sendiri",kelas:"kata benda",contoh:"兄は大学で経済を勉強しています。",bacaan:"あにはだいがくでけいざいをべんきょうしています。",terjemahan:"Kakak laki-laki saya belajar ekonomi di universitas."},
   {jp:"お兄さん",kana:"おにいさん",arti:"kakak laki-laki (orang lain)",kelas:"kata benda",contoh:"田中さんのお兄さんは元気です。",bacaan:"たなかさんのおにいさんはげんきです。",terjemahan:"Kakak laki-laki Pak/Bu Tanaka sehat."},
   {jp:"姉",kana:"あね",arti:"kakak perempuan sendiri",kelas:"kata benda",contoh:"姉は駅の近くの店で働いています。",bacaan:"あねはえきのちかくのみせではたらいています。",terjemahan:"Kakak perempuan saya bekerja di toko dekat stasiun."},
