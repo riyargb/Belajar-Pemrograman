@@ -14,7 +14,7 @@ Repositori: `riyargb/Belajar-Pemrograman`
 
 JLPT tidak menerbitkan daftar kosakata resmi yang lengkap dan definitif untuk setiap level. Karena itu, “N5” di sini adalah kurasi bahan belajar pemula, bukan jaminan bahwa setiap entri pasti termasuk daftar resmi N5.
 
-Entri berikut perlu diperlakukan sebagai **kosakata tambahan / perlu konfirmasi level**, bukan otomatis dianggap salah: 台風、薬局、警察官、警察官以外の職業名、運転手、地震、新幹線、地下鉄、予約、会議、説明、連絡、経験、習慣、社会、歴史、科学、経済、政治、方法、種類、部分、途中、場合、近所、特に、なるべく、とにかく、せっかく、危険、必要、十分、丁寧。
+Entri berikut perlu diperlakukan sebagai **kosakata tambahan / perlu konfirmasi level**, bukan otomatis dianggap salah: 台風、薬局、警察、警察官、警官、運転手、地震、汽車、新幹線、地下鉄、予約、会議、説明、連絡、経験、習慣、社会、歴史、科学、経済、政治、方法、種類、部分、途中、場合、近所、特に、なるべく、とにかく、せっかく、危険、必要、十分。
 
 Sebagian kata tersebut berguna untuk kehidupan sehari-hari, tetapi bisa lebih sulit atau lebih spesifik daripada inti kosakata pemula. Untuk materi yang lebih ketat, tampilkan sebagai bagian **N5 + kosakata tambahan**, atau verifikasi satu per satu dengan buku ajar/silabus yang dipakai. Jangan menyebutnya daftar resmi JLPT.
 
