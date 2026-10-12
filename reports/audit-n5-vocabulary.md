@@ -168,6 +168,21 @@ Makna **戸** juga sudah diperluas menjadi “pintu; daun pintu”, bukan hanya 
 
 **Status praktis:** daftar 800 kata dapat dipakai sebagai materi belajar pemula berorientasi N5. Daftar ini bukan daftar resmi JLPT yang tertutup: 33 kata masih ditandai validator sebagai kandidat materi tambahan untuk ditinjau levelnya, dan pembanding komunitas OpenJLPT cocok persis dengan 404 headword. Angka tersebut tidak berarti sisanya otomatis salah; JLPT tidak menyediakan daftar kosakata resmi lengkap per level. Jadi, audit editorial satu putaran dan pemeriksaan struktur sudah dilakukan, sementara klaim “setiap kata pasti resmi N5” tidak dapat dibuat.
 
+
+### Verifikasi silang bacaan — 13 Oktober 2026
+
+Data pembanding komunitas OpenJLPT berisi 674 baris kosakata N5. Dari 800 headword proyek, 404 cocok persis dengan kolom kata pembanding; 396 tidak cocok persis. Ketidakcocokan persis bukan bukti kesalahan, karena daftar dan bentuk kata yang dicakup berbeda serta JLPT tidak menerbitkan daftar kosakata resmi lengkap per level.
+
+Lima perbedaan bacaan pada headword yang cocok diperiksa satu per satu dan tidak diperlakukan otomatis sebagai kesalahan:
+
+- **私** — proyek memakai わたし, bacaan umum; pembanding memilih わたくし, bentuk lebih formal.
+- **何** — headword memakai なに; contoh これは何ですか。 secara alami dibaca これはなんですか。
+- **毎月** — まいつき dan まいげつ sama-sama digunakan. Arti kini mencatat bacaan alternatif.
+- **毎年** — まいとし dan まいねん sama-sama digunakan. Arti kini mencatat bacaan alternatif.
+- **一月** — pada entri ini artinya Januari, sehingga いちがつ tepat; ひとつき berarti durasi satu bulan.
+
+Kesimpulan putaran ini: perbedaan bacaan yang terdeteksi sudah ditinjau secara kontekstual; dua bacaan alternatif dicatat pada entri terkait. Pemeriksaan silang ini melengkapi audit editorial dan struktural, tetapi tidak membuktikan secara otomatis setiap nuansa/terjemahan benar atau mengesahkan semua 800 kata sebagai kosakata resmi N5.
+
 ## File terkait
 
 - [Batch 1](../data/vocabulary-n5-batch1.js)
