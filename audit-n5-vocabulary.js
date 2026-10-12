@@ -57,8 +57,17 @@ for (const batch of batches) {
     if (!allowedCategories.has(entry.kelas)) {
       errors.push(`${label} (${entry.jp}): unknown category "${entry.kelas}"`);
     }
+    if (/[一-龯]/u.test(entry.kana || "")) {
+      errors.push(`${label} (${entry.jp}): headword reading contains kanji`);
+    }
     if (/[一-龯]/u.test(entry.bacaan || "")) {
-      errors.push(`${label} (${entry.jp}): reading contains kanji`);
+      errors.push(`${label} (${entry.jp}): example reading contains kanji`);
+    }
+    if (/[A-Za-z]/u.test(entry.kana || "")) {
+      errors.push(`${label} (${entry.jp}): headword reading contains Latin letters`);
+    }
+    if (/[A-Za-z]/u.test(entry.bacaan || "")) {
+      errors.push(`${label} (${entry.jp}): example reading contains Latin letters`);
     }
     if (/^[ァ-ヺー]+$/u.test(entry.jp) && entry.kana !== entry.jp) {
       errors.push(`${label} (${entry.jp}): katakana headword should use matching katakana in "kana"`);
