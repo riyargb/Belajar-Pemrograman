@@ -1,7 +1,7 @@
 # Audit Kosakata JLPT N4 — 700 Entri
 
 Tanggal pembaruan: 13 Oktober 2026  
-Status: **700 entri telah disusun; audit otomatis rilis dan pemeriksaan linguistik lanjutan sedang berlangsung.**
+Status: **700 entri telah disusun; audit otomatis struktural/integrasi N4 lulus. Tinjauan linguistik menyeluruh tetap diperlukan.**
 
 ## Ringkasan data saat ini
 
@@ -17,7 +17,9 @@ Status: **700 entri telah disusun; audit otomatis rilis dan pemeriksaan linguist
 
 Data tersimpan pada `data/vocabulary-n4-batch1.js` sampai `data/vocabulary-n4-batch16.js`. Setiap entri berisi `jp`, `kana`, `arti`, `kelas`, `contoh`, `bacaan`, dan `terjemahan`.
 
-Angka di atas merupakan pemeriksaan inventaris lintas file. Hasil audit otomatis lengkap ditentukan oleh workflow GitHub Actions yang menjalankan `node audit-n4-vocabulary.js`; jangan menyimpulkan lulus sebelum workflow terbaru selesai.
+Angka di atas merupakan pemeriksaan inventaris lintas file. Workflow audit N4 berhasil pada commit `598d251d`: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38298722683
+
+Audit tersebut sempat menemukan satu kesalahan bacaan pada contoh `気づく` di batch 8 (kanji tertinggal di kolom bacaan). Bacaan diperbaiki menjadi kana penuh, lalu audit dijalankan ulang dan lulus. Audit N5 juga lulus setelah validator integrasi diperbarui untuk mendukung pemilih level N5/N4: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38298815671.
 
 ## Integrasi aplikasi
 
