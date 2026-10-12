@@ -29,6 +29,13 @@ for (const entry of entries) {
   for (const field of ["m", "on", "v", "s"]) {
     if (!entry[field].trim()) errors.push(entry.k + " (" + entry.l + "): required field " + field + " is empty.");
   }
+  const vocabWord = entry.v.split("（")[0].trim();
+  if (vocabWord && !vocabWord.includes(entry.k)) {
+    warnings.push(entry.k + ": kanji key is not present in the displayed vocabulary headword: " + entry.v);
+  }
+  if (!entry.kun.trim()) {
+    warnings.push(entry.k + ": kunyomi field is blank; confirm this is intentional for this character.");
+  }
   if (/\s[一-龯]|[一-龯]\s[一-龯]|[ぁ-んァ-ン]\s+[ぁ-んァ-ン]/u.test(entry.s)) {
     warnings.push(entry.k + ": suspicious whitespace in example sentence: " + entry.s);
   }
