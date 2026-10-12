@@ -156,7 +156,7 @@ const VOCAB_N5_BATCH1 = [
   {jp:"海",kana:"うみ",arti:"laut",kelas:"kata benda",contoh:"山に海があります。",bacaan:"やまにうみがあります。",terjemahan:"Ada laut di gunung."},
   {jp:"島",kana:"しま",arti:"pulau",kelas:"kata benda",contoh:"山に島があります。",bacaan:"やまにしまがあります。",terjemahan:"Ada pulau di gunung."},
   {jp:"森",kana:"もり",arti:"hutan",kelas:"kata benda",contoh:"山に森があります。",bacaan:"やまにもりがあります。",terjemahan:"Ada hutan di gunung."},
-  {jp:"林",kana:"はやし",arti:"hutan kecil; kumpulan pepohonan",kelas:"kata benda",contoh:"山に林があります。",bacaan:"やまにはやしがあります。",terjemahan:"Ada rimbun pepohonan di gunung."},
+  {jp:"林",kana:"はやし",arti:"hutan kecil; kumpulan pepohonan",kelas:"kata benda",contoh:"家の後ろに林があります。",bacaan:"いえのうしろにはやしがあります。",terjemahan:"Ada kumpulan pepohonan di belakang rumah."},
   {jp:"空",kana:"そら",arti:"langit",kelas:"kata benda",contoh:"山に空があります。",bacaan:"やまにそらがあります。",terjemahan:"Ada langit di gunung."},
   {jp:"花",kana:"はな",arti:"bunga",kelas:"kata benda",contoh:"山に花があります。",bacaan:"やまにはながあります。",terjemahan:"Ada bunga di gunung."},
   {jp:"木",kana:"き",arti:"pohon",kelas:"kata benda",contoh:"山に木があります。",bacaan:"やまにきがあります。",terjemahan:"Ada pohon di gunung."},
