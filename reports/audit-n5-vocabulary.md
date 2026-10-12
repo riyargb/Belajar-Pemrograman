@@ -143,6 +143,14 @@ Penyelenggara JLPT menjelaskan bahwa daftar kosakata, kanji, dan tata bahasa dal
 
 
 
+### Putaran pemeriksaan makna — 13 Oktober 2026
+
+- Memperjelas makna ungkapan `よろしく` agar tidak diterjemahkan hanya sebagai “mohon bantuannya”; ungkapan ini juga dipakai untuk menyampaikan harapan hubungan baik, bergantung konteks.
+- Memperjelas nuansa `友人` sebagai “teman (lebih formal)” dan menjelaskan awalan hormat `お` pada `お皿`.
+- Memperluas arti `戸` menjadi “pintu; daun pintu” karena tidak selalu berarti pintu geser.
+- Memperluas arti `場合`, `知らせ`, `向かい`, dan `せっかく` agar mencakup pemakaian yang lebih tepat sesuai konteks.
+- Ini adalah koreksi makna yang teridentifikasi pada peninjauan ini, bukan bukti bahwa seluruh 800 entri telah menjalani validasi profesional satu per satu.
+
 ### Pemeriksaan validator tambahan — 13 Oktober 2026
 
 - Validator kini memeriksa bukan hanya kolom `bacaan`, tetapi juga kolom `kana`, agar bacaan kata kepala dan bacaan contoh tidak berisi kanji atau huruf Latin.
