@@ -1,53 +1,44 @@
-# Audit Akhir Kanji — Status Terverifikasi
+# Audit Kanji — Status Setelah Penambahan Dataset
 
 Tanggal pemeriksaan: 13 Oktober 2026
 
-Pembaruan tindak lanjut: branch `fix/kanji-audit-cleanup` memperbaiki tiga spasi salah pada contoh kalimat dan memperkuat pemeriksaan struktural. Perubahan ini belum melengkapi dataset hingga 300 kanji; status rilis tetap terblokir sampai target dan pemeriksaan linguistik dipenuhi.
+## Ringkasan inventaris
 
-## Ringkasan
+**Target struktural tercapai:** dataset memuat 300 entri unik dengan 100 berlabel N5 dan 200 berlabel N4.
 
-**Status rilis: TERBLOKIR — target 300 kanji belum terpenuhi.**
-
-Dataset kanji saat ini ditanam langsung di `english-roadmap.html` pada array `KL_DATA`.
-
-| Pemeriksaan | Hasil saat diperiksa |
+| Pemeriksaan | Hasil |
 |---|---:|
-| Total entri kanji | 100 |
-| Karakter unik | 100 |
-| Duplikasi karakter internal | 0 |
-| Label N5 | 49 |
-| Label N4 | 51 |
-| Target N5 | 100 |
-| Target tambahan N4 | 200 |
-| Kekurangan terhadap target | 200 entri |
+| Total entri yang diparse | 300 |
+| Karakter unik | 300 |
+| Entri berlabel N5 | 100/100 |
+| Entri berlabel N4 | 200/200 |
+| Kunci yang bukan satu karakter kanji | 0 |
+| Duplikasi karakter | 0 |
+| Kolom wajib kosong (arti, onyomi, kosakata, contoh) | 0 |
+| Contoh dengan pola spasi mencurigakan yang diperiksa | 0 |
 
-Inventaris dihitung dari array data yang ada, bukan dari label antarmuka. Data saat ini tidak memenuhi target 100 kanji N5 + 200 kanji N4. Karena itu, fitur tidak boleh dinyatakan selesai berdasarkan target tersebut.
+Dataset ada di array `KL_DATA` dalam `english-roadmap.html`. Penambahan ini mempertahankan 100 entri lama dan menambahkan 51 entri N5 serta 149 entri N4. Pemeriksaan di atas dilakukan pada konten file di branch, menggunakan parser struktural yang sepadan dengan pola pada `audit-kanji.js`; belum diklaim sebagai eksekusi Node.js di checkout lokal.
 
-## Status PR dan branch
+## Status kualitas bahasa
 
-Pencarian PR pada integrasi GitHub yang tersedia tidak mengembalikan PR terbuka maupun PR yang cocok dengan kata kunci kanji. Pencarian branch hanya menampilkan `main`. Perubahan flashcard kanji ditemukan sebagai commit langsung:
+**Status rilis: perlu tinjauan linguistik sebelum dinyatakan final.**
 
-- [Commit penambahan flashcard kanji](https://github.com/riyargb/Belajar-Pemrograman/commit/9d79156b8e6dcce6ed89c4bd1cdb2e50fcaca408)
+Audit struktural memastikan jumlah, keunikan kunci, format, dan kelengkapan kolom. Audit ini **tidak** membuktikan bahwa setiap onyomi/kunyomi, arti, kosakata, contoh kalimat, atau terjemahan sudah benar dan alami. Contoh kalimat pada entri baru saat ini memakai pola latihan seragam untuk menghafal kosakata; pola ini sengaja konsisten, tetapi sebaiknya ditinjau dan dibuat lebih alami/beragam dalam audit editorial berikutnya.
 
-Audit ini tidak dapat mengonfirmasi adanya PR terpisah berisi 100 kanji N5 dan 200 kanji N4. Jika PR tersebut berada di fork atau repository lain, tautannya perlu ditemukan sebelum perubahan PR dapat diperiksa.
+Label N5/N4 adalah pengelompokan belajar praktis, bukan klaim bahwa ada daftar kanji resmi JLPT yang menetapkan setiap karakter secara definitif.
 
-## Temuan implementasi
+## Perubahan pada branch
 
-1. Dataset kurang 200 entri: ada 49 label N5 dan 51 label N4, bukan 100 + 200.
-2. Label level perlu ditinjau secara editorial. JLPT tidak menerbitkan daftar resmi kanji tertutup yang membuktikan level setiap karakter.
-3. Progres hafalan menggunakan karakter sebagai kunci. Pertahankan pendekatan ini saat dataset diperluas agar progres tidak hilang.
-4. Perbaikan distraktor kuis sudah tercatat pada commit sebelumnya; perubahan baru ini tidak mengubah logika kuis.
-5. Audit otomatis tidak membuktikan kebenaran bacaan onyomi/kunyomi, arti, kosakata, contoh kalimat, atau terjemahan.
+- Menambahkan 51 entri berlabel N5 dan 149 entri berlabel N4.
+- Memastikan setiap kunci adalah satu karakter kanji, tidak ada kunci duplikat, dan kolom wajib terisi.
+- Memperkuat `audit-kanji.js` agar mendeteksi kunci multi-karakter.
+- Memperbaiki tiga contoh kalimat yang sebelumnya memiliki spasi salah.
 
-## Langkah penutupan
+## Langkah berikutnya
 
-- Tambahkan dan tinjau 51 kanji N5 lagi untuk mencapai 100. (Belum selesai.)
-- Tambahkan dan tinjau 149 kanji N4 lagi untuk mencapai 200. (Belum selesai.)
-- Periksa bacaan, arti, kosakata contoh, kalimat, dan terjemahan setiap entri.
-- Perbaiki distraktor kuis agar mengikuti level yang sedang dipilih.
-- Tambahkan pemeriksaan otomatis jumlah, keunikan, kolom, dan integrasi setelah dataset diperbarui.
-- Verifikasi PR yang benar bila perubahan kanji memang diajukan melalui PR.
+1. Tinjau bacaan dan arti setiap kanji.
+2. Verifikasi kosakata, bacaan kana, contoh kalimat, dan terjemahan.
+3. Jalankan `node audit-kanji.js` di checkout repository setelah perubahan diambil.
+4. Uji tampilan flashcard, filter level, kuis, dan penyimpanan progres sebelum merge.
 
-## Batas klaim
-
-Hasil saat ini membuktikan inventaris berisi 100 karakter unik: 49 berlabel N5 dan 51 berlabel N4. Audit ini tidak menyatakan target 300 sudah tercapai, tidak mengesahkan semua bacaan/arti, dan tidak mengklaim daftar tersebut resmi JLPT.
+**Kesimpulan:** target jumlah 100 N5 + 200 N4 sudah tercapai secara struktural. Dataset belum boleh disebut tervalidasi secara linguistik sampai pemeriksaan manual selesai.
