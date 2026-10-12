@@ -183,6 +183,27 @@ Lima perbedaan bacaan pada headword yang cocok diperiksa satu per satu dan tidak
 
 Kesimpulan putaran ini: perbedaan bacaan yang terdeteksi sudah ditinjau secara kontekstual; dua bacaan alternatif dicatat pada entri terkait. Pemeriksaan silang ini melengkapi audit editorial dan struktural, tetapi tidak membuktikan secara otomatis setiap nuansa/terjemahan benar atau mengesahkan semua 800 kata sebagai kosakata resmi N5.
 
+
+### Audit linguistik mendalam — 13 Oktober 2026
+
+Pada putaran ini, semua 800 entri ditinjau secara editorial dengan fokus pada kewajaran kalimat Jepang, kecocokan bacaan contoh, ketepatan makna dalam bahasa Indonesia, dan penggunaan kata sesuai konteks. Koreksi yang dikonfirmasi lalu diterapkan:
+
+- **着く** — urutan kata pada contoh dirapikan menjadi `八時に駅に着きます。` agar lebih alami.
+- **弱い** — contoh tentang “rasa kopi yang lemah” diganti dengan `このチームは弱いです。`, pemakaian yang lebih wajar untuk makna “lemah”.
+- **木の葉** — bacaan pada dua contoh terkait diperjelas menjadi `このは`.
+- **戸** — terjemahan contoh diubah menjadi “Tolong buka pintu”, sebab 戸 tidak selalu berarti pintu geser.
+- **新幹線** — terjemahan diperbaiki menjadi “Kereta cepat itu sangat cepat”.
+- **会議室** — terjemahan 打ち合わせをします diperhalus menjadi “mengadakan rapat koordinasi”.
+- **農場** — terjemahan diperjelas dengan keterangan lokasi peternakan.
+- **成績** — kalimat dirapikan menjadi `今回のテストの成績はよかったです。`.
+- **味** — contoh dirapikan menjadi `このスープは味がいいです。`.
+- **案内** — makna contoh diperbaiki menjadi “menunjukkan jalan sampai ke stasiun”, bukan mengantar secara fisik.
+- **場合** — contoh diberi partikel topik `は` agar lebih alami: `雨の場合は、家にいます。`.
+- **しっかり** — terjemahan dibuat lebih alami: “Tolong makan sarapan dengan cukup”.
+- **丁寧** — terjemahan `丁寧に説明します` disesuaikan menjadi “menjelaskan dengan cermat”.
+
+Audit ini adalah pemeriksaan editorial menyeluruh, bukan sertifikasi oleh penutur asli atau jaminan bahwa semua 800 entri termasuk daftar resmi JLPT N5. Kosakata tingkat lanjut tetap dipertahankan sebagai materi tambahan; JLPT tidak menerbitkan daftar resmi kosakata lengkap per level.
+
 ## File terkait
 
 - [Batch 1](../data/vocabulary-n5-batch1.js)
