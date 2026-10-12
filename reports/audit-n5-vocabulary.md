@@ -73,6 +73,12 @@ JLPT tidak menerbitkan daftar kosakata resmi yang lengkap dan tertutup untuk tia
 - `お父さん`, `お母さん`, `お兄さん`, `お姉さん`, dan `奥さん` kini memakai contoh dengan konteks keluarga orang lain (`田中さんの...`) agar selaras dengan penjelasan maknanya.
 - `主人` mendapat contoh kalimat yang lebih informatif; catatan makna menyebutnya sebagai sebutan tradisional.
 
+### Perbaikan contoh makanan dan minuman
+
+- Mengganti contoh yang terlalu berulang untuk `肉`, `牛肉`, `豚肉`, `鶏肉`, `魚`, `野菜`, dan `果物` dengan kalimat yang lebih informatif dan bervariasi.
+- Memperbaiki contoh `酒` dan `ビール` yang sebelumnya menyebut minum alkohol setiap pagi; contoh baru menggunakan konteks makan malam dan berkumpul bersama teman.
+- Bacaan kana dan terjemahan diperbarui mengikuti kalimat baru. Ini adalah penyuntingan editorial, bukan pengesahan tingkat JLPT.
+
 ## Batas audit
 
 - Skrip memeriksa jumlah, keunikan, kolom, kategori, bacaan, tanda baca, konsistensi katakana, dan urutan pemuatan data.
