@@ -39,7 +39,7 @@ const requiredUiIds = [
   "vl-unlearned", "vl-all", "vl-list-toggle", "vl-list",
 ];
 for (const id of requiredUiIds) {
-  assert.ok(new RegExp(`\\\\bid=["']${id}["']`).test(html), `Missing vocabulary UI element id="${id}"`);
+  assert.ok(html.includes('id="' + id + '"') || html.includes("id='" + id + "'"), 'Missing vocabulary UI element id="' + id + '"');
 }
 
 for (const batch of batches) {
