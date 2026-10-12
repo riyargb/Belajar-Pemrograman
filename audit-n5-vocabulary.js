@@ -75,6 +75,13 @@ for (const batch of batches) {
     if (!/[。？！]$/.test(entry.contoh || "")) {
       errors.push(`${label} (${entry.jp}): example lacks Japanese sentence punctuation`);
     }
+    for (const mark of ["、", "。", "？", "！", "「", "」"]) {
+      const exampleCount = (entry.contoh.match(new RegExp(mark, "g")) || []).length;
+      const readingCount = (entry.bacaan.match(new RegExp(mark, "g")) || []).length;
+      if (exampleCount !== readingCount) {
+        errors.push(`${label} (${entry.jp}): punctuation "${mark}" count differs between example and reading`);
+      }
+    }
     all.push({ ...entry, _batch: batch.name, _index: index + 1 });
   }
 }
