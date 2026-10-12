@@ -959,7 +959,7 @@ function klQuizRender() {
     `Soal ${klQIndex+1}/${klQuiz.length} · Skor ${klScore}`;
   document.getElementById("kl-q-question").innerHTML =
     `Apa arti kanji <span class="kl-kanji">${klEsc(x.k)}</span>?`;
-  const wrong = klShuffle(KL_DATA.filter(y=>y.k!==x.k)).slice(0,3);
+  const wrong = klShuffle(KL_DATA.filter(y=>y.k!==x.k && (klLevel==="ALL" || y.l===klLevel))).slice(0,3);
   const options = klShuffle([x,...wrong]).slice(0,4);
   document.getElementById("kl-q-options").innerHTML = options.map((o,i)=>
     `<button class="kl-btn kl-option" data-kanji="${klEsc(o.k)}"
