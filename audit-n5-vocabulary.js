@@ -62,6 +62,20 @@ const genericExamples = all.filter(({ contoh }) =>
   /^(これは私の.+です。|ここは(?:学校|大学|高校|教室|図書館|会社|事務所|病院|銀行|郵便局|駅|空港|店|デパート|スーパー|コンビニ|レストラン|喫茶店|食堂|ホテル|旅館|家|部屋|台所|玄関|トイレ|庭|建物|公園|動物園|映画館|美術館|博物館|神社|寺|薬局|アパート|マンション|居間|駐車場|市場|本屋|花屋|肉屋|魚屋|八百屋|料理店|会議室|体育館|遊園地|劇場|教会|大使館|市役所|区役所|工場|農場|港|海岸|温泉|プール|運動場)です。)$/.test(contoh)
 );
 
+const repeatedCommuteTemplate = all.filter(({ contoh }) =>
+  /^毎朝、.+で学校へ行きます。$/.test(contoh)
+);
+
+// These are review candidates, not an official JLPT classification.
+// JLPT does not publish a definitive, exhaustive vocabulary list.
+const levelReviewCandidates = new Set([
+  "経済", "政治", "社会", "歴史", "科学", "経験", "習慣", "方法", "種類",
+  "部分", "途中", "場合", "近所", "特に", "なるべく", "とにかく", "せっかく",
+  "危険", "必要", "十分", "経験", "予約", "会議", "薬局", "警察", "台風",
+  "地震", "地下鉄", "新幹線", "汽車", "運転手", "警官", "説明", "連絡",
+]);
+const levelReview = all.filter(({ jp }) => levelReviewCandidates.has(jp));
+
 console.log("N5 vocabulary structural audit");
 for (const batch of batches) {
   console.log(`- ${batch.name}: ${batch.entries.length} entries`);
@@ -70,6 +84,11 @@ console.log(`- Total entries: ${all.length}`);
 console.log(`- Unique headwords: ${seen.size}`);
 console.log(`- Repeated example sentences (review warning): ${duplicateExamples.length}`);
 console.log(`- Basic template examples (review warning): ${genericExamples.length}`);
+console.log(`- Repeated commute-template examples (review warning): ${repeatedCommuteTemplate.length}`);
+console.log(`- Possible supplemental-level terms to review (not definitive): ${levelReview.length}`);
+if (levelReview.length) {
+  console.log(`  ${levelReview.map(({ jp }) => jp).join(", ")}`);
+}
 
 if (errors.length) {
   console.error(`\nFAILED: ${errors.length} issue(s)`);
@@ -79,7 +98,7 @@ if (errors.length) {
   console.log("\nPASS: counts, required fields, categories, readings, punctuation, and headword uniqueness.");
 }
 
-if (genericExamples.length) {
-  console.log("\nNOTE: Structural checks do not verify every Japanese meaning, JLPT level, or translation.");
-  console.log("Review template examples manually before treating the learning content as final.");
+if (genericExamples.length || duplicateExamples.length || repeatedCommuteTemplate.length || levelReview.length) {
+  console.log("\nNOTE: Review warnings are advisory. The level candidates are not official JLPT classifications.");
 }
+console.log("NOTE: This script checks structure only; it cannot prove every meaning, reading, example, or translation is correct.");
