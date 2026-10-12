@@ -230,8 +230,8 @@ button{cursor:pointer}
 @media(max-width:420px){.vl-controls{grid-template-columns:1fr}.vl-wrap{padding:12px}.vl-jp{font-size:30px}}
 </style>
 <section class="vl-wrap" id="vocab-lab">
-  <div class="vl-head"><div><div class="vl-title">単語 LAB / Kosakata Jepang</div><div class="vl-sub">Target awal 400 kosakata. Cari kata, buka kartu, tandai hafal, dan pantau progres di perangkat ini.</div></div><span class="vl-tag">N5 · 400 kata</span></div>
-  <div class="vl-stats" id="vl-stats">Memuat 400 kosakata...</div><div class="vl-bar"><div class="vl-bar-fill" id="vl-progress"></div></div>
+  <div class="vl-head"><div><div class="vl-title">単語 LAB / Kosakata Jepang</div><div class="vl-sub">Target awal 800 kosakata. Cari kata, buka kartu, tandai hafal, dan pantau progres di perangkat ini.</div></div><span class="vl-tag">N5 · 800 kata</span></div>
+  <div class="vl-stats" id="vl-stats">Memuat 800 kosakata...</div><div class="vl-bar"><div class="vl-bar-fill" id="vl-progress"></div></div>
   <div class="vl-controls"><input class="vl-input" id="vl-search" placeholder="Cari Jepang, kana, atau arti..." aria-label="Cari kosakata"><select class="vl-select" id="vl-category" aria-label="Filter kelas kata"><option value="ALL">Semua kategori</option></select></div>
   <div class="vl-card" id="vl-card" aria-live="polite"></div><div class="vl-count" id="vl-count"></div>
   <div class="vl-buttons"><button class="vl-btn primary" id="vl-reveal">Lihat jawaban</button><button class="vl-btn" id="vl-next">Kata berikutnya →</button><button class="vl-btn" id="vl-mark">✓ Tandai hafal</button></div>
@@ -240,6 +240,45 @@ button{cursor:pointer}
   <div class="vl-sub">Catatan: target belajar 400 kata ini adalah daftar belajar praktis, bukan daftar resmi tertutup JLPT. Contoh kalimat memakai pola sederhana untuk membantu mengingat lema.</div>
 </section>
 <!-- END SALMAN_VOCAB_LAB_V1 -->
+
+<script>
+// SALMAN_VOCAB_LAB_V2
+(function(){
+ const data = [...(typeof VOCAB_N5_BATCH1!=="undefined"?VOCAB_N5_BATCH1:[]), ...(typeof VOCAB_N5_BATCH2!=="undefined"?VOCAB_N5_BATCH2:[])];
+ const $=id=>document.getElementById(id);
+ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ if(!data.length || !$("vl-card")) return;
+ let progress={}; try{progress=JSON.parse(localStorage.getItem("sal_vocab_n5_progress_v1")||"{}")||{}}catch(e){}
+ let pool=data.slice(),index=0,revealed=false,listShown=false;
+ const categories=[...new Set(data.map(x=>x.kelas))].sort();
+ $("vl-category").innerHTML='<option value="ALL">Semua kategori</option>'+categories.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join("");
+ function filtered(){const q=$("vl-search").value.trim().toLowerCase(),cat=$("vl-category").value;return data.filter(x=>(cat==="ALL"||x.kelas===cat)&&(!q||[x.jp,x.kana,x.arti,x.kelas].join(" ").toLowerCase().includes(q)));}
+ function render(){
+  if(!pool.length){$("vl-card").innerHTML='<div class="vl-meaning">Kosakata tidak ditemukan.</div>'; $("vl-count").textContent="Coba kata kunci atau kategori lain."; $("vl-mark").disabled=true; return;}
+  index=(index+pool.length)%pool.length; const x=pool[index];
+  $("vl-card").innerHTML='<div class="vl-jp">'+esc(x.jp)+'</div><div class="vl-kana">'+esc(x.kana)+'</div><div class="vl-meaning">'+(revealed?esc(x.arti):'•••')+'</div>'+(revealed?'<div class="vl-detail"><b>Contoh:</b> '+esc(x.contoh)+'<br><b>Bacaan:</b> '+esc(x.bacaan)+'<br><b>Arti:</b> '+esc(x.terjemahan)+'</div>':'<div class="vl-detail">Coba ingat arti kata ini, lalu tekan “Lihat jawaban”.</div>');
+  $("vl-count").textContent='Kartu '+(index+1)+'/'+pool.length+' · '+(progress[x.jp]?'✓ Sudah hafal':'Belum ditandai');
+  $("vl-mark").disabled=!!progress[x.jp]; $("vl-mark").textContent=progress[x.jp]?'✓ Sudah hafal':'✓ Tandai hafal';
+  $("vl-stats").textContent='Hafal '+Object.keys(progress).filter(k=>progress[k]&&data.some(x=>x.jp===k)).length+'/'+data.length+' kosakata · '+pool.length+' ditampilkan';
+  $("vl-progress").style.width=(100*Object.keys(progress).filter(k=>progress[k]&&data.some(x=>x.jp===k)).length/data.length)+'%';
+  $("vl-reveal").textContent=revealed?'Sembunyikan jawaban':'Lihat jawaban';
+  if(listShown) renderList();
+ }
+ function renderList(){const el=$("vl-list"); if(!el)return; el.innerHTML=pool.map(x=>'<label class="vl-row"><input type="checkbox" data-word="'+esc(x.jp)+'" '+(progress[x.jp]?'checked':'')+'><span class="vl-row-main"><span class="vl-row-jp">'+esc(x.jp)+' · '+esc(x.kana)+'</span><br><span class="vl-row-meaning">'+esc(x.arti)+'</span></span></label>').join("");}
+ function refresh(){pool=filtered();index=0;revealed=false;render();}
+ $("vl-search").addEventListener("input",refresh); $("vl-category").addEventListener("change",refresh);
+ $("vl-reveal").addEventListener("click",()=>{revealed=!revealed;render();});
+ $("vl-next").addEventListener("click",()=>{index=(index+1)%pool.length;revealed=false;render();});
+ $("vl-mark").addEventListener("click",()=>{if(!pool.length)return;progress[pool[index].jp]=true;try{localStorage.setItem("sal_vocab_n5_progress_v1",JSON.stringify(progress))}catch(e){};render();});
+ $("vl-unlearned").addEventListener("click",()=>{pool=filtered().filter(x=>!progress[x.jp]);index=0;revealed=false;render();});
+ $("vl-all").addEventListener("click",()=>{$("vl-search").value="";$("vl-category").value="ALL";refresh();});
+ $("vl-list-toggle").addEventListener("click",()=>{listShown=!listShown;$("vl-list").hidden=!listShown;$("vl-list-toggle").textContent=listShown?"Sembunyikan daftar":"Tampilkan semua";if(listShown)renderList();});
+ $("vl-list").addEventListener("change",e=>{const key=e.target.dataset.word;if(!key)return;if(e.target.checked)progress[key]=true;else delete progress[key];try{localStorage.setItem("sal_vocab_n5_progress_v1",JSON.stringify(progress))}catch(err){};render();});
+ refresh();
+})();
+// END SALMAN_VOCAB_LAB_V2
+</script>
+
 <!-- SALMAN_KANJI_LAB_V1 -->
 <section class="kl-wrap" id="kanji-lab">
   <div class="kl-head">
@@ -312,6 +351,7 @@ button{cursor:pointer}
 </div>
 <div class="bottom-hint">data tersimpan otomatis · tidak hilang</div>
 <script src="data/vocabulary-n5-batch1.js"></script>
+<script src="data/vocabulary-n5-batch2.js"></script>
 <script>
 (function(){
  const root=document.documentElement,btn=document.getElementById('theme-toggle'),meta=document.getElementById('theme-color-meta');
