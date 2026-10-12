@@ -115,6 +115,14 @@ Penyuntingan tambahan pada putaran ini:
 - Kolom contoh, bacaan kana, dan terjemahan Indonesia diperbarui bersama-sama pada entri yang disunting.
 - Skrip audit diperbarui: kandidat kata tambahan yang perlu dibandingkan dengan bahan belajar N5 sekarang mencakup istilah seperti `薬局`, `警察`, `新幹線`, `経済`, dan `丁寧`; kandidat tersebut bukan vonis bahwa kata-kata itu pasti di luar N5.
 
+### Perbandingan silang kosakata
+
+Sebagai pemeriksaan tambahan, 800 entri dibandingkan dengan data kosakata N5 proyek komunitas OpenJLPT (https://github.com/evanclan/OpenJLPT/tree/main/data/csv). Data referensi tersebut berisi 674 headword N5; 404 entri cocok persis berdasarkan ejaan. Ini hanya pembanding eksternal, bukan daftar resmi JLPT. Ketidakcocokan ejaan dapat berasal dari sinonim, variasi ejaan, kata tambahan, atau kosakata di luar daftar referensi dan tidak otomatis membuktikan tingkat kata.
+
+Perbedaan bacaan ditinjau: 私 (わたし), 毎月 (まいつき), dan 毎年 (まいとし) adalah bacaan yang lazim; 何 dapat dibaca なに atau なん sesuai konteks. Bacaan contoh これは何ですか。 kini ditulis これはなんですか。 agar sesuai dengan pelafalan kalimat yang diajarkan. 一月 tetap dibaca いちがつ karena entri ini berarti bulan Januari, bukan durasi satu bulan.
+
+Perbandingan silang membantu menemukan variasi dan kandidat untuk diperiksa, tetapi tidak menggantikan pemeriksaan bahasa menyeluruh.
+
 ### Dasar klasifikasi tingkat JLPT
 
 Penyelenggara JLPT menjelaskan bahwa daftar kosakata, kanji, dan tata bahasa dalam *Test Content Specifications* tidak lagi diterbitkan setelah revisi 2010. Karena itu, daftar ini diperlakukan sebagai **materi belajar berorientasi N5 dengan kosakata tambahan**, bukan daftar resmi yang menjamin setiap entri pasti masuk N5. Rujukan resmi: [JLPT FAQ — Why is “Test Content Specifications” no longer available?](https://www.jlpt.jp/e/faq/index.html) dan [ringkasan kemampuan bahasa tiap level](https://www.jlpt.jp/e/about/levelsummary.html).
