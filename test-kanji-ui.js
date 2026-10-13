@@ -86,6 +86,9 @@ assert.match(el("kl-count").textContent, /\/200/, "N4 filter should contain 200 
 
 el("kl-level").value = "ALL";
 el("kl-level").listeners.change({ target: el("kl-level") });
+el("kl-search").value = "no-such-kanji-result";
+el("kl-search").listeners.input();
+assert.match(el("kl-count").textContent, /0 kartu/, "empty search should show zero results without crashing");
 el("kl-search").value = "南";
 el("kl-search").listeners.input();
 assert.match(el("kl-count").textContent, /Kartu 1\/1/, "search by a unique kanji should return one card");
@@ -110,5 +113,7 @@ assert.match(el("kl-q-count").textContent, /Soal 2\//, "next should advance the 
 
 const reloaded = createHarness(h.storage);
 assert.match(reloaded.elements.get("kl-stats").textContent, /Hafal 1\/300/, "saved progress should restore on reload");
+const corrupt = createHarness({ sal_kanji_progress: null });
+assert.match(corrupt.elements.get("kl-stats").textContent, /Hafal 0\/300/, "corrupt saved progress should safely reset");
 
-console.log("PASS: Kanji Lab runtime smoke tests (300-card deck, N5/N4 filters, search, flip, progress save/reload, quiz).");
+console.log("PASS: Kanji Lab runtime smoke tests (300-card deck, N5/N4 filters, search, flip, progress save/reload, empty search, corrupt storage, quiz).");
