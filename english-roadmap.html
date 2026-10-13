@@ -221,7 +221,7 @@ button{cursor:pointer}
 .vl-btn.primary{background:var(--accent);color:white;border-color:transparent}
 .vl-btn:disabled{opacity:.45}
 .vl-count{font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
-.vl-list{display:grid;gap:6px;margin-top:12px}
+.vl-list{display:grid;gap:6px;margin-top:12px}.vl-list[hidden]{display:none!important}
 .vl-row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);text-align:left}
 .vl-row-main{flex:1;min-width:0}
 .vl-row-jp{font-weight:800;font-size:17px}
@@ -235,7 +235,7 @@ button{cursor:pointer}
   <div class="vl-controls"><select class="vl-select" id="vl-level" aria-label="Pilih level kosakata"><option value="N5">N5 · 800 kata</option><option value="N4">N4 · 700 kata</option></select><input class="vl-input" id="vl-search" placeholder="Cari Jepang, kana, atau arti..." aria-label="Cari kosakata"><select class="vl-select" id="vl-category" aria-label="Filter kelas kata"><option value="ALL">Semua kategori</option></select></div>
   <div class="vl-card" id="vl-card" aria-live="polite"></div><div class="vl-count" id="vl-count"></div>
   <div class="vl-buttons"><button class="vl-btn primary" id="vl-reveal">Lihat jawaban</button><button class="vl-btn" id="vl-next">Kata berikutnya →</button><button class="vl-btn" id="vl-mark">✓ Tandai hafal</button></div>
-  <div class="vl-buttons"><button class="vl-btn" id="vl-unlearned">Belum hafal</button><button class="vl-btn" id="vl-all">Tampilkan semua</button><button class="vl-btn" id="vl-list-toggle">Daftar kata</button></div>
+  <div class="vl-buttons"><button class="vl-btn" id="vl-unlearned">Belum hafal</button><button class="vl-btn" id="vl-all">Tampilkan semua</button><button class="vl-btn" id="vl-list-toggle" type="button" aria-controls="vl-list" aria-expanded="false">Tampilkan daftar</button></div>
   <div class="vl-list" id="vl-list" hidden></div>
   <div class="vl-sub">Catatan: daftar N5 dan N4 adalah kurasi belajar, bukan daftar resmi tertutup JLPT. Label level adalah klasifikasi belajar, bukan jaminan bahwa setiap kata termasuk daftar resmi. Progres hafalan disimpan terpisah untuk tiap level. Periksa konteks dan contoh kalimat saat menghafal.</div>
 </section>
@@ -288,7 +288,7 @@ button{cursor:pointer}
  if(!datasets.N5.length || !datasets.N4.length || !$("vl-card")) return;
  let level="N5",data=datasets[level],progress={},pool=data.slice(),index=0,revealed=false,listShown=false;
  function storageKey(){return "sal_vocab_"+level.toLowerCase()+"_progress_v1";}
- function loadProgress(){try{progress=JSON.parse(localStorage.getItem(storageKey())||"{}")||{}}catch(e){progress={}}}
+ function loadProgress(){try{const parsed=JSON.parse(localStorage.getItem(storageKey())||"{}");progress=parsed&&typeof parsed==="object"&&!Array.isArray(parsed)?Object.fromEntries(Object.entries(parsed).filter(([key,value])=>typeof key==="string"&&value===true)):{} }catch(e){progress={}}}
  function saveProgress(){try{localStorage.setItem(storageKey(),JSON.stringify(progress))}catch(e){}}
  function setCategories(){const categories=[...new Set(data.map(x=>x.kelas))].sort();$("vl-category").innerHTML='<option value="ALL">Semua kategori</option>'+categories.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join("");}
  function filtered(){const q=$("vl-search").value.trim().toLowerCase(),cat=$("vl-category").value;return data.filter(x=>(cat==="ALL"||x.kelas===cat)&&(!q||[x.jp,x.kana,x.arti,x.kelas].join(" ").toLowerCase().includes(q)));}
@@ -313,7 +313,7 @@ button{cursor:pointer}
  $("vl-mark").addEventListener("click",()=>{if(!pool.length)return;progress[pool[index].jp]=true;saveProgress();render();});
  $("vl-unlearned").addEventListener("click",()=>{pool=filtered().filter(x=>!progress[x.jp]);index=0;revealed=false;render();});
  $("vl-all").addEventListener("click",()=>{$("vl-search").value="";$("vl-category").value="ALL";refresh();});
- $("vl-list-toggle").addEventListener("click",()=>{listShown=!listShown;$("vl-list").hidden=!listShown;$("vl-list-toggle").textContent=listShown?"Sembunyikan daftar":"Tampilkan semua";if(listShown)renderList();});
+ $("vl-list-toggle").addEventListener("click",()=>{listShown=!listShown;const list=$("vl-list"),button=$("vl-list-toggle");list.hidden=!listShown;button.setAttribute("aria-expanded",String(listShown));button.textContent=listShown?"Sembunyikan daftar":"Tampilkan daftar";if(listShown)renderList();});
  $("vl-list").addEventListener("change",e=>{const key=e.target.dataset.word;if(!key)return;if(e.target.checked)progress[key]=true;else delete progress[key];saveProgress();render();});
  loadProgress();setCategories();refresh();
  })();
@@ -327,7 +327,7 @@ button{cursor:pointer}
       <div class="kl-title">漢字 LAB / Kanji Flashcards</div>
       <div class="kl-sub">Belajar kanji melalui arti, bacaan, kosakata, dan contoh kalimat.</div>
     </div>
-    <span class="kl-tag">N5 + N4</span>
+    <span class="kl-tag" id="kl-total-badge">Memuat jumlah kanji…</span>
   </div>
   <div class="kl-stats" id="kl-stats">Memuat progres...</div>
   <div class="kl-bar"><div class="kl-bar-fill" id="kl-progress"></div></div>
@@ -366,7 +366,7 @@ button{cursor:pointer}
     </div>
   </div>
   <div class="kl-sub" style="margin-top:12px">
-    Progres tersimpan otomatis di browser/perangkat ini. Daftar di bawah adalah dataset awal untuk fitur; jumlahnya belum mencakup seluruh target belajar kumulatif sekitar 300 kanji.
+    Progres tersimpan otomatis di browser/perangkat ini. Dataset fitur ini memuat 300 kanji: 100 entri N5 dan 200 entri N4. Pembagian level merupakan panduan belajar, bukan daftar resmi JLPT yang tertutup.
     Daftar JLPT kanji tidak diterbitkan sebagai daftar resmi tertutup yang definitif.
   </div>
 </section>
@@ -732,9 +732,9 @@ document.getElementById("nb-date").textContent=
   }).toUpperCase();
 // SALMAN_KANJI_LAB_V1
 const KL_DATA = [
- {k:"日",l:"N5",m:"hari; matahari",on:"ニチ・ジツ",kun:"ひ・か",v:"日本（にほん）— Jepang",s:"日本へ行きます。— Saya pergi ke Jepang."},
+ {k:"日",l:"N5",m:"hari; matahari",on:"ニチ・ジツ・ニ",kun:"ひ・か",v:"日本（にほん）— Jepang",s:"日本へ行きます。— Saya pergi ke Jepang."},
  {k:"月",l:"N5",m:"bulan",on:"ゲツ・ガツ",kun:"つき",v:"月曜日（げつようび）— Senin",s:"月曜日に学校へ行きます。— Saya pergi ke sekolah hari Senin."},
- {k:"火",l:"N5",m:"api",on:"カ",kun:"ひ",v:"火曜日（かようび）— Selasa",s:"今日は火 曜日です。— Hari ini hari Selasa."},
+ {k:"火",l:"N5",m:"api",on:"カ",kun:"ひ",v:"火曜日（かようび）— Selasa",s:"今日は火曜日です。— Hari ini hari Selasa."},
  {k:"水",l:"N5",m:"air",on:"スイ",kun:"みず",v:"水（みず）— air",s:"水を飲みます。— Saya minum air."},
  {k:"木",l:"N5",m:"pohon; kayu",on:"モク・ボク",kun:"き",v:"木（き）— pohon",s:"あそこに木があります。— Ada pohon di sana."},
  {k:"金",l:"N5",m:"emas; uang",on:"キン",kun:"かね",v:"お金（おかね）— uang",s:"お金がありません。— Saya tidak punya uang."},
@@ -742,18 +742,18 @@ const KL_DATA = [
  {k:"人",l:"N5",m:"orang",on:"ジン・ニン",kun:"ひと",v:"日本人（にほんじん）— orang Jepang",s:"あの人は先生です。— Orang itu guru."},
  {k:"山",l:"N5",m:"gunung",on:"サン",kun:"やま",v:"富士山（ふじさん）— Gunung Fuji",s:"山に登ります。— Saya mendaki gunung."},
  {k:"川",l:"N5",m:"sungai",on:"セン",kun:"かわ",v:"川（かわ）— sungai",s:"川の水はきれいです。— Air sungainya bersih."},
- {k:"田",l:"N5",m:"sawah",on:"デン",kun:"た",v:"田中（たなか）— Tanaka",s:"田中さん は学生です。— Tanaka adalah siswa."},
+ {k:"田",l:"N5",m:"sawah",on:"デン",kun:"た",v:"田中（たなか）— Tanaka",s:"田中さんは学生です。— Tanaka adalah siswa."},
  {k:"口",l:"N5",m:"mulut",on:"コウ・ク",kun:"くち",v:"入口（いりぐち）— pintu masuk",s:"入口はあそこです。— Pintu masuk ada di sana."},
  {k:"目",l:"N5",m:"mata",on:"モク",kun:"め",v:"目（め）— mata",s:"目が痛いです。— Mata saya sakit."},
  {k:"耳",l:"N5",m:"telinga",on:"ジ",kun:"みみ",v:"耳（みみ）— telinga",s:"耳で聞きます。— Mendengar dengan telinga."},
- {k:"手",l:"N5",m:"tangan",on:"シュ",kun:"て",v:"手紙（てがみ）— surat",s:"手紙を書 きます。— Saya menulis surat."},
- {k:"足",l:"N5",m:"kaki; cukup",on:"ソク",kun:"あし・た",v:"足（あし）— kaki",s:"足 が痛いです。— Kaki saya sakit."},
+ {k:"手",l:"N5",m:"tangan",on:"シュ",kun:"て",v:"手紙（てがみ）— surat",s:"手紙を書きます。— Saya menulis surat."},
+ {k:"足",l:"N5",m:"kaki; cukup",on:"ソク",kun:"あし・た",v:"足（あし）— kaki",s:"足が痛いです。— Kaki saya sakit."},
  {k:"力",l:"N5",m:"kekuatan",on:"リョク・リキ",kun:"ちから",v:"力（ちから）— kekuatan",s:"力があります。— Saya punya kekuatan."},
  {k:"大",l:"N5",m:"besar",on:"ダイ・タイ",kun:"おお",v:"大学（だいがく）— universitas",s:"大学で勉強します。— Saya belajar di universitas."},
  {k:"小",l:"N5",m:"kecil",on:"ショウ",kun:"ちい・こ",v:"小さい（ちいさい）— kecil",s:"小さい犬がいます。— Ada anjing kecil."},
  {k:"中",l:"N5",m:"dalam; tengah",on:"チュウ",kun:"なか",v:"中国（ちゅうごく）— Tiongkok",s:"箱の中に本があります。— Ada buku di dalam kotak."},
- {k:"上",l:"N5",m:"atas",on:"ジョウ",kun:"うえ・あ",v:"上手（じょうず）— mahir",s:" 机の上に本があります。— Ada buku di atas meja."},
- {k:"下",l:"N5",m:"bawah",on:"カ・ゲ",kun:"した・さ",v:"下手（へた）— tidak mahir",s:"猫は机の下にいます。— Kucing ada di bawah meja."},
+ {k:"上",l:"N5",m:"atas",on:"ジョウ",kun:"うえ・あ",v:"上手（じょうず）— mahir",s:"机の上に本があります。— Ada buku di atas meja."},
+ {k:"下",l:"N5",m:"bawah",on:"カ・ゲ",kun:"した・さ・へ",v:"下手（へた）— tidak mahir",s:"猫は机の下にいます。— Kucing ada di bawah meja."},
  {k:"左",l:"N5",m:"kiri",on:"サ",kun:"ひだり",v:"左（ひだり）— kiri",s:"左に曲がります。— Belok ke kiri."},
  {k:"右",l:"N5",m:"kanan",on:"ウ・ユウ",kun:"みぎ",v:"右（みぎ）— kanan",s:"右を見てください。— Tolong lihat ke kanan."},
  {k:"東",l:"N5",m:"timur",on:"トウ",kun:"ひがし",v:"東京（とうきょう）— Tokyo",s:"東京に住んでいます。— Saya tinggal di Tokyo."},
@@ -761,13 +761,13 @@ const KL_DATA = [
  {k:"北",l:"N5",m:"utara",on:"ホク",kun:"きた",v:"北海道（ほっかいどう）— Hokkaido",s:"北へ行きます。— Saya pergi ke utara."},
  {k:"南",l:"N5",m:"selatan",on:"ナン",kun:"みなみ",v:"南口（みなみぐち）— pintu selatan",s:"南の町です。— Kota di selatan."},
  {k:"学",l:"N5",m:"belajar",on:"ガク",kun:"まな",v:"学生（がくせい）— pelajar",s:"日本語を学びます。— Saya belajar bahasa Jepang."},
- {k:"生",l:"N5",m:"hidup; lahir",on:"セイ・ショウ",kun:"い・う・なま",v:"先生（せん せい）— guru",s:"先生に聞きます。— Saya bertanya kepada guru."},
+ {k:"生",l:"N5",m:"hidup; lahir",on:"セイ・ショウ",kun:"い・う・なま",v:"先生（せんせい）— guru",s:"先生に聞きます。— Saya bertanya kepada guru."},
  {k:"先",l:"N5",m:"sebelum; depan",on:"セン",kun:"さき",v:"先生（せんせい）— guru",s:"先に行ってください。— Silakan pergi duluan."},
- {k:"年",l:"N5",m:"tahun",on:"ネン",kun:"とし",v:"今年（ことし）— tahun ini",s:"今年は忙しいです。— Tahun ini sibuk."},
- {k:"時",l:"N5",m:"waktu; jam",on:"ジ",kun:"とき",v:"時間（じかん）— waktu",s:"七時 に起きます。— Saya bangun pukul tujuh."},
+ {k:"年",l:"N5",m:"tahun",on:"ネン",kun:"とし",v:"年（とし）— tahun",s:"今年は忙しいです。— Tahun ini sibuk."},
+ {k:"時",l:"N5",m:"waktu; jam",on:"ジ",kun:"とき",v:"時間（じかん）— waktu",s:"七時に起きます。— Saya bangun pukul tujuh."},
  {k:"間",l:"N5",m:"jarak; selama",on:"カン・ケン",kun:"あいだ・ま",v:"時間（じかん）— waktu",s:"二時間勉強しました。— Saya belajar selama dua jam."},
- {k:"今",l:"N5",m:"sekarang",on:"コン・キン",kun:"いま",v:"今日（きょう）— hari ini",s:"今、勉強しています。— Saya sedang belajar sekarang."},
- {k:"毎",l:"N5",m:"setiap",on:"マイ",kun:"",v:"毎日（まいにち）— setiap hari",s:"毎 日日本語を勉強します。— Saya belajar bahasa Jepang setiap hari."},
+ {k:"今",l:"N5",m:"sekarang",on:"コン・キン",kun:"いま",v:"今（いま）— sekarang",s:"今、勉強しています。— Saya sedang belajar sekarang."},
+ {k:"毎",l:"N5",m:"setiap",on:"マイ",kun:"—",v:"毎日（まいにち）— setiap hari",s:"毎日日本語を勉強します。— Saya belajar bahasa Jepang setiap hari."},
  {k:"語",l:"N5",m:"bahasa; kata",on:"ゴ",kun:"かた",v:"日本語（にほんご）— bahasa Jepang",s:"日本語が好きです。— Saya suka bahasa Jepang."},
  {k:"読",l:"N5",m:"membaca",on:"ドク・トク",kun:"よ",v:"読む（よむ）— membaca",s:"本を読みます。— Saya membaca buku."},
  {k:"書",l:"N5",m:"menulis",on:"ショ",kun:"か",v:"書く（かく）— menulis",s:"名前を書いてください。— Tolong tulis nama."},
@@ -779,7 +779,7 @@ const KL_DATA = [
  {k:"見",l:"N5",m:"melihat",on:"ケン",kun:"み",v:"見る（みる）— melihat",s:"映画を見ます。— Saya menonton film."},
  {k:"休",l:"N5",m:"istirahat; libur",on:"キュウ",kun:"やす",v:"休み（やすみ）— libur",s:"日曜日に休みます。— Saya beristirahat hari Minggu."},
  {k:"買",l:"N5",m:"membeli",on:"バイ",kun:"か",v:"買う（かう）— membeli",s:"パンを買います。— Saya membeli roti."},
- {k:"電",l:"N5",m:"listrik",on:"デン",kun:"",v:"電車（でんしゃ）— kereta",s:"電車で 行きます。— Saya pergi naik kereta."},
+ {k:"電",l:"N5",m:"listrik",on:"デン",kun:"—",v:"電車（でんしゃ）— kereta",s:"電車で学校へ行きます。— Saya pergi ke sekolah naik kereta."},
  {k:"車",l:"N5",m:"kendaraan; mobil",on:"シャ",kun:"くるま",v:"電車（でんしゃ）— kereta",s:"車があります。— Saya punya mobil."},
  {k:"道",l:"N4",m:"jalan; cara",on:"ドウ",kun:"みち",v:"道（みち）— jalan",s:"この道をまっすぐ行きます。— Jalan lurus di jalan ini."},
  {k:"通",l:"N4",m:"melewati; berkomunikasi",on:"ツウ・ツ",kun:"とお・かよ",v:"通学（つうがく）— pergi ke sekolah",s:"毎日電車で通学します。— Saya pergi ke sekolah naik kereta setiap hari."},
@@ -817,23 +817,224 @@ const KL_DATA = [
  {k:"心",l:"N4",m:"hati; pikiran",on:"シン",kun:"こころ",v:"安心（あんしん）— lega/tenang",s:"安心してください。— Tenanglah."},
  {k:"体",l:"N4",m:"tubuh",on:"タイ・テイ",kun:"からだ",v:"体（からだ）— tubuh",s:"体に気をつけてください。— Jaga kesehatan."},
  {k:"病",l:"N4",m:"penyakit",on:"ビョウ",kun:"や",v:"病院（びょういん）— rumah sakit",s:"病院へ行きます。— Saya pergi ke rumah sakit."},
- {k:"院",l:"N4",m:"institusi; gedung",on:"イン",kun:"",v:"病院（びょういん）— rumah sakit",s:"病院は駅の近くです。— Rumah sakit dekat stasiun."},
- {k:"医",l:"N4",m:"medis; dokter",on:"イ",kun:"",v:"医者（いしゃ）— dokter",s:"医者 に聞きます。— Saya bertanya kepada dokter."},
+ {k:"院",l:"N4",m:"institusi; gedung",on:"イン",kun:"—",v:"病院（びょういん）— rumah sakit",s:"病院へ行きます。— Saya pergi ke rumah sakit."},
+ {k:"医",l:"N4",m:"medis; dokter",on:"イ",kun:"—",v:"医者（いしゃ）— dokter",s:"医者に質問します。— Saya bertanya kepada dokter."},
  {k:"薬",l:"N4",m:"obat",on:"ヤク",kun:"くすり",v:"薬（くすり）— obat",s:"薬を飲みました。— Saya sudah minum obat."},
- {k:"料",l:"N4",m:"biaya; bahan",on:"リョウ",kun:"",v:"料理（りょうり）— masakan",s:"日本料理が好きです。— Saya suka masakan Jepang."},
- {k:"理",l:"N4",m:"alasan; logika",on:"リ",kun:"",v:"料理（りょうり）— masakan",s:" 料理を作ります。— Saya memasak."},
- {k:"題",l:"N4",m:"topik; soal",on:"ダイ",kun:"",v:"問題（もんだい）— soal/masalah",s:"問題を読んでください。— Tolong baca soalnya."},
+ {k:"料",l:"N4",m:"biaya; bahan",on:"リョウ",kun:"—",v:"料理（りょうり）— masakan",s:"料理を食べます。— Saya makan masakan."},
+ {k:"理",l:"N4",m:"alasan; logika",on:"リ",kun:"—",v:"料理（りょうり）— masakan",s:"料理を作ります。— Saya memasak."},
+ {k:"題",l:"N4",m:"topik; soal",on:"ダイ",kun:"—",v:"問題（もんだい）— soal/masalah",s:"問題を解きます。— Saya menyelesaikan soal."},
  {k:"答",l:"N4",m:"jawaban",on:"トウ",kun:"こた",v:"答える（こたえる）— menjawab",s:"質問に答えます。— Saya menjawab pertanyaan."},
- {k:"質",l:"N4",m:"kualitas; sifat",on:"シツ・シチ",kun:"",v:"質問（しつもん）— pertanyaan",s:"質問があります。— Saya punya pertanyaan."},
+ {k:"質",l:"N4",m:"kualitas; sifat",on:"シツ・シチ",kun:"—",v:"質問（しつもん）— pertanyaan",s:"質問に答えます。— Saya menjawab pertanyaan."},
  {k:"問",l:"N4",m:"bertanya; masalah",on:"モン",kun:"と",v:"問題（もんだい）— masalah",s:"先生に質問します。— Saya bertanya kepada guru."},
  {k:"教",l:"N4",m:"mengajar",on:"キョウ",kun:"おし",v:"教える（おしえる）— mengajar/memberi tahu",s:"日本語を教えてください。— Tolong ajari saya bahasa Jepang."},
  {k:"習",l:"N4",m:"belajar; berlatih",on:"シュウ",kun:"なら",v:"習う（ならう）— belajar",s:"ピアノを習っています。— Saya belajar piano."},
  {k:"試",l:"N4",m:"mencoba; ujian",on:"シ",kun:"こころ・ため",v:"試験（しけん）— ujian",s:"明日は試験です。— Besok ujian."},
- {k:"験",l:"N4",m:"pengalaman; pengujian",on:"ケン・ゲン",kun:"",v:"経験（けいけん）— pengalaman",s:"いい経験になりました。— Ini menjadi pengalaman yang baik."},
+ {k:"験",l:"N4",m:"pengalaman; pengujian",on:"ケン・ゲン",kun:"—",v:"経験（けいけん）— pengalaman",s:"試験は難しかったです。— Ujiannya sulit."},
  {k:"世",l:"N4",m:"dunia; generasi",on:"セイ・セ",kun:"よ",v:"世界（せかい）— dunia",s:"世界を旅行したいです。— Saya ingin bepergian keliling dunia."},
- {k:"界",l:"N4",m:"dunia; batas",on:"カイ",kun:"",v:"世界（せかい）— dunia",s:"世界 のニュースを読みます。— Saya membaca berita dunia."}
+ {k:"界",l:"N4",m:"dunia; batas",on:"カイ",kun:"—",v:"世界（せかい）— dunia",s:"世界のニュースを読みます。— Saya membaca berita dunia."},
+ {k:"一",l:"N5",m:"satu",on:"イチ・イツ",kun:"ひと・ひとつ",v:"一月（いちがつ）— Januari",s:"一月は寒いです。— Januari dingin."},
+ {k:"二",l:"N5",m:"dua",on:"ニ",kun:"ふた・ふたつ",v:"二月（にがつ）— Februari",s:"二月は短い月です。— Februari adalah bulan yang pendek."},
+ {k:"三",l:"N5",m:"tiga",on:"サン",kun:"み・みっつ",v:"三月（さんがつ）— Maret",s:"三月に旅行します。— Saya bepergian pada bulan Maret."},
+ {k:"四",l:"N5",m:"empat",on:"シ",kun:"よ・よん・よっつ",v:"四月（しがつ）— April",s:"四月に桜が咲きます。— Bunga sakura mekar pada bulan April."},
+ {k:"五",l:"N5",m:"lima",on:"ゴ",kun:"いつ・いつつ",v:"五月（ごがつ）— Mei",s:"五月に連休があります。— Ada libur panjang pada bulan Mei."},
+ {k:"六",l:"N5",m:"enam",on:"ロク",kun:"む・むっつ",v:"六月（ろくがつ）— Juni",s:"六月は雨が多いです。— Pada bulan Juni, hujan sering turun."},
+ {k:"七",l:"N5",m:"tujuh",on:"シチ",kun:"なな・なの",v:"七月（しちがつ）— Juli",s:"七月は暑いです。— Juli panas."},
+ {k:"八",l:"N5",m:"delapan",on:"ハチ",kun:"や・やっつ",v:"八月（はちがつ）— Agustus",s:"八月に海へ行きます。— Saya pergi ke laut pada bulan Agustus."},
+ {k:"九",l:"N5",m:"sembilan",on:"キュウ・ク",kun:"ここの・ここのつ",v:"九月（くがつ）— September",s:"九月に学校が始まります。— Sekolah dimulai pada bulan September."},
+ {k:"十",l:"N5",m:"sepuluh",on:"ジュウ・ジッ",kun:"とお",v:"十月（じゅうがつ）— Oktober",s:"十月は涼しいです。— Oktober sejuk."},
+ {k:"百",l:"N5",m:"seratus",on:"ヒャク",kun:"もも",v:"百円（ひゃくえん）— seratus yen",s:"百円の切手を買いました。— Saya membeli perangko seharga 100 yen."},
+ {k:"千",l:"N5",m:"seribu",on:"セン",kun:"ち",v:"千円（せんえん）— seribu yen",s:"千円を持っています。— Saya membawa uang 1.000 yen."},
+ {k:"円",l:"N5",m:"yen; lingkaran",on:"エン",kun:"まる・まるい",v:"百円（ひゃくえん）— seratus yen",s:"きれいな円を描いてください。— Tolong gambar lingkaran yang rapi."},
+ {k:"万",l:"N5",m:"sepuluh ribu",on:"マン・バン",kun:"よろず",v:"一万円（いちまんえん）— sepuluh ribu yen",s:"一万円を貯金しました。— Saya menabung 10.000 yen."},
+ {k:"半",l:"N5",m:"setengah",on:"ハン",kun:"なか・なかば",v:"半分（はんぶん）— setengah",s:"ケーキを半分食べました。— Saya makan setengah kue."},
+ {k:"分",l:"N5",m:"bagian; menit",on:"ブン・フン・ブ",kun:"わ・わける",v:"十分（じゅっぷん）— sepuluh menit",s:"十分待ちました。— Saya menunggu selama sepuluh menit."},
+ {k:"本",l:"N5",m:"buku; asal; batang",on:"ホン・ポン・ボン",kun:"もと",v:"日本（にほん）— Jepang",s:"本を毎晩読みます。— Saya membaca buku setiap malam."},
+ {k:"何",l:"N5",m:"apa",on:"カ",kun:"なに・なん",v:"何人（なんにん）— berapa orang",s:"何人来ますか。— Berapa orang yang akan datang?"},
+ {k:"名",l:"N5",m:"nama",on:"メイ・ミョウ",kun:"な",v:"名前（なまえ）— nama",s:"名前を書いてください。— Tolong tulis nama."},
+ {k:"前",l:"N5",m:"depan; sebelum",on:"ゼン",kun:"まえ",v:"名前（なまえ）— nama",s:"名前を教えてください。— Tolong beri tahu nama Anda."},
+ {k:"友",l:"N5",m:"teman",on:"ユウ",kun:"とも",v:"友人（ゆうじん）— teman",s:"友人と昼ご飯を食べます。— Saya makan siang bersama teman."},
+ {k:"父",l:"N5",m:"ayah",on:"フ",kun:"ちち・とう",v:"父親（ちちおや）— ayah",s:"父は会社員です。— Ayah saya pegawai perusahaan."},
+ {k:"母",l:"N5",m:"ibu",on:"ボ",kun:"はは・かあ",v:"母親（ははおや）— ibu",s:"母は料理が上手です。— Ibu saya pandai memasak."},
+ {k:"兄",l:"N5",m:"kakak laki-laki",on:"ケイ・キョウ",kun:"あに・にい",v:"兄弟（きょうだい）— saudara kandung; saudara laki-laki",s:"兄は大学生です。— Kakak laki-laki saya mahasiswa."},
+ {k:"姉",l:"N5",m:"kakak perempuan",on:"シ",kun:"あね・ねえ",v:"姉妹（しまい）— saudara perempuan",s:"姉は東京に住んでいます。— Kakak perempuan saya tinggal di Tokyo."},
+ {k:"弟",l:"N5",m:"adik laki-laki",on:"テイ・ダイ",kun:"おとうと",v:"兄弟（きょうだい）— saudara kandung; saudara laki-laki",s:"弟は毎日走ります。— Adik laki-laki saya berlari setiap hari."},
+ {k:"妹",l:"N5",m:"adik perempuan",on:"マイ",kun:"いもうと",v:"姉妹（しまい）— saudara perempuan",s:"妹は本を読んでいます。— Adik perempuan saya sedang membaca buku."},
+ {k:"子",l:"N5",m:"anak",on:"シ・ス",kun:"こ",v:"子ども（こども）— anak-anak",s:"子どもが公園で遊んでいます。— Anak-anak sedang bermain di taman."},
+ {k:"女",l:"N5",m:"perempuan",on:"ジョ・ニョ",kun:"おんな・め",v:"女の人（おんなのひと）— perempuan",s:"女の人が店に入りました。— Seorang perempuan masuk ke toko."},
+ {k:"男",l:"N5",m:"laki-laki",on:"ダン・ナン",kun:"おとこ",v:"男の人（おとこのひと）— laki-laki",s:"男の人は先生です。— Pria itu adalah guru."},
+ {k:"国",l:"N5",m:"negara",on:"コク",kun:"くに",v:"外国（がいこく）— luar negeri",s:"外国へ行きたいです。— Saya ingin pergi ke luar negeri."},
+ {k:"外",l:"N5",m:"luar",on:"ガイ・ゲ",kun:"そと・ほか・はずす",v:"外国（がいこく）— luar negeri",s:"外で待っています。— Saya sedang menunggu di luar."},
+ {k:"校",l:"N5",m:"sekolah",on:"コウ",kun:"—",v:"学校（がっこう）— sekolah",s:"学校は駅の近くです。— Sekolah dekat stasiun."},
+ {k:"午",l:"N5",m:"tengah hari",on:"ゴ",kun:"—",v:"午後（ごご）— sore; setelah tengah hari",s:"午後三時に会いましょう。— Mari bertemu pukul tiga sore."},
+ {k:"後",l:"N5",m:"belakang; sesudah",on:"ゴ・コウ",kun:"あと・うしろ・のち",v:"午後（ごご）— sore; setelah tengah hari",s:"午後に帰ります。— Saya pulang pada sore hari."},
+ {k:"朝",l:"N5",m:"pagi",on:"チョウ",kun:"あさ",v:"朝ご飯（あさごはん）— sarapan",s:"朝ご飯を食べました。— Saya sudah sarapan."},
+ {k:"昼",l:"N5",m:"siang",on:"チュウ",kun:"ひる",v:"昼休み（ひるやすみ）— istirahat siang",s:"昼休みに散歩します。— Saya berjalan-jalan saat istirahat siang."},
+ {k:"夜",l:"N5",m:"malam",on:"ヤ",kun:"よる・よ",v:"今夜（こんや）— malam ini",s:"夜は静かです。— Malam hari tenang."},
+ {k:"夕",l:"N5",m:"sore",on:"セキ",kun:"ゆう",v:"夕方（ゆうがた）— sore hari",s:"夕方に散歩します。— Saya berjalan-jalan pada sore hari."},
+ {k:"春",l:"N5",m:"musim semi",on:"シュン",kun:"はる",v:"春休み（はるやすみ）— libur musim semi",s:"春に桜が咲きます。— Bunga sakura mekar pada musim semi."},
+ {k:"夏",l:"N5",m:"musim panas",on:"カ",kun:"なつ",v:"夏休み（なつやすみ）— libur musim panas",s:"夏は海で泳ぎます。— Pada musim panas, saya berenang di laut."},
+ {k:"秋",l:"N5",m:"musim gugur",on:"シュウ",kun:"あき",v:"秋分（しゅうぶん）— ekuinoks musim gugur",s:"秋になると葉が赤くなります。— Saat musim gugur tiba, daun menjadi merah."},
+ {k:"冬",l:"N5",m:"musim dingin",on:"トウ",kun:"ふゆ",v:"冬休み（ふゆやすみ）— libur musim dingin",s:"冬はよく雪が降ります。— Pada musim dingin, salju sering turun."},
+ {k:"天",l:"N5",m:"langit",on:"テン",kun:"あめ・あま",v:"天気（てんき）— cuaca",s:"今日は天気がいいです。— Cuaca hari ini bagus."},
+ {k:"気",l:"N5",m:"energi; suasana",on:"キ・ケ",kun:"—",v:"天気（てんき）— cuaca",s:"元気ですか。— Apa kabar?"},
+ {k:"雨",l:"N5",m:"hujan",on:"ウ",kun:"あめ・あま",v:"雨の日（あめのひ）— hari hujan",s:"雨が降っているので傘を使います。— Karena hujan turun, saya memakai payung."},
+ {k:"雪",l:"N5",m:"salju",on:"セツ",kun:"ゆき",v:"大雪（おおゆき）— salju lebat",s:"山に雪が積もっています。— Salju menumpuk di gunung."},
+ {k:"風",l:"N5",m:"angin",on:"フウ・フ",kun:"かぜ・かざ",v:"台風（たいふう）— topan",s:"今日は風が強いです。— Angin hari ini kencang."},
+ {k:"花",l:"N5",m:"bunga",on:"カ",kun:"はな",v:"花火（はなび）— kembang api",s:"庭に花が咲いています。— Bunga sedang mekar di taman."},
+ {k:"犬",l:"N5",m:"anjing",on:"ケン",kun:"いぬ",v:"子犬（こいぬ）— anak anjing",s:"犬と公園を歩きます。— Saya berjalan di taman bersama anjing."},
+ {k:"猫",l:"N5",m:"kucing",on:"ビョウ",kun:"ねこ",v:"猫（ねこ）— kucing",s:"猫がソファで寝ています。— Kucing sedang tidur di sofa."},
+ {k:"会",l:"N4",m:"bertemu; pertemuan",on:"カイ・エ",kun:"あう",v:"会社（かいしゃ）— perusahaan",s:"駅で友達に会いました。— Saya bertemu teman di stasiun."},
+ {k:"社",l:"N4",m:"perusahaan; kuil",on:"シャ",kun:"やしろ",v:"会社（かいしゃ）— perusahaan",s:"父は会社で働いています。— Ayah bekerja di perusahaan."},
+ {k:"員",l:"N4",m:"anggota; staf",on:"イン",kun:"—",v:"会社員（かいしゃいん）— pegawai perusahaan",s:"兄は会社員です。— Kakak laki-laki saya pegawai perusahaan."},
+ {k:"仕",l:"N4",m:"melayani; bekerja",on:"シ・ジ",kun:"つかえる",v:"仕事（しごと）— pekerjaan",s:"朝から仕事をしています。— Saya bekerja sejak pagi."},
+ {k:"者",l:"N4",m:"orang",on:"シャ",kun:"もの",v:"医者（いしゃ）— dokter",s:"あの人は医者です。— Orang itu dokter."},
+ {k:"屋",l:"N4",m:"toko; atap",on:"オク",kun:"や",v:"本屋（ほんや）— toko buku",s:"駅の近くに本屋があります。— Ada toko buku dekat stasiun."},
+ {k:"店",l:"N4",m:"toko",on:"テン",kun:"みせ",v:"店員（てんいん）— pegawai toko",s:"この店は十時に開きます。— Toko ini buka pukul sepuluh."},
+ {k:"品",l:"N4",m:"barang; kualitas",on:"ヒン・ホン",kun:"しな",v:"品物（しなもの）— barang",s:"店で食品を買いました。— Saya membeli bahan makanan di toko."},
+ {k:"物",l:"N4",m:"benda",on:"ブツ・モツ",kun:"もの",v:"食べ物（たべもの）— makanan",s:"大切な物をなくしました。— Saya kehilangan barang penting."},
+ {k:"文",l:"N4",m:"kalimat; tulisan",on:"ブン・モン",kun:"ふみ",v:"作文（さくぶん）— karangan",s:"日本語で短い文を書きます。— Saya menulis kalimat pendek dalam bahasa Jepang."},
+ {k:"字",l:"N4",m:"huruf",on:"ジ",kun:"あざ",v:"漢字（かんじ）— kanji",s:"この字を読めますか。— Bisakah kamu membaca karakter ini?"},
+ {k:"漢",l:"N4",m:"Tiongkok; kanji",on:"カン",kun:"—",v:"漢字（かんじ）— kanji",s:"漢字を毎日練習します。— Saya berlatih kanji setiap hari."},
+ {k:"英",l:"N4",m:"Inggris; unggul",on:"エイ",kun:"—",v:"英語（えいご）— bahasa Inggris",s:"英語を勉強しています。— Saya sedang belajar bahasa Inggris."},
+ {k:"勉",l:"N4",m:"usaha belajar",on:"ベン",kun:"—",v:"勉強（べんきょう）— belajar",s:"毎日勉強します。— Saya belajar setiap hari."},
+ {k:"研",l:"N4",m:"mengasah; riset",on:"ケン",kun:"とぐ",v:"研究（けんきゅう）— penelitian",s:"大学で日本語を研究しています。— Saya meneliti bahasa Jepang di universitas."},
+ {k:"究",l:"N4",m:"menyelidiki",on:"キュウ",kun:"きわめる",v:"研究（けんきゅう）— penelitian",s:"研究室で実験をします。— Saya melakukan eksperimen di laboratorium."},
+ {k:"練",l:"N4",m:"melatih",on:"レン",kun:"ねる",v:"練習（れんしゅう）— latihan",s:"毎朝、漢字を練習します。— Setiap pagi, saya berlatih kanji."},
+ {k:"説",l:"N4",m:"menjelaskan",on:"セツ・ゼイ",kun:"とく",v:"説明（せつめい）— penjelasan",s:"先生が文法を説明します。— Guru menjelaskan tata bahasa."},
+ {k:"明",l:"N4",m:"terang; jelas",on:"メイ・ミョウ",kun:"あかるい・あける",v:"説明（せつめい）— penjelasan",s:"明日は早く起きます。— Besok saya akan bangun lebih awal."},
+ {k:"室",l:"N4",m:"ruangan",on:"シツ",kun:"むろ",v:"教室（きょうしつ）— kelas",s:"教室に学生がいます。— Ada siswa di ruang kelas."},
+ {k:"館",l:"N4",m:"gedung; aula",on:"カン",kun:"やかた",v:"図書館（としょかん）— perpustakaan",s:"図書館で本を借ります。— Saya meminjam buku di perpustakaan."},
+ {k:"図",l:"N4",m:"gambar; rencana",on:"ズ・ト",kun:"はかる",v:"地図（ちず）— peta",s:"地図で場所を確認します。— Saya memeriksa lokasi di peta."},
+ {k:"地",l:"N4",m:"tanah",on:"チ・ジ",kun:"—",v:"地図（ちず）— peta",s:"地図を見て駅を探します。— Saya melihat peta dan mencari stasiun."},
+ {k:"旅",l:"N4",m:"perjalanan",on:"リョ",kun:"たび",v:"旅行（りょこう）— perjalanan",s:"来年、日本を旅行したいです。— Tahun depan saya ingin bepergian ke Jepang."},
+ {k:"帰",l:"N4",m:"pulang",on:"キ",kun:"かえる・かえす",v:"帰国（きこく）— pulang ke negara asal",s:"午後六時に家へ帰ります。— Saya pulang ke rumah pukul enam sore."},
+ {k:"発",l:"N4",m:"berangkat; memulai",on:"ハツ・ホツ",kun:"たつ",v:"出発（しゅっぱつ）— keberangkatan",s:"電車は八時に出発します。— Kereta berangkat pukul delapan."},
+ {k:"着",l:"N4",m:"tiba; memakai",on:"チャク",kun:"つく・きる",v:"到着（とうちゃく）— kedatangan",s:"駅に着いたら、メッセージを送ってください。— Setelah tiba di stasiun, tolong kirim pesan."},
+ {k:"乗",l:"N4",m:"naik kendaraan",on:"ジョウ",kun:"のる・のせる",v:"乗車（じょうしゃ）— naik kendaraan",s:"毎朝、電車に乗って学校へ行きます。— Setiap pagi saya naik kereta ke sekolah."},
+ {k:"降",l:"N4",m:"turun; hujan",on:"コウ",kun:"おりる・ふる",v:"降車（こうしゃ）— turun kendaraan",s:"次の駅で電車を降ります。— Saya turun dari kereta di stasiun berikutnya."},
+ {k:"転",l:"N4",m:"berputar; berpindah",on:"テン",kun:"ころがる・ころぶ",v:"運転（うんてん）— mengemudi",s:"父は毎日車を運転します。— Ayah mengemudi mobil setiap hari."},
+ {k:"運",l:"N4",m:"membawa; keberuntungan",on:"ウン",kun:"はこぶ",v:"運転（うんてん）— mengemudi",s:"父は毎日車を運転します。— Ayah mengemudi mobil setiap hari."},
+ {k:"進",l:"N4",m:"maju",on:"シン",kun:"すすむ・すすめる",v:"進学（しんがく）— melanjutkan pendidikan",s:"姉は来年、大学に進学します。— Kakak perempuan saya akan melanjutkan ke universitas tahun depan."},
+ {k:"止",l:"N4",m:"berhenti",on:"シ",kun:"とまる・とめる",v:"中止（ちゅうし）— pembatalan",s:"雨が強くなったので、試合は中止になりました。— Karena hujan semakin deras, pertandingan dibatalkan."},
+ {k:"動",l:"N4",m:"bergerak",on:"ドウ",kun:"うごく・うごかす",v:"運動（うんどう）— olahraga",s:"健康のために、毎朝三十分運動します。— Demi kesehatan, saya berolahraga tiga puluh menit setiap pagi."},
+ {k:"起",l:"N4",m:"bangun; terjadi",on:"キ",kun:"おきる・おこす",v:"起きる（おきる）— bangun",s:"私は毎朝六時に起きます。— Saya bangun pukul enam setiap pagi."},
+ {k:"寝",l:"N4",m:"tidur",on:"シン",kun:"ねる・ねかす",v:"寝室（しんしつ）— kamar tidur",s:"弟は十時に寝ます。— Adik laki-laki saya tidur pukul sepuluh."},
+ {k:"続",l:"N4",m:"berlanjut",on:"ゾク",kun:"つづく・つづける",v:"続く（つづく）— berlanjut",s:"日本語の勉強を毎日続けています。— Saya terus belajar bahasa Jepang setiap hari."},
+ {k:"変",l:"N4",m:"berubah; aneh",on:"ヘン",kun:"かわる・かえる",v:"変化（へんか）— perubahan",s:"春になると、町の景色が変わります。— Saat musim semi tiba, pemandangan kota berubah."},
+ {k:"化",l:"N4",m:"perubahan",on:"カ・ケ",kun:"ばける・かわる",v:"文化（ぶんか）— budaya",s:"この町は十年で大きく変化しました。— Kota ini banyak berubah dalam sepuluh tahun."},
+ {k:"回",l:"N4",m:"putaran; kali",on:"カイ",kun:"まわる・まわす",v:"今回（こんかい）— kali ini",s:"今回のテストは少し難しかったです。— Tes kali ini agak sulit."},
+ {k:"数",l:"N4",m:"jumlah; angka",on:"スウ・ス",kun:"かず・かぞえる",v:"数字（すうじ）— angka",s:"このクラスの学生の数は二十人です。— Jumlah siswa di kelas ini dua puluh orang."},
+ {k:"計",l:"N4",m:"menghitung; rencana",on:"ケイ",kun:"はかる",v:"時計（とけい）— jam",s:"この時計は毎日五分遅れます。— Jam ini terlambat lima menit setiap hari."},
+ {k:"努",l:"N4",m:"berusaha; tekun",on:"ド",kun:"つとめる",v:"努力（どりょく）— usaha",s:"試験に合格するために努力しています。— Saya berusaha keras agar lulus ujian."},
+ {k:"自",l:"N4",m:"diri sendiri",on:"ジ・シ",kun:"みずから",v:"自分（じぶん）— diri sendiri",s:"自分の荷物は自分で持ってください。— Tolong bawa barang bawaan sendiri."},
+ {k:"身",l:"N4",m:"tubuh; diri",on:"シン",kun:"み",v:"身分（みぶん）— status; kedudukan",s:"旅行の前に、身分証明書を確認してください。— Sebelum bepergian, periksa kartu identitas."},
+ {k:"重",l:"N4",m:"berat; penting",on:"ジュウ・チョウ",kun:"おもい・かさねる",v:"体重（たいじゅう）— berat badan",s:"この荷物は重いので、手伝ってください。— Barang bawaan ini berat, jadi tolong bantu."},
+ {k:"軽",l:"N4",m:"ringan",on:"ケイ",kun:"かるい・かろやか",v:"軽い（かるい）— ringan",s:"このかばんは軽いので、持ち運びやすいです。— Tas ini ringan sehingga mudah dibawa."},
+ {k:"太",l:"N4",m:"tebal; gemuk",on:"タイ・タ",kun:"ふとい・ふとる",v:"太陽（たいよう）— matahari",s:"毎日よく食べるので、少し太りました。— Karena makan banyak setiap hari, berat badan saya sedikit bertambah."},
+ {k:"陽",l:"N4",m:"matahari; positif",on:"ヨウ",kun:"—",v:"太陽（たいよう）— matahari",s:"太陽が出ています。— Matahari sedang bersinar."},
+ {k:"暑",l:"N4",m:"panas (cuaca)",on:"ショ",kun:"あつい",v:"暑い日（あついひ）— hari yang panas",s:"今日は暑いので、水をたくさん飲みましょう。— Hari ini panas, jadi mari minum banyak air."},
+ {k:"寒",l:"N4",m:"dingin (cuaca)",on:"カン",kun:"さむい",v:"寒い日（さむいひ）— hari yang dingin",s:"外は寒いから、コートを着てください。— Di luar dingin, jadi silakan pakai mantel."},
+ {k:"温",l:"N4",m:"hangat",on:"オン",kun:"あたたかい・あたためる",v:"温度（おんど）— suhu",s:"お風呂の温度を少し下げました。— Saya sedikit menurunkan suhu air mandi."},
+ {k:"低",l:"N4",m:"rendah",on:"テイ",kun:"ひくい・ひくめる",v:"低い山（ひくいやま）— gunung rendah",s:"この山は低いので、簡単に登れます。— Gunung ini rendah sehingga mudah didaki."},
+ {k:"高",l:"N4",m:"tinggi; mahal",on:"コウ",kun:"たかい・たかまる",v:"高校（こうこう）— SMA",s:"兄は高校で英語を教えています。— Kakak laki-laki saya mengajar bahasa Inggris di SMA."},
+ {k:"全",l:"N4",m:"seluruh; lengkap",on:"ゼン",kun:"まったく・すべて",v:"安全（あんぜん）— keamanan",s:"安全のために、ヘルメットをかぶってください。— Demi keselamatan, silakan kenakan helm."},
+ {k:"危",l:"N4",m:"bahaya",on:"キ",kun:"あぶない・あやうい",v:"危険（きけん）— bahaya",s:"この道は危険なので、通らないでください。— Jalan ini berbahaya, jadi jangan lewat sini."},
+ {k:"険",l:"N4",m:"berbahaya; curam",on:"ケン",kun:"けわしい",v:"危険（きけん）— bahaya",s:"山道は険しいので、ゆっくり歩きましょう。— Jalur gunungnya terjal, jadi mari berjalan perlahan."},
+ {k:"要",l:"N4",m:"perlu; inti",on:"ヨウ",kun:"いる",v:"重要（じゅうよう）— penting",s:"旅行にはパスポートが必要です。— Paspor diperlukan untuk perjalanan."},
+ {k:"必",l:"N4",m:"pasti; wajib",on:"ヒツ",kun:"かならず",v:"必要（ひつよう）— perlu",s:"申込書には名前を必ず書いてください。— Pastikan menulis nama di formulir pendaftaran."},
+ {k:"用",l:"N4",m:"menggunakan; urusan",on:"ヨウ",kun:"もちいる",v:"使用（しよう）— penggunaan",s:"この道具を使用します。— Saya menggunakan alat ini."},
+ {k:"便",l:"N4",m:"kemudahan; surat",on:"ベン・ビン",kun:"たより",v:"便利（べんり）— praktis",s:"このアプリは予約に便利です。— Aplikasi ini praktis untuk melakukan reservasi."},
+ {k:"利",l:"N4",m:"manfaat; keuntungan",on:"リ",kun:"きく",v:"便利（べんり）— praktis",s:"この道具を使うと、とても便利です。— Jika menggunakan alat ini, pekerjaan menjadi sangat praktis."},
+ {k:"不",l:"N4",m:"tidak; bukan",on:"フ・ブ",kun:"—",v:"不便（ふべん）— tidak praktis",s:"この道は不便です。— Jalan ini tidak praktis."},
+ {k:"違",l:"N4",m:"berbeda; salah",on:"イ",kun:"ちがう・ちがえる",v:"間違い（まちがい）— kesalahan",s:"私の答えはあなたの答えと違います。— Jawaban saya berbeda dari jawabanmu."},
+ {k:"合",l:"N4",m:"cocok; bergabung",on:"ゴウ・ガッ",kun:"あう・あわせる",v:"合格（ごうかく）— lulus ujian",s:"毎日勉強したので、試験に合格しました。— Karena belajar setiap hari, saya lulus ujian."},
+ {k:"格",l:"N4",m:"status; standar",on:"カク・コウ",kun:"—",v:"合格（ごうかく）— lulus ujian",s:"試験に合格しました。— Saya lulus ujian."},
+ {k:"落",l:"N4",m:"jatuh; gagal",on:"ラク",kun:"おちる・おとす",v:"落第（らくだい）— tidak naik kelas",s:"弟は試験に落ちて、もう一度勉強しています。— Adik laki-laki saya gagal dalam ujian dan sedang belajar lagi."},
+ {k:"配",l:"N4",m:"membagikan; khawatir",on:"ハイ",kun:"くばる",v:"心配（しんぱい）— khawatir",s:"明日の天気が心配です。— Saya khawatir tentang cuaca besok."},
+ {k:"感",l:"N4",m:"perasaan",on:"カン",kun:"—",v:"感心（かんしん）— kagum",s:"その話に感心しました。— Saya kagum pada cerita itu."},
+ {k:"情",l:"N4",m:"perasaan; keadaan",on:"ジョウ・セイ",kun:"なさけ",v:"事情（じじょう）— keadaan",s:"事故の事情を警察に説明しました。— Saya menjelaskan keadaan kecelakaan itu kepada polisi."},
+ {k:"考",l:"N4",m:"berpikir",on:"コウ",kun:"かんがえる",v:"考え（かんがえ）— pemikiran",s:"分からない問題をよく考えてから答えます。— Saya memikirkan soal yang tidak saya pahami sebelum menjawab."},
+ {k:"意",l:"N4",m:"niat; makna",on:"イ",kun:"—",v:"意味（いみ）— arti",s:"意味が分かりました。— Saya mengerti artinya."},
+ {k:"味",l:"N4",m:"rasa; makna",on:"ミ",kun:"あじ・あじわう",v:"意味（いみ）— arti",s:"この料理は味が少し濃いです。— Rasa masakan ini sedikit kuat."},
+ {k:"覚",l:"N4",m:"mengingat; sadar",on:"カク",kun:"おぼえる・さめる",v:"覚える（おぼえる）— mengingat",s:"新しい漢字をノートに書いて覚えます。— Saya menulis kanji baru di buku catatan agar mengingatnya."},
+ {k:"忘",l:"N4",m:"lupa",on:"ボウ",kun:"わすれる",v:"忘れ物（わすれもの）— barang tertinggal",s:"電車に傘を忘れてしまいました。— Saya tidak sengaja meninggalkan payung di kereta."},
+ {k:"記",l:"N4",m:"mencatat",on:"キ",kun:"しるす",v:"日記（にっき）— buku harian",s:"毎晩、日記に今日の出来事を記します。— Setiap malam saya mencatat kejadian hari ini di buku harian."},
+ {k:"写",l:"N4",m:"menyalin; memotret",on:"シャ",kun:"うつす・うつる",v:"写真（しゃしん）— foto",s:"旅行で美しい山の写真を撮りました。— Saya mengambil foto gunung yang indah saat bepergian."},
+ {k:"真",l:"N4",m:"benar; asli",on:"シン",kun:"ま",v:"写真（しゃしん）— foto",s:"この写真には本当の気持ちが表れています。— Perasaan yang sebenarnya terlihat dalam foto ini."},
+ {k:"映",l:"N4",m:"memantulkan; tayang",on:"エイ",kun:"うつる・うつす",v:"映画（えいが）— film",s:"昨日、映画を友達と見ました。— Kemarin saya menonton film bersama teman."},
+ {k:"画",l:"N4",m:"gambar; film",on:"ガ・カク",kun:"えがく",v:"映画（えいが）— film",s:"授業で日本の有名な絵画について学びました。— Di kelas, kami belajar tentang lukisan terkenal Jepang."},
+ {k:"音",l:"N4",m:"suara",on:"オン・イン",kun:"おと・ね",v:"音楽（おんがく）— musik",s:"隣の部屋から大きな音が聞こえます。— Terdengar suara keras dari kamar sebelah."},
+ {k:"楽",l:"N4",m:"menyenangkan; musik",on:"ガク・ラク",kun:"たのしい・たのしむ",v:"音楽（おんがく）— musik",s:"週末は友達と音楽を楽しみます。— Akhir pekan saya menikmati musik bersama teman."},
+ {k:"歌",l:"N4",m:"lagu; menyanyi",on:"カ",kun:"うた・うたう",v:"歌手（かしゅ）— penyanyi",s:"姉は歌手になるのが夢です。— Kakak perempuan saya bermimpi menjadi penyanyi."},
+ {k:"紙",l:"N4",m:"kertas",on:"シ",kun:"かみ",v:"手紙（てがみ）— surat",s:"友達に手紙を書いて送りました。— Saya menulis surat dan mengirimkannya kepada teman."},
+ {k:"郵",l:"N4",m:"pos",on:"ユウ",kun:"—",v:"郵便（ゆうびん）— pos",s:"郵便を出します。— Saya mengirim surat."},
+ {k:"局",l:"N4",m:"kantor; biro",on:"キョク",kun:"—",v:"郵便局（ゆうびんきょく）— kantor pos",s:"郵便局で切手を買います。— Saya membeli perangko di kantor pos."},
+ {k:"銀",l:"N4",m:"perak",on:"ギン",kun:"—",v:"銀行（ぎんこう）— bank",s:"銀行でお金を下ろします。— Saya menarik uang di bank."},
+ {k:"費",l:"N4",m:"biaya",on:"ヒ",kun:"ついやす",v:"費用（ひよう）— biaya",s:"旅行の費用を先に計算しました。— Saya menghitung biaya perjalanan terlebih dahulu."},
+ {k:"払",l:"N4",m:"membayar; menyapu",on:"フツ",kun:"はらう",v:"支払い（しはらい）— pembayaran",s:"レストランでカードを使って支払いました。— Saya membayar dengan kartu di restoran."},
+ {k:"支",l:"N4",m:"menopang; membayar",on:"シ",kun:"ささえる・つかえる",v:"支店（してん）— cabang",s:"駅の近くに銀行の支店があります。— Ada cabang bank di dekat stasiun."},
+ {k:"売",l:"N4",m:"menjual",on:"バイ",kun:"うる・うれる",v:"売店（ばいてん）— kios",s:"駅の売店で水を買いました。— Saya membeli air di kios stasiun."},
+ {k:"貸",l:"N4",m:"meminjamkan",on:"タイ",kun:"かす",v:"貸し出し（かしだし）— peminjaman",s:"図書館は学生に本を貸します。— Perpustakaan meminjamkan buku kepada siswa."},
+ {k:"借",l:"N4",m:"meminjam",on:"シャク",kun:"かりる",v:"借りる（かりる）— meminjam",s:"図書館で日本語の本を借りました。— Saya meminjam buku bahasa Jepang di perpustakaan."},
+ {k:"返",l:"N4",m:"mengembalikan",on:"ヘン",kun:"かえす・かえる",v:"返事（へんじ）— jawaban",s:"質問にすぐ返事をしました。— Saya segera menjawab pertanyaan itu."},
+ {k:"受",l:"N4",m:"menerima",on:"ジュ",kun:"うける・うかる",v:"受付（うけつけ）— resepsionis",s:"病院の受付で名前を伝えました。— Saya menyebutkan nama di bagian pendaftaran rumah sakit."},
+ {k:"付",l:"N4",m:"menempel; memberi",on:"フ",kun:"つく・つける",v:"受付（うけつけ）— resepsionis",s:"申込書に写真を付けてください。— Tolong lampirkan foto pada formulir pendaftaran."},
+ {k:"急",l:"N4",m:"terburu-buru; mendesak",on:"キュウ",kun:"いそぐ",v:"急行（きゅうこう）— kereta ekspres",s:"急いで駅へ行きましたが、電車に間に合いませんでした。— Saya bergegas ke stasiun, tetapi tidak sempat naik kereta."},
+ {k:"速",l:"N4",m:"cepat",on:"ソク",kun:"はやい・はやめる",v:"速度（そくど）— kecepatan",s:"この車は速度が速すぎます。— Kecepatan mobil ini terlalu tinggi."},
+ {k:"刻",l:"N4",m:"mengukir; waktu",on:"コク",kun:"きざむ",v:"遅刻（ちこく）— terlambat",s:"寝坊して、学校に遅刻しました。— Saya bangun kesiangan dan terlambat ke sekolah."},
+ {k:"歩",l:"N4",m:"berjalan",on:"ホ・ブ",kun:"あるく・あゆむ",v:"散歩（さんぽ）— jalan-jalan",s:"夕食の後、近所を散歩します。— Setelah makan malam, saya berjalan-jalan di sekitar rumah."},
+ {k:"走",l:"N4",m:"berlari",on:"ソウ",kun:"はしる",v:"競走（きょうそう）— perlombaan lari",s:"毎朝、公園で三キロ走ります。— Saya berlari tiga kilometer di taman setiap pagi."},
+ {k:"路",l:"N4",m:"jalan; rute",on:"ロ・ル",kun:"じ",v:"道路（どうろ）— jalan raya",s:"この道路は工事中なので、別の道を使ってください。— Jalan raya ini sedang diperbaiki, jadi gunakan jalan lain."},
+ {k:"橋",l:"N4",m:"jembatan",on:"キョウ",kun:"はし",v:"歩道橋（ほどうきょう）— jembatan penyeberangan",s:"毎朝、この橋を渡って学校へ行きます。— Setiap pagi saya menyeberangi jembatan ini untuk pergi ke sekolah."},
+ {k:"駅",l:"N4",m:"stasiun",on:"エキ",kun:"—",v:"駅前（えきまえ）— depan stasiun",s:"駅前で友達に会います。— Saya bertemu teman di depan stasiun."},
+ {k:"鉄",l:"N4",m:"besi",on:"テツ",kun:"—",v:"地下鉄（ちかてつ）— kereta bawah tanah",s:"地下鉄で会社へ行きます。— Saya pergi ke kantor naik kereta bawah tanah."},
+ {k:"線",l:"N4",m:"garis; jalur",on:"セン",kun:"すじ",v:"新幹線（しんかんせん）— shinkansen",s:"東京から大阪まで新幹線で行きます。— Saya pergi dari Tokyo ke Osaka dengan shinkansen."},
+ {k:"船",l:"N4",m:"kapal",on:"セン",kun:"ふね・ふな",v:"船旅（ふなたび）— perjalanan kapal",s:"夏休みに船で島へ旅行しました。— Saat liburan musim panas, saya bepergian ke pulau dengan kapal."},
+ {k:"港",l:"N4",m:"pelabuhan",on:"コウ",kun:"みなと",v:"空港（くうこう）— bandara",s:"飛行機は午後三時に空港を出発します。— Pesawat berangkat dari bandara pukul tiga sore."},
+ {k:"空",l:"N4",m:"langit; kosong",on:"クウ",kun:"そら・あく・から",v:"空港（くうこう）— bandara",s:"空港で友達の到着を待っています。— Saya menunggu kedatangan teman di bandara."},
+ {k:"宿",l:"N4",m:"penginapan",on:"シュク",kun:"やど・やどる",v:"宿題（しゅくだい）— pekerjaan rumah",s:"旅行の前に、駅の近くの宿を予約しました。— Sebelum bepergian, saya memesan penginapan dekat stasiun."},
+ {k:"園",l:"N4",m:"taman",on:"エン",kun:"その",v:"公園（こうえん）— taman umum",s:"日曜日に子どもたちと公園へ行きました。— Hari Minggu saya pergi ke taman bersama anak-anak."},
+ {k:"公",l:"N4",m:"umum",on:"コウ・ク",kun:"おおやけ",v:"公園（こうえん）— taman umum",s:"日曜日に子どもたちと公園へ行きました。— Hari Minggu saya pergi ke taman bersama anak-anak."},
+ {k:"林",l:"N4",m:"hutan kecil",on:"リン",kun:"はやし",v:"森林（しんりん）— hutan",s:"子どものころ、この林でよく遊びました。— Saat kecil, saya sering bermain di hutan kecil ini."},
+ {k:"森",l:"N4",m:"hutan",on:"シン",kun:"もり",v:"森林（しんりん）— hutan",s:"森の中で珍しい鳥を見つけました。— Saya menemukan burung langka di dalam hutan."},
+ {k:"池",l:"N4",m:"kolam",on:"チ",kun:"いけ",v:"池の水（いけのみず）— air kolam",s:"池の水に月が映っています。— Bulan terpantul di air kolam."},
+ {k:"海",l:"N4",m:"laut",on:"カイ",kun:"うみ",v:"海外（かいがい）— luar negeri",s:"夏は海で泳ぐのが好きです。— Saya suka berenang di laut saat musim panas."},
+ {k:"洋",l:"N4",m:"samudra; gaya Barat",on:"ヨウ",kun:"—",v:"洋服（ようふく）— pakaian gaya Barat",s:"洋服を買いました。— Saya membeli pakaian gaya Barat."},
+ {k:"服",l:"N4",m:"pakaian",on:"フク",kun:"きる",v:"洋服（ようふく）— pakaian gaya Barat",s:"新しい洋服を買いに行きました。— Saya pergi membeli pakaian baru."},
+ {k:"和",l:"N4",m:"harmoni; Jepang",on:"ワ・オ",kun:"やわらぐ・なごむ",v:"和食（わしょく）— masakan Jepang",s:"日本に来てから、和食が好きになりました。— Sejak datang ke Jepang, saya jadi menyukai masakan Jepang."},
+ {k:"色",l:"N4",m:"warna",on:"ショク・シキ",kun:"いろ",v:"景色（けしき）— pemandangan",s:"秋になると、山の景色が美しくなります。— Saat musim gugur, pemandangan gunung menjadi indah."},
+ {k:"景",l:"N4",m:"pemandangan",on:"ケイ",kun:"—",v:"景色（けしき）— pemandangan",s:"景色がきれいです。— Pemandangannya indah."},
+ {k:"形",l:"N4",m:"bentuk",on:"ケイ・ギョウ",kun:"かた・かたち",v:"人形（にんぎょう）— boneka",s:"妹は犬の形をした人形を持っています。— Adik perempuan saya memiliki boneka berbentuk anjing."},
+ {k:"声",l:"N4",m:"suara",on:"セイ・ショウ",kun:"こえ・こわ",v:"声楽（せいがく）— vokal",s:"歌手の美しい声に感動しました。— Saya terharu oleh suara indah penyanyi itu."},
+ {k:"頭",l:"N4",m:"kepala",on:"トウ・ズ",kun:"あたま・かしら",v:"頭痛（ずつう）— sakit kepala",s:"頭痛がするので、少し休みます。— Karena sakit kepala, saya akan beristirahat sebentar."},
+ {k:"痛",l:"N4",m:"sakit",on:"ツウ",kun:"いたい・いたむ",v:"頭痛（ずつう）— sakit kepala",s:"頭痛がするので、少し休みます。— Karena sakit kepala, saya akan beristirahat sebentar."},
+ {k:"顔",l:"N4",m:"wajah",on:"ガン",kun:"かお",v:"笑顔（えがお）— senyum",s:"久しぶりに会った友達の笑顔を見て、安心しました。— Saya lega melihat senyum teman yang lama tidak saya temui."},
+ {k:"笑",l:"N4",m:"tertawa",on:"ショウ",kun:"わらう・えむ・え",v:"笑顔（えがお）— senyum",s:"久しぶりに会った友達の笑顔を見て、安心しました。— Saya lega melihat senyum teman yang lama tidak saya temui."},
+ {k:"泣",l:"N4",m:"menangis",on:"キュウ",kun:"なく",v:"泣き声（なきごえ）— suara tangisan",s:"赤ちゃんが泣き声を上げたので、母親が抱き上げました。— Bayi itu menangis, lalu ibunya menggendongnya."},
+ {k:"歯",l:"N4",m:"gigi",on:"シ",kun:"は",v:"歯医者（はいしゃ）— dokter gigi",s:"歯が痛いので、明日歯医者へ行きます。— Karena gigi saya sakit, besok saya akan pergi ke dokter gigi."},
+ {k:"指",l:"N4",m:"jari; menunjuk",on:"シ",kun:"ゆび・さす",v:"指輪（ゆびわ）— cincin",s:"母の誕生日に、指輪をプレゼントしました。— Saya menghadiahkan cincin pada ulang tahun ibu."},
+ {k:"輪",l:"N4",m:"cincin; lingkaran",on:"リン",kun:"わ",v:"指輪（ゆびわ）— cincin",s:"母の誕生日に、指輪をプレゼントしました。— Saya menghadiahkan cincin pada ulang tahun ibu."},
+ {k:"首",l:"N4",m:"leher; kepala",on:"シュ",kun:"くび",v:"首都（しゅと）— ibu kota",s:"日本の首都は東京です。— Ibu kota Jepang adalah Tokyo."},
+ {k:"都",l:"N4",m:"ibu kota",on:"ト・ツ",kun:"みやこ",v:"首都（しゅと）— ibu kota",s:"日本の首都は東京です。— Ibu kota Jepang adalah Tokyo."},
+ {k:"県",l:"N4",m:"prefektur",on:"ケン",kun:"—",v:"県庁（けんちょう）— kantor prefektur",s:"県庁で働いています。— Saya bekerja di kantor prefektur."},
+ {k:"市",l:"N4",m:"kota",on:"シ",kun:"いち",v:"市役所（しやくしょ）— balai kota",s:"市役所で住所変更の手続きをしました。— Saya mengurus perubahan alamat di balai kota."},
+ {k:"役",l:"N4",m:"tugas; peran",on:"ヤク・エキ",kun:"—",v:"市役所（しやくしょ）— balai kota",s:"市役所へ行きます。— Saya pergi ke balai kota."},
+ {k:"区",l:"N4",m:"distrik",on:"ク",kun:"—",v:"区役所（くやくしょ）— kantor distrik",s:"区役所で手続きをします。— Saya mengurus administrasi di kantor distrik."},
+ {k:"町",l:"N4",m:"kota kecil",on:"チョウ",kun:"まち",v:"町中（まちなか）— pusat kota",s:"この町には古い店がたくさんあります。— Ada banyak toko tua di kota kecil ini."},
+ {k:"村",l:"N4",m:"desa",on:"ソン",kun:"むら",v:"村人（むらびと）— penduduk desa",s:"村人たちは祭りの準備をしています。— Penduduk desa sedang mempersiapkan festival."},
+ {k:"民",l:"N4",m:"rakyat",on:"ミン",kun:"たみ",v:"国民（こくみん）— warga negara",s:"国民は選挙で代表を選びます。— Warga negara memilih wakil melalui pemilu."},
+ {k:"族",l:"N4",m:"keluarga; suku",on:"ゾク",kun:"—",v:"家族（かぞく）— keluarga",s:"家族と旅行します。— Saya bepergian dengan keluarga."},
+ {k:"親",l:"N4",m:"orang tua; dekat",on:"シン",kun:"おや・したしい",v:"親切（しんせつ）— baik hati",s:"困っている人に親切にしましょう。— Mari bersikap baik kepada orang yang sedang kesulitan."},
+ {k:"切",l:"N4",m:"memotong; penting",on:"セツ・サイ",kun:"きる・きれる",v:"親切（しんせつ）— baik hati",s:"このナイフはよく切れるので、気をつけてください。— Pisau ini sangat tajam, jadi berhati-hatilah."},
+ {k:"彼",l:"N4",m:"dia (laki-laki)",on:"ヒ",kun:"かれ・かの",v:"彼女（かのじょ）— dia (perempuan)",s:"彼女は毎朝、駅まで歩いて行きます。— Dia (perempuan) berjalan ke stasiun setiap pagi."},
+ {k:"主",l:"N4",m:"utama; tuan",on:"シュ・ス",kun:"ぬし・おも",v:"主人（しゅじん）— suami; tuan rumah",s:"主人は毎朝、家族のために朝食を作ります。— Suami saya menyiapkan sarapan untuk keluarga setiap pagi."},
+ {k:"建",l:"N4",m:"membangun",on:"ケン・コン",kun:"たてる・たつ",v:"建物（たてもの）— bangunan",s:"駅の前に新しい建物が建ちました。— Sebuah bangunan baru didirikan di depan stasiun."},
+ {k:"階",l:"N4",m:"lantai; tingkat",on:"カイ",kun:"—",v:"階段（かいだん）— tangga",s:"三階に教室があります。— Ada ruang kelas di lantai tiga."},
+ {k:"段",l:"N4",m:"tingkat; langkah",on:"ダン",kun:"—",v:"階段（かいだん）— tangga",s:"階段を上ります。— Saya menaiki tangga."},
+ {k:"台",l:"N4",m:"alas; mesin",on:"ダイ・タイ",kun:"—",v:"台所（だいどころ）— dapur",s:"台所で料理します。— Saya memasak di dapur."}
 ];
 let klProgress = load("sal_kanji_progress", {});
+if (!klProgress || typeof klProgress !== "object" || Array.isArray(klProgress)) klProgress = {};
 let klLevel = "ALL";
 let klList = [];
 let klIndex = 0;
@@ -850,8 +1051,7 @@ function klFiltered() {
   const q = (document.getElementById("kl-search").value || "").trim().toLowerCase();
   return KL_DATA.filter(x =>
     (klLevel === "ALL" || x.l === klLevel) &&
-    (!q || [x.k,x.m,x.on,x.kun,x.v,x.s,x.l].join(" ").toLowerCase().includes(q)) &&
-    !false
+    (!q || [x.k,x.m,x.on,x.kun,x.v,x.s,x.l].join(" ").toLowerCase().includes(q))
   );
 }
 function klRefresh() {
@@ -862,9 +1062,13 @@ function klRefresh() {
 }
 function klUpdateStats() {
   const total = KL_DATA.length;
+  const n5 = KL_DATA.filter(x => x.l === "N5").length;
+  const n4 = KL_DATA.filter(x => x.l === "N4").length;
   const learned = KL_DATA.filter(x => klProgress[x.k] === true).length;
+  const badge = document.getElementById("kl-total-badge");
+  if (badge) badge.textContent = `N5 ${n5} · N4 ${n4} · Total ${total}`;
   const el = document.getElementById("kl-stats");
-  if (el) el.textContent = `Hafal ${learned}/${total} kanji · ${Math.round(learned/total*100)}%`;
+  if (el) el.textContent = `Total ${total} kanji (N5 ${n5} · N4 ${n4}) · Hafal ${learned}/${total} · ${Math.round(learned/total*100)}%`;
   const bar = document.getElementById("kl-progress");
   if (bar) bar.style.width = (learned/total*100) + "%";
 }
@@ -893,7 +1097,7 @@ function klRender() {
     ${klRevealed ? `<div class="kl-meaning">${klEsc(x.m)}</div>
     <div class="kl-reading">音読み: ${klEsc(x.on || "—")}<br>訓読み: ${klEsc(x.kun || "—")}</div>${detail}`
     : '<div class="kl-sub">Coba ingat arti dan bacaannya sebelum melihat jawaban.</div>'}`;
-  count.textContent = `Kartu ${klIndex+1}/${klList.length} · ${klProgress[x.k] ? "✓ Hafal" : "Belum hafal"}`;
+  count.textContent = `Kartu ${klIndex+1}/${klList.length} hasil · Dataset ${KL_DATA.length} kanji · ${klProgress[x.k] ? "✓ Hafal" : "Belum hafal"}`;
 }
 function klFlip() {
   if (!klList.length) return;
