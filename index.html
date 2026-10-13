@@ -94,6 +94,9 @@ body{background:var(--bg);background-image:radial-gradient(ellipse 70% 35% at 50
 .topbar-title{display:flex;align-items:center;gap:11px;font-family:'Playfair Display','Noto Serif JP',serif;font-size:21px;font-weight:600;letter-spacing:.01em;color:var(--ink)}
 .topbar-title:before{content:'道標';font-family:'Noto Serif JP',serif;font-size:23px;letter-spacing:.12em;color:var(--vermilion);padding-right:10px;border-right:1px solid var(--border2)}
 .topbar-title span{color:var(--ink)}
+.brand-nav{display:flex;align-items:center;justify-content:center;gap:clamp(10px,1.7vw,24px);flex:1;margin:0 22px;min-width:0}
+.brand-nav a{white-space:nowrap;text-decoration:none;font-size:11px;font-weight:600;color:var(--muted);transition:color .2s}
+.brand-nav a:hover,.brand-nav a:focus-visible{color:var(--vermilion)}
 .streak{font-family:'DM Sans',sans-serif;font-size:11px;color:#a43d43;background:#fff0ed;border:1px solid #f0d4ce;padding:7px 12px;border-radius:999px}
 .tabs{padding:0 clamp(10px,4vw,48px);background:rgba(255,253,248,.97);border-bottom:1px solid var(--border)}
 .tab{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.04em;text-transform:none;padding:13px 8px;color:var(--muted)}
@@ -126,7 +129,7 @@ body{background:var(--bg);background-image:radial-gradient(ellipse 70% 35% at 50
 .g-progress{max-width:1180px;margin:0 auto 17px;border:1px solid var(--border);border-radius:16px;background:linear-gradient(135deg,#fffdf8,#f3eee4);box-shadow:0 7px 20px rgba(20,45,69,.04)}
 .phase{border-radius:14px}.ph-title{font-family:'Playfair Display','Noto Serif JP',serif}.nb-input-wrap,.note-card{border-radius:14px}
 .bottom-hint{background:rgba(248,245,237,.97);font-family:'DM Sans',sans-serif;letter-spacing:.04em}
-@media(max-width:820px){.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{min-height:270px}.section-heading{align-items:start;flex-direction:column}.section-note{text-align:left}}
+@media(max-width:820px){.topbar{flex-wrap:wrap;gap:10px}.brand-nav{order:3;width:100%;flex:0 0 100%;margin:0;padding-top:8px;justify-content:flex-start;overflow-x:auto;gap:19px}.brand-nav a{padding-bottom:3px}.feature-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero{min-height:270px}.section-heading{align-items:start;flex-direction:column}.section-note{text-align:left}}
 @media(max-width:480px){.topbar{padding:12px 15px}.topbar-title{font-size:18px;gap:8px}.topbar-title:before{font-size:20px;padding-right:8px}.pane{padding:15px 14px 82px}.hero{min-height:330px;border-radius:18px;background-position:57% center}.hero:before{background:linear-gradient(0deg,rgba(10,29,47,.88),rgba(10,29,47,.24))}.hero-content{padding:24px 20px}.hero-title{font-size:35px}.hero-copy{font-size:13px}.feature-grid{gap:10px}.feature-card{padding:15px 13px;min-height:165px}.feature-card h3{font-size:16px}.feature-card p{font-size:10px}.tabs{padding:0 6px}.tab{font-size:10px}}
 
 </style>
@@ -134,6 +137,7 @@ body{background:var(--bg);background-image:radial-gradient(ellipse 70% 35% at 50
 <body>
 <div class="topbar">
   <div class="topbar-title"><span>Michishirube</span></div>
+  <nav class="brand-nav" aria-label="Navigasi utama"><a href="#home">Beranda</a><a href="#ruang-belajar">Ruang Belajar</a><a href="./english-roadmap.html#kl-quiz">Latihan &amp; Kuis</a><a href="#learning-path">Perjalanan Belajar</a><a href="./auth.html">Profil</a></nav>
   <div style="display:flex;align-items:center;gap:10px"><a href="./auth.html" style="font:600 11px DM Sans,sans-serif;color:#173653;text-decoration:none;border:1px solid #d8cdbb;border-radius:999px;padding:8px 12px;background:#fffdf8">Masuk</a><div class="streak" id="streak">🔥 0 hari streak</div></div>
 </div>
 <div class="tabs">
@@ -141,7 +145,7 @@ body{background:var(--bg);background-image:radial-gradient(ellipse 70% 35% at 50
   <button class="tab" onclick="switchTab('notebook',this)">📓 Catatan</button>
 </div>
 <div class="pane active" id="pane-roadmap">
-  <section class="hero" aria-label="Michishirube — perjalanan belajar bahasa Jepang">
+  <section class="hero" id="home" aria-label="Michishirube — perjalanan belajar bahasa Jepang">
     <div class="hero-content">
       <div class="hero-kicker">日本語を学ぶ · Learn with intention</div>
       <h1 class="hero-title"><span class="jp">学びの道を、共に。</span>Temukan jalan belajarmu.</h1>
