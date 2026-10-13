@@ -1,84 +1,46 @@
-# Audit Kosakata JLPT N4 — 700 Entri
+# Audit Kosakata Jepang N4 — 700 Entri
 
-Tanggal pembaruan: 13 Oktober 2026  
-Status: **700 entri telah disusun; audit otomatis struktural/integrasi N4 lulus. Tinjauan linguistik menyeluruh tetap diperlukan.**
+Tanggal pemeriksaan: 13 Oktober 2026  
+Branch: `fix/kanji-audit-cleanup`  
+Pull request: [#1](https://github.com/riyargb/Belajar-Pemrograman/pull/1)
 
-## Ringkasan data saat ini
+## Inventaris data
 
-| Pemeriksaan inventaris | Hasil |
+| Pemeriksaan | Hasil |
 |---|---:|
-| Target kurasi proyek | 700 entri |
-| Batch data | 16 |
+| Target kurasi N4 | 700 |
+| File batch | 16 |
 | Entri terhimpun | 700 |
-| Headword unik di N4 | 700 |
-| Duplikasi headword internal N4 | 0 |
-| Overlap headword dengan 800 entri N5 proyek | 0 |
-| Kolom per entri | 7 |
+| Headword unik | 700 |
+| Duplikasi headword internal | 0 |
+| Overlap headword dengan data N5 proyek | 0 |
+| Kolom wajib per entri | 7 |
 
-Data tersimpan pada `data/vocabulary-n4-batch1.js` sampai `data/vocabulary-n4-batch16.js`. Setiap entri berisi `jp`, `kana`, `arti`, `kelas`, `contoh`, `bacaan`, dan `terjemahan`.
+Data berada di `data/vocabulary-n4-batch1.js` sampai `data/vocabulary-n4-batch16.js`. Setiap entri memiliki `jp`, `kana`, `arti`, `kelas`, `contoh`, `bacaan`, dan `terjemahan`.
 
-Angka di atas merupakan pemeriksaan inventaris lintas file. Workflow audit N4 berhasil pada commit `598d251d`: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38298722683
+## Integrasi dan pengujian
 
-Audit tersebut sempat menemukan satu kesalahan bacaan pada contoh `気づく` di batch 8 (kanji tertinggal di kolom bacaan). Bacaan diperbaiki menjadi kana penuh, lalu audit dijalankan ulang dan lulus. Audit N5 juga lulus setelah validator integrasi diperbarui untuk mendukung pemilih level N5/N4: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38298815671.
+- File batch N4 dimuat sebelum loader UI kosakata.
+- Pemilih N5/N4 dan penyimpanan progres per level tersedia.
+- Validator memeriksa struktur batch, kolom wajib, kategori, format bacaan, headword duplikat, total 700, overlap dengan data N5, dan integrasi loader.
+- Smoke test runtime memakai DOM tiruan untuk level, pencarian/filter, kartu, progres, dan pemulihan progres rusak.
+- Tes browser Playwright/Chromium menjalankan alur UI di viewport ponsel 390 px dan desktop 1440 px, termasuk pergantian level, pencarian, progres/reload, kuis kanji, overflow horizontal, dan uncaught JavaScript errors.
 
-## Integrasi aplikasi
+## Hasil CI terbaru yang tersedia
 
-- Semua 16 file N4 ditambahkan sebagai skrip sebelum loader kosakata.
-- Laboratorium kosakata memiliki pemilih level **N5 / N4**.
-- Progres hafalan disimpan dengan kunci terpisah per level agar progres N5 lama tidak bercampur dengan N4.
-- Validator memeriksa bahwa file N4 direferensikan aplikasi dan dimuat sebelum loader.
+- [N4 vocabulary audit](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38356002569) — success.
+- [Real browser UI tests](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38356002501) — success.
 
-## Referensi pembelajaran
+Workflow ini terakhir diverifikasi pada commit `2a27e8cd34995a94d274496915086cf13c73104e`; dokumentasi audit sedang diperbarui setelah pemeriksaan tersebut.
 
-1. Jepang.org, [Daftar Kosakata JLPT N4 Lengkap](https://jepang.org/jlpt/n4/kosakata) — halaman menyajikan 582 item kosakata N4. Diakses 13 Oktober 2026.
-2. LTL Japanese, [JLPT N4 Vocabulary List](https://www.jlpt-quiz.com/blog/jlpt-n4-vocabulary-list) — halaman menyajikan 571 kata yang diposisikan sebagai kosakata baru N4. Diakses 13 Oktober 2026.
+## Referensi dan batasan level
 
-Referensi tersebut adalah materi pihak ketiga, bukan daftar resmi JLPT. JLPT tidak menerbitkan daftar kosakata resmi yang lengkap dan tertutup untuk tiap level. Karena itu, **700 adalah target kurasi proyek**, bukan angka resmi atau jaminan bahwa semua kata akan muncul dalam ujian N4.
+Referensi pihak ketiga yang digunakan dalam riset sebelumnya:
+1. [Jepang.org — Daftar Kosakata JLPT N4](https://jepang.org/jlpt/n4/kosakata)
+2. [LTL Japanese — JLPT N4 Vocabulary List](https://www.jlpt-quiz.com/blog/jlpt-n4-vocabulary-list)
 
-## Metode audit
+Referensi tersebut bukan daftar resmi JLPT. JLPT tidak menyediakan daftar kosakata resmi yang lengkap dan tertutup untuk tiap level. Angka 700 adalah target kurasi proyek, bukan jumlah resmi atau jaminan kata-kata yang akan muncul di ujian.
 
-### Pemeriksaan otomatis
+## Batasan yang belum boleh dianggap selesai
 
-Validator `audit-n4-vocabulary.js` memeriksa:
-
-- file batch dapat dimuat sebagai array;
-- kolom wajib terisi dan kategori termasuk daftar yang diizinkan;
-- kolom bacaan tidak mengandung kanji atau huruf Latin;
-- konsistensi bacaan untuk headword katakana;
-- tanda baca contoh dan bacaan;
-- keunikan headword di antara batch N4;
-- tidak ada headword N4 yang bertumpang tindih dengan data N5 saat ini;
-- total rilis tepat 700;
-- semua skrip batch N4 dimuat sebelum loader aplikasi dan pemilih level tersedia.
-
-### Batasan pemeriksaan
-
-Pemeriksaan otomatis tidak bisa membuktikan seluruh nuansa arti, bacaan kanji berdasarkan konteks, tata bahasa, kewajaran contoh, atau ketepatan terjemahan Indonesia. Sebagian entri adalah kosakata tambahan tingkat dasar-lanjutan yang perlu pemeriksaan editorial; daftar N4 ini tidak boleh disebut sebagai daftar resmi JLPT atau hasil validasi penutur asli.
-
-## Pekerjaan lanjutan sebelum dinyatakan final
-
-- Tunggu hasil workflow audit terbaru dan perbaiki semua hard error jika ada.
-- Tinjau manual contoh, bacaan, makna, dan terjemahan yang berpotensi ambigu.
-- Uji laboratorium kosakata pada tampilan aplikasi: pemilihan level, pencarian, filter, kartu, tandai hafal, dan progres terpisah.
-- Catat setiap temuan linguistik yang masih belum terselesaikan, alih-alih mengklaim semua entri sempurna.
-
-
-## Uji runtime laboratorium kosakata — 13 Oktober 2026
-
-Workflow [N4 audit dan UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354849765) selesai dengan status **success** pada commit `67b22c21d827a71e9a0027bbb3c5bb0c3558453f`. Tes DOM tiruan memverifikasi bahwa aplikasi memuat 700 entri N4, level N4 tidak mencampur progres N5, pencarian dan filter memperbarui tampilan, kartu bisa dibuka/ditutup dan dilanjutkan, tandai hafal dan checkbox daftar menyimpan progres.
-
-Batasan: ini adalah smoke test otomatis dengan DOM tiruan, bukan browser sesungguhnya. Pemeriksaan linguistik manual menyeluruh atas 700 entri N4 tetap merupakan pekerjaan yang belum selesai; hasil struktural tidak membuktikan setiap bacaan, arti, contoh, terjemahan, atau klasifikasi level benar.
-
-
-## Regresi penyimpanan progres — pembaruan terbaru
-
-Pada commit `50ffaec69fbefa38d33d6501d72de2972ece2cd6`, [workflow N4 audit + UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354990936) selesai dengan status **success**. Tes mencakup pemulihan progres dari JSON rusak, array yang tidak valid sebagai objek progres, dan nilai progres yang bukan boolean `true`. Data progres dibersihkan sebelum dipakai sehingga data browser yang korup tidak mencemari hitungan hafalan.
-
-Batasan tetap sama: ini tes dengan DOM tiruan, bukan browser nyata; audit linguistik independen seluruh 700 entri N4 belum selesai.
-
-
-## Browser regression test — 13 Oktober 2026
-
-[Uji Chromium nyata](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38355896037) lulus pada commit `76e0169592cefd2549bb676f94b98434271eb175`. Playwright menguji viewport ponsel 390 px dan desktop 1440 px, pemilihan level, pencarian tanpa hasil, jawaban, progres hafalan, checkbox daftar, pemulihan progres saat reload, kuis kanji, horizontal overflow, dan uncaught JavaScript errors.
-
-Ini merupakan pengujian browser headless di GitHub Actions, bukan pengujian pada perangkat Android pengguna. Audit linguistik independen seluruh 700 entri N4 masih belum tuntas; status CI tidak menyatakan semua bacaan, makna, contoh, terjemahan, dan level telah disahkan.
+Audit otomatis dan tes browser tidak membuktikan setiap bacaan, arti, contoh, terjemahan, atau klasifikasi level tepat secara linguistik. Proofreading independen seluruh 700 entri N4 **belum selesai**. Dataset tidak boleh disebut tervalidasi penuh atau disertifikasi penutur asli.
