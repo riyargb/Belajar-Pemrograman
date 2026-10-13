@@ -41,4 +41,5 @@ jobs:
           cat /tmp/language-site.log
           exit 1
       - name: Run real Chromium interactions
+        timeout-minutes: 3
         run: node test-browser.js
