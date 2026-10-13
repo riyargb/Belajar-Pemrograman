@@ -12,7 +12,7 @@ Tanggal pemeriksaan: 13 Oktober 2026
 | N4 | 200/200 |
 | Kunci bukan satu karakter | 0 |
 | Kolom wajib kosong (arti, onyomi, kosakata, contoh) | 0 |
-| Entri dengan kunyomi kosong untuk tinjauan | 35 |
+| Entri dengan kunyomi kosong untuk tinjauan | 36 |
 | Headword kosakata tidak memuat karakter kunci | 0 |
 | Entri contoh yang disunting pada putaran ini | 37 |
 
