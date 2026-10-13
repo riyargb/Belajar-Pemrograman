@@ -66,3 +66,10 @@ Pemeriksaan awal berbasis pola menemukan sejumlah bacaan kunyomi yang ditulis se
 Kandidat di atas adalah **antrian review**, bukan klaim bahwa entri tersebut salah. Sebagian dataset mungkin sengaja memakai batang kunyomi tanpa okurigana. Sebelum mengubahnya, format tampilan dan aturan validasi harus diselaraskan agar bacaan lengkap bisa dijelaskan secara konsisten.
 
 Pemeriksaan pola ini tidak menggantikan verifikasi kamus untuk setiap bacaan, arti, dan contoh. Audit linguistik 300 kanji dan 1.500 kosakata tetap terbuka sampai semua entri diperiksa satu per satu.
+
+
+## Audit regresi satu lintasan — 13 Oktober 2026
+
+Dataset KL_DATA diperiksa ulang langsung dari english-roadmap.html pada branch ini. Hasil parse: **300 entri, 300 karakter unik, 100 N5, 200 N4**. Pemeriksaan format otomatis tambahan menemukan 0 kolom wajib kosong, 0 format onyomi tidak valid, 0 format kunyomi tidak valid, 0 format headword kosakata tidak valid, dan 0 contoh tanpa pemisah/terjemahan atau tanda baca akhir yang diharapkan.
+
+Hasil ini mengonfirmasi struktur dan format yang diuji, bukan ketepatan semantik seluruh bacaan. Sebanyak 123 nilai kunyomi pendek ditandai oleh aturan heuristik sederhana untuk perhatian; angka ini **bukan** jumlah kesalahan karena banyak daftar kanji memang menuliskan batang bacaan tanpa okurigana. Kandidat perlu dinilai menurut konvensi tampilan proyek, bukan diubah otomatis.
