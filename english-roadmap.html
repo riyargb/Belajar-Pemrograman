@@ -221,7 +221,7 @@ button{cursor:pointer}
 .vl-btn.primary{background:var(--accent);color:white;border-color:transparent}
 .vl-btn:disabled{opacity:.45}
 .vl-count{font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
-.vl-list{display:grid;gap:6px;margin-top:12px}
+.vl-list{display:grid;gap:6px;margin-top:12px}.vl-list[hidden]{display:none!important}
 .vl-row{display:flex;align-items:center;gap:10px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);text-align:left}
 .vl-row-main{flex:1;min-width:0}
 .vl-row-jp{font-weight:800;font-size:17px}
@@ -235,7 +235,7 @@ button{cursor:pointer}
   <div class="vl-controls"><select class="vl-select" id="vl-level" aria-label="Pilih level kosakata"><option value="N5">N5 · 800 kata</option><option value="N4">N4 · 700 kata</option></select><input class="vl-input" id="vl-search" placeholder="Cari Jepang, kana, atau arti..." aria-label="Cari kosakata"><select class="vl-select" id="vl-category" aria-label="Filter kelas kata"><option value="ALL">Semua kategori</option></select></div>
   <div class="vl-card" id="vl-card" aria-live="polite"></div><div class="vl-count" id="vl-count"></div>
   <div class="vl-buttons"><button class="vl-btn primary" id="vl-reveal">Lihat jawaban</button><button class="vl-btn" id="vl-next">Kata berikutnya →</button><button class="vl-btn" id="vl-mark">✓ Tandai hafal</button></div>
-  <div class="vl-buttons"><button class="vl-btn" id="vl-unlearned">Belum hafal</button><button class="vl-btn" id="vl-all">Tampilkan semua</button><button class="vl-btn" id="vl-list-toggle">Daftar kata</button></div>
+  <div class="vl-buttons"><button class="vl-btn" id="vl-unlearned">Belum hafal</button><button class="vl-btn" id="vl-all">Tampilkan semua</button><button class="vl-btn" id="vl-list-toggle" type="button" aria-controls="vl-list" aria-expanded="false">Tampilkan daftar</button></div>
   <div class="vl-list" id="vl-list" hidden></div>
   <div class="vl-sub">Catatan: daftar N5 dan N4 adalah kurasi belajar, bukan daftar resmi tertutup JLPT. Label level adalah klasifikasi belajar, bukan jaminan bahwa setiap kata termasuk daftar resmi. Progres hafalan disimpan terpisah untuk tiap level. Periksa konteks dan contoh kalimat saat menghafal.</div>
 </section>
@@ -313,7 +313,7 @@ button{cursor:pointer}
  $("vl-mark").addEventListener("click",()=>{if(!pool.length)return;progress[pool[index].jp]=true;saveProgress();render();});
  $("vl-unlearned").addEventListener("click",()=>{pool=filtered().filter(x=>!progress[x.jp]);index=0;revealed=false;render();});
  $("vl-all").addEventListener("click",()=>{$("vl-search").value="";$("vl-category").value="ALL";refresh();});
- $("vl-list-toggle").addEventListener("click",()=>{listShown=!listShown;$("vl-list").hidden=!listShown;$("vl-list-toggle").textContent=listShown?"Sembunyikan daftar":"Tampilkan semua";if(listShown)renderList();});
+ $("vl-list-toggle").addEventListener("click",()=>{listShown=!listShown;const list=$("vl-list"),button=$("vl-list-toggle");list.hidden=!listShown;button.setAttribute("aria-expanded",String(listShown));button.textContent=listShown?"Sembunyikan daftar":"Tampilkan daftar";if(listShown)renderList();});
  $("vl-list").addEventListener("change",e=>{const key=e.target.dataset.word;if(!key)return;if(e.target.checked)progress[key]=true;else delete progress[key];saveProgress();render();});
  loadProgress();setCategories();refresh();
  })();
@@ -327,7 +327,7 @@ button{cursor:pointer}
       <div class="kl-title">漢字 LAB / Kanji Flashcards</div>
       <div class="kl-sub">Belajar kanji melalui arti, bacaan, kosakata, dan contoh kalimat.</div>
     </div>
-    <span class="kl-tag">N5 + N4</span>
+    <span class="kl-tag" id="kl-total-badge">Memuat jumlah kanji…</span>
   </div>
   <div class="kl-stats" id="kl-stats">Memuat progres...</div>
   <div class="kl-bar"><div class="kl-bar-fill" id="kl-progress"></div></div>
@@ -1062,9 +1062,13 @@ function klRefresh() {
 }
 function klUpdateStats() {
   const total = KL_DATA.length;
+  const n5 = KL_DATA.filter(x => x.l === "N5").length;
+  const n4 = KL_DATA.filter(x => x.l === "N4").length;
   const learned = KL_DATA.filter(x => klProgress[x.k] === true).length;
+  const badge = document.getElementById("kl-total-badge");
+  if (badge) badge.textContent = `N5 ${n5} · N4 ${n4} · Total ${total}`;
   const el = document.getElementById("kl-stats");
-  if (el) el.textContent = `Hafal ${learned}/${total} kanji · ${Math.round(learned/total*100)}%`;
+  if (el) el.textContent = `Total ${total} kanji (N5 ${n5} · N4 ${n4}) · Hafal ${learned}/${total} · ${Math.round(learned/total*100)}%`;
   const bar = document.getElementById("kl-progress");
   if (bar) bar.style.width = (learned/total*100) + "%";
 }
@@ -1093,7 +1097,7 @@ function klRender() {
     ${klRevealed ? `<div class="kl-meaning">${klEsc(x.m)}</div>
     <div class="kl-reading">音読み: ${klEsc(x.on || "—")}<br>訓読み: ${klEsc(x.kun || "—")}</div>${detail}`
     : '<div class="kl-sub">Coba ingat arti dan bacaannya sebelum melihat jawaban.</div>'}`;
-  count.textContent = `Kartu ${klIndex+1}/${klList.length} · ${klProgress[x.k] ? "✓ Hafal" : "Belum hafal"}`;
+  count.textContent = `Kartu ${klIndex+1}/${klList.length} hasil · Dataset ${KL_DATA.length} kanji · ${klProgress[x.k] ? "✓ Hafal" : "Belum hafal"}`;
 }
 function klFlip() {
   if (!klList.length) return;
