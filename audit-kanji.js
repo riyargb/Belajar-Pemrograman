@@ -51,12 +51,15 @@ for (const entry of entries) {
   if (/[\u3040-\u30ff\u3400-\u9fff]\s+[\u3040-\u30ff\u3400-\u9fff]/u.test(entry.s)) {
     warnings.push(entry.k + ": suspicious whitespace in example sentence: " + entry.s);
   }
+  if (/[\u3040-\u30ff\u3400-\u9fff]\s+[\u3040-\u30ff\u3400-\u9fff]/u.test(entry.v)) {
+    warnings.push(entry.k + ": suspicious whitespace in vocabulary reading/headword: " + entry.v);
+  }
   if (/[。！？]\s*—\s*$/.test(entry.s)) warnings.push(entry.k + ": example translation appears empty.");
 }
 const markedNoKunyomi = entries.filter(entry => entry.kun.trim() === "—").length;
 const genericExamples = entries.filter(entry => /という言葉を覚えます/u.test(entry.s)).length;
 if (genericExamples > 0) errors.push("Generic template examples remain: " + genericExamples + ".");
-const whitespaceExamples = entries.filter(entry => /[\u3040-\u30ff\u3400-\u9fff]\s+[\u3040-\u30ff\u3400-\u9fff]/u.test(entry.s)).length;
+const whitespaceExamples = entries.filter(entry => /[\u3040-\u30ff\u3400-\u9fff]\s+[\u3040-\u30ff\u3400-\u9fff]/u.test(entry.s) || /[\u3040-\u30ff\u3400-\u9fff]\s+[\u3040-\u30ff\u3400-\u9fff]/u.test(entry.v)).length;
 console.log("Total: " + entries.length + "; unique: " + unique.size + "; N5: " + n5 + "/100; N4: " + n4 + "/200; kunyomi review markers: " + markedNoKunyomi + "; generic examples: " + genericExamples + "; suspicious whitespace examples: " + whitespaceExamples + ".");
 if (warnings.length) {
   console.warn("WARN: " + warnings.length + " possible text issue(s):");
