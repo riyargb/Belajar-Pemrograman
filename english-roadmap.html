@@ -1078,7 +1078,7 @@ function klUpdateStats() {
   const badge = document.getElementById("kl-total-badge");
   if (badge) badge.textContent = `N5 ${n5} · N4 ${n4} · Total ${total}`;
   const el = document.getElementById("kl-stats");
-  if (el) el.textContent = `Total ${total} kanji (N5 ${n5} · N4 ${n4}) · Hafal ${learned}/${total} · ${Math.round(learned/total*100)}%`;
+  if (el) el.textContent = `Total ${total} kanji (N5 ${n5} · N4 ${n4}) · Hafal ${learned}/${total} kanji · ${Math.round(learned/total*100)}%`;
   const bar = document.getElementById("kl-progress");
   if (bar) bar.style.width = (learned/total*100) + "%";
 }
