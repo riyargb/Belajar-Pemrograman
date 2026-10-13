@@ -9,9 +9,12 @@ const { chromium } = require("playwright");
 (async () => {
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
+  page.setDefaultTimeout(8000);
+  const stage = name => console.log("BROWSER TEST:", name);
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(error.message));
   try {
+    stage("open page");
     await page.goto("http://127.0.0.1:4173/english-roadmap.html", { waitUntil: "domcontentloaded" });
     await page.getByRole("button", { name: /Japanese/ }).click();
     await page.locator("#vocab-lab").scrollIntoViewIfNeeded();
@@ -20,6 +23,7 @@ const { chromium } = require("playwright");
       assert.match(await page.locator("#vl-count").innerText(), /\[N5\] Kartu 1\/800/);
     }, "N5 vocabulary should render");
 
+    stage("vocabulary reveal/next/mark");
     await page.locator("#vl-reveal").click();
     assert.match(await page.locator("#vl-card").innerText(), /Contoh:/);
     await page.locator("#vl-next").click();
@@ -35,6 +39,7 @@ const { chromium } = require("playwright");
     await page.locator("#vl-all").click();
     assert.equal(await page.locator("#vl-search").inputValue(), "");
 
+    stage("vocabulary list and persistence");
     await page.locator("#vl-list-toggle").click();
     await page.locator("#vl-list input[type=checkbox]").first().check();
     assert.ok(await page.evaluate(() => Boolean(localStorage.getItem("sal_vocab_n4_progress_v1"))));
@@ -46,12 +51,14 @@ const { chromium } = require("playwright");
     await page.locator("#vl-level").selectOption("N4");
     assert.match(await page.locator("#vl-stats").innerText(), /N4 · Hafal 1\/700 kosakata/);
 
+    stage("kanji filter and answer");
     await page.locator("#kl-level").selectOption("N5");
     assert.match(await page.locator("#kl-count").innerText(), /Kartu 1\/100/);
     await page.getByRole("button", { name: "Lihat jawaban", exact: true }).last().click();
     assert.match(await page.locator("#kl-card").innerText(), /Onyomi:/);
     await page.locator("#kl-search").fill("definitely-no-such-kanji");
     assert.match(await page.locator("#kl-card").innerText(), /Tidak ada hasil/);
+    stage("kanji quiz");
     await page.locator("#kl-search").fill("");
     await page.getByRole("button", { name: "Mulai kuis pilihan ganda" }).click();
     assert.equal(await page.locator("#kl-q-options button").count(), 4);
@@ -62,6 +69,7 @@ const { chromium } = require("playwright");
     }
     assert.match(await page.locator("#kl-q-question").innerText(), /Kuis selesai!/);
 
+    stage("responsive viewport and JS errors");
     const mobileOverflow = await page.evaluate(() =>
       document.documentElement.scrollWidth > document.documentElement.clientWidth
     );
