@@ -23,7 +23,8 @@ Tanggal pemeriksaan: 13 Oktober 2026
 
 ## Perubahan yang dilakukan
 
-- Memperbaiki spasi janggal pada sejumlah contoh kalimat.
+- Memperbaiki spasi janggal pada sejumlah contoh kalimat, termasuk typo `手紙を書 きます` menjadi `手紙を書きます`.
+- Memperluas deteksi spasi mencurigakan agar juga menangkap spasi di antara kanji dan kana, yang terlewat oleh pola pemeriksaan sebelumnya.
 - Menyunting 107 contoh kalimat dalam putaran sebelumnya.
 - Mengganti seluruh 103 contoh berpola generik dengan kalimat kontekstual dan terjemahan Indonesia.
 - Memperbaiki entri 用 agar kosakata yang ditampilkan memuat karakter target.
@@ -47,4 +48,4 @@ Kode yang ditinjau memuat filter level dan pencarian, daftar kartu, kuis, serta 
 3. Periksa tampilan saat `localStorage` diblokir/bersih.
 4. Lakukan proofreading linguistik akhir pada bacaan, kosakata, kalimat, dan terjemahan.
 
-Catatan validasi: parsing ulang file branch menghasilkan 300 entri, 300 unik, N5 100, N4 200, kolom wajib kosong 0, kunyomi kosong 0, pola generik 0, spasi mencurigakan 0, dan headword mismatch 0. GitHub Actions run #6 menjalankan `node audit-kanji.js` dan lulus untuk revisi data sebelum pemeriksaan keberadaan elemen/fungsi UI ditambahkan. Pemeriksaan UI statis pada revisi terbaru telah dicocokkan dengan source, tetapi belum ada hasil Actions terverifikasi untuk perubahan terakhir tersebut. Uji interaksi nyata di browser juga belum dilakukan.
+Catatan validasi: parsing ulang branch menghasilkan 300 entri, 300 unik, N5 100, N4 200, kolom wajib kosong 0, kunyomi kosong 0 (36 entri ditandai `—` sebagai penanda tinjauan, bukan bacaan), pola contoh generik 0, spasi mencurigakan 0 setelah aturan deteksi diperluas, dan headword mismatch 0. GitHub Actions run #38342609079 untuk workflow `Kanji data audit` berstatus sukses pada revisi sebelum perbaikan spasi terakhir: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38342609079. Setelah perbaikan spasi dan pemeriksaan audit diperluas, workflow baru dipicu dan perlu dipastikan selesai pada commit terbaru. Uji interaksi nyata di browser dan proofreading linguistik menyeluruh belum dilakukan; karena itu hasil ini belum boleh disebut audit final 100%.
