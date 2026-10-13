@@ -30,6 +30,7 @@ Tanggal pemeriksaan: 13 Oktober 2026
 - Memperbaiki entri 用 agar kosakata yang ditampilkan memuat karakter target.
 - Mengubah 36 kolom kunyomi kosong menjadi penanda eksplisit "—". Penanda ini bukan bacaan; artinya bacaan kunyomi tidak dicantumkan dalam data belajar ini dan perlu pemeriksaan linguistik jika hendak dilengkapi.
 - Memperkuat `audit-kanji.js` agar jumlah target, duplikasi, kolom wajib, headword, spasi mencurigakan, dan pola contoh generik dapat diperiksa.
+- Menambahkan pemeriksaan integrasi statis untuk keberadaan elemen UI utama, fungsi kartu/filter/kuis, dan kunci penyimpanan progres.
 - Menambahkan `.github/workflows/kanji-audit.yml` untuk menjalankan audit otomatis dengan Node.js saat ada push dan pull request.
 
 ## Batasan validasi
@@ -38,7 +39,7 @@ Pemeriksaan struktur tidak membuktikan bahwa seluruh onyomi/kunyomi, makna, klas
 
 ## Pemeriksaan integrasi aplikasi
 
-Kode yang ditinjau memuat filter level dan pencarian, daftar kartu, kuis, serta penyimpanan progres melalui `localStorage`. Render detail menggunakan escaping teks, dan pesan untuk hasil filter kosong tersedia. Peninjauan kode bukan pengganti uji klik di browser. Uji interaksi nyata pada perangkat/browser belum dapat diklaim lulus dari pemeriksaan source saja.
+Kode yang ditinjau memuat filter level dan pencarian, daftar kartu, kuis, serta penyimpanan progres melalui `localStorage`. Audit otomatis memeriksa keberadaan ID dan fungsi utama, dan render detail menggunakan escaping teks. Peninjauan kode bukan pengganti uji klik di browser. Uji interaksi nyata pada perangkat/browser belum dapat diklaim lulus dari pemeriksaan source saja.
 
 ## Langkah validasi yang harus dijalankan pada checkout
 
