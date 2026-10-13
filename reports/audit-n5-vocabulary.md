@@ -55,3 +55,10 @@ Audit struktural tidak membuktikan seluruh bacaan, makna, nuansa contoh, terjema
 Pemeriksaan ulang terhadap seluruh 800 entri pada dua batch menemukan **0 contoh kalimat Jepang yang identik**. Ini hanya memeriksa duplikasi persis; kalimat berbeda yang memakai pola terlalu mirip atau memiliki terjemahan yang kurang tepat tetap memerlukan penilaian manusia.
 
 Kandidat level yang tercatat dalam skrip audit tetap harus diperlakukan sebagai antrian review, bukan kesimpulan otomatis bahwa kata tersebut salah level. Setiap kandidat perlu dinilai berdasarkan penggunaan, tingkat kesulitan, dan tujuan kurasi belajar.
+
+
+## Audit regresi satu lintasan — 13 Oktober 2026
+
+Seluruh dua file batch N5 diperiksa ulang langsung dari branch ini: **800 entri**. Pemeriksaan otomatis satu lintasan menemukan 0 kolom wajib kosong, 0 kana yang mengandung kanji, 0 bacaan contoh berhuruf Latin, 0 headword katakana yang tidak cocok dengan kolom kana, 0 headword duplikat, 0 contoh identik, dan 0 contoh tanpa tanda baca Jepang di akhir. Semua 800 entri terurai dengan tujuh field yang diharapkan.
+
+Ini adalah pemeriksaan struktural tambahan. Ia tidak membuktikan bahwa semua pasangan bacaan, makna, kelas kata, contoh, dan terjemahan sudah benar secara linguistik; status proofreading independen tetap terbuka.
