@@ -48,3 +48,10 @@ Workflow terakhir diverifikasi pada commit `2a27e8cd34995a94d274496915086cf13c73
 ## Batasan yang belum boleh dianggap selesai
 
 Audit struktural tidak membuktikan seluruh bacaan, makna, nuansa contoh, terjemahan, atau klasifikasi level benar. Proofreading independen untuk seluruh 800 entri N5 **belum selesai**. Tes browser dijalankan pada Chromium headless di GitHub Actions, bukan perangkat Android fisik pengguna. Jangan mengklaim dataset telah disertifikasi penutur asli.
+
+
+## Pemeriksaan tambahan lintas contoh
+
+Pemeriksaan ulang terhadap seluruh 800 entri pada dua batch menemukan **0 contoh kalimat Jepang yang identik**. Ini hanya memeriksa duplikasi persis; kalimat berbeda yang memakai pola terlalu mirip atau memiliki terjemahan yang kurang tepat tetap memerlukan penilaian manusia.
+
+Kandidat level yang tercatat dalam skrip audit tetap harus diperlakukan sebagai antrian review, bukan kesimpulan otomatis bahwa kata tersebut salah level. Setiap kandidat perlu dinilai berdasarkan penggunaan, tingkat kesulitan, dan tujuan kurasi belajar.
