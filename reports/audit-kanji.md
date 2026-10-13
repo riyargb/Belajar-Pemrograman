@@ -18,7 +18,6 @@ Tanggal pemeriksaan: 13 Oktober 2026
 | Contoh kalimat dengan pola generik "という言葉を覚えます" | 0 |
 | Contoh yang disunting pada putaran sebelumnya | 107 |
 | Contoh generik yang diganti pada putaran terbaru | 103 |
-| Contoh generik yang baru diganti | 103 |
 
 **Target jumlah terpenuhi secara struktural:** 300 entri unik, terdiri dari 100 N5 dan 200 N4.
 
