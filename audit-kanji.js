@@ -20,6 +20,16 @@ const n5 = entries.filter(entry => entry.l === "N5").length;
 const n4 = entries.filter(entry => entry.l === "N4").length;
 const errors = [];
 const warnings = [];
+const requiredIds = ["kl-level", "kl-search", "kl-card", "kl-count", "kl-stats", "kl-progress", "kl-quiz", "kl-q-options", "kl-q-next"];
+const requiredFunctions = ["klFiltered", "klRefresh", "klRender", "klNext", "klFlip", "klMark", "klQuizStart", "klQuizAnswer", "klQuizNext", "load", "save"];
+for (const id of requiredIds) {
+  if (!html.includes('id="' + id + '"')) errors.push("Kanji UI element is missing: #" + id + ".");
+}
+for (const name of requiredFunctions) {
+  if (!new RegExp("function\\s+" + name + "\\\\s*\\\\(").test(html)) errors.push("Kanji UI function is missing: " + name + "().");
+}
+if (!html.includes('"sal_kanji_progress"')) errors.push("Kanji progress storage key is missing.");
+
 if (entries.length === 0) errors.push("No kanji entries parsed; check data format.");
 if (unique.size !== entries.length) errors.push("Duplicate kanji characters detected.");
 if (n5 !== 100) errors.push("N5 target is 100; found " + n5 + ".");
@@ -56,6 +66,6 @@ if (errors.length) {
   console.error("BLOCKED: " + errors.join("\n"));
   process.exitCode = 1;
 } else {
-  console.log("PASS: structural checks passed.");
+  console.log("PASS: structural data and static UI integration checks passed.");
   console.log("Note: passing structural checks does not establish linguistic accuracy or official JLPT classification.");
 }
