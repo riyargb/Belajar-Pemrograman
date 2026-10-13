@@ -22,6 +22,10 @@ const { chromium } = require("playwright");
     assert.equal(await page.locator('.card[href="./english-roadmap.html#kanji-lab"]').getAttribute("href"), "./english-roadmap.html#kanji-lab");
     assert.equal(await page.getByRole("link", { name: /Kosakata/ }).getAttribute("href"), "./english-roadmap.html#vocab-lab");
     assert.equal(await page.locator('.card[href="./english-roadmap.html#kl-quiz"]').getAttribute("href"), "./english-roadmap.html#kl-quiz");
+    assert.equal(await page.locator("#install-app").isVisible(), true, "PWA install guidance button should be visible");
+    await page.locator("#install-app").click();
+    assert.equal(await page.locator("#install-help").isVisible(), true, "install instructions should appear when native install prompt is unavailable");
+    assert.match(await page.locator("#install-help").innerText(), /Install page as app|Install Michishirube/);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, "homepage should not overflow horizontally at mobile viewport");
 
     stage("open language learning page");
