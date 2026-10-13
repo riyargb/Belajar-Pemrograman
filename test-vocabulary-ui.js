@@ -128,4 +128,10 @@ assert.ok(h.storage.sal_vocab_n4_progress_v1, "list checkbox should save progres
 
 const reloaded = createHarness(h.storage);
 assert.match(reloaded.elements.get("vl-stats").textContent, /N5 · Hafal 1\/800/, "reload should restore N5 progress and default level");
-console.log("PASS: Vocabulary Lab runtime smoke tests (N5/N4 totals, reveal/next, search empty state, filters, marking, list checkbox, per-level persistence, reload).");
+const malformed = createHarness({ sal_vocab_n5_progress_v1: "not-json" });
+assert.match(malformed.elements.get("vl-stats").textContent, /N5 · Hafal 0\/800/, "malformed saved JSON should safely reset progress");
+const wrongShape = createHarness({ sal_vocab_n5_progress_v1: JSON.stringify(["私", "人"]) });
+assert.match(wrongShape.elements.get("vl-stats").textContent, /N5 · Hafal 0\/800/, "array-shaped saved progress should safely reset");
+const dirtyValues = createHarness({ sal_vocab_n5_progress_v1: JSON.stringify({ "私": true, "人": "yes" }) });
+assert.match(dirtyValues.elements.get("vl-stats").textContent, /N5 · Hafal 1\/800/, "only true boolean progress flags should be restored");
+console.log("PASS: Vocabulary Lab runtime smoke tests (N5/N4 totals, reveal/next, search empty state, filters, marking, list checkbox, per-level persistence, reload, corrupted progress recovery).");
