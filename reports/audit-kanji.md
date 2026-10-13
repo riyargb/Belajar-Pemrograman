@@ -74,3 +74,15 @@ Commit kode yang diuji: `50ffaec69fbefa38d33d6501d72de2972ece2cd6`.
 - [N5 vocabulary audit + runtime smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354990961) — **success**.
 
 Kode laboratorium kosakata kini memvalidasi data progres dari `localStorage`: JSON rusak, array, atau nilai progres yang bukan boolean `true` dibuang dengan aman. Tes mencakup pemulihan JSON rusak, bentuk array yang salah, dan nilai progres yang tidak valid. Ini tetap merupakan uji DOM tiruan; browser nyata dan audit linguistik independen belum tuntas.
+
+
+## Validasi tambahan — audit bacaan dan browser nyata
+
+Commit kode dan tes terbaru yang diuji: `76e0169592cefd2549bb676f94b98434271eb175`.
+
+- [Kanji audit dengan pemeriksaan skema yang diperketat](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38355896057) — **success**. Pemeriksaan kini juga menolak format onyomi yang bukan katakana, kunyomi yang bukan hiragana/penanda eksplisit, format kosakata tanpa bacaan/gloss, contoh tanpa pemisah, tanda baca Jepang, atau terjemahan kosong.
+- [Uji UI Chromium nyata](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38355896037) — **success**. Playwright menjalankan halaman pada viewport ponsel 390 px dan desktop 1440 px; menguji pemilihan N5/N4, buka jawaban, kartu berikutnya, pencarian kosong, progres kosakata dan kanji, penyimpanan progres, serta alur kuis 10 soal. Tes juga memeriksa tidak ada horizontal overflow dan tidak ada uncaught JavaScript error.
+- [Audit kosakata N5](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38355856976) — **success** pada commit kode yang sama sebelum penambahan tes browser terakhir; perubahan setelah itu hanya pada skrip tes browser.
+- [Audit kosakata N4](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38355856996) — **success** pada commit kode yang sama sebelum penambahan tes browser terakhir; perubahan setelah itu hanya pada skrip tes browser.
+
+Penting: browser automation membuktikan alur UI yang diuji berjalan di Chromium CI, bukan pengujian pada perangkat Android milik pengguna. Validasi struktur dan skema juga tidak menggantikan proofreading independen seluruh bacaan, arti, level, contoh, dan terjemahan 1.500 kosakata serta 300 kanji. Tinjauan linguistik menyeluruh masih menjadi satu-satunya blokir substansial sebelum materi layak disebut final secara bahasa.
