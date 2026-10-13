@@ -210,3 +210,10 @@ Audit ini adalah pemeriksaan editorial menyeluruh, bukan sertifikasi oleh penutu
 - [Batch 2](../data/vocabulary-n5-batch2.js)
 - [Validator](../audit-n5-vocabulary.js)
 - [Workflow audit](../.github/workflows/audit-n5-vocabulary.yml)
+
+
+## Uji runtime laboratorium kosakata — 13 Oktober 2026
+
+Workflow [N5 audit dan UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354849739) selesai dengan status **success** pada commit `67b22c21d827a71e9a0027bbb3c5bb0c3558453f`. Tes DOM tiruan memverifikasi total 800 entri N5, pencarian kosong, reset filter, pembukaan jawaban, navigasi kartu, penandaan hafal, filter kategori, daftar checkbox, progres terpisah untuk N5/N4, dan pemulihan progres saat skrip dimuat ulang.
+
+Batasan: tes ini bukan pengujian browser nyata di HP/desktop. Audit linguistik sebelumnya adalah putaran editorial, bukan sertifikasi penutur asli; beberapa kandidat level tambahan tetap perlu ditinjau dan daftar proyek tidak boleh disebut daftar resmi JLPT.
