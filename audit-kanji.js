@@ -34,14 +34,17 @@ for (const entry of entries) {
     warnings.push(entry.k + ": kanji key is not present in the displayed vocabulary headword: " + entry.v);
   }
   if (!entry.kun.trim()) {
-    warnings.push(entry.k + ": kunyomi field is blank; confirm this is intentional for this character.");
+    warnings.push(entry.k + ": kunyomi field is blank; use a reading or an explicit dash after review.");
+  } else if (entry.kun.trim() === "—") {
+    // Explicitly marked as no kunyomi supplied; this is a review marker, not a reading.
   }
   if (/\s[一-龯]|[一-龯]\s[一-龯]|[ぁ-んァ-ン]\s+[ぁ-んァ-ン]/u.test(entry.s)) {
     warnings.push(entry.k + ": suspicious whitespace in example sentence: " + entry.s);
   }
   if (/[。！？]\s*—\s*$/.test(entry.s)) warnings.push(entry.k + ": example translation appears empty.");
 }
-console.log("Total: " + entries.length + "; unique: " + unique.size + "; N5: " + n5 + "/100; N4: " + n4 + "/200.");
+const markedNoKunyomi = entries.filter(entry => entry.kun.trim() === "—").length;
+console.log("Total: " + entries.length + "; unique: " + unique.size + "; N5: " + n5 + "/100; N4: " + n4 + "/200; kunyomi review markers: " + markedNoKunyomi + ".");
 if (warnings.length) {
   console.warn("WARN: " + warnings.length + " possible text issue(s):");
   for (const warning of warnings) console.warn(" - " + warning);
