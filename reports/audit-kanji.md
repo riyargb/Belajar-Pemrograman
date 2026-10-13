@@ -13,7 +13,7 @@ Tanggal pemeriksaan: 13 Oktober 2026
 | Kunci bukan satu karakter | 0 |
 | Kolom wajib kosong (arti, onyomi, kosakata, contoh) | 0 |
 | Kolom kunyomi kosong | 0 |
-| Penanda kunyomi eksplisit "—" untuk bacaan yang tidak dicantumkan | 36 |
+| Penanda kunyomi eksplisit "—" untuk bacaan yang tidak dicantumkan | 37 |
 | Headword kosakata tidak memuat karakter kunci | 0 |
 | Contoh kalimat dengan pola generik "という言葉を覚えます" | 0 |
 | Contoh yang disunting pada putaran sebelumnya | 107 |
@@ -28,9 +28,11 @@ Tanggal pemeriksaan: 13 Oktober 2026
 - Menyunting 107 contoh kalimat dalam putaran sebelumnya.
 - Mengganti seluruh 103 contoh berpola generik dengan kalimat kontekstual dan terjemahan Indonesia.
 - Memperbaiki entri 用 agar kosakata yang ditampilkan memuat karakter target.
-- Mengubah 36 kolom kunyomi kosong menjadi penanda eksplisit "—". Penanda ini bukan bacaan; artinya bacaan kunyomi tidak dicantumkan dalam data belajar ini dan perlu pemeriksaan linguistik jika hendak dilengkapi.
+- Mengubah kolom kunyomi yang tidak dicantumkan menjadi penanda eksplisit "—" (37 entri pada hasil terbaru). Penanda ini bukan bacaan; artinya bacaan kunyomi tidak dicantumkan dalam data belajar ini dan perlu pemeriksaan linguistik jika hendak dilengkapi.
 - Memperkuat `audit-kanji.js` agar jumlah target, duplikasi, kolom wajib, headword, spasi mencurigakan, dan pola contoh generik dapat diperiksa.
 - Menambahkan pemeriksaan integrasi statis untuk keberadaan elemen UI utama, fungsi kartu/filter/kuis, dan kunci penyimpanan progres.
+- Menambahkan `test-kanji-ui.js`, smoke test runtime Node dengan DOM tiruan untuk dek 300 kartu, filter N5/N4, pencarian kosong/terisi, buka kartu, tandai hafal, simpan/muat progres, pemulihan data progres rusak, dan alur kuis. Workflow CI menjalankan test ini setelah audit data.
+- Memperbaiki bacaan kunyomi `気` yang meragukan menjadi penanda `—`, mengganti contoh kosakata kucing menjadi `猫（ねこ）`, menggunakan `今（いま）` sebagai contoh bacaan dasar, serta memperjelas bacaan `へ` pada `下手`.
 - Menambahkan `.github/workflows/kanji-audit.yml` untuk menjalankan audit otomatis dengan Node.js saat ada push dan pull request.
 
 ## Batasan validasi
@@ -43,9 +45,10 @@ Kode yang ditinjau memuat filter level dan pencarian, daftar kartu, kuis, serta 
 
 ## Langkah validasi yang harus dijalankan pada checkout
 
-1. `node audit-kanji.js`: **lulus pada GitHub Actions run #38343036164** (langkah audit selesai dengan sukses).
-2. Buka halaman di browser dan uji filter N5/N4, pencarian, buka/tutup jawaban, kuis, tandai dipelajari, serta progres setelah reload — **belum diuji secara interaktif**.
-3. Periksa tampilan saat `localStorage` diblokir/bersih — **belum diuji di browser**.
-4. Lakukan proofreading linguistik akhir pada bacaan, kosakata, kalimat, dan terjemahan — **belum selesai untuk seluruh 300 entri**.
+1. `node audit-kanji.js`: **lulus** pada GitHub Actions run #38343583966.
+2. `node test-kanji-ui.js`: **lulus** pada run yang sama; ini adalah smoke test dengan DOM tiruan di Node.js, bukan pengujian browser sungguhan.
+3. Buka halaman di browser dan uji filter N5/N4, pencarian, buka/tutup jawaban, kuis, tandai dipelajari, serta progres setelah reload — **belum diuji secara interaktif di browser**.
+4. Periksa tampilan saat `localStorage` diblokir/bersih di browser — **belum diuji di browser**. Kode penyimpanan sudah menangani exception, dan test menguji pemulihan nilai progres rusak.
+5. Lakukan proofreading linguistik akhir pada bacaan, kosakata, kalimat, klasifikasi level, dan terjemahan — **belum selesai untuk seluruh 300 entri**.
 
-Catatan validasi: parsing ulang branch menghasilkan 300 entri, 300 unik, N5 100, N4 200, kolom wajib kosong 0, kunyomi kosong 0 (36 entri ditandai `—` sebagai penanda tinjauan, bukan bacaan), pola contoh generik 0, spasi mencurigakan 0 setelah aturan deteksi diperluas, dan headword mismatch 0. GitHub Actions workflow `Kanji data audit` selesai sukses pada run #38343036164 setelah perbaikan contoh dan perluasan deteksi spasi: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38343036164. Parsing ulang sumber terbaru menghasilkan 300/300 entri unik (N5 100, N4 200), kolom wajib kosong 0, kunyomi kosong 0 (36 penanda `—`), contoh generik 0, mismatch headword 0, terjemahan kosong 0, dan spasi mencurigakan pada kosakata/contoh 0. Pemeriksaan ID dan fungsi UI statis lengkap. Namun, uji interaksi browser dan proofreading linguistik menyeluruh belum dilakukan; karena itu hasil ini belum boleh disebut audit final 100%.
+Catatan validasi: parsing ulang branch menghasilkan 300 entri, 300 unik, N5 100, N4 200, kolom wajib kosong 0, kunyomi kosong 0 (36 entri ditandai `—` sebagai penanda tinjauan, bukan bacaan), pola contoh generik 0, spasi mencurigakan 0 setelah aturan deteksi diperluas, dan headword mismatch 0. GitHub Actions `Kanji data audit` dan smoke test UI lulus pada run #38343583966: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38343583966. Parsing ulang sumber menghasilkan 300/300 entri unik (N5 100, N4 200), kolom wajib kosong 0, 37 penanda kunyomi `—`, contoh generik 0, mismatch headword 0, terjemahan kosong 0, dan spasi mencurigakan pada kosakata/contoh 0. Pemeriksaan ID dan fungsi UI statis lengkap. Smoke test menggunakan DOM tiruan dan tidak menggantikan browser real; proofreading linguistik menyeluruh masih belum selesai sehingga hasil ini belum boleh disebut audit linguistik final 100%.
