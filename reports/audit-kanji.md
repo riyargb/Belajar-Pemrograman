@@ -23,7 +23,7 @@ Tanggal pemeriksaan: 13 Oktober 2026
 
 ## Perubahan yang dilakukan
 
-- Memperbaiki spasi janggal pada sejumlah contoh kalimat, termasuk typo `手紙を書 きます` menjadi `手紙を書きます`.
+- Memperbaiki spasi janggal pada sejumlah contoh kalimat, termasuk typo `手紙を書 きます` menjadi `手紙を書きます` dan bacaan `先生（せん せい）` menjadi `先生（せんせい）`.
 - Memperluas deteksi spasi mencurigakan agar juga menangkap spasi di antara kanji dan kana, yang terlewat oleh pola pemeriksaan sebelumnya.
 - Menyunting 107 contoh kalimat dalam putaran sebelumnya.
 - Mengganti seluruh 103 contoh berpola generik dengan kalimat kontekstual dan terjemahan Indonesia.
@@ -43,9 +43,9 @@ Kode yang ditinjau memuat filter level dan pencarian, daftar kartu, kuis, serta 
 
 ## Langkah validasi yang harus dijalankan pada checkout
 
-1. Jalankan `node audit-kanji.js` dan pastikan exit code 0.
-2. Buka halaman di browser dan uji filter N5/N4, pencarian, buka/tutup jawaban, kuis, tandai dipelajari, serta progres setelah reload.
-3. Periksa tampilan saat `localStorage` diblokir/bersih.
-4. Lakukan proofreading linguistik akhir pada bacaan, kosakata, kalimat, dan terjemahan.
+1. `node audit-kanji.js`: **lulus pada GitHub Actions run #38343036164** (langkah audit selesai dengan sukses).
+2. Buka halaman di browser dan uji filter N5/N4, pencarian, buka/tutup jawaban, kuis, tandai dipelajari, serta progres setelah reload — **belum diuji secara interaktif**.
+3. Periksa tampilan saat `localStorage` diblokir/bersih — **belum diuji di browser**.
+4. Lakukan proofreading linguistik akhir pada bacaan, kosakata, kalimat, dan terjemahan — **belum selesai untuk seluruh 300 entri**.
 
-Catatan validasi: parsing ulang branch menghasilkan 300 entri, 300 unik, N5 100, N4 200, kolom wajib kosong 0, kunyomi kosong 0 (36 entri ditandai `—` sebagai penanda tinjauan, bukan bacaan), pola contoh generik 0, spasi mencurigakan 0 setelah aturan deteksi diperluas, dan headword mismatch 0. GitHub Actions run #38342609079 untuk workflow `Kanji data audit` berstatus sukses pada revisi sebelum perbaikan spasi terakhir: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38342609079. Setelah perbaikan spasi dan pemeriksaan audit diperluas, workflow baru dipicu dan perlu dipastikan selesai pada commit terbaru. Uji interaksi nyata di browser dan proofreading linguistik menyeluruh belum dilakukan; karena itu hasil ini belum boleh disebut audit final 100%.
+Catatan validasi: parsing ulang branch menghasilkan 300 entri, 300 unik, N5 100, N4 200, kolom wajib kosong 0, kunyomi kosong 0 (36 entri ditandai `—` sebagai penanda tinjauan, bukan bacaan), pola contoh generik 0, spasi mencurigakan 0 setelah aturan deteksi diperluas, dan headword mismatch 0. GitHub Actions workflow `Kanji data audit` selesai sukses pada run #38343036164 setelah perbaikan contoh dan perluasan deteksi spasi: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38343036164. Parsing ulang sumber terbaru menghasilkan 300/300 entri unik (N5 100, N4 200), kolom wajib kosong 0, kunyomi kosong 0 (36 penanda `—`), contoh generik 0, mismatch headword 0, terjemahan kosong 0, dan spasi mencurigakan pada kosakata/contoh 0. Pemeriksaan ID dan fungsi UI statis lengkap. Namun, uji interaksi browser dan proofreading linguistik menyeluruh belum dilakukan; karena itu hasil ini belum boleh disebut audit final 100%.
