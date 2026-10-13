@@ -41,3 +41,28 @@ Commit yang diperiksa untuk empat workflow tersebut: `2a27e8cd34995a94d274496915
 ## Batasan yang belum boleh dianggap selesai
 
 Lulusnya tes otomatis membuktikan struktur dan alur UI yang diuji, bukan kebenaran linguistik setiap entri. Proofreading independen untuk semua bacaan, arti, contoh, terjemahan, dan pengelompokan level 300 kanji **belum selesai**. Tes browser berjalan di Chromium headless pada CI, bukan pada perangkat Android fisik pengguna. Jangan menyebut dataset telah disertifikasi penutur asli.
+
+
+## Kandidat pemeriksaan linguistik lanjutan — belum dinyatakan salah
+
+Pemeriksaan awal berbasis pola menemukan sejumlah bacaan kunyomi yang ditulis sebagai batang kata tanpa okurigana. Ini mungkin mengikuti konvensi ringkas dataset, tetapi perlu dipastikan konsisten dan jelas untuk pelajar pemula:
+
+| Kanji | Kunyomi tercatat | Contoh kosakata | Hal yang perlu ditinjau |
+|---|---|---|---|
+| 大 | おお | 大学（だいがく） | Pastikan pembaca memahami bentuk lengkap seperti おおきい/おおい pada entri terkait |
+| 書 | か | 書く（かく） | Pastikan notasi batang か dibedakan dari bentuk kata lengkap かく |
+| 食 | た | 食べる（たべる） | Pastikan notasi batang た dibedakan dari bentuk kata lengkap たべる |
+| 休 | やす | 休み（やすみ） | Pastikan notasi batang やす dibedakan dari bentuk kata lengkap やすむ |
+| 作 | つく | 作る（つくる） | Pastikan notasi batang つく dibedakan dari bentuk kata lengkap つくる |
+| 始 | はじ | 始まる（はじまる） | Pastikan notasi batang はじ dibedakan dari bentuk kata lengkap はじまる |
+| 終 | お | 終わる（おわる） | Pastikan notasi batang お dibedakan dari bentuk kata lengkap おわる |
+| 強 | つよ | 強い（つよい） | Pastikan notasi batang つよ dibedakan dari bentuk kata lengkap つよい |
+| 弱 | よわ | 弱い（よわい） | Pastikan notasi batang よわ dibedakan dari bentuk kata lengkap よわい |
+| 早 | はや | 早い（はやい） | Pastikan notasi batang はや dibedakan dari bentuk kata lengkap はやい |
+| 多 | おお | 多い（おおい） | Pastikan notasi batang おお dibedakan dari bentuk kata lengkap おおい |
+| 別 | わか | 別々（べつべつ） | Pastikan contoh kosakata dan kunyomi yang ditampilkan tidak memberi kesan bahwa 別々 dibaca わか |
+| 有 | あ | 有名（ゆうめい） | Pastikan contoh kosakata berbasis onyomi tidak disalahartikan sebagai contoh kunyomi |
+
+Kandidat di atas adalah **antrian review**, bukan klaim bahwa entri tersebut salah. Sebagian dataset mungkin sengaja memakai batang kunyomi tanpa okurigana. Sebelum mengubahnya, format tampilan dan aturan validasi harus diselaraskan agar bacaan lengkap bisa dijelaskan secara konsisten.
+
+Pemeriksaan pola ini tidak menggantikan verifikasi kamus untuk setiap bacaan, arti, dan contoh. Audit linguistik 300 kanji dan 1.500 kosakata tetap terbuka sampai semua entri diperiksa satu per satu.
