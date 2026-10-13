@@ -49,6 +49,17 @@ const { chromium } = require("playwright");
     assert.equal(await page.locator("#name").isVisible(), false);
     assert.equal(await page.locator("#password").getAttribute("autocomplete"), "current-password");
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, "auth page should not overflow horizontally at mobile viewport");
+    stage("service worker offline app shell");
+    await page.goto("http://127.0.0.1:4173/index.html", { waitUntil: "domcontentloaded" });
+    await page.evaluate(async () => { await navigator.serviceWorker.register("./sw.js"); await navigator.serviceWorker.ready; });
+    await page.reload({ waitUntil: "domcontentloaded" });
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await page.context().setOffline(true);
+    try {
+      await page.goto("http://127.0.0.1:4173/python-roadmap.html", { waitUntil: "domcontentloaded" });
+      assert.match(await page.locator("body").innerText(), /Python Basic|Python/, "Python roadmap should be available from the offline app shell");
+    } finally { await page.context().setOffline(false); }
+
 
 
     stage("open language learning page");
