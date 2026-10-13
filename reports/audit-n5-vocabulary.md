@@ -224,3 +224,10 @@ Batasan: tes ini bukan pengujian browser nyata di HP/desktop. Audit linguistik s
 Pada commit `50ffaec69fbefa38d33d6501d72de2972ece2cd6`, [workflow N5 audit + UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354990961) selesai dengan status **success**. Tes mencakup pemulihan progres dari JSON rusak, array yang tidak valid sebagai objek progres, dan nilai progres yang bukan boolean `true`. Data progres yang tidak valid diabaikan, sementara entri bernilai boolean `true` tetap dipulihkan.
 
 Batasan tetap sama: ini tes dengan DOM tiruan, bukan browser nyata; audit linguistik independen seluruh 800 entri N5 belum tersertifikasi penutur asli.
+
+
+## Browser regression test — 13 Oktober 2026
+
+[Uji Chromium nyata](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38355896037) lulus pada commit `76e0169592cefd2549bb676f94b98434271eb175`. Playwright menguji viewport ponsel 390 px dan desktop 1440 px, pemilihan N5/N4, pencarian tanpa hasil, jawaban, progres hafalan, checkbox daftar, pemulihan progres saat reload, kuis kanji, horizontal overflow, dan uncaught JavaScript errors.
+
+Ini merupakan pengujian browser headless di GitHub Actions, bukan pengujian pada perangkat Android pengguna. Audit linguistik independen seluruh 800 entri N5 masih belum tuntas; status CI tidak menyatakan semua bacaan, makna, contoh, terjemahan, dan level telah disahkan.
