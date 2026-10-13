@@ -55,6 +55,7 @@ function createHarness(saved = {}) {
       return [];
     }
   };
+  elements.get("kl-quiz").classList.add("kl-hidden");
   const context = {
     document,
     console: { warn() {}, log() {} },
