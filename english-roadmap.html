@@ -113,6 +113,12 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
 .kl-feedback{font-size:11px;line-height:1.8;margin-top:12px;overflow-wrap:anywhere}
 .kl-feedback.good{color:#00d68f}.kl-feedback.bad{color:#ff6b6b}
 .kl-hidden{display:none!important}
+.kl-all-list{display:grid;gap:7px;margin-top:12px}
+.kl-all-list[hidden]{display:none!important}
+.kl-list-row{display:flex;align-items:flex-start;gap:10px;padding:10px;border:1px solid var(--border2);border-radius:8px;background:var(--bg)}
+.kl-list-kanji{font-size:26px;font-weight:800;min-width:38px;text-align:center}
+.kl-list-main{flex:1;min-width:0;font-size:11px;line-height:1.7;overflow-wrap:anywhere}
+.kl-list-meta{font-size:10px;color:var(--muted)}
 @media(max-width:420px){.kl-wrap{padding:10px}.kl-controls{grid-template-columns:1fr}.kl-kanji{font-size:56px}.kl-options{grid-template-columns:1fr 1fr}}
 
 /* SALMAN LANG — warm Japanese redesign layer */
@@ -312,7 +318,7 @@ button{cursor:pointer}
  $("vl-next").addEventListener("click",()=>{if(!pool.length)return;index=(index+1)%pool.length;revealed=false;render();});
  $("vl-mark").addEventListener("click",()=>{if(!pool.length)return;progress[pool[index].jp]=true;saveProgress();render();});
  $("vl-unlearned").addEventListener("click",()=>{pool=filtered().filter(x=>!progress[x.jp]);index=0;revealed=false;render();});
- $("vl-all").addEventListener("click",()=>{$("vl-search").value="";$("vl-category").value="ALL";refresh();});
+ $("vl-all").addEventListener("click",()=>{$("vl-search").value="";$("vl-category").value="ALL";pool=data.slice();index=0;revealed=false;listShown=true;$("vl-list").hidden=false;$("vl-list-toggle").setAttribute("aria-expanded","true");$("vl-list-toggle").textContent="Sembunyikan daftar";render();renderList();$("vl-list").scrollIntoView({behavior:"smooth",block:"nearest"});});
  $("vl-list-toggle").addEventListener("click",()=>{listShown=!listShown;const list=$("vl-list"),button=$("vl-list-toggle");list.hidden=!listShown;button.setAttribute("aria-expanded",String(listShown));button.textContent=listShown?"Sembunyikan daftar":"Tampilkan daftar";if(listShown)renderList();});
  $("vl-list").addEventListener("change",e=>{const key=e.target.dataset.word;if(!key)return;if(e.target.checked)progress[key]=true;else delete progress[key];saveProgress();render();});
  loadProgress();setCategories();refresh();
@@ -350,8 +356,9 @@ button{cursor:pointer}
   <div class="kl-buttons">
     <button class="kl-btn" onclick="klQuizStart()">Mulai kuis pilihan ganda</button>
     <button class="kl-btn" onclick="klShowOnlyUnlearned()">Belum hafal</button>
-    <button class="kl-btn" onclick="klShowAll()">Tampilkan semua</button>
+    <button class="kl-btn" id="kl-show-all" type="button" aria-controls="kl-all-list" aria-expanded="false" onclick="klShowAll()">Tampilkan semua kanji</button>
   </div>
+  <div class="kl-all-list" id="kl-all-list" hidden></div>
   <div id="kl-quiz" class="kl-hidden">
     <div class="kl-card">
       <div class="kl-tag">KANJI QUIZ</div>
@@ -1130,8 +1137,24 @@ function klShowOnlyUnlearned() {
   klRender();
 }
 function klShowAll() {
+  const list = document.getElementById("kl-all-list");
+  const button = document.getElementById("kl-show-all");
+  const isOpen = list.hidden;
+  if (!isOpen) {
+    list.hidden = true;
+    button.setAttribute("aria-expanded", "false");
+    button.textContent = "Tampilkan semua kanji";
+    return;
+  }
+  document.getElementById("kl-level").value = "ALL";
   document.getElementById("kl-search").value = "";
+  klLevel = "ALL";
   klRefresh();
+  list.innerHTML = KL_DATA.map(x => '<div class="kl-list-row"><div class="kl-list-kanji">' + klEsc(x.k) + '</div><div class="kl-list-main"><b>' + klEsc(x.m) + '</b><div class="kl-list-meta">' + klEsc(x.l) + ' · Onyomi: ' + klEsc(x.on || "—") + ' · Kunyomi: ' + klEsc(x.kun || "—") + '</div><div>' + klEsc(x.v) + '</div><div>' + klEsc(x.s) + '</div><div class="kl-list-meta">' + (klProgress[x.k] ? "✓ Sudah hafal" : "Belum hafal") + '</div></div></div>').join("");
+  list.hidden = false;
+  button.setAttribute("aria-expanded", "true");
+  button.textContent = "Sembunyikan daftar kanji";
+  list.scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 function klShuffle(a) {
   const b = a.slice();
