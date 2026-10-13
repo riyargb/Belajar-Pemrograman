@@ -39,6 +39,26 @@ for (const entry of entries) {
   for (const field of ["m", "on", "v", "s"]) {
     if (!entry[field].trim()) errors.push(entry.k + " (" + entry.l + "): required field " + field + " is empty.");
   }
+  if (entry.on.trim() !== "—" && !/^[ァ-ヺー・]+$/u.test(entry.on)) {
+    errors.push(entry.k + ": onyomi must use katakana readings separated by ・, or an explicit — marker.");
+  }
+  if (entry.kun.trim() !== "—" && !/^[ぁ-ゖー・]+$/u.test(entry.kun)) {
+    errors.push(entry.k + ": kunyomi must use hiragana readings separated by ・, or an explicit — marker.");
+  }
+  if (!/^[^（）]+（[ぁ-ゖァ-ヺー・]+）— .+$/u.test(entry.v)) {
+    errors.push(entry.k + ": vocabulary must include a headword, kana reading in （）, and Indonesian gloss after —.");
+  }
+  const separator = entry.s.indexOf("—");
+  if (separator < 0) {
+    errors.push(entry.k + ": example must separate Japanese sentence and Indonesian translation with —.");
+  } else {
+    const japaneseExample = entry.s.slice(0, separator).trim();
+    const indonesianTranslation = entry.s.slice(separator + 1).trim();
+    if (!/[。！？]$/u.test(japaneseExample)) {
+      errors.push(entry.k + ": Japanese example must end with 。, ！, or ？ before the translation.");
+    }
+    if (!indonesianTranslation) errors.push(entry.k + ": Indonesian example translation is empty.");
+  }
   const vocabWord = entry.v.split("（")[0].trim();
   if (vocabWord && !vocabWord.includes(entry.k)) {
     warnings.push(entry.k + ": kanji key is not present in the displayed vocabulary headword: " + entry.v);
