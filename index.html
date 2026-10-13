@@ -115,9 +115,9 @@ body{background:var(--bg);background-image:radial-gradient(ellipse 70% 35% at 50
 .section-title{font-family:'Playfair Display','Noto Serif JP',serif;font-size:clamp(23px,3vw,31px);font-weight:500;color:var(--ink)}
 .section-note{font-size:12px;color:var(--muted);line-height:1.6;max-width:300px;text-align:right}
 .feature-grid{max-width:1180px;margin:0 auto 26px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
-.feature-card{position:relative;min-height:172px;padding:20px 17px;border:1px solid var(--border);border-radius:17px;background:rgba(255,253,248,.94);box-shadow:0 5px 18px rgba(20,45,69,.035);display:flex;flex-direction:column;align-items:flex-start;gap:9px}
+.feature-card{position:relative;text-decoration:none;color:inherit;cursor:pointer;min-height:172px;padding:20px 17px;border:1px solid var(--border);border-radius:17px;background:rgba(255,253,248,.94);box-shadow:0 5px 18px rgba(20,45,69,.035);display:flex;flex-direction:column;align-items:flex-start;gap:9px}
 .feature-icon{width:40px;height:40px;border-radius:13px;display:grid;place-items:center;background:#f3eee4;color:var(--ink);font-size:20px}
-.feature-card h3{font-family:'Playfair Display','Noto Serif JP',serif;font-size:17px;font-weight:600;color:var(--ink)}
+.feature-card:hover{transform:translateY(-3px);border-color:#c8b9a3;box-shadow:0 12px 26px rgba(20,45,69,.08)}.feature-card:focus-visible{outline:3px solid #c8434b;outline-offset:3px}.feature-card h3{font-family:'Playfair Display','Noto Serif JP',serif;font-size:17px;font-weight:600;color:var(--ink)}
 .feature-card p{font-size:11px;line-height:1.6;color:var(--muted)}
 .feature-status{margin-top:auto;padding-top:4px;font-size:9px;letter-spacing:.06em;color:#a14449;font-weight:700}
 .study-note{max-width:1180px;margin:0 auto 24px;padding:14px 17px;border:1px solid #e8d9c9;border-radius:13px;background:#fff8ef;color:#665a4d;font-size:12px;line-height:1.7}
@@ -151,15 +151,15 @@ body{background:var(--bg);background-image:radial-gradient(ellipse 70% 35% at 50
   </section>
   <div class="section-heading"><div><div class="section-eyebrow">Your learning path · 学習の道</div><h2 class="section-title">Ruang belajar</h2></div><p class="section-note">Pelajari dasar, perluas pemahaman, dan catat setiap kemajuan.</p></div>
   <section class="feature-grid" aria-label="Kategori belajar bahasa Jepang">
-    <article class="feature-card"><div class="feature-icon">あ</div><h3>Hiragana &amp; Katakana</h3><p>Mulai mengenal dua sistem aksara dasar bahasa Jepang.</p><div class="feature-status">MODUL DALAM PENGEMBANGAN</div></article>
-    <article class="feature-card"><div class="feature-icon">漢</div><h3>Kanji</h3><p>Bangun pemahaman karakter dan maknanya secara bertahap.</p><div class="feature-status">MODUL DALAM PENGEMBANGAN</div></article>
-    <article class="feature-card"><div class="feature-icon">言</div><h3>Kosakata</h3><p>Perkaya kata dan ungkapan untuk pemakaian sehari-hari.</p><div class="feature-status">MODUL DALAM PENGEMBANGAN</div></article>
-    <article class="feature-card"><div class="feature-icon">文</div><h3>Latihan &amp; Kuis</h3><p>Latih ingatan dan ukur pemahaman melalui soal interaktif.</p><div class="feature-status">MODUL DALAM PENGEMBANGAN</div></article>
+    <a class="feature-card" href="./english-roadmap.html#roadmap-jp"><div class="feature-icon">あ</div><h3>Hiragana &amp; Katakana</h3><p>Mulai dari roadmap bahasa Jepang dan latihan dasar.</p><div class="feature-status">BUKA RUANG BELAJAR ↗</div></a>
+    <a class="feature-card" href="./english-roadmap.html#kanji-lab"><div class="feature-icon">漢</div><h3>Kanji</h3><p>Pelajari karakter, bacaan, arti, contoh, dan kuis kanji.</p><div class="feature-status">BUKA KANJI LAB ↗</div></a>
+    <a class="feature-card" href="./english-roadmap.html#vocab-lab"><div class="feature-icon">言</div><h3>Kosakata</h3><p>Latih kosakata N5 dan N4 dengan kartu dan progres tersimpan.</p><div class="feature-status">BUKA VOCABULARY LAB ↗</div></a>
+    <a class="feature-card" href="./english-roadmap.html#kl-quiz"><div class="feature-icon">文</div><h3>Latihan &amp; Kuis</h3><p>Uji pemahaman melalui kuis pilihan ganda kanji.</p><div class="feature-status">MULAI LATIHAN ↗</div></a>
   </section>
   <div class="study-note">道標 <strong>Michishirube</strong> berarti “penunjuk jalan”. Kategori di atas adalah arah pengembangan platform; roadmap dan catatan yang tersedia di bawah tetap dipertahankan.</div>
   <div id="learning-path" class="section-heading"><div><div class="section-eyebrow">Keep moving · 一歩ずつ</div><h2 class="section-title">Roadmap &amp; progres</h2></div></div>
   <div class="lang-banner">
-    <a href="english-roadmap.html" class="lang-btn">
+    <a href="english-roadmap.html#roadmap-en" class="lang-btn">
       <span class="flag">🇺🇸</span>
       <span class="lname">ENGLISH</span>
     </a>
