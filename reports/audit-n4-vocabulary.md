@@ -68,3 +68,10 @@ Pemeriksaan otomatis tidak bisa membuktikan seluruh nuansa arti, bacaan kanji be
 Workflow [N4 audit dan UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354849765) selesai dengan status **success** pada commit `67b22c21d827a71e9a0027bbb3c5bb0c3558453f`. Tes DOM tiruan memverifikasi bahwa aplikasi memuat 700 entri N4, level N4 tidak mencampur progres N5, pencarian dan filter memperbarui tampilan, kartu bisa dibuka/ditutup dan dilanjutkan, tandai hafal dan checkbox daftar menyimpan progres.
 
 Batasan: ini adalah smoke test otomatis dengan DOM tiruan, bukan browser sesungguhnya. Pemeriksaan linguistik manual menyeluruh atas 700 entri N4 tetap merupakan pekerjaan yang belum selesai; hasil struktural tidak membuktikan setiap bacaan, arti, contoh, terjemahan, atau klasifikasi level benar.
+
+
+## Regresi penyimpanan progres — pembaruan terbaru
+
+Pada commit `50ffaec69fbefa38d33d6501d72de2972ece2cd6`, [workflow N4 audit + UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354990936) selesai dengan status **success**. Tes mencakup pemulihan progres dari JSON rusak, array yang tidak valid sebagai objek progres, dan nilai progres yang bukan boolean `true`. Data progres dibersihkan sebelum dipakai sehingga data browser yang korup tidak mencemari hitungan hafalan.
+
+Batasan tetap sama: ini tes dengan DOM tiruan, bukan browser nyata; audit linguistik independen seluruh 700 entri N4 belum selesai.
