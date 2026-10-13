@@ -17,6 +17,7 @@ Tanggal pemeriksaan: 13 Oktober 2026
 | Headword kosakata tidak memuat karakter kunci | 0 |
 | Contoh kalimat dengan pola generik "という言葉を覚えます" | 0 |
 | Contoh yang disunting pada putaran sebelumnya | 107 |
+| Contoh generik yang diganti pada putaran terbaru | 103 |
 | Contoh generik yang baru diganti | 103 |
 
 **Target jumlah terpenuhi secara struktural:** 300 entri unik, terdiri dari 100 N5 dan 200 N4.
@@ -29,6 +30,7 @@ Tanggal pemeriksaan: 13 Oktober 2026
 - Memperbaiki entri 用 agar kosakata yang ditampilkan memuat karakter target.
 - Mengubah 36 kolom kunyomi kosong menjadi penanda eksplisit "—". Penanda ini bukan bacaan; artinya bacaan kunyomi tidak dicantumkan dalam data belajar ini dan perlu pemeriksaan linguistik jika hendak dilengkapi.
 - Memperkuat `audit-kanji.js` agar jumlah target, duplikasi, kolom wajib, headword, spasi mencurigakan, dan pola contoh generik dapat diperiksa.
+- Menambahkan `.github/workflows/kanji-audit.yml` untuk menjalankan audit otomatis dengan Node.js saat ada push dan pull request.
 
 ## Batasan validasi
 
@@ -36,7 +38,7 @@ Pemeriksaan struktur tidak membuktikan bahwa seluruh onyomi/kunyomi, makna, klas
 
 ## Pemeriksaan integrasi aplikasi
 
-Kode yang ditinjau memuat filter level dan pencarian, daftar kartu, kuis, serta penyimpanan progres melalui `localStorage`. Peninjauan kode bukan pengganti uji klik di browser. Uji interaksi nyata pada perangkat/browser belum dapat diklaim lulus dari pemeriksaan source saja.
+Kode yang ditinjau memuat filter level dan pencarian, daftar kartu, kuis, serta penyimpanan progres melalui `localStorage`. Render detail menggunakan escaping teks, dan pesan untuk hasil filter kosong tersedia. Peninjauan kode bukan pengganti uji klik di browser. Uji interaksi nyata pada perangkat/browser belum dapat diklaim lulus dari pemeriksaan source saja.
 
 ## Langkah validasi yang harus dijalankan pada checkout
 
@@ -45,4 +47,4 @@ Kode yang ditinjau memuat filter level dan pencarian, daftar kartu, kuis, serta 
 3. Periksa tampilan saat `localStorage` diblokir/bersih.
 4. Lakukan proofreading linguistik akhir pada bacaan, kosakata, kalimat, dan terjemahan.
 
-Catatan: data dihitung dengan mem-parse file pada branch melalui GitHub. Perintah Node.js dan uji browser belum dijalankan pada checkout lokal, jadi laporan ini tidak mengklaim keduanya telah lulus.
+Catatan: data dihitung dengan mem-parse file pada branch melalui GitHub dan pemeriksaan struktural ulang menghasilkan 300 entri, 300 unik, N5 100, N4 200, kolom wajib kosong 0, kunyomi kosong 0, pola generik 0, spasi mencurigakan 0, dan headword mismatch 0. Perintah Node.js belum dapat dikonfirmasi benar-benar berjalan pada runner GitHub Actions atau checkout lokal, dan uji browser belum dilakukan; laporan ini tidak mengklaim keduanya telah lulus.
