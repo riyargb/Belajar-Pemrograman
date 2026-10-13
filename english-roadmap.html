@@ -1034,6 +1034,7 @@ const KL_DATA = [
  {k:"台",l:"N4",m:"alas; mesin",on:"ダイ・タイ",kun:"—",v:"台所（だいどころ）— dapur",s:"台所で料理します。— Saya memasak di dapur."}
 ];
 let klProgress = load("sal_kanji_progress", {});
+if (!klProgress || typeof klProgress !== "object" || Array.isArray(klProgress)) klProgress = {};
 let klLevel = "ALL";
 let klList = [];
 let klIndex = 0;
