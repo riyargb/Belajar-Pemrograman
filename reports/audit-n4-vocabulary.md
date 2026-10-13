@@ -44,3 +44,10 @@ Referensi tersebut bukan daftar resmi JLPT. JLPT tidak menyediakan daftar kosaka
 ## Batasan yang belum boleh dianggap selesai
 
 Audit otomatis dan tes browser tidak membuktikan setiap bacaan, arti, contoh, terjemahan, atau klasifikasi level tepat secara linguistik. Proofreading independen seluruh 700 entri N4 **belum selesai**. Dataset tidak boleh disebut tervalidasi penuh atau disertifikasi penutur asli.
+
+
+## Pemeriksaan tambahan lintas contoh
+
+Pemeriksaan ulang terhadap seluruh 700 entri pada 16 batch menemukan **0 contoh kalimat Jepang yang identik**. Ini tidak menjamin bahwa contoh yang berbeda semuanya alami, kontekstual, atau diterjemahkan dengan tepat.
+
+Audit linguistik berikutnya harus memeriksa tiap pasangan headword/kana, makna, kelas kata, contoh, bacaan contoh, dan terjemahan Indonesia. Kandidat level harus dicatat sebagai bahan review, bukan otomatis dihapus atau dipindahkan hanya berdasarkan intuisi.
