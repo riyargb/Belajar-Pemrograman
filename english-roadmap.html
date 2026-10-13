@@ -324,12 +324,12 @@ button{cursor:pointer}
  let qList=[],qIndex=0,qScore=0,qAnswered=false,qCurrent=null;
  function klabShuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
  function qBuild(mode){
-  if(mode==="mixed")mode=qModes[Math.floor(Math.random()*qModes.length)];
-  let pool=mode==="sound"?all.filter(x=>x.group!=="basic"&&($("klab-script").value==="ALL"||x.script===$("klab-script").value)):all.filter(x=>$("klab-script").value==="ALL"||x.script===$("klab-script").value);
+  if(mode==="mixed"){const mixed=[];for(let i=0;i<10;i++){const m=qModes[Math.floor(Math.random()*qModes.length)],batch=qBuild(m);if(batch.length)mixed.push(batch[Math.floor(Math.random()*batch.length)]);}return mixed;}
+  let pool=all.filter(x=>$("klab-script").value==="ALL"||x.script===$("klab-script").value);
   const source=mode.startsWith("H-")?"H":mode.startsWith("K-")?"K":mode.startsWith("romaji-")?(mode==="romaji-H"?"H":"K"):"H";
   if(mode==="sound"){
    const unique=pool.filter(x=>x.group!=="basic");
-   return klabShuffle(unique).slice(0,10).map(x=>({mode,question:x.ch,answer:x.ch,options:klabShuffle([...new Set([x.ch,...klabShuffle(unique.filter(y=>y.ch!==x.ch).map(y=>y.ch)).slice(0,3)])]),note:x.romaji+" · "+(x.group==="dakuten"?"Dakuten ゛":"Handakuten ゜")}));
+   return klabShuffle(unique).slice(0,10).map(x=>({mode,question:x.romaji,answer:x.ch,options:klabShuffle([...new Set([x.ch,...klabShuffle(pool.filter(y=>y.script===x.script&&y.ch!==x.ch).map(y=>y.ch)).slice(0,3)])]),note:x.group==="dakuten"?"Dakuten ゛":"Handakuten ゜"}));
   }
   const target=mode.endsWith("-romaji")?"romaji":mode==="romaji-H"?"H":mode==="romaji-K"?"K":mode==="H-K"?"K":"H";
   const sourceRows=all.filter(x=>x.script===source);
@@ -479,11 +479,11 @@ button{cursor:pointer}
    "kana-id":{ask:x=>x.kana,prompt:"Apa arti bahasa Indonesia dari bacaan ini?",answer:x=>x.arti},
    "id-kana":{ask:x=>x.arti,prompt:"Pilih bacaan hiragana yang benar.",answer:x=>x.kana}
   };
-  const chosen=mode==="mixed"?Object.keys(configs)[Math.floor(Math.random()*Object.keys(configs).length)]:mode,cfg=configs[chosen];if(!cfg)return [];
+  const modes=Object.keys(configs);if(mode==="mixed"){const mixed=[];for(let i=0;i<10;i++){const m=modes[Math.floor(Math.random()*modes.length)],batch=vocabQuizBuild(m);if(batch.length)mixed.push(batch[Math.floor(Math.random()*batch.length)]);}return mixed;}const cfg=configs[mode];if(!cfg)return [];
   let pool=data.filter(x=>x.jp&&x.kana&&x.arti&&String(cfg.answer(x)).trim()&&String(cfg.ask(x)).trim());
   if(["romaji-jp","id-jp","kana-jp","id-kana"].includes(chosen))pool=pool.filter(x=>pool.filter(y=>String(cfg.ask(y))===String(cfg.ask(x))).length===1);
   if(pool.length<4)return [];
-  return vocabQuizShuffle(pool).slice(0,10).map(x=>{const answer=String(cfg.answer(x)),wrong=vocabQuizShuffle(pool.filter(y=>String(cfg.answer(y))!==answer)).map(y=>String(cfg.answer(y))),options=vocabQuizShuffle([...new Set([answer,...wrong])]).slice(0,4);return {mode:chosen,prompt:cfg.prompt,question:String(cfg.ask(x)),answer,options,item:x};}).filter(q=>q.options.length>=2);
+  return vocabQuizShuffle(pool).slice(0,10).map(x=>{const answer=String(cfg.answer(x)),wrong=vocabQuizShuffle(pool.filter(y=>String(cfg.answer(y))!==answer)).map(y=>String(cfg.answer(y))),options=vocabQuizShuffle([...new Set([answer,...wrong])]).slice(0,4);return {mode,prompt:cfg.prompt,question:String(cfg.ask(x)),answer,options,item:x};}).filter(q=>q.options.length>=2);
  }
  function vocabQuizRender(){
   vocabQuizCurrent=vocabQuiz[vocabQuizIndex];if(!vocabQuizCurrent)return;vocabQuizAnswered=false;const q=vocabQuizCurrent;
@@ -1404,9 +1404,10 @@ function klQuizBuild(mode){
  "hira-id":{pool:readings,prompt:"Kanji dengan bacaan ini memiliki arti apa?",ask:p=>p.reading,answer:p=>p.x.m},
  "id-hira":{pool:uniqueMeaning.map(x=>({x,reading:klReadings(x)[0]})).filter(p=>p.reading),prompt:"Pilih bacaan hiragana kanji untuk arti ini.",ask:p=>p.x.m,answer:p=>p.reading}
  };
- const modes=Object.keys(configs).filter(k=>configs[k].pool.length>=4),chosen=mode==="mixed"?modes[Math.floor(Math.random()*modes.length)]:mode,cfg=configs[chosen];
- if(!cfg||cfg.pool.length<4)return [];
- return klShuffle(cfg.pool).slice(0,10).map(item=>{const answer=String(cfg.answer(item)),wrong=klShuffle(cfg.pool.filter(other=>String(cfg.answer(other))!==answer)).map(other=>String(cfg.answer(other))),options=klShuffle([...new Set([answer,...wrong])]).slice(0,4);return {mode:chosen,prompt:cfg.prompt,question:String(cfg.ask(item)),answer,options,item};}).filter(q=>q.options.length>=2);
+ const modes=Object.keys(configs).filter(k=>configs[k].pool.length>=4);
+ if(mode==="mixed"){const mixed=[];for(let i=0;i<10;i++){const m=modes[Math.floor(Math.random()*modes.length)],batch=klQuizBuild(m);if(batch.length)mixed.push(batch[Math.floor(Math.random()*batch.length)]);}return mixed;}
+ const cfg=configs[mode];if(!cfg||cfg.pool.length<4)return [];
+ return klShuffle(cfg.pool).slice(0,10).map(item=>{const answer=String(cfg.answer(item)),wrong=klShuffle(cfg.pool.filter(other=>String(cfg.answer(other))!==answer)).map(other=>String(cfg.answer(other))),options=klShuffle([...new Set([answer,...wrong])]).slice(0,4);return {mode,prompt:cfg.prompt,question:String(cfg.ask(item)),answer,options,item};}).filter(q=>q.options.length>=2);
 }
 function klQuizStart(){
  const mode=document.getElementById("kl-q-mode").value;klQuizQuestions=klQuizBuild(mode);
