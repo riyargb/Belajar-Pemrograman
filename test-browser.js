@@ -56,6 +56,9 @@ const { chromium } = require("playwright");
     assert.match(await page.locator("#kl-count").innerText(), /Kartu 1\/100/);
     await page.getByRole("button", { name: "Lihat jawaban", exact: true }).last().click();
     assert.match(await page.locator("#kl-card").innerText(), /Onyomi:/);
+    await page.getByRole("button", { name: /Tandai hafal/ }).last().click();
+    assert.match(await page.locator("#kl-stats").innerText(), /Hafal 1\/300 kanji/);
+    assert.ok(await page.evaluate(() => Boolean(localStorage.getItem("sal_kanji_progress"))));
     await page.locator("#kl-search").fill("definitely-no-such-kanji");
     assert.match(await page.locator("#kl-card").innerText(), /Tidak ada hasil/);
     stage("kanji quiz");
@@ -74,6 +77,11 @@ const { chromium } = require("playwright");
       document.documentElement.scrollWidth > document.documentElement.clientWidth
     );
     assert.equal(mobileOverflow, false, "page should not overflow horizontally at 390px viewport");
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const desktopOverflow = await page.evaluate(() =>
+      document.documentElement.scrollWidth > document.documentElement.clientWidth
+    );
+    assert.equal(desktopOverflow, false, "page should not overflow horizontally at 1440px viewport");
     assert.deepEqual(pageErrors, [], "page should not emit uncaught JavaScript errors");
     console.log("PASS: Chromium browser tests (mobile viewport, N5/N4 vocabulary, search/empty state, progress persistence, kanji filtering, quiz flow, no horizontal overflow, no uncaught page errors).");
   } finally {
