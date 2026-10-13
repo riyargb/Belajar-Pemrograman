@@ -23,9 +23,9 @@ function createHarness(saved = {}) {
       id, value: id === "kl-level" ? "ALL" : "",
       textContent: "", innerHTML: "", disabled: false,
       style: {}, listeners: {}, className: "",
-      classList: {
-        add() {}, remove() {}, contains() { return false; }
-      },
+      classList: (() => { const values = new Set(); return {
+        add(value) { values.add(value); }, remove(value) { values.delete(value); }, contains(value) { return values.has(value); }
+      }; })(),
       addEventListener(type, fn) { this.listeners[type] = fn; },
       scrollIntoView() {}
     });
@@ -36,7 +36,9 @@ function createHarness(saved = {}) {
         elements.set(id, {
           id, value: "", textContent: "", innerHTML: "", disabled: false,
           style: {}, listeners: {}, className: "",
-          classList: { add() {}, remove() {}, contains() { return false; } },
+          classList: (() => { const values = new Set(); return {
+            add(value) { values.add(value); }, remove(value) { values.delete(value); }, contains(value) { return values.has(value); }
+          }; })(),
           addEventListener(type, fn) { this.listeners[type] = fn; },
           scrollIntoView() {}
         });
