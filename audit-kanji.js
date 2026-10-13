@@ -46,8 +46,8 @@ for (const entry of entries) {
 const markedNoKunyomi = entries.filter(entry => entry.kun.trim() === "—").length;
 const genericExamples = entries.filter(entry => /という言葉を覚えます/u.test(entry.s)).length;
 if (genericExamples > 0) errors.push("Generic template examples remain: " + genericExamples + ".");
-const whitespaceExamples = entries.filter(entry => /\\s[一-龯]|[一-龯]\\s[一-龯]|[ぁ-んァ-ン]\\s+[ぁ-んァ-ン]/u.test(entry.s)).length;
-console.log("Total: " + entries.length + "; unique: " + unique.size + "; N5: " + n5 + "/100; N4: " + n4 + "/200; kunyomi review markers: " + markedNoKunyomi + ".");
+const whitespaceExamples = entries.filter(entry => /\s[一-龯]|[一-龯]\s[一-龯]|[ぁ-んァ-ン]\s+[ぁ-んァ-ン]/u.test(entry.s)).length;
+console.log("Total: " + entries.length + "; unique: " + unique.size + "; N5: " + n5 + "/100; N4: " + n4 + "/200; kunyomi review markers: " + markedNoKunyomi + "; generic examples: " + genericExamples + "; suspicious whitespace examples: " + whitespaceExamples + ".");
 if (warnings.length) {
   console.warn("WARN: " + warnings.length + " possible text issue(s):");
   for (const warning of warnings) console.warn(" - " + warning);
