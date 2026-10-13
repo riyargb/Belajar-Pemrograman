@@ -14,7 +14,17 @@ const { chromium } = require("playwright");
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(error.message));
   try {
-    stage("open page");
+    stage("Michishirube homepage and mobile layout");
+    await page.goto("http://127.0.0.1:4173/index.html", { waitUntil: "domcontentloaded" });
+    assert.match(await page.title(), /Michishirube/);
+    assert.equal(await page.locator(".card").count(), 4, "homepage should show four learning cards");
+    assert.equal(await page.getByRole("link", { name: /Hiragana & Katakana/ }).getAttribute("href"), "./english-roadmap.html#roadmap-jp");
+    assert.equal(await page.getByRole("link", { name: /^Kanji/ }).getAttribute("href"), "./english-roadmap.html#kanji-lab");
+    assert.equal(await page.getByRole("link", { name: /Kosakata/ }).getAttribute("href"), "./english-roadmap.html#vocab-lab");
+    assert.equal(await page.getByRole("link", { name: /Latihan & Kuis/ }).getAttribute("href"), "./english-roadmap.html#kl-quiz");
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, "homepage should not overflow horizontally at mobile viewport");
+
+    stage("open language learning page");
     await page.goto("http://127.0.0.1:4173/english-roadmap.html", { waitUntil: "domcontentloaded" });
     await page.getByRole("button", { name: /Japanese/ }).click();
     await page.locator("#vocab-lab").scrollIntoViewIfNeeded();
@@ -78,10 +88,10 @@ const { chromium } = require("playwright");
     );
     assert.equal(mobileOverflow, false, "page should not overflow horizontally at 390px viewport");
     await page.setViewportSize({ width: 1440, height: 900 });
-    const desktopOverflow = await page.evaluate(() =>
-      document.documentElement.scrollWidth > document.documentElement.clientWidth
-    );
-    assert.equal(desktopOverflow, false, "page should not overflow horizontally at 1440px viewport");
+    const desktopOverflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth);
+    assert.equal(desktopOverflow, false, "language page should not overflow horizontally at 1440px viewport");
+    await page.goto("http://127.0.0.1:4173/index.html", { waitUntil: "domcontentloaded" });
+    assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, "homepage should not overflow horizontally at desktop viewport");
     assert.deepEqual(pageErrors, [], "page should not emit uncaught JavaScript errors");
     console.log("PASS: Chromium browser tests (mobile viewport, N5/N4 vocabulary, search/empty state, progress persistence, kanji filtering, quiz flow, no horizontal overflow, no uncaught page errors).");
   } finally {
