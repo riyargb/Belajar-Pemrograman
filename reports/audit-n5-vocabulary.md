@@ -217,3 +217,10 @@ Audit ini adalah pemeriksaan editorial menyeluruh, bukan sertifikasi oleh penutu
 Workflow [N5 audit dan UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354849739) selesai dengan status **success** pada commit `67b22c21d827a71e9a0027bbb3c5bb0c3558453f`. Tes DOM tiruan memverifikasi total 800 entri N5, pencarian kosong, reset filter, pembukaan jawaban, navigasi kartu, penandaan hafal, filter kategori, daftar checkbox, progres terpisah untuk N5/N4, dan pemulihan progres saat skrip dimuat ulang.
 
 Batasan: tes ini bukan pengujian browser nyata di HP/desktop. Audit linguistik sebelumnya adalah putaran editorial, bukan sertifikasi penutur asli; beberapa kandidat level tambahan tetap perlu ditinjau dan daftar proyek tidak boleh disebut daftar resmi JLPT.
+
+
+## Regresi penyimpanan progres — pembaruan terbaru
+
+Pada commit `50ffaec69fbefa38d33d6501d72de2972ece2cd6`, [workflow N5 audit + UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354990961) selesai dengan status **success**. Tes mencakup pemulihan progres dari JSON rusak, array yang tidak valid sebagai objek progres, dan nilai progres yang bukan boolean `true`. Data progres yang tidak valid diabaikan, sementara entri bernilai boolean `true` tetap dipulihkan.
+
+Batasan tetap sama: ini tes dengan DOM tiruan, bukan browser nyata; audit linguistik independen seluruh 800 entri N5 belum tersertifikasi penutur asli.
