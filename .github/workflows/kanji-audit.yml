@@ -1,0 +1,28 @@
+name: Kanji data audit
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    paths:
+      - "english-roadmap.html"
+      - "audit-kanji.js"
+      - ".github/workflows/kanji-audit.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    name: Structural kanji audit
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run kanji data audit
+        run: node audit-kanji.js
