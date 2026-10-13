@@ -51,3 +51,10 @@ Audit otomatis dan tes browser tidak membuktikan setiap bacaan, arti, contoh, te
 Pemeriksaan ulang terhadap seluruh 700 entri pada 16 batch menemukan **0 contoh kalimat Jepang yang identik**. Ini tidak menjamin bahwa contoh yang berbeda semuanya alami, kontekstual, atau diterjemahkan dengan tepat.
 
 Audit linguistik berikutnya harus memeriksa tiap pasangan headword/kana, makna, kelas kata, contoh, bacaan contoh, dan terjemahan Indonesia. Kandidat level harus dicatat sebagai bahan review, bukan otomatis dihapus atau dipindahkan hanya berdasarkan intuisi.
+
+
+## Audit regresi satu lintasan — 13 Oktober 2026
+
+Seluruh 16 file batch N4 diperiksa ulang langsung dari branch ini: **700 entri**. Pemeriksaan otomatis satu lintasan menemukan 0 kolom wajib kosong, 0 kana yang mengandung kanji, 0 bacaan contoh berhuruf Latin, 0 headword katakana yang tidak cocok dengan kolom kana, 0 headword duplikat, 0 contoh identik, dan 0 contoh tanpa tanda baca Jepang di akhir. Tidak ditemukan overlap headword N4 dengan kumpulan N5 pada pemeriksaan sebelumnya; pemeriksaan ini juga mengonfirmasi seluruh 16 file tersedia dan berisi total 700 entri.
+
+Ini adalah pemeriksaan struktural tambahan. Ia tidak membuktikan bahwa semua pasangan bacaan, makna, kelas kata, contoh, dan terjemahan sudah benar secara linguistik; status proofreading independen tetap terbuka.
