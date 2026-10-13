@@ -63,3 +63,14 @@ Commit yang diuji: `67b22c21d827a71e9a0027bbb3c5bb0c3558453f`.
 - [N5 vocabulary audit + UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354849739) — **success**.
 
 Tes baru laboratorium kosakata memakai DOM tiruan dan memeriksa pemuatan N5/N4, pencarian tanpa hasil, filter kategori, buka/tutup jawaban, kartu berikutnya, tandai hafal, daftar checkbox, serta penyimpanan progres terpisah per level dan pemulihan progres saat skrip dimuat ulang. Ini memperluas cakupan tes runtime otomatis, tetapi **belum merupakan pengujian browser nyata pada HP/desktop**. Peninjauan linguistik seluruh 300 kanji secara independen juga tetap belum lengkap.
+
+
+## Regresi penyimpanan progres kosakata — pembaruan terbaru
+
+Commit kode yang diuji: `50ffaec69fbefa38d33d6501d72de2972ece2cd6`.
+
+- [Kanji data audit](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354991023) — **success**.
+- [N4 vocabulary audit + runtime smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354990936) — **success**.
+- [N5 vocabulary audit + runtime smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354990961) — **success**.
+
+Kode laboratorium kosakata kini memvalidasi data progres dari `localStorage`: JSON rusak, array, atau nilai progres yang bukan boolean `true` dibuang dengan aman. Tes mencakup pemulihan JSON rusak, bentuk array yang salah, dan nilai progres yang tidak valid. Ini tetap merupakan uji DOM tiruan; browser nyata dan audit linguistik independen belum tuntas.
