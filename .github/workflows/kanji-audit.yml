@@ -26,3 +26,5 @@ jobs:
           node-version: "20"
       - name: Run kanji data audit
         run: node audit-kanji.js
+      - name: Run Kanji Lab interaction smoke tests
+        run: node test-kanji-ui.js
