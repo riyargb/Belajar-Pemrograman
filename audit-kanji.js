@@ -26,7 +26,7 @@ for (const id of requiredIds) {
   if (!html.includes('id="' + id + '"')) errors.push("Kanji UI element is missing: #" + id + ".");
 }
 for (const name of requiredFunctions) {
-  if (!new RegExp("function\\s+" + name + "\\\\s*\\\\(").test(html)) errors.push("Kanji UI function is missing: " + name + "().");
+  if (!html.includes("function " + name + "(")) errors.push("Kanji UI function is missing: " + name + "().");
 }
 if (!html.includes('"sal_kanji_progress"')) errors.push("Kanji progress storage key is missing.");
 
