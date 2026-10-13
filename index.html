@@ -131,7 +131,7 @@ body{background:var(--bg);background-image:radial-gradient(ellipse 70% 35% at 50
 <body>
 <div class="topbar">
   <div class="topbar-title">Salman · <span>Dev</span></div>
-  <div class="streak" id="streak">🔥 0 hari streak</div>
+  <div style="display:flex;align-items:center;gap:10px"><a href="./auth.html" style="font:600 11px DM Sans,sans-serif;color:#173653;text-decoration:none;border:1px solid #d8cdbb;border-radius:999px;padding:8px 12px;background:#fffdf8">Masuk</a><div class="streak" id="streak">🔥 0 hari streak</div></div>
 </div>
 <div class="tabs">
   <button class="tab active" onclick="switchTab('roadmap',this)">📍 Roadmap</button>
@@ -306,6 +306,7 @@ function renderNotes(){
 }
 document.getElementById('nb-date').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
 renderRoadmap();updateStreak();
+if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}
 </script>
 </body>
 </html>
