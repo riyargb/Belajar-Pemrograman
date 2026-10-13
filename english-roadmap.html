@@ -1050,8 +1050,7 @@ function klFiltered() {
   const q = (document.getElementById("kl-search").value || "").trim().toLowerCase();
   return KL_DATA.filter(x =>
     (klLevel === "ALL" || x.l === klLevel) &&
-    (!q || [x.k,x.m,x.on,x.kun,x.v,x.s,x.l].join(" ").toLowerCase().includes(q)) &&
-    !false
+    (!q || [x.k,x.m,x.on,x.kun,x.v,x.s,x.l].join(" ").toLowerCase().includes(q))
   );
 }
 function klRefresh() {
