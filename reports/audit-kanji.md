@@ -52,3 +52,14 @@ Kode yang ditinjau memuat filter level dan pencarian, daftar kartu, kuis, serta 
 5. Lakukan proofreading linguistik akhir pada bacaan, kosakata, kalimat, klasifikasi level, dan terjemahan — **belum selesai untuk seluruh 300 entri**.
 
 Catatan validasi: parsing ulang branch menghasilkan 300 entri, 300 unik, N5 100, N4 200, kolom wajib kosong 0, kunyomi kosong 0 (36 entri ditandai `—` sebagai penanda tinjauan, bukan bacaan), pola contoh generik 0, spasi mencurigakan 0 setelah aturan deteksi diperluas, dan headword mismatch 0. GitHub Actions `Kanji data audit` dan smoke test UI lulus pada revisi terbaru yang diperiksa, run #38343779322: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38343779322. Audit kosakata N5 juga lulus pada run #38343779312: https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38343779312. Parsing ulang sumber terbaru menghasilkan 300/300 entri unik (N5 100, N4 200), kolom wajib kosong 0, 37 penanda kunyomi `—`, contoh generik 0, mismatch headword 0, terjemahan kosong 0, dan spasi mencurigakan pada kosakata/contoh 0. Pemeriksaan ID dan fungsi UI statis lengkap. Smoke test menggunakan DOM tiruan dan tidak menggantikan browser real; proofreading linguistik menyeluruh masih belum selesai sehingga hasil ini belum boleh disebut audit linguistik final 100%.
+
+
+## Pembaruan CI — 13 Oktober 2026
+
+Commit yang diuji: `67b22c21d827a71e9a0027bbb3c5bb0c3558453f`.
+
+- [Kanji data audit](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354849760) — **success**.
+- [N4 vocabulary audit + UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354849765) — **success**.
+- [N5 vocabulary audit + UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354849739) — **success**.
+
+Tes baru laboratorium kosakata memakai DOM tiruan dan memeriksa pemuatan N5/N4, pencarian tanpa hasil, filter kategori, buka/tutup jawaban, kartu berikutnya, tandai hafal, daftar checkbox, serta penyimpanan progres terpisah per level dan pemulihan progres saat skrip dimuat ulang. Ini memperluas cakupan tes runtime otomatis, tetapi **belum merupakan pengujian browser nyata pada HP/desktop**. Peninjauan linguistik seluruh 300 kanji secara independen juga tetap belum lengkap.
