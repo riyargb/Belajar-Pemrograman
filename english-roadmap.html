@@ -253,6 +253,15 @@ button{cursor:pointer}
  </div>
  <div class="klab-list" id="klab-list" hidden></div>
  <div class="klab-note">Ingat: dakuten adalah tanda dua garis kecil ゛ yang mengubah bunyi (misalnya か → が). Handakuten adalah tanda lingkaran kecil ゜, khusus baris H yang berubah menjadi bunyi P (は → ぱ). Romaji adalah huruf Latin untuk membantu membaca; setelah mulai hafal, sembunyikan romaji agar latihan lebih efektif.</div>
+
+ <div class="klab-note"><b>KUIS KANA · LATIHAN DUA ARAH</b></div>
+ <select class="klab-select" id="klab-q-mode" aria-label="Pola kuis kana">
+  <option value="mixed">Campuran semua pola</option><option value="H-romaji">Hiragana → Romaji</option><option value="romaji-H">Romaji → Hiragana</option><option value="K-romaji">Katakana → Romaji</option><option value="romaji-K">Romaji → Katakana</option><option value="H-K">Hiragana → Katakana</option><option value="K-H">Katakana → Hiragana</option><option value="sound">Bedakan dakuten & handakuten</option>
+ </select>
+ <div class="klab-card" id="klab-q-card" aria-live="polite"><div class="klab-label">Pilih pola, lalu mulai kuis.</div></div>
+ <div class="klab-stats" id="klab-q-count"></div><div class="klab-list" id="klab-q-options"></div>
+ <div class="klab-note" id="klab-q-feedback" aria-live="polite"></div>
+ <div class="klab-buttons"><button class="klab-btn primary" id="klab-q-start" type="button">Mulai kuis 10 soal</button><button class="klab-btn" id="klab-q-next" type="button" disabled>Soal berikutnya →</button></div>
 </section>
 <script>
 (function(){
@@ -311,6 +320,44 @@ button{cursor:pointer}
  $("klab-romaji-toggle").addEventListener("click",()=>{showRomaji=!showRomaji;$("klab-romaji-toggle").textContent=showRomaji?"Sembunyikan romaji":"Tampilkan romaji";$("klab-romaji-toggle").setAttribute("aria-pressed",String(showRomaji));renderCard();});
  $("klab-learned").addEventListener("click",()=>{if(!current.length)return;const x=current[index],key=x.script+":"+x.ch;learned[key]=true;save();renderCard();});
  $("klab-show-all").addEventListener("click",()=>{showAll=!showAll;$("klab-list").hidden=!showAll;$("klab-show-all").textContent=showAll?"Sembunyikan semua kana":"Tampilkan semua kana";$("klab-show-all").setAttribute("aria-expanded",String(showAll));if(showAll){renderList();$("klab-list").scrollIntoView({behavior:"smooth",block:"nearest"});}});
+ const qModes=["H-romaji","romaji-H","K-romaji","romaji-K","H-K","K-H","sound"];
+ let qList=[],qIndex=0,qScore=0,qAnswered=false,qCurrent=null;
+ function klabShuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+ function qBuild(mode){
+  if(mode==="mixed")mode=qModes[Math.floor(Math.random()*qModes.length)];
+  let pool=mode==="sound"?all.filter(x=>x.group!=="basic"&&($("klab-script").value==="ALL"||x.script===$("klab-script").value)):all.filter(x=>$("klab-script").value==="ALL"||x.script===$("klab-script").value);
+  const source=mode.startsWith("H-")?"H":mode.startsWith("K-")?"K":mode.startsWith("romaji-")?(mode==="romaji-H"?"H":"K"):"H";
+  if(mode==="sound"){
+   const unique=pool.filter(x=>x.group!=="basic");
+   return klabShuffle(unique).slice(0,10).map(x=>({mode,question:x.ch,answer:x.ch,options:klabShuffle([...new Set([x.ch,...klabShuffle(unique.filter(y=>y.ch!==x.ch).map(y=>y.ch)).slice(0,3)])]),note:x.romaji+" · "+(x.group==="dakuten"?"Dakuten ゛":"Handakuten ゜")}));
+  }
+  const target=mode.endsWith("-romaji")?"romaji":mode==="romaji-H"?"H":mode==="romaji-K"?"K":mode==="H-K"?"K":"H";
+  const sourceRows=all.filter(x=>x.script===source);
+  return klabShuffle(sourceRows).slice(0,10).map(x=>{
+   let answer;
+   if(target==="romaji")answer=x.romaji;
+   else answer=all.find(y=>y.script===target&&y.romaji===x.romaji)?.ch||x.ch;
+   const question=mode.startsWith("romaji-")?x.romaji:x.ch;
+   const wrong=klabShuffle(all.filter(y=>(target==="romaji"||y.script===target)&&String(target==="romaji"?y.romaji:y.ch)!==String(answer)).map(y=>String(target==="romaji"?y.romaji:y.ch)));
+   return {mode,question,answer:String(answer),options:klabShuffle([...new Set([String(answer),...wrong])]).slice(0,4),note:x.script==="H"?"Hiragana":"Katakana"};
+  }).filter(q=>q.options.length>=2);
+ }
+ function qRender(){
+  qCurrent=qList[qIndex];if(!qCurrent)return;qAnswered=false;
+  $("klab-q-card").innerHTML='<div class="klab-label">'+esc(qCurrent.mode)+'</div><div class="klab-char">'+esc(qCurrent.question)+'</div><div class="klab-label">'+(qCurrent.mode==="sound"?"Pilih karakter yang cocok dengan pola bunyi":"Pilih pasangan yang benar")+'</div>';
+  $("klab-q-count").textContent="Soal "+(qIndex+1)+"/"+qList.length+" · Skor "+qScore;
+  $("klab-q-options").innerHTML=qCurrent.options.map(o=>'<button type="button" class="klab-cell" data-answer="'+esc(o)+'"><span class="klab-cell-char">'+esc(o)+'</span></button>').join("");
+  $("klab-q-options").querySelectorAll("[data-answer]").forEach(b=>b.addEventListener("click",()=>qAnswer(b.dataset.answer)));
+  $("klab-q-feedback").textContent="";$("klab-q-next").disabled=true;$("klab-q-next").textContent=qIndex===qList.length-1?"Lihat hasil":"Soal berikutnya →";
+ }
+ function qAnswer(answer){
+  if(qAnswered||!qCurrent)return;qAnswered=true;const ok=String(answer)===String(qCurrent.answer);if(ok)qScore++;
+  $("klab-q-options").querySelectorAll("[data-answer]").forEach(b=>{b.disabled=true;if(b.dataset.answer===String(qCurrent.answer))b.style.borderColor="#00d68f";if(b.dataset.answer===String(answer)&&!ok)b.style.borderColor="#ff6b6b";});
+  $("klab-q-feedback").textContent=(ok?"Benar! ":"Belum tepat. ")+"Jawaban: "+qCurrent.answer+" · "+(qCurrent.note||"Perhatikan bunyi dan bentuknya.");
+  $("klab-q-count").textContent="Soal "+(qIndex+1)+"/"+qList.length+" · Skor "+qScore;$("klab-q-next").disabled=false;
+ }
+ $("klab-q-start").addEventListener("click",()=>{qList=qBuild($("klab-q-mode").value);if(!qList.length){$("klab-q-feedback").textContent="Data belum cukup untuk pola ini. Pilih campuran atau ubah filter.";return;}qIndex=0;qScore=0;$("klab-q-start").textContent="Mulai ulang kuis";qRender();});
+ $("klab-q-next").addEventListener("click",()=>{if(!qAnswered)return;if(qIndex<qList.length-1){qIndex++;qRender();}else{$("klab-q-card").innerHTML='<div class="klab-label">Kuis selesai</div><div class="klab-char">'+qScore+'/'+qList.length+'</div>';$("klab-q-options").innerHTML="";$("klab-q-count").textContent="HASIL AKHIR";$("klab-q-feedback").textContent="Ulangi dengan pola berbeda agar ingatan makin kuat.";$("klab-q-next").disabled=true;}});
  refresh();
 })();
 </script>
