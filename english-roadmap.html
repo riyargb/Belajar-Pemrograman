@@ -90,7 +90,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
 .note-text{font-size:11px;line-height:1.6;color:var(--text);white-space:pre-wrap;overflow-wrap:anywhere}
 .empty-notes{text-align:center;padding:40px 20px;font-size:11px;color:var(--muted);line-height:2}
 .bottom-hint{position:fixed;bottom:0;left:0;right:0;padding:8px;text-align:center;font-size:9px;color:var(--muted2);letter-spacing:1px;background:var(--bg);border-top:1px solid var(--border);pointer-events:none}
-/* MICHISHIRUBE_KANJI_LAB_V1 */
+/* SALMAN_KANJI_LAB_V1 */
 .kl-wrap{margin:18px 0 28px;padding:14px;background:var(--s2);border:1px solid var(--border);border-radius:8px}
 .kl-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
 .kl-title{font-size:14px;font-weight:700;color:var(--jp)}
@@ -118,7 +118,7 @@ body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;d
 .kl-hidden{display:none!important}
 @media(max-width:420px){.kl-wrap{padding:10px}.kl-controls{grid-template-columns:1fr}.kl-kanji{font-size:56px}.kl-options{grid-template-columns:1fr 1fr}}
 
-/* MICHISHIRUBE LANG — warm Japanese redesign layer */
+/* SALMAN LANG — warm Japanese redesign layer */
 :root{
  --bg:#f7f3e9;--s1:#fffdf7;--s2:#eee9dc;--border:#e2dccd;--border2:#cfc6b3;
  --en:#54765c;--jp:#d77e72;--text:#28372e;--muted:#68766b;--muted2:#879186;
@@ -209,7 +209,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
     </div>
   </div>
   <div id="roadmap-jp"></div>
-<!-- MICHISHIRUBE_VOCAB_LAB_V1 -->
+<!-- SALMAN_VOCAB_LAB_V1 -->
 <style>
 .vl-wrap{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--text)}
 .vl-head{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
@@ -249,7 +249,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   <div class="vl-list" id="vl-list" hidden></div>
   <div class="vl-sub">Catatan: daftar N5 dan N4 adalah kurasi belajar, bukan daftar resmi tertutup JLPT. Label level adalah klasifikasi belajar, bukan jaminan bahwa setiap kata termasuk daftar resmi. Progres hafalan disimpan terpisah untuk tiap level. Periksa konteks dan contoh kalimat saat menghafal.</div>
 </section>
-<!-- END MICHISHIRUBE_VOCAB_LAB_V1 -->
+<!-- END SALMAN_VOCAB_LAB_V1 -->
 
 <script src="data/vocabulary-n5-batch1.js"></script>
 <script src="data/vocabulary-n5-batch2.js"></script>
@@ -270,7 +270,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
 <script src="data/vocabulary-n4-batch15.js"></script>
 <script src="data/vocabulary-n4-batch16.js"></script>
 <script>
-// MICHISHIRUBE_VOCAB_LAB_V3
+// SALMAN_VOCAB_LAB_V3
 (function(){
  const datasets = {
   N5: [...(typeof VOCAB_N5_BATCH1!=="undefined"?VOCAB_N5_BATCH1:[]), ...(typeof VOCAB_N5_BATCH2!=="undefined"?VOCAB_N5_BATCH2:[])],
@@ -327,10 +327,10 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
  $("vl-list").addEventListener("change",e=>{const key=e.target.dataset.word;if(!key)return;if(e.target.checked)progress[key]=true;else delete progress[key];saveProgress();render();});
  loadProgress();setCategories();refresh();
  })();
-// END MICHISHIRUBE_VOCAB_LAB_V3
+// END SALMAN_VOCAB_LAB_V3
 </script>
 
-<!-- MICHISHIRUBE_KANJI_LAB_V1 -->
+<!-- SALMAN_KANJI_LAB_V1 -->
 <section class="kl-wrap" id="kanji-lab">
   <div class="kl-head">
     <div>
@@ -740,7 +740,7 @@ document.getElementById("nb-date").textContent=
   new Date().toLocaleDateString("id-ID",{
     weekday:"long",day:"numeric",month:"long",year:"numeric"
   }).toUpperCase();
-// MICHISHIRUBE_KANJI_LAB_V1
+// SALMAN_KANJI_LAB_V1
 const KL_DATA = [
  {k:"日",l:"N5",m:"hari; matahari",on:"ニチ・ジツ・ニ",kun:"ひ・か",v:"日本（にほん）— Jepang",s:"日本へ行きます。— Saya pergi ke Jepang."},
  {k:"月",l:"N5",m:"bulan",on:"ゲツ・ガツ",kun:"つき",v:"月曜日（げつようび）— Senin",s:"月曜日に学校へ行きます。— Saya pergi ke sekolah hari Senin."},
@@ -1231,7 +1231,7 @@ document.getElementById("kl-search").addEventListener("input",()=>{
   klRefresh();
 });
 klRefresh();
-// END MICHISHIRUBE_KANJI_LAB_V1
+// END SALMAN_KANJI_LAB_V1
 renderPhases("en",EN_PHASES,"roadmap-en");
 renderPhases("jp",JP_PHASES,"roadmap-jp");
 </script>
