@@ -288,7 +288,7 @@ button{cursor:pointer}
  if(!datasets.N5.length || !datasets.N4.length || !$("vl-card")) return;
  let level="N5",data=datasets[level],progress={},pool=data.slice(),index=0,revealed=false,listShown=false;
  function storageKey(){return "sal_vocab_"+level.toLowerCase()+"_progress_v1";}
- function loadProgress(){try{progress=JSON.parse(localStorage.getItem(storageKey())||"{}")||{}}catch(e){progress={}}}
+ function loadProgress(){try{const parsed=JSON.parse(localStorage.getItem(storageKey())||"{}");progress=parsed&&typeof parsed==="object"&&!Array.isArray(parsed)?Object.fromEntries(Object.entries(parsed).filter(([key,value])=>typeof key==="string"&&value===true)):{} }catch(e){progress={}}}
  function saveProgress(){try{localStorage.setItem(storageKey(),JSON.stringify(progress))}catch(e){}}
  function setCategories(){const categories=[...new Set(data.map(x=>x.kelas))].sort();$("vl-category").innerHTML='<option value="ALL">Semua kategori</option>'+categories.map(x=>'<option value="'+esc(x)+'">'+esc(x)+'</option>').join("");}
  function filtered(){const q=$("vl-search").value.trim().toLowerCase(),cat=$("vl-category").value;return data.filter(x=>(cat==="ALL"||x.kelas===cat)&&(!q||[x.jp,x.kana,x.arti,x.kelas].join(" ").toLowerCase().includes(q)));}
