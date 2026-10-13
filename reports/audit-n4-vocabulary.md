@@ -61,3 +61,10 @@ Pemeriksaan otomatis tidak bisa membuktikan seluruh nuansa arti, bacaan kanji be
 - Tinjau manual contoh, bacaan, makna, dan terjemahan yang berpotensi ambigu.
 - Uji laboratorium kosakata pada tampilan aplikasi: pemilihan level, pencarian, filter, kartu, tandai hafal, dan progres terpisah.
 - Catat setiap temuan linguistik yang masih belum terselesaikan, alih-alih mengklaim semua entri sempurna.
+
+
+## Uji runtime laboratorium kosakata — 13 Oktober 2026
+
+Workflow [N4 audit dan UI smoke test](https://github.com/riyargb/Belajar-Pemrograman/actions/runs/38354849765) selesai dengan status **success** pada commit `67b22c21d827a71e9a0027bbb3c5bb0c3558453f`. Tes DOM tiruan memverifikasi bahwa aplikasi memuat 700 entri N4, level N4 tidak mencampur progres N5, pencarian dan filter memperbarui tampilan, kartu bisa dibuka/ditutup dan dilanjutkan, tandai hafal dan checkbox daftar menyimpan progres.
+
+Batasan: ini adalah smoke test otomatis dengan DOM tiruan, bukan browser sesungguhnya. Pemeriksaan linguistik manual menyeluruh atas 700 entri N4 tetap merupakan pekerjaan yang belum selesai; hasil struktural tidak membuktikan setiap bacaan, arti, contoh, terjemahan, atau klasifikasi level benar.
