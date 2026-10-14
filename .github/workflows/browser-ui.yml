@@ -4,6 +4,13 @@ on:
   push:
     paths:
       - "english-roadmap.html"
+      - "index.html"
+      - "python-roadmap.html"
+      - "auth.html"
+      - "auth-client.js"
+      - "site-auth.js"
+      - "supabase-config.js"
+      - "sw.js"
       - "data/vocabulary-*.js"
       - "test-browser.js"
       - ".github/workflows/browser-ui.yml"
