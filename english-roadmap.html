@@ -431,6 +431,14 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   <div class="vl-buttons"><button class="vl-btn primary" id="vl-reveal">Lihat jawaban</button><button class="vl-btn" id="vl-next">Kata berikutnya →</button><button class="vl-btn" id="vl-mark">✓ Tandai hafal</button></div>
   <div class="vl-buttons"><button class="vl-btn" id="vl-unlearned">Belum hafal</button><button class="vl-btn" id="vl-all">Tampilkan semua</button><button class="vl-btn" id="vl-list-toggle" type="button" aria-controls="vl-list" aria-expanded="false">Tampilkan daftar</button></div>
   <div class="vl-list" id="vl-list" hidden></div>
+ <div class="vl-sub"><b>KUIS KOSAKATA · LATIHAN DUA ARAH</b></div>
+ <select class="vl-select" id="vl-q-mode" aria-label="Pola kuis kosakata">
+  <option value="mixed">Campuran semua pola</option><option value="jp-romaji">Kosakata Jepang → Romaji</option><option value="romaji-jp">Romaji → Kosakata Jepang</option><option value="jp-id">Kosakata Jepang → Arti Indonesia</option><option value="id-jp">Arti Indonesia → Kosakata Jepang</option><option value="kana-jp">Hiragana → Kosakata Jepang</option><option value="jp-kana">Kosakata Jepang → Hiragana</option><option value="kana-id">Hiragana → Arti Indonesia</option><option value="id-kana">Arti Indonesia → Hiragana</option>
+ </select>
+ <div class="vl-card" id="vl-q-card" aria-live="polite"><div class="vl-meaning">Pilih pola, lalu mulai kuis.</div></div>
+ <div class="vl-count" id="vl-q-count"></div><div class="vl-list" id="vl-q-options"></div>
+ <div class="vl-detail" id="vl-q-feedback" aria-live="polite"></div>
+ <div class="vl-buttons"><button class="vl-btn primary" id="vl-q-start" type="button">Mulai kuis 10 soal</button><button class="vl-btn" id="vl-q-next" type="button" disabled>Soal berikutnya →</button></div>
   <div class="vl-sub">Catatan: daftar N5 dan N4 adalah kurasi belajar, bukan daftar resmi tertutup JLPT. Label level adalah klasifikasi belajar, bukan jaminan bahwa setiap kata termasuk daftar resmi. Progres hafalan disimpan terpisah untuk tiap level. Periksa konteks dan contoh kalimat saat menghafal.</div>
 </section>
 <!-- END SALMAN_VOCAB_LAB_V1 -->
@@ -481,6 +489,42 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
  const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  if(!datasets.N5.length || !datasets.N4.length || !$("vl-card")) return;
  let level="N5",data=datasets[level],progress={},pool=data.slice(),index=0,revealed=false,listShown=false;
+ let vocabQuiz=[],vocabQuizIndex=0,vocabQuizScore=0,vocabQuizAnswered=false,vocabQuizCurrent=null;
+ function vocabQuizShuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+ function vocabQuizBuild(mode){
+  const configs={
+   "jp-romaji":{ask:x=>x.jp,prompt:"Apa romaji dari bacaan kosakata ini?",answer:x=>vocabKanaToRomaji(x.kana)},
+   "romaji-jp":{ask:x=>vocabKanaToRomaji(x.kana),prompt:"Pilih kosakata Jepang yang cocok dengan romaji ini.",answer:x=>x.jp},
+   "jp-id":{ask:x=>x.jp,prompt:"Apa arti kosakata ini dalam bahasa Indonesia?",answer:x=>x.arti},
+   "id-jp":{ask:x=>x.arti,prompt:"Pilih kosakata Jepang untuk arti ini.",answer:x=>x.jp},
+   "kana-jp":{ask:x=>x.kana,prompt:"Pilih kosakata Jepang yang memiliki bacaan ini.",answer:x=>x.jp},
+   "jp-kana":{ask:x=>x.jp,prompt:"Apa bacaan hiragana kosakata ini?",answer:x=>x.kana},
+   "kana-id":{ask:x=>x.kana,prompt:"Apa arti bahasa Indonesia dari bacaan ini?",answer:x=>x.arti},
+   "id-kana":{ask:x=>x.arti,prompt:"Pilih bacaan hiragana yang benar.",answer:x=>x.kana}
+  };
+  const modes=Object.keys(configs);if(mode==="mixed"){const mixed=[];for(let i=0;i<10;i++){const m=modes[Math.floor(Math.random()*modes.length)],batch=vocabQuizBuild(m);if(batch.length)mixed.push(batch[Math.floor(Math.random()*batch.length)]);}return mixed;}const cfg=configs[mode];if(!cfg)return [];
+  let pool=data.filter(x=>x.jp&&x.kana&&x.arti&&String(cfg.answer(x)).trim()&&String(cfg.ask(x)).trim());
+  if(["romaji-jp","id-jp","kana-jp","id-kana"].includes(mode))pool=pool.filter(x=>pool.filter(y=>String(cfg.ask(y))===String(cfg.ask(x))).length===1);
+  if(pool.length<4)return [];
+  return vocabQuizShuffle(pool).slice(0,10).map(x=>{const answer=String(cfg.answer(x)),wrong=vocabQuizShuffle(pool.filter(y=>String(cfg.answer(y))!==answer)).map(y=>String(cfg.answer(y))),options=vocabQuizShuffle([...new Set([answer,...wrong])]).slice(0,4);return {mode,prompt:cfg.prompt,question:String(cfg.ask(x)),answer,options,item:x};}).filter(q=>q.options.length>=2);
+ }
+ function vocabQuizRender(){
+  vocabQuizCurrent=vocabQuiz[vocabQuizIndex];if(!vocabQuizCurrent)return;vocabQuizAnswered=false;const q=vocabQuizCurrent;
+  $("vl-q-card").innerHTML='<div class="vl-sub">'+esc(q.prompt)+'</div><div class="vl-jp">'+esc(q.question)+'</div><div class="vl-count">Pola: '+esc(q.mode)+'</div>';
+  $("vl-q-count").textContent="Soal "+(vocabQuizIndex+1)+"/"+vocabQuiz.length+" · Skor "+vocabQuizScore;
+  $("vl-q-options").innerHTML=q.options.map(o=>'<button type="button" class="vl-row" data-answer="'+esc(o)+'"><span class="vl-row-main">'+esc(o)+'</span></button>').join("");
+  $("vl-q-options").querySelectorAll("[data-answer]").forEach(b=>b.addEventListener("click",()=>vocabQuizAnswer(b.dataset.answer)));
+  $("vl-q-feedback").textContent="";$("vl-q-next").disabled=true;$("vl-q-next").textContent=vocabQuizIndex===vocabQuiz.length-1?"Lihat hasil":"Soal berikutnya →";
+ }
+ function vocabQuizAnswer(answer){
+  if(vocabQuizAnswered||!vocabQuizCurrent)return;vocabQuizAnswered=true;const q=vocabQuizCurrent,ok=String(answer)===String(q.answer);if(ok)vocabQuizScore++;
+  $("vl-q-options").querySelectorAll("[data-answer]").forEach(b=>{b.disabled=true;if(b.dataset.answer===String(q.answer))b.style.borderColor="#00d68f";if(b.dataset.answer===String(answer)&&!ok)b.style.borderColor="#ff6b6b";});
+  $("vl-q-feedback").textContent=(ok?"Benar! ":"Belum tepat. ")+"Jawaban: "+q.answer+" · Bacaan: "+q.item.kana+" · Arti: "+q.item.arti+" · Contoh: "+q.item.contoh+" — "+q.item.terjemahan;
+  $("vl-q-count").textContent="Soal "+(vocabQuizIndex+1)+"/"+vocabQuiz.length+" · Skor "+vocabQuizScore;$("vl-q-next").disabled=false;
+ }
+ $("vl-q-start").addEventListener("click",()=>{vocabQuiz=vocabQuizBuild($("vl-q-mode").value);if(!vocabQuiz.length){$("vl-q-feedback").textContent="Data unik belum cukup untuk pola ini. Coba Campuran atau ubah level.";return;}vocabQuizIndex=0;vocabQuizScore=0;$("vl-q-start").textContent="Mulai ulang kuis";vocabQuizRender();});
+ $("vl-q-next").addEventListener("click",()=>{if(!vocabQuizAnswered)return;if(vocabQuizIndex<vocabQuiz.length-1){vocabQuizIndex++;vocabQuizRender();}else{$("vl-q-card").innerHTML='<div class="vl-sub">Kuis selesai</div><div class="vl-jp">'+vocabQuizScore+'/'+vocabQuiz.length+'</div>';$("vl-q-options").innerHTML="";$("vl-q-count").textContent="HASIL AKHIR";$("vl-q-feedback").textContent="Ulangi dengan arah soal lain untuk memperkuat ingatan.";$("vl-q-next").disabled=true;}});
+
  function storageKey(){return "sal_vocab_"+level.toLowerCase()+"_progress_v1";}
  function loadProgress(){try{const parsed=JSON.parse(localStorage.getItem(storageKey())||"{}");progress=parsed&&typeof parsed==="object"&&!Array.isArray(parsed)?Object.fromEntries(Object.entries(parsed).filter(([key,value])=>typeof key==="string"&&value===true)):{} }catch(e){progress={}}}
  function saveProgress(){try{localStorage.setItem(storageKey(),JSON.stringify(progress))}catch(e){}}
