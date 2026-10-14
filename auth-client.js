@@ -122,8 +122,8 @@ form.addEventListener("submit", async event => {
         showSignedIn(data.user);
         showStatus("Akun berhasil dibuat dan kamu sudah masuk.", "success");
       } else {
-        showStatus("Pendaftaran diterima. Periksa email untuk memverifikasi akun sebelum masuk.", "success");
         setMode("login");
+        showStatus("Pendaftaran diterima. Periksa email untuk memverifikasi akun sebelum masuk.", "success");
       }
     } else {
       const { data, error } = await supabase.auth.signInWithPassword({ email, password });
