@@ -101,7 +101,7 @@ const { chromium } = require("playwright");
     await page.locator("#vl-all").click();
     assert.equal(await page.locator("#vl-search").inputValue(), "");
     await page.locator("#vl-unlearned").click();
-    assert.match(await page.locator("#vl-count").innerText(), /Kartu 1\/699/);
+    assert.match(await page.locator("#vl-count").innerText(), /Kartu 1\/700/);
     await page.locator("#vl-all").click();
     assert.match(await page.locator("#vl-count").innerText(), /Kartu 1\/700/);
 
