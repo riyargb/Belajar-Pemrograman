@@ -62,12 +62,16 @@ const { chromium } = require("playwright");
 
 
 
-    stage("homepage Hiragana & Katakana card opens the kana lab directly");
+    stage("homepage hero Hiragana & Katakana button opens the kana lab directly");
+    await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
+    await page.getByRole("link", { name: /Belajar Hiragana & Katakana/ }).click();
+    await page.waitForURL("**/english-roadmap.html#kana-lab");
+    assert.equal(await page.locator("#pane-jp").isVisible(), true, "clicking the top Hiragana & Katakana button should activate the Japanese tab");
+    assert.equal(await page.locator("#kana-lab").isVisible(), true, "clicking the top Hiragana & Katakana button should land directly on the kana lab");
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
     await page.locator('a.card[href="./english-roadmap.html#kana-lab"]').click();
     await page.waitForURL("**/english-roadmap.html#kana-lab");
-    assert.equal(await page.locator("#pane-jp").isVisible(), true, "clicking the homepage Hiragana & Katakana card should activate the Japanese tab");
-    assert.equal(await page.locator("#kana-lab").isVisible(), true, "clicking the homepage Hiragana & Katakana card should land directly on the kana lab");
+    assert.equal(await page.locator("#kana-lab").isVisible(), true, "the learning card should also land directly on the kana lab");
 
     stage("homepage deep links activate the target lab tab");
     await page.goto("http://127.0.0.1:4173/english-roadmap.html#kana-lab", { waitUntil: "load" });
@@ -185,8 +189,13 @@ const { chromium } = require("playwright");
     await page.locator("#kanji-lab").getByRole("button", { name: "Tampilkan semua", exact: true }).click();
     assert.equal(await page.locator("#kl-level").inputValue(), "ALL", "Tampilkan semua should reset the level filter");
     assert.match(await page.locator("#kl-count").innerText(), /Kartu 1\/300/);
+    assert.equal(await page.locator("#kl-all-list").isVisible(), true, "Tampilkan semua should visibly open the complete kanji list");
+    assert.equal(await page.locator("#kl-all-list label").count(), 300, "Tampilkan semua should display all 300 kanji");
+    assert.equal(await page.locator("#kl-list-toggle").innerText(), "Sembunyikan daftar kanji");
     await page.locator("#kl-list-toggle").click();
-    assert.equal(await page.locator("#kl-all-list").isVisible(), true, "kanji checklist should open");
+    assert.equal(await page.locator("#kl-all-list").isVisible(), false, "kanji checklist should close when toggled");
+    await page.locator("#kl-list-toggle").click();
+    assert.equal(await page.locator("#kl-all-list").isVisible(), true, "kanji checklist should reopen when toggled");
     assert.equal(await page.locator("#kl-all-list label").count(), 300, "kanji checklist should list all 300 kanji");
     await page.locator("#kl-list-toggle").click();
     stage("kanji quiz");
