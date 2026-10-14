@@ -62,6 +62,13 @@ const { chromium } = require("playwright");
 
 
 
+    stage("homepage Hiragana & Katakana card opens the kana lab directly");
+    await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
+    await page.locator('a.card[href="./english-roadmap.html#kana-lab"]').click();
+    await page.waitForURL("**/english-roadmap.html#kana-lab");
+    assert.equal(await page.locator("#pane-jp").isVisible(), true, "clicking the homepage Hiragana & Katakana card should activate the Japanese tab");
+    assert.equal(await page.locator("#kana-lab").isVisible(), true, "clicking the homepage Hiragana & Katakana card should land directly on the kana lab");
+
     stage("homepage deep links activate the target lab tab");
     await page.goto("http://127.0.0.1:4173/english-roadmap.html#kana-lab", { waitUntil: "load" });
     assert.equal(await page.locator("#pane-jp").isVisible(), true, "kana deep link should automatically activate the Japanese tab");
