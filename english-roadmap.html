@@ -1371,6 +1371,10 @@ function klShowOnlyUnlearned() {
 }
 function klShowAll() {
   document.getElementById("kl-search").value = "";
+  document.getElementById("kl-level").value = "ALL";
+  klLevel = "ALL";
+  klIndex = 0;
+  klRevealed = false;
   klRefresh();
 }
 function klShuffle(a) {
