@@ -62,8 +62,15 @@ const { chromium } = require("playwright");
 
 
 
-    stage("open language learning page");
+    stage("Michishirube English/Japanese redesign and light theme");
     await page.goto("http://127.0.0.1:4173/english-roadmap.html", { waitUntil: "domcontentloaded" });
+    assert.match(await page.title(), /Michishirube.*Language Learning/);
+    assert.equal(await page.locator(".topbar-title").innerText().then(t => t.includes("道標") && t.includes("Michishirube")), true);
+    assert.equal(await page.locator(".back-btn").innerText(), "← Beranda");
+    assert.equal(await page.locator(".phase").count(), 13, "English and Japanese learning roadmap phases should render");
+    assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), "light", "language page should default to light theme regardless of OS theme");
+    assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()), "#f8f5ed", "language page should use Michishirube ivory palette");
+    assert.equal(await page.locator(".dp-card").first().evaluate(el => getComputedStyle(el).backgroundColor), "rgb(255, 253, 248)", "progress cards should use warm light surfaces");
     await page.getByRole("button", { name: /Japanese/ }).click();
     await page.locator("#vocab-lab").scrollIntoViewIfNeeded();
     await assertEventually(async () => {
