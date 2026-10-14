@@ -94,6 +94,17 @@ el("kl-search").listeners.input();
 assert.match(el("kl-count").textContent, /Kartu 1\/1/, "search by a unique kanji should return one card");
 assert.match(el("kl-card").innerHTML, /南/, "search result should render the matching kanji");
 
+// "Tampilkan semua" must clear search AND restore the ALL-level filter.
+el("kl-level").value = "N5";
+el("kl-level").listeners.change({ target: el("kl-level") });
+el("kl-search").value = "no-such-kanji-result";
+el("kl-search").listeners.input();
+assert.match(el("kl-count").textContent, /0 kartu/, "filter should allow an empty result before show-all");
+h.context.klShowAll();
+assert.equal(el("kl-level").value, "ALL", "show-all should reset the level selector");
+assert.equal(el("kl-search").value, "", "show-all should clear search");
+assert.match(el("kl-count").textContent, /Kartu 1\/300/, "show-all should restore all 300 kanji");
+
 el("kl-search").value = "";
 el("kl-search").listeners.input();
 h.context.klFlip();
