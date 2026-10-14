@@ -1,0 +1,45 @@
+name: Real browser UI tests
+
+on:
+  push:
+    paths:
+      - "english-roadmap.html"
+      - "data/vocabulary-*.js"
+      - "test-browser.js"
+      - ".github/workflows/browser-ui.yml"
+  pull_request:
+    paths:
+      - "english-roadmap.html"
+      - "data/vocabulary-*.js"
+      - "test-browser.js"
+      - ".github/workflows/browser-ui.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  chromium-ui:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install Playwright
+        run: |
+          npm install --no-save playwright@1.55.0
+          npx playwright install --with-deps chromium
+      - name: Serve the site
+        run: |
+          python3 -m http.server 4173 --bind 127.0.0.1 > /tmp/language-site.log 2>&1 &
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:4173/english-roadmap.html > /dev/null; then exit 0; fi
+            sleep 1
+          done
+          cat /tmp/language-site.log
+          exit 1
+      - name: Run real Chromium interactions
+        timeout-minutes: 3
+        run: node test-browser.js
