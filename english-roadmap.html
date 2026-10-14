@@ -1418,6 +1418,18 @@ function klShowAll() {
   klIndex = 0;
   klRevealed = false;
   klRefresh();
+
+  // "Tampilkan semua" should visibly expose the complete 300-kanji list,
+  // not only reset the single-card viewer to the first card.
+  const list = document.getElementById("kl-all-list");
+  const listButton = document.getElementById("kl-list-toggle");
+  if (list && listButton) {
+    list.hidden = false;
+    list.style.display = "grid";
+    listButton.setAttribute("aria-expanded", "true");
+    listButton.textContent = "Sembunyikan daftar kanji";
+    klRenderAllList();
+  }
 }
 function klShuffle(a) {
   const b = a.slice();
