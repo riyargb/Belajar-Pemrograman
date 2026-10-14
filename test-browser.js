@@ -79,6 +79,7 @@ const { chromium } = require("playwright");
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
     await page.getByRole("link", { name: /Belajar Hiragana & Katakana/ }).click();
     await page.waitForURL("**/english-roadmap.html#kana-lab");
+    await page.waitForFunction(() => document.querySelector("#pane-jp")?.classList.contains("active"));
     assert.equal(await page.locator("#pane-jp").isVisible(), true, "clicking the top Hiragana & Katakana button should activate the Japanese tab");
     assert.equal(await page.locator("#kana-lab").isVisible(), true, "clicking the top Hiragana & Katakana button should land directly on the kana lab");
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
@@ -88,9 +89,11 @@ const { chromium } = require("playwright");
 
     stage("homepage deep links activate the target lab tab");
     await page.goto("http://127.0.0.1:4173/english-roadmap.html#kana-lab", { waitUntil: "load" });
+    await page.waitForFunction(() => document.querySelector("#pane-jp")?.classList.contains("active"));
     assert.equal(await page.locator("#pane-jp").isVisible(), true, "kana deep link should automatically activate the Japanese tab");
     assert.equal(await page.locator("#kana-lab").isVisible(), true, "kana lab should be visible after following the homepage card");
     await page.goto("http://127.0.0.1:4173/english-roadmap.html#kanji-lab", { waitUntil: "load" });
+    await page.waitForFunction(() => document.querySelector("#pane-jp")?.classList.contains("active"));
     assert.equal(await page.locator("#pane-jp").isVisible(), true, "kanji deep link should automatically activate the Japanese tab");
     assert.equal(await page.locator("#kanji-lab").isVisible(), true, "kanji lab should be visible after following a deep link");
     
