@@ -429,7 +429,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   <div class="vl-controls"><select class="vl-select" id="vl-level" aria-label="Pilih level kosakata"><option value="N5">N5 · 800 kata</option><option value="N4">N4 · 700 kata</option></select><input class="vl-input" id="vl-search" placeholder="Cari Jepang, kana, atau arti..." aria-label="Cari kosakata"><select class="vl-select" id="vl-category" aria-label="Filter kelas kata"><option value="ALL">Semua kategori</option></select></div>
   <div class="vl-card" id="vl-card" aria-live="polite"></div><div class="vl-count" id="vl-count"></div>
   <div class="vl-buttons"><button class="vl-btn primary" id="vl-reveal">Lihat jawaban</button><button class="vl-btn" id="vl-next">Kata berikutnya →</button><button class="vl-btn" id="vl-mark">✓ Tandai hafal</button></div>
-  <div class="vl-buttons"><button class="vl-btn" id="vl-unlearned">Belum hafal</button><button class="vl-btn" id="vl-all">Tampilkan semua</button><button class="vl-btn" id="vl-list-toggle" type="button" aria-controls="vl-list" aria-expanded="false">Tampilkan daftar</button></div>
+  <div class="vl-buttons"><button class="vl-btn" id="vl-unlearned">Belum hafal</button><button class="vl-btn" id="vl-all">Tampilkan semua</button><button class="vl-btn" id="vl-list-toggle" type="button" aria-controls="vl-list" aria-expanded="false">Tampilkan daftar</button><button class="vl-btn" id="vl-all-levels" type="button">Daftar N5 + N4</button></div>
   <div class="vl-list" id="vl-list" hidden></div>
  <div class="vl-sub"><b>KUIS KOSAKATA · LATIHAN DUA ARAH</b></div>
  <select class="vl-select" id="vl-q-mode" aria-label="Pola kuis kosakata">
@@ -488,7 +488,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
  const $=id=>document.getElementById(id);
  const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
  if(!datasets.N5.length || !datasets.N4.length || !$("vl-card")) return;
- let level="N5",data=datasets[level],progress={},pool=data.slice(),index=0,revealed=false,listShown=false;
+ let level="N5",data=datasets[level],progress={},pool=data.slice(),index=0,revealed=false,listShown=false,showingAllLevels=false;
  let vocabQuiz=[],vocabQuizIndex=0,vocabQuizScore=0,vocabQuizAnswered=false,vocabQuizCurrent=null;
  function vocabQuizShuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
  function vocabQuizBuild(mode){
@@ -542,17 +542,31 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   $("vl-reveal").textContent=revealed?'Sembunyikan jawaban':'Lihat jawaban';
   if(listShown) renderList();
  }
- function renderList(){const el=$("vl-list"); if(!el)return; el.innerHTML=pool.map(x=>'<label class="vl-row"><input type="checkbox" data-word="'+esc(x.jp)+'" '+(progress[x.jp]?'checked':'')+'><span class="vl-row-main"><span class="vl-row-jp">'+esc(x.jp)+' · '+esc(x.kana)+'</span><br><span class="vl-row-meaning">'+esc(x.arti)+'</span></span></label>').join("");}
+ function renderList(){
+  const el=$("vl-list");if(!el)return;
+  const rows=showingAllLevels?[...datasets.N5.map(x=>({...x,_level:"N5"})),...datasets.N4.map(x=>({...x,_level:"N4"}))]:pool.map(x=>({...x,_level:level}));
+  el.innerHTML=rows.map(x=>{
+   let p=progress;
+   if(x._level!==level||showingAllLevels){try{p=JSON.parse(localStorage.getItem("sal_vocab_"+x._level.toLowerCase()+"_progress_v1")||"{}")||{};}catch(e){p={};}}
+   return '<label class="vl-row"><input type="checkbox" data-word="'+esc(x.jp)+'" data-level="'+x._level+'" '+(p[x.jp]?'checked':'')+'><span class="vl-row-main"><span class="vl-row-jp">'+esc(x.jp)+' · '+esc(x.kana)+' <span class="vl-row-sub">['+x._level+']</span></span><br><span class="vl-row-meaning">'+esc(x.arti)+'</span></span></label>';
+  }).join("");
+ }
  function refresh(){pool=filtered();index=0;revealed=false;render();}
- $("vl-level").addEventListener("change",()=>{level=$("vl-level").value;data=datasets[level];loadProgress();setCategories();refresh();});
- $("vl-search").addEventListener("input",refresh); $("vl-category").addEventListener("change",refresh);
+ $("vl-level").addEventListener("change",()=>{level=$("vl-level").value;data=datasets[level];showingAllLevels=false;$("vl-all-levels").textContent="Daftar N5 + N4";loadProgress();setCategories();refresh();});
+ $("vl-search").addEventListener("input",()=>{showingAllLevels=false;$("vl-all-levels").textContent="Daftar N5 + N4";refresh();}); $("vl-category").addEventListener("change",()=>{showingAllLevels=false;$("vl-all-levels").textContent="Daftar N5 + N4";refresh();});
  $("vl-reveal").addEventListener("click",()=>{revealed=!revealed;render();});
  $("vl-next").addEventListener("click",()=>{if(!pool.length)return;index=(index+1)%pool.length;revealed=false;render();});
  $("vl-mark").addEventListener("click",()=>{if(!pool.length)return;progress[pool[index].jp]=true;saveProgress();render();});
  $("vl-unlearned").addEventListener("click",()=>{pool=filtered().filter(x=>!progress[x.jp]);index=0;revealed=false;render();});
  $("vl-all").addEventListener("click",()=>{$("vl-search").value="";$("vl-category").value="ALL";refresh();});
  $("vl-list-toggle").addEventListener("click",()=>{listShown=!listShown;const list=$("vl-list"),button=$("vl-list-toggle");list.hidden=!listShown;button.setAttribute("aria-expanded",String(listShown));button.textContent=listShown?"Sembunyikan daftar":"Tampilkan daftar";if(listShown)renderList();});
- $("vl-list").addEventListener("change",e=>{const key=e.target.dataset.word;if(!key)return;if(e.target.checked)progress[key]=true;else delete progress[key];saveProgress();render();});
+ $("vl-list").addEventListener("change",e=>{
+  const key=e.target.dataset.word;if(!key)return;const targetLevel=e.target.dataset.level||level;
+  if(targetLevel===level){if(e.target.checked)progress[key]=true;else delete progress[key];saveProgress();}
+  else{let p={};try{p=JSON.parse(localStorage.getItem("sal_vocab_"+targetLevel.toLowerCase()+"_progress_v1")||"{}")||{};}catch(err){p={};}if(e.target.checked)p[key]=true;else delete p[key];try{localStorage.setItem("sal_vocab_"+targetLevel.toLowerCase()+"_progress_v1",JSON.stringify(p));}catch(err){}}
+  render();if(showingAllLevels)renderList();
+ });
+ $("vl-all-levels").addEventListener("click",()=>{showingAllLevels=!showingAllLevels;listShown=true;$("vl-list").hidden=false;$("vl-list-toggle").setAttribute("aria-expanded","true");$("vl-list-toggle").textContent="Sembunyikan daftar";$("vl-all-levels").textContent=showingAllLevels?"Tampilkan level terpilih":"Daftar N5 + N4";renderList();});
  loadProgress();setCategories();refresh();
  })();
 // END SALMAN_VOCAB_LAB_V3
@@ -588,7 +602,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   <div class="kl-buttons">
     <button class="kl-btn" onclick="klQuizStart()">Mulai kuis pilihan ganda</button>
     <button class="kl-btn" onclick="klShowOnlyUnlearned()">Belum hafal</button>
-    <button class="kl-btn" onclick="klShowAll()">Tampilkan semua</button>
+    <button class="kl-btn" id="kl-show-all" onclick="klShowAll()">Tampilkan semua</button>
     <button class="kl-btn" id="kl-list-toggle" type="button" aria-controls="kl-all-list" aria-expanded="false">Tampilkan daftar kanji</button>
   </div>
   <div id="kl-all-list" hidden style="display:none;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;margin:12px 0"></div>
