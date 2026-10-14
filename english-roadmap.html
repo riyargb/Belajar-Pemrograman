@@ -168,6 +168,31 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
 .topbar{background:rgba(255,253,248,.96);border-bottom:1px solid var(--border)}
 .topbar-title{font-size:20px;font-weight:600;letter-spacing:0}
 
+
+/* Michishirube dashboard polish */
+:root{--bg:#f8f5ed;--s1:#fffdf8;--s2:#fffaf1;--border:#e8dfd0;--border2:#d8cdbb;--en:#173653;--jp:#c8434b;--text:#182f45;--muted:#6c7b88;--muted2:#b5bdc1;--accent:#173653;--coral:#c8434b;--shadow:0 8px 28px rgba(20,45,69,.06)}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;letter-spacing:0;line-height:1.6}
+.topbar{position:sticky;top:0;z-index:20;min-height:64px;padding:12px clamp(14px,4vw,34px);background:rgba(255,253,248,.96);backdrop-filter:blur(14px);border-bottom:1px solid var(--border);box-shadow:0 2px 12px rgba(20,45,69,.035)}
+.topbar-title{font-size:20px;font-family:'Playfair Display',serif!important;color:var(--text)!important}
+.topbar-title span{font-family:'Noto Serif JP',serif!important;color:var(--jp)!important}
+.theme-toggle,.back-btn{min-height:40px;padding:8px 13px;border:1px solid var(--border2);border-radius:999px;background:var(--s1);color:var(--text);font:600 12px 'DM Sans',sans-serif}
+.tabs{position:sticky;top:64px;z-index:19;display:flex;background:rgba(255,253,248,.97);padding:0 clamp(8px,2vw,24px);border-bottom:1px solid var(--border);box-shadow:0 3px 12px rgba(20,45,69,.025)}
+.tab{flex:1;min-height:52px;padding:12px 8px;font-family:'DM Sans',sans-serif;font-size:clamp(11px,2.8vw,14px);font-weight:650;letter-spacing:0;text-transform:none;color:var(--muted);border-bottom:3px solid transparent}
+.tab.en.active{color:var(--en);border-bottom-color:var(--en)}.tab.jp.active{color:var(--jp);border-bottom-color:var(--jp)}.tab.nb.active{color:var(--text);border-bottom-color:var(--border2)}
+.pane{padding:clamp(14px,3vw,28px);padding-bottom:48px;scrollbar-color:var(--border2) transparent;scrollbar-width:thin}
+.dual-progress{gap:12px;margin:0 auto 20px;max-width:1080px}.dp-card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:15px 16px;box-shadow:var(--shadow)}
+.dp-label{font:700 10px 'DM Sans',sans-serif;letter-spacing:.1em;color:var(--muted)}.dp-count{font-size:14px;font-weight:750}.dp-count.en{color:var(--en)}.dp-count.jp{color:var(--jp)}.dp-bar-bg{height:6px;background:#eee8dc;border-radius:99px}.dp-bar.en{background:var(--en)}.dp-bar.jp{background:var(--jp)}
+.phase{background:var(--s1);border:1px solid var(--border);border-radius:16px;margin-bottom:12px;box-shadow:0 4px 15px rgba(20,45,69,.035)}.ph-header{min-height:64px;padding:15px 18px}.ph-title{font:600 clamp(15px,2vw,18px) 'Playfair Display',serif;color:var(--text)}.ph-num{font-size:10px;border-radius:999px}.ph-body{padding:0 18px 16px}.item{padding:11px 10px;border-radius:10px;font-size:13px;color:var(--text)}.item:hover{background:#f7f2e8}.cb{width:19px;height:19px;border-radius:6px;border-color:var(--border2)}.item.en.chk .cb{background:var(--en);border-color:var(--en);color:white}.item.jp.chk .cb{background:var(--jp);border-color:var(--jp);color:white}
+.klab-wrap,.kl-wrap,.vl-wrap,.nb-input-wrap,.note-card{background:var(--s1);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);color:var(--text)}
+.klab-wrap{padding:clamp(14px,3vw,24px);margin:18px auto 24px;max-width:1080px}.klab-title{font:600 clamp(20px,3vw,26px) 'Playfair Display','Noto Serif JP',serif;color:var(--text)}.klab-sub{font-size:12px;line-height:1.8;color:var(--muted)}.klab-stats{font-size:12px;color:var(--muted)}
+.klab-input,.klab-select,.kl-input,.kl-select,.vl-input,.vl-select,textarea,input,select{background:var(--s1);border:1px solid var(--border2);border-radius:11px;color:var(--text);font:13px 'DM Sans',sans-serif;padding:11px 12px}
+.klab-card{background:#f8f5ed;border:1px solid var(--border2);border-radius:16px}.klab-char,.klab-cell-char,.kl-kanji,.vl-jp{font-family:'Noto Serif JP',serif;color:var(--text)}.klab-romaji,.klab-cell-romaji,.kl-reading,.vl-kana{color:var(--jp)}
+.klab-btn,.kl-btn,.vl-btn,.nb-tag,.nb-save{border:1px solid var(--border2);border-radius:10px;background:#f3eee4;color:var(--text);font:650 12px 'DM Sans',sans-serif;padding:10px 12px}.klab-btn.primary,.kl-btn.primary,.vl-btn.primary,.nb-save{background:var(--jp);border-color:var(--jp);color:white}
+.klab-script-heading{color:var(--text);border-color:var(--border2)}.klab-cell,.kl-card,.vl-card{background:#fffdf8;border:1px solid var(--border);border-radius:14px;color:var(--text)}.klab-cell.learned{border-color:var(--jp);background:#fbefeb}.klab-note{color:var(--muted)}
+.jp-hero{background:linear-gradient(118deg,#fffdf8 0%,#f3eee3 68%,#e8e0d2 100%);border-color:var(--border);box-shadow:var(--shadow)}.jp-hero h1{color:var(--text)}.jp-hero p{color:var(--muted)}.jp-hero-tags span{border-color:var(--border2);background:#fffdf8;color:var(--text)}.jp-section-heading h2{color:var(--text)}
+#kana-lab,#kanji-lab,#roadmap-jp,#vocab-lab,#kl-quiz{scroll-margin-top:132px}
+@media(max-width:600px){.topbar{top:0;padding:10px 12px;min-height:58px}.tabs{top:58px;padding:0 4px}.tab{min-height:48px;padding:10px 3px;font-size:11px}.pane{padding:12px;padding-bottom:34px}.dp-card{padding:11px;border-radius:12px}.ph-header{gap:8px;padding:13px 12px;min-height:60px}.ph-body{padding:0 10px 12px}.item{padding:11px 6px;font-size:12px}.klab-wrap{padding:12px}.klab-controls{grid-template-columns:1fr}.klab-script-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.klab-cell{padding:8px 2px}.klab-cell-char{font-size:27px}}
+
 </style>
 </head>
 <body>
@@ -176,8 +201,8 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   <div class="topbar-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Aktifkan mode gelap" title="Ganti tema">☾ <span>Mode gelap</span></button><a href="index.html" class="back-btn">← Beranda</a></div>
 </div>
 <div class="tabs">
-  <button class="tab en active" onclick="switchTab('en',this)">🇺🇸 English</button>
-  <button class="tab jp" onclick="switchTab('jp',this)">🇯🇵 Japanese</button>
+  <button class="tab en active" onclick="switchTab('en',this)">🇺🇸 Bahasa Inggris</button>
+  <button class="tab jp" onclick="switchTab('jp',this)">🇯🇵 Bahasa Jepang</button>
   <button class="tab nb" onclick="switchTab('nb',this)">📓 Catatan</button>
 </div>
 <div class="pane active" id="pane-en">
