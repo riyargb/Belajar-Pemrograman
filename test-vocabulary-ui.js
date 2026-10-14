@@ -44,6 +44,7 @@ function createHarness(initialStorage = {}) {
       style: {},
       listeners: {},
       addEventListener(type, fn) { this.listeners[type] = fn; },
+      setAttribute(name, value) { this[name] = String(value); },
     });
   }
   const document = {
@@ -53,6 +54,7 @@ function createHarness(initialStorage = {}) {
           id, value: "", textContent: "", innerHTML: "", disabled: false,
           hidden: false, style: {}, listeners: {},
           addEventListener(type, fn) { this.listeners[type] = fn; },
+          setAttribute(name, value) { this[name] = String(value); },
         });
       }
       return elements.get(id);
