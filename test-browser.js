@@ -79,6 +79,22 @@ const { chromium } = require("playwright");
     assert.equal(await page.locator("#jp-hero-title").innerText(), "日本語の学び", "Japanese tab should show its dedicated redesigned learning hero");
     assert.equal(await page.locator("#pane-jp .jp-hero-art").count(), 1, "Japanese tab should show the Japanese landscape artwork");
     assert.equal(await page.locator("#pane-jp .jp-section-heading").innerText().then(t => t.includes("Jalur Belajar")), true, "Japanese roadmap should have its own section heading");
+    stage("Hiragana/Katakana lab and kana quiz regression");
+    await page.locator("#kana-lab").waitFor({ state: "attached" });
+    assert.match(await page.locator("#klab-stats").innerText(), /kana/i);
+    await page.locator("#klab-script").selectOption("K");
+    assert.match(await page.locator("#klab-card").innerText(), /KATAKANA/);
+    await page.locator("#klab-romaji-toggle").click();
+    assert.match(await page.locator("#klab-romaji-toggle").innerText(), /Tampilkan romaji/);
+    await page.locator("#klab-show-all").click();
+    assert.equal(await page.locator("#klab-list").isVisible(), true, "show-all should reveal the kana reference grid");
+    assert.ok(await page.locator("#klab-list .klab-cell").count() >= 50, "kana reference grid should include many kana entries");
+    await page.locator("#klab-q-mode").selectOption("mixed");
+    await page.locator("#klab-q-start").click();
+    assert.equal(await page.locator("#klab-q-options button").count(), 4, "kana quiz should show four choices");
+    await page.locator("#klab-q-options button").first().click();
+    await page.locator("#klab-q-next").click();
+    assert.match(await page.locator("#klab-q-count").innerText(), /Soal 2\\//);
     await page.locator("#vocab-lab").scrollIntoViewIfNeeded();
     await assertEventually(async () => {
       assert.match(await page.locator("#vl-stats").innerText(), /N5 · Hafal 0\/800 kosakata/);
@@ -104,6 +120,15 @@ const { chromium } = require("playwright");
     assert.match(await page.locator("#vl-count").innerText(), /Kartu 1\/700/);
     await page.locator("#vl-all").click();
     assert.match(await page.locator("#vl-count").innerText(), /Kartu 1\/700/);
+
+    stage("vocabulary quiz modes regression");
+    await page.locator("#vl-q-mode").selectOption("jp-id");
+    await page.locator("#vl-q-start").click();
+    assert.equal(await page.locator("#vl-q-options button").count(), 4, "vocabulary quiz should show four choices");
+    await page.locator("#vl-q-options button").first().click();
+    assert.match(await page.locator("#vl-q-feedback").innerText(), /Benar!|Belum tepat/);
+    await page.locator("#vl-q-next").click();
+    assert.match(await page.locator("#vl-q-count").innerText(), /Soal 2\\//);
 
     stage("vocabulary list and persistence");
     await page.locator("#vl-list-toggle").click();
