@@ -1,6 +1,7 @@
 {
   "name": "Michishirube — Japanese Learning Journey",
   "short_name": "Michishirube",
+  "id": "./",
   "description": "学びの道を、共に。 Perjalanan belajar bahasa Jepang, satu langkah setiap hari.",
   "lang": "id",
   "start_url": "./index.html",
@@ -9,6 +10,6 @@
   "background_color": "#f8f5ed",
   "theme_color": "#142d45",
   "icons": [
-    { "src": "./favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+    { "src": "./favicon.svg?v=4", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
   ]
 }

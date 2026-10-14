@@ -32,19 +32,33 @@ const { chromium } = require("playwright");
     assert.equal(manifest.ok, true, "PWA manifest should load");
     assert.equal(manifest.data.name, "Michishirube — Japanese Learning Journey");
     assert.equal(manifest.data.start_url, "./index.html");
+    const publicConfig = await page.evaluate(async () => {
+      const response = await fetch("./supabase-config.js");
+      return { ok: response.ok, text: await response.text() };
+    });
+    assert.equal(publicConfig.ok, true, "Supabase browser config should load");
+    assert.match(publicConfig.text, /https:\/\/tckhlrauxlwfyujejeiz\.supabase\.co/);
+    assert.match(publicConfig.text, /sb_publishable_/);
+    assert.doesNotMatch(publicConfig.text, /(?:["\']?service_role["\']?\s*:|sb_secret_[A-Za-z0-9]+)/i, "server secrets must never be in frontend config");
+
+    // Exercise the safe unconfigured-state UI without starting a real Google OAuth redirect.
+    await page.route("**/supabase-config.js", route => route.fulfill({
+      status: 200,
+      contentType: "application/javascript",
+      body: 'window.MICHISHIRUBE_SUPABASE_CONFIG = { url: "", publishableKey: "" };'
+    }));
     await page.goto("http://127.0.0.1:4173/auth.html", { waitUntil: "domcontentloaded" });
     assert.match(await page.title(), /Michishirube/);
     assert.doesNotMatch(await page.locator("body").innerText(), /Salman/);
+    assert.equal(await page.locator("#googleLogin").isVisible(), true, "Google sign-in should be the primary passwordless option");
+    assert.match(await page.locator("#googleLogin").innerText(), /Lanjutkan dengan Google/);
+    assert.equal(await page.locator("#googleLogin").isEnabled(), true, "Google sign-in control should be available in the unconfigured state");
     await page.locator("#registerTab").click();
     assert.equal(await page.locator("#name").isVisible(), true);
     assert.equal(await page.locator("#name").getAttribute("required"), "");
     assert.equal(await page.locator("#password").getAttribute("autocomplete"), "new-password");
-    await page.locator("#name").fill("Test Learner");
-    await page.locator("#email").fill("learner@example.com");
-    await page.locator("#password").fill("safe-test-password");
-    await page.locator("#submit").click();
-    assert.match(await page.locator("#status").innerText(), /Supabase belum dikonfigurasi/);
-    assert.match(await page.locator(".fine").innerText(), /jangan pernah memasukkan service_role/);
+    assert.equal(await page.locator("#submit").isEnabled(), true, "email sign-in control should remain available in the unconfigured state");
+    assert.match(await page.locator(".fine").innerText(), /Michishirube tidak menerima atau menyimpan kata sandi Google/);
     await page.locator("#loginTab").click();
     assert.equal(await page.locator("#name").isVisible(), false);
     assert.equal(await page.locator("#password").getAttribute("autocomplete"), "current-password");
