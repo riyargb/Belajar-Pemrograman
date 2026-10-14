@@ -168,6 +168,15 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
 .topbar{background:rgba(255,253,248,.96);border-bottom:1px solid var(--border)}
 .topbar-title{font-size:20px;font-weight:600;letter-spacing:0}
 
+
+/* Make Kana Lab easy to discover on mobile */
+.jp-hero-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:18px}
+.jp-kana-cta,.jp-kana-secondary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 16px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:750;touch-action:manipulation}
+.jp-kana-cta{background:#c8434b;border:1px solid #c8434b;color:#fffdf8!important;box-shadow:0 5px 15px rgba(200,67,75,.17)}
+.jp-kana-secondary{background:#fffdf8;border:1px solid #d8cdbb;color:#182f45!important}
+#kana-lab{scroll-margin-top:128px}
+@media(max-width:620px){.jp-hero-actions{display:grid;grid-template-columns:1fr 1fr}.jp-kana-cta,.jp-kana-secondary{padding:10px 8px;font-size:11px;text-align:center}}
+
 </style>
 </head>
 <body>
@@ -207,6 +216,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
       <h1 id="jp-hero-title">日本語の学び</h1>
       <p>Mulai dari kana, bangun pemahaman kanji dan kosakata, lalu melangkah menuju JLPT N4.</p>
       <div class="jp-hero-tags"><span>ひらがな</span><span>カタカナ</span><span>漢字</span><span>単語</span></div>
+      <div class="jp-hero-actions"><a class="jp-kana-cta" href="#kana-lab">ひらがなを学ぶ · Mulai belajar Hiragana ↗</a><a class="jp-kana-secondary" href="#kana-lab">Belajar Katakana</a></div>
     </div>
   </section>
   <div class="jp-section-heading"><span>01 / ROADMAP</span><h2>Jalur Belajar</h2><p>Pelajari satu tahap demi satu tahap. Progres tersimpan otomatis di perangkat ini.</p></div>
