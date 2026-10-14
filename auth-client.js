@@ -12,6 +12,7 @@ const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const submitButton = document.getElementById("submit");
+const googleButton = document.getElementById("googleLogin");
 const fine = document.getElementById("fine");
 const signedIn = document.getElementById("signedIn");
 const sessionText = document.getElementById("sessionText");
@@ -49,7 +50,9 @@ function setMode(next) {
 function setBusy(next) {
   busy = next;
   submitButton.disabled = next;
+  googleButton.disabled = next;
   submitButton.textContent = next ? "Memproses…" : (mode === "register" ? "Buat akun" : "Masuk");
+  googleButton.querySelector("span:last-child").textContent = next ? "Menghubungkan ke Google…" : "Lanjutkan dengan Google";
 }
 function friendlyError(error) {
   const message = String(error?.message || "");
@@ -77,6 +80,29 @@ function showSignedOut() {
   document.getElementById("sub").textContent = mode === "register" ? "Buat ruang untuk perjalanan belajarmu." : "Masuk untuk melanjutkan perjalanan belajarmu.";
   fine.textContent = "Autentikasi menggunakan Supabase Auth. Gunakan hanya URL proyek dan publishable key; jangan pernah memasukkan service_role atau secret key ke aplikasi browser.";
 }
+googleButton.addEventListener("click", async () => {
+  if (busy) return;
+  clearStatus();
+  if (!supabase) {
+    showStatus("Login Google belum aktif karena proyek Supabase belum dikonfigurasi. Hubungkan Project URL dan publishable key, lalu aktifkan provider Google di Supabase.", "error");
+    return;
+  }
+  setBusy(true);
+  try {
+    const redirectTo = new URL("./auth.html", window.location.href).href;
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: {
+        redirectTo,
+        queryParams: { prompt: "select_account" }
+      }
+    });
+    if (error) throw error;
+  } catch (error) {
+    showStatus(friendlyError(error), "error");
+    setBusy(false);
+  }
+});
 loginTab.addEventListener("click", () => setMode("login"));
 registerTab.addEventListener("click", () => setMode("register"));
 
