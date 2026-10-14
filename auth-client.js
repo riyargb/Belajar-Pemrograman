@@ -12,6 +12,7 @@ const nameInput = document.getElementById("name");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const submitButton = document.getElementById("submit");
+const googleLogin = document.getElementById("googleLogin");
 const fine = document.getElementById("fine");
 const signedIn = document.getElementById("signedIn");
 const sessionText = document.getElementById("sessionText");
@@ -62,6 +63,7 @@ function friendlyError(error) {
 }
 function showSignedIn(user) {
   form.classList.add("hidden");
+  googleLogin.classList.add("hidden");
   document.querySelector(".switch").classList.add("hidden");
   signedIn.classList.remove("hidden");
   document.getElementById("heading").textContent = "Kamu sudah masuk";
@@ -71,12 +73,46 @@ function showSignedIn(user) {
 }
 function showSignedOut() {
   form.classList.remove("hidden");
+  googleLogin.classList.remove("hidden");
   document.querySelector(".switch").classList.remove("hidden");
   signedIn.classList.add("hidden");
   document.getElementById("heading").textContent = mode === "register" ? "Mulai perjalananmu" : "Selamat datang kembali";
   document.getElementById("sub").textContent = mode === "register" ? "Buat ruang untuk perjalanan belajarmu." : "Masuk untuk melanjutkan perjalanan belajarmu.";
   fine.textContent = "Autentikasi menggunakan Supabase Auth. Gunakan hanya URL proyek dan publishable key; jangan pernah memasukkan service_role atau secret key ke aplikasi browser.";
 }
+function safeNextUrl() {
+  const raw = new URLSearchParams(window.location.search).get("next");
+  if (!raw) return null;
+  try {
+    const target = new URL(raw, window.location.origin);
+    if (target.origin !== window.location.origin || !target.pathname.startsWith("/Belajar-Pemrograman/")) return null;
+    return target.href;
+  } catch { return null; }
+}
+function redirectAfterAuth() {
+  const target = safeNextUrl();
+  if (target) window.location.replace(target);
+}
+googleLogin.addEventListener("click", async () => {
+  if (!supabase || busy) {
+    if (!supabase) showStatus("Supabase belum siap. Periksa koneksi dan konfigurasi, lalu coba lagi.", "error");
+    return;
+  }
+  clearStatus();
+  googleLogin.disabled = true;
+  googleLogin.textContent = "Membuka Google…";
+  try {
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.href }
+    });
+    if (error) throw error;
+  } catch (error) {
+    showStatus(friendlyError(error), "error");
+    googleLogin.disabled = false;
+    googleLogin.textContent = "Lanjutkan dengan Google";
+  }
+});
 loginTab.addEventListener("click", () => setMode("login"));
 registerTab.addEventListener("click", () => setMode("register"));
 
@@ -121,6 +157,7 @@ form.addEventListener("submit", async event => {
       if (data.session && data.user) {
         showSignedIn(data.user);
         showStatus("Akun berhasil dibuat dan kamu sudah masuk.", "success");
+        redirectAfterAuth();
       } else {
         setMode("login");
         showStatus("Pendaftaran diterima. Periksa email untuk memverifikasi akun sebelum masuk.", "success");
@@ -131,6 +168,7 @@ form.addEventListener("submit", async event => {
       passwordInput.value = "";
       showSignedIn(data.user);
       showStatus("Berhasil masuk. Selamat belajar!", "success");
+      redirectAfterAuth();
     }
   } catch (error) {
     showStatus(friendlyError(error), "error");
@@ -182,7 +220,7 @@ async function initialise() {
     });
     const { data, error } = await supabase.auth.getSession();
     if (error) throw error;
-    if (data.session?.user) showSignedIn(data.session.user);
+    if (data.session?.user) { showSignedIn(data.session.user); redirectAfterAuth(); }
     supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) showSignedIn(session.user);
       else showSignedOut();
