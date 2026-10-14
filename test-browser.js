@@ -18,7 +18,7 @@ const { chromium } = require("playwright");
     await page.goto("http://127.0.0.1:4173/index.html", { waitUntil: "domcontentloaded" });
     assert.match(await page.title(), /Michishirube/);
     assert.equal(await page.locator(".card").count(), 4, "homepage should show four learning cards");
-    assert.equal(await page.getByRole("link", { name: /Hiragana & Katakana/ }).getAttribute("href"), "./english-roadmap.html#kana-lab");
+    assert.equal(await page.locator(".hero .actions a.primary").getAttribute("href"), "./english-roadmap.html#kana-lab", "top hero button should link directly to kana lab");
     assert.equal(await page.locator('.card[href="./english-roadmap.html#kanji-lab"]').getAttribute("href"), "./english-roadmap.html#kanji-lab");
     assert.equal(await page.getByRole("link", { name: /Kosakata/ }).getAttribute("href"), "./english-roadmap.html#vocab-lab");
     assert.equal(await page.locator('.card[href="./english-roadmap.html#kl-quiz"]').getAttribute("href"), "./english-roadmap.html#kl-quiz");
