@@ -833,6 +833,22 @@ function switchTab(id,btn){
   btn.classList.add("active");
   if(id==="nb")renderNotes();
 }
+// Deep links from the home cards must activate the correct tab before scrolling.
+// Otherwise a valid lab anchor can point into a hidden pane and look like missing UI.
+(function activatePaneForDeepLink(){
+  const targetId = decodeURIComponent(window.location.hash.slice(1));
+  const japaneseTargets = new Set(["kana-lab","roadmap-jp","kanji-lab","kl-quiz","vocab-lab"]);
+  const englishTargets = new Set(["roadmap-en"]);
+  const tab = japaneseTargets.has(targetId) ? "jp" : englishTargets.has(targetId) ? "en" : null;
+  if (!tab) return;
+  const button = document.querySelector(".tab."+tab);
+  if (!button) return;
+  switchTab(tab, button);
+  window.addEventListener("load", () => {
+    const target = document.getElementById(targetId);
+    if (target) target.scrollIntoView({block:"start", behavior:"auto"});
+  }, {once:true});
+})();
 function countP(p){
   let done=0;
   p.items.forEach((_,i)=>{
