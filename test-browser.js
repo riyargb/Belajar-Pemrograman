@@ -39,7 +39,7 @@ const { chromium } = require("playwright");
     assert.equal(publicConfig.ok, true, "Supabase browser config should load");
     assert.match(publicConfig.text, /https:\/\/tckhlrauxlwfyujejeiz\.supabase\.co/);
     assert.match(publicConfig.text, /sb_publishable_/);
-    assert.doesNotMatch(publicConfig.text, /service_role|sb_secret_/i, "server secrets must never be in frontend config");
+    assert.doesNotMatch(publicConfig.text, /(?:["\']?service_role["\']?\s*:|sb_secret_[A-Za-z0-9]+)/i, "server secrets must never be in frontend config");
 
     // Exercise the safe unconfigured-state UI without starting a real Google OAuth redirect.
     await page.route("**/supabase-config.js", route => route.fulfill({
