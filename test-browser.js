@@ -75,6 +75,10 @@ const { chromium } = require("playwright");
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()), "#f8f5ed", "language page should use Michishirube ivory palette");
     assert.equal(await page.locator(".dp-card").first().evaluate(el => getComputedStyle(el).backgroundColor), "rgb(255, 253, 248)", "progress cards should use warm light surfaces");
     await page.getByRole("button", { name: /Japanese/ }).click();
+    await page.locator("#pane-jp").waitFor({ state: "visible" });
+    assert.equal(await page.locator("#jp-hero-title").innerText(), "日本語の学び", "Japanese tab should show its dedicated redesigned learning hero");
+    assert.equal(await page.locator("#pane-jp .jp-hero-art").count(), 1, "Japanese tab should show the Japanese landscape artwork");
+    assert.equal(await page.locator("#pane-jp .jp-section-heading").innerText().then(t => t.includes("Jalur Belajar")), true, "Japanese roadmap should have its own section heading");
     await page.locator("#vocab-lab").scrollIntoViewIfNeeded();
     await assertEventually(async () => {
       assert.match(await page.locator("#vl-stats").innerText(), /N5 · Hafal 0\/800 kosakata/);
