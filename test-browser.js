@@ -18,7 +18,7 @@ const { chromium } = require("playwright");
     await page.goto("http://127.0.0.1:4173/index.html", { waitUntil: "domcontentloaded" });
     assert.match(await page.title(), /Michishirube/);
     assert.equal(await page.locator(".card").count(), 4, "homepage should show four learning cards");
-    assert.equal(await page.getByRole("link", { name: /Hiragana & Katakana/ }).getAttribute("href"), "./english-roadmap.html#roadmap-jp");
+    assert.equal(await page.getByRole("link", { name: /Hiragana & Katakana/ }).getAttribute("href"), "./english-roadmap.html#kana-lab");
     assert.equal(await page.locator('.card[href="./english-roadmap.html#kanji-lab"]').getAttribute("href"), "./english-roadmap.html#kanji-lab");
     assert.equal(await page.getByRole("link", { name: /Kosakata/ }).getAttribute("href"), "./english-roadmap.html#vocab-lab");
     assert.equal(await page.locator('.card[href="./english-roadmap.html#kl-quiz"]').getAttribute("href"), "./english-roadmap.html#kl-quiz");
@@ -62,6 +62,14 @@ const { chromium } = require("playwright");
 
 
 
+    stage("homepage deep links activate the target lab tab");
+    await page.goto("http://127.0.0.1:4173/english-roadmap.html#kana-lab", { waitUntil: "load" });
+    assert.equal(await page.locator("#pane-jp").isVisible(), true, "kana deep link should automatically activate the Japanese tab");
+    assert.equal(await page.locator("#kana-lab").isVisible(), true, "kana lab should be visible after following the homepage card");
+    await page.goto("http://127.0.0.1:4173/english-roadmap.html#kanji-lab", { waitUntil: "load" });
+    assert.equal(await page.locator("#pane-jp").isVisible(), true, "kanji deep link should automatically activate the Japanese tab");
+    assert.equal(await page.locator("#kanji-lab").isVisible(), true, "kanji lab should be visible after following a deep link");
+    
     stage("Michishirube English/Japanese redesign and light theme");
     await page.goto("http://127.0.0.1:4173/english-roadmap.html", { waitUntil: "domcontentloaded" });
     assert.match(await page.title(), /Michishirube.*Language Learning/);
