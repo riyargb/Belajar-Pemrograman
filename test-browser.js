@@ -176,6 +176,7 @@ const { chromium } = require("playwright");
     await page.locator("#kl-list-toggle").click();
     stage("kanji quiz");
     await page.locator("#kl-search").fill("");
+    await page.getByRole("button", { name: "Mulai kuis pilihan ganda" }).click();
     await page.locator("#kl-q-mode").selectOption("kanji-hira");
     await page.getByRole("button", { name: "Mulai kuis pilihan ganda" }).click();
     assert.equal(await page.locator("#kl-q-options button").count(), 4);
