@@ -93,7 +93,7 @@ const { chromium } = require("playwright");
     assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), "light", "language page should default to light theme regardless of OS theme");
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()), "#f8f5ed", "language page should use Michishirube ivory palette");
     assert.equal(await page.locator(".dp-card").first().evaluate(el => getComputedStyle(el).backgroundColor), "rgb(255, 253, 248)", "progress cards should use warm light surfaces");
-    await page.getByRole("button", { name: /Japanese/ }).click();
+    await page.getByRole("button", { name: /Bahasa Jepang|Japanese/ }).click();
     await page.locator("#pane-jp").waitFor({ state: "visible" });
     assert.equal(await page.locator("#jp-hero-title").innerText(), "日本語の学び", "Japanese tab should show its dedicated redesigned learning hero");
     assert.equal(await page.locator("#pane-jp .jp-hero-art").count(), 1, "Japanese tab should show the Japanese landscape artwork");
@@ -159,7 +159,7 @@ const { chromium } = require("playwright");
     await page.locator("#vl-list input[type=checkbox]").first().check();
     assert.ok(await page.evaluate(() => Boolean(localStorage.getItem("sal_vocab_n4_progress_v1"))));
     await page.reload({ waitUntil: "domcontentloaded" });
-    await page.getByRole("button", { name: /Japanese/ }).click();
+    await page.getByRole("button", { name: /Bahasa Jepang|Japanese/ }).click();
     await assertEventually(async () => {
       assert.match(await page.locator("#vl-stats").innerText(), /N5 · Hafal 1\/800 kosakata/);
     }, "N5 progress should persist after reload");
