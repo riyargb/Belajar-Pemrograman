@@ -49,7 +49,7 @@ function createHarness(saved = {}) {
       if (selector === "#kl-q-options button") {
         const html = elements.get("kl-q-options").innerHTML;
         return [...html.matchAll(/data-answer="([^"]+)"|data-kanji="([^"]+)"/g)].map(m => ({
-          dataset: { answer: m[1] || m[2], kanji: m[2] || m[1] }, disabled: false, style: {}
+          dataset: { answer: m[1] || m[2], kanji: m[2] || m[1] }, disabled: false, style: {}, addEventListener() {}
         }));
       }
       return [];
