@@ -94,7 +94,7 @@ const { chromium } = require("playwright");
     assert.equal(await page.locator("#klab-q-options button").count(), 4, "kana quiz should show four choices");
     await page.locator("#klab-q-options button").first().click();
     await page.locator("#klab-q-next").click();
-    assert.match(await page.locator("#klab-q-count").innerText(), /Soal 2\//);
+    assert.match(await page.locator("#klab-q-count").innerText(), /Soal 2/);
     await page.locator("#vocab-lab").scrollIntoViewIfNeeded();
     await assertEventually(async () => {
       assert.match(await page.locator("#vl-stats").innerText(), /N5 · Hafal 0\/800 kosakata/);
@@ -128,7 +128,7 @@ const { chromium } = require("playwright");
     await page.locator("#vl-q-options button").first().click();
     assert.match(await page.locator("#vl-q-feedback").innerText(), /Benar!|Belum tepat/);
     await page.locator("#vl-q-next").click();
-    assert.match(await page.locator("#vl-q-count").innerText(), /Soal 2\//);
+    assert.match(await page.locator("#vl-q-count").innerText(), /Soal 2/);
 
     stage("vocabulary list and persistence");
     await page.locator("#vl-list-toggle").click();
