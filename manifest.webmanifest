@@ -1,6 +1,7 @@
 {
   "name": "Michishirube — Japanese Learning Journey",
   "short_name": "Michishirube",
+  "id": "./",
   "description": "学びの道を、共に。 Perjalanan belajar bahasa Jepang, satu langkah setiap hari.",
   "lang": "id",
   "start_url": "./index.html",
