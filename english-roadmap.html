@@ -223,6 +223,176 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
     </div>
   </div>
   <div id="roadmap-jp"></div>
+<!-- SALMAN_KANA_LAB_V1 -->
+<style>
+.klab-wrap{margin:18px 0;padding:16px;border:1px solid var(--border2);border-radius:16px;background:var(--s1);color:var(--text)}
+.klab-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start;flex-wrap:wrap}
+.klab-title{font-size:18px;font-weight:850;color:var(--accent)}
+.klab-sub{font-size:12px;line-height:1.7;color:var(--muted);margin-top:4px}
+.klab-stats{font-size:12px;margin:12px 0 8px;color:var(--muted)}
+.klab-controls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}
+.klab-input,.klab-select{width:100%;min-width:0;padding:10px;border:1px solid var(--border2);border-radius:10px;background:var(--bg);color:var(--text);font-size:12px}
+.klab-card{min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:18px;border:1px solid var(--border2);border-radius:14px;background:var(--bg);text-align:center}
+.klab-char{font-size:clamp(64px,16vw,90px);font-weight:850;line-height:1.2}
+.klab-romaji{font-size:24px;font-weight:750;color:var(--accent)}
+.klab-label{font-size:11px;color:var(--muted)}
+.klab-buttons{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.klab-btn{flex:1;min-width:115px;padding:10px;border:1px solid var(--border2);border-radius:10px;background:var(--s2);color:var(--text);font-size:12px;font-weight:700}
+.klab-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.klab-btn:disabled{opacity:.45}
+.klab-list{display:block;margin-top:12px}
+.klab-list[hidden]{display:none!important}
+.klab-script-section{margin:0 0 18px}
+.klab-script-heading{font-size:14px;font-weight:850;color:var(--accent);padding:10px 2px;border-bottom:2px solid var(--border2);margin-bottom:9px}
+.klab-script-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(78px,1fr));gap:7px}
+.klab-script-grid .klab-cell{min-width:0}
+.klab-cell{position:relative;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 5px;border:1px solid var(--border2);border-radius:10px;background:var(--bg);text-align:center}
+.klab-cell-char{font-size:31px;line-height:1.3;font-weight:800}
+.klab-cell-romaji{font-size:12px;font-weight:700;color:var(--accent)}
+.klab-cell-group{font-size:9px;color:var(--muted)}
+.klab-cell.learned{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,var(--bg))}
+.klab-cell-check{position:absolute;top:4px;right:5px;font-size:10px;color:var(--accent)}
+.klab-note{font-size:11px;line-height:1.7;color:var(--muted);margin-top:12px}
+@media(max-width:440px){.klab-wrap{padding:12px}.klab-controls{grid-template-columns:1fr}.klab-script-grid{grid-template-columns:repeat(5,minmax(0,1fr))}.klab-cell{padding:8px 2px}.klab-cell-char{font-size:27px}}
+</style>
+<section class="klab-wrap" id="kana-lab">
+ <div class="klab-head"><div><div class="klab-title">ひらがな & カタカナ LAB</div><div class="klab-sub">Belajar kana dari dasar, termasuk dakuten (゛) dan handakuten (゜). Romaji bisa ditampilkan atau disembunyikan untuk latihan membaca.</div></div></div>
+ <div class="klab-stats" id="klab-stats" aria-live="polite">Memuat kana...</div>
+ <div class="klab-controls">
+  <select class="klab-select" id="klab-script" aria-label="Pilih jenis kana"><option value="H" selected>Hiragana saja</option><option value="K">Katakana saja</option><option value="ALL">Keduanya (dipisah per bagian)</option></select>
+  <select class="klab-select" id="klab-group" aria-label="Pilih kelompok kana"><option value="ALL">Semua kelompok</option><option value="basic">Dasar / Seion</option><option value="dakuten">Dakuten / Tenten ゛</option><option value="handakuten">Handakuten / Maru ゜</option></select>
+  <input class="klab-input" id="klab-search" placeholder="Cari kana atau romaji..." aria-label="Cari kana atau romaji">
+ </div>
+ <div class="klab-card" id="klab-card" aria-live="polite"></div>
+ <div class="klab-stats" id="klab-count"></div>
+ <div class="klab-buttons">
+  <button class="klab-btn" id="klab-prev" type="button">← Sebelumnya</button><button class="klab-btn primary" id="klab-next" type="button">Berikutnya →</button><button class="klab-btn" id="klab-random" type="button">Acak</button>
+ </div>
+ <div class="klab-buttons">
+  <button class="klab-btn primary" id="klab-romaji-toggle" type="button" aria-pressed="true">Sembunyikan romaji</button>
+  <button class="klab-btn" id="klab-learned" type="button">✓ Tandai sudah hafal</button>
+  <button class="klab-btn" id="klab-show-all" type="button" aria-controls="klab-list" aria-expanded="false">Tampilkan semua kana</button>
+ </div>
+ <div class="klab-list" id="klab-list" hidden></div>
+ <div class="klab-note">Ingat: dakuten adalah tanda dua garis kecil ゛ yang mengubah bunyi (misalnya か → が). Handakuten adalah tanda lingkaran kecil ゜, khusus baris H yang berubah menjadi bunyi P (は → ぱ). Romaji adalah huruf Latin untuk membantu membaca; setelah mulai hafal, sembunyikan romaji agar latihan lebih efektif.</div>
+
+ <div class="klab-note"><b>KUIS KANA · LATIHAN DUA ARAH</b></div>
+ <select class="klab-select" id="klab-q-mode" aria-label="Pola kuis kana">
+  <option value="mixed">Campuran semua pola</option><option value="H-romaji">Hiragana → Romaji</option><option value="romaji-H">Romaji → Hiragana</option><option value="K-romaji">Katakana → Romaji</option><option value="romaji-K">Romaji → Katakana</option><option value="H-K">Hiragana → Katakana</option><option value="K-H">Katakana → Hiragana</option><option value="sound">Bedakan dakuten & handakuten</option>
+ </select>
+ <div class="klab-card" id="klab-q-card" aria-live="polite"><div class="klab-label">Pilih pola, lalu mulai kuis.</div></div>
+ <div class="klab-stats" id="klab-q-count"></div><div class="klab-list" id="klab-q-options"></div>
+ <div class="klab-note" id="klab-q-feedback" aria-live="polite"></div>
+ <div class="klab-buttons"><button class="klab-btn primary" id="klab-q-start" type="button">Mulai kuis 10 soal</button><button class="klab-btn" id="klab-q-next" type="button" disabled>Soal berikutnya →</button></div>
+</section>
+<script>
+(function(){
+ const $=id=>document.getElementById(id);
+ const rows=[
+  ["あいうえお","アイウエオ",["a","i","u","e","o"],"basic"],
+  ["かきくけこ","カキクケコ",["ka","ki","ku","ke","ko"],"basic"],
+  ["さしすせそ","サシスセソ",["sa","shi","su","se","so"],"basic"],
+  ["たちつてと","タチツテト",["ta","chi","tsu","te","to"],"basic"],
+  ["なにぬねの","ナニヌネノ",["na","ni","nu","ne","no"],"basic"],
+  ["はひふへほ","ハヒフヘホ",["ha","hi","fu","he","ho"],"basic"],
+  ["まみむめも","マミムメモ",["ma","mi","mu","me","mo"],"basic"],
+  ["やゆよ","ヤユヨ",["ya","yu","yo"],"basic"],
+  ["らりるれろ","ラリルレロ",["ra","ri","ru","re","ro"],"basic"],
+  ["わをん","ワヲン",["wa","wo","n"],"basic"],
+  ["がぎぐげご","ガギグゲゴ",["ga","gi","gu","ge","go"],"dakuten"],
+  ["ざじずぜぞ","ザジズゼゾ",["za","ji","zu","ze","zo"],"dakuten"],
+  ["だぢづでど","ダヂヅデド",["da","ji","zu","de","do"],"dakuten"],
+  ["ばびぶべぼ","バビブベボ",["ba","bi","bu","be","bo"],"dakuten"],
+  ["ぱぴぷぺぽ","パピプペポ",["pa","pi","pu","pe","po"],"handakuten"]
+ ];
+ const all=[];
+ rows.forEach(([h,k,romaji,group])=>{
+  [...h].forEach((ch,i)=>all.push({ch,romaji:romaji[i],script:"H",group}));
+  [...k].forEach((ch,i)=>all.push({ch,romaji:romaji[i],script:"K",group}));
+ });
+ let current=[],index=0,showRomaji=true,showAll=false;
+ let learned={};
+ try{const v=JSON.parse(localStorage.getItem("sal_kana_learned_v1")||"{}");if(v&&typeof v==="object"&&!Array.isArray(v))learned=v;}catch(e){}
+ const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function filtered(){
+  const script=$("klab-script").value,group=$("klab-group").value,q=$("klab-search").value.trim().toLowerCase();
+  const result=all.filter(x=>(script==="ALL"||x.script===script)&&(group==="ALL"||x.group===group)&&(!q||(x.ch+" "+x.romaji+" "+x.group+" "+(x.script==="H"?"hiragana":"katakana")).toLowerCase().includes(q)));
+  return script==="ALL"?result.sort((a,b)=>a.script===b.script?0:a.script==="H"?-1:1):result;
+ }
+ function save(){try{localStorage.setItem("sal_kana_learned_v1",JSON.stringify(learned));}catch(e){}}
+ function renderList(){
+  const list=$("klab-list");
+  const scripts=$("klab-script").value==="ALL"?["H","K"]:[$("klab-script").value];
+  list.innerHTML=scripts.map(script=>{
+   const rows=current.filter(x=>x.script===script);
+   if(!rows.length)return "";
+   const title=script==="H"?"ひらがな — HIRAGANA":"カタカナ — KATAKANA";
+   const cells=rows.map(x=>'<button type="button" class="klab-cell '+(learned[x.script+":"+x.ch]?"learned":"")+'" data-kana="'+esc(x.ch)+'" data-script="'+x.script+'" aria-label="'+esc(x.ch+" "+x.romaji)+'"><span class="klab-cell-check">'+(learned[x.script+":"+x.ch]?"✓":"")+'</span><span class="klab-cell-char">'+esc(x.ch)+'</span>'+(showRomaji?'<span class="klab-cell-romaji">'+esc(x.romaji)+'</span>':'')+'<span class="klab-cell-group">'+(x.group==="basic"?"Dasar":x.group==="dakuten"?"゛ Dakuten":"゜ Handakuten")+'</span></button>').join("");
+   return '<section class="klab-script-section"><h3 class="klab-script-heading">'+title+' · '+rows.length+' karakter</h3><div class="klab-script-grid">'+cells+'</div></section>';
+  }).join("");
+  list.querySelectorAll("[data-kana]").forEach(btn=>btn.addEventListener("click",()=>{const found=current.findIndex(x=>x.ch===btn.dataset.kana&&x.script===btn.dataset.script);if(found>=0){index=found;renderCard();}}));
+ }
+ function renderCard(){
+  if(!current.length){$("klab-card").innerHTML='<div class="klab-label">Kana tidak ditemukan. Coba ubah pencarian atau filter.</div>';$("klab-count").textContent="0 karakter";$("klab-learned").disabled=true;return;}
+  index=(index+current.length)%current.length;const x=current[index],key=x.script+":"+x.ch;
+  $("klab-card").innerHTML='<div class="klab-label">'+(x.script==="H"?"HIRAGANA":"KATAKANA")+' · '+(x.group==="basic"?"DASAR / SEION":x.group==="dakuten"?"DAKUTEN / TENTEN ゛":"HANDAKUTEN / MARU ゜")+'</div><div class="klab-char">'+esc(x.ch)+'</div>'+(showRomaji?'<div class="klab-romaji">'+esc(x.romaji)+'</div>':'<div class="klab-label">Romaji disembunyikan — coba baca sendiri.</div>')+'<div class="klab-label">'+(learned[key]?"✓ Sudah hafal":"Belum ditandai hafal")+'</div>';
+  const done=current.filter(y=>learned[y.script+":"+y.ch]).length;
+  $("klab-count").textContent='Karakter '+(index+1)+'/'+current.length+' · Hafal '+done+'/'+current.length;
+  $("klab-learned").disabled=!!learned[key];$("klab-learned").textContent=learned[key]?"✓ Sudah hafal":"✓ Tandai sudah hafal";
+  $("klab-stats").textContent='Total dataset '+all.length+' bentuk kana · Terpilih '+current.length+' · Hafal '+Object.keys(learned).filter(k=>learned[k]).length+'/'+all.length;
+  if(showAll)renderList();
+ }
+ function refresh(){current=filtered();index=0;renderCard();if(showAll){$("klab-list").hidden=false;renderList();}}
+ $("klab-script").addEventListener("change",refresh);$("klab-group").addEventListener("change",refresh);$("klab-search").addEventListener("input",refresh);
+ $("klab-prev").addEventListener("click",()=>{if(!current.length)return;index=(index+current.length-1)%current.length;renderCard();});
+ $("klab-next").addEventListener("click",()=>{if(!current.length)return;index=(index+1)%current.length;renderCard();});
+ $("klab-random").addEventListener("click",()=>{if(!current.length)return;index=Math.floor(Math.random()*current.length);renderCard();});
+ $("klab-romaji-toggle").addEventListener("click",()=>{showRomaji=!showRomaji;$("klab-romaji-toggle").textContent=showRomaji?"Sembunyikan romaji":"Tampilkan romaji";$("klab-romaji-toggle").setAttribute("aria-pressed",String(showRomaji));renderCard();});
+ $("klab-learned").addEventListener("click",()=>{if(!current.length)return;const x=current[index],key=x.script+":"+x.ch;learned[key]=true;save();renderCard();});
+ $("klab-show-all").addEventListener("click",()=>{showAll=!showAll;$("klab-list").hidden=!showAll;$("klab-show-all").textContent=showAll?"Sembunyikan semua kana":"Tampilkan semua kana";$("klab-show-all").setAttribute("aria-expanded",String(showAll));if(showAll){renderList();$("klab-list").scrollIntoView({behavior:"smooth",block:"nearest"});}});
+ const qModes=["H-romaji","romaji-H","K-romaji","romaji-K","H-K","K-H","sound"];
+ let qList=[],qIndex=0,qScore=0,qAnswered=false,qCurrent=null;
+ function klabShuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+ function qBuild(mode){
+  if(mode==="mixed"){const mixed=[];for(let i=0;i<10;i++){const m=qModes[Math.floor(Math.random()*qModes.length)],batch=qBuild(m);if(batch.length)mixed.push(batch[Math.floor(Math.random()*batch.length)]);}return mixed;}
+  let pool=all.filter(x=>$("klab-script").value==="ALL"||x.script===$("klab-script").value);
+  const source=mode.startsWith("H-")?"H":mode.startsWith("K-")?"K":mode.startsWith("romaji-")?(mode==="romaji-H"?"H":"K"):"H";
+  if(mode==="sound"){
+   const unique=pool.filter(x=>x.group!=="basic");
+   return klabShuffle(unique).slice(0,10).map(x=>({mode,question:x.romaji,answer:x.ch,options:klabShuffle([...new Set([x.ch,...klabShuffle(pool.filter(y=>y.script===x.script&&y.ch!==x.ch).map(y=>y.ch)).slice(0,3)])]),note:x.group==="dakuten"?"Dakuten ゛":"Handakuten ゜"}));
+  }
+  const target=mode.endsWith("-romaji")?"romaji":mode==="romaji-H"?"H":mode==="romaji-K"?"K":mode==="H-K"?"K":"H";
+  const sourceRows=all.filter(x=>x.script===source);
+  return klabShuffle(sourceRows).slice(0,10).map(x=>{
+   let answer;
+   if(target==="romaji")answer=x.romaji;
+   else answer=all.find(y=>y.script===target&&y.romaji===x.romaji)?.ch||x.ch;
+   const question=mode.startsWith("romaji-")?x.romaji:x.ch;
+   const wrong=klabShuffle(all.filter(y=>(target==="romaji"||y.script===target)&&String(target==="romaji"?y.romaji:y.ch)!==String(answer)).map(y=>String(target==="romaji"?y.romaji:y.ch)));
+   return {mode,question,answer:String(answer),options:klabShuffle([...new Set([String(answer),...wrong])]).slice(0,4),note:x.script==="H"?"Hiragana":"Katakana"};
+  }).filter(q=>q.options.length>=2);
+ }
+ function qRender(){
+  qCurrent=qList[qIndex];if(!qCurrent)return;qAnswered=false;
+  $("klab-q-card").innerHTML='<div class="klab-label">'+esc(qCurrent.mode)+'</div><div class="klab-char">'+esc(qCurrent.question)+'</div><div class="klab-label">'+(qCurrent.mode==="sound"?"Pilih karakter yang cocok dengan pola bunyi":"Pilih pasangan yang benar")+'</div>';
+  $("klab-q-count").textContent="Soal "+(qIndex+1)+"/"+qList.length+" · Skor "+qScore;
+  $("klab-q-options").innerHTML=qCurrent.options.map(o=>'<button type="button" class="klab-cell" data-answer="'+esc(o)+'"><span class="klab-cell-char">'+esc(o)+'</span></button>').join("");
+  $("klab-q-options").querySelectorAll("[data-answer]").forEach(b=>b.addEventListener("click",()=>qAnswer(b.dataset.answer)));
+  $("klab-q-feedback").textContent="";$("klab-q-next").disabled=true;$("klab-q-next").textContent=qIndex===qList.length-1?"Lihat hasil":"Soal berikutnya →";
+ }
+ function qAnswer(answer){
+  if(qAnswered||!qCurrent)return;qAnswered=true;const ok=String(answer)===String(qCurrent.answer);if(ok)qScore++;
+  $("klab-q-options").querySelectorAll("[data-answer]").forEach(b=>{b.disabled=true;if(b.dataset.answer===String(qCurrent.answer))b.style.borderColor="#00d68f";if(b.dataset.answer===String(answer)&&!ok)b.style.borderColor="#ff6b6b";});
+  $("klab-q-feedback").textContent=(ok?"Benar! ":"Belum tepat. ")+"Jawaban: "+qCurrent.answer+" · "+(qCurrent.note||"Perhatikan bunyi dan bentuknya.");
+  $("klab-q-count").textContent="Soal "+(qIndex+1)+"/"+qList.length+" · Skor "+qScore;$("klab-q-next").disabled=false;
+ }
+ $("klab-q-start").addEventListener("click",()=>{qList=qBuild($("klab-q-mode").value);if(!qList.length){$("klab-q-feedback").textContent="Data belum cukup untuk pola ini. Pilih campuran atau ubah filter.";return;}qIndex=0;qScore=0;$("klab-q-start").textContent="Mulai ulang kuis";qRender();});
+ $("klab-q-next").addEventListener("click",()=>{if(!qAnswered)return;if(qIndex<qList.length-1){qIndex++;qRender();}else{$("klab-q-card").innerHTML='<div class="klab-label">Kuis selesai</div><div class="klab-char">'+qScore+'/'+qList.length+'</div>';$("klab-q-options").innerHTML="";$("klab-q-count").textContent="HASIL AKHIR";$("klab-q-feedback").textContent="Ulangi dengan pola berbeda agar ingatan makin kuat.";$("klab-q-next").disabled=true;}});
+ refresh();
+})();
+</script>
+<!-- END SALMAN_KANA_LAB_V1 -->
+
 <!-- SALMAN_VOCAB_LAB_V1 -->
 <style>
 .vl-wrap{margin:18px 0;padding:16px;border:1px solid var(--line);border-radius:18px;background:var(--card);color:var(--text)}
