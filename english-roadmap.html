@@ -196,6 +196,20 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   <div id="roadmap-en"></div>
 </div>
 <div class="pane" id="pane-jp">
+  <section class="jp-hero" aria-labelledby="jp-hero-title">
+    <div class="jp-hero-art" aria-hidden="true">
+      <span class="jp-sun"></span><span class="jp-fuji"></span><span class="jp-fuji-snow"></span>
+      <span class="jp-torii"><i></i><b></b></span>
+      <span class="jp-water"></span>
+    </div>
+    <div class="jp-hero-copy">
+      <div class="jp-kicker">日本語 · JAPANESE LEARNING</div>
+      <h1 id="jp-hero-title">日本語の学び</h1>
+      <p>Mulai dari kana, bangun pemahaman kanji dan kosakata, lalu melangkah menuju JLPT N4.</p>
+      <div class="jp-hero-tags"><span>ひらがな</span><span>カタカナ</span><span>漢字</span><span>単語</span></div>
+    </div>
+  </section>
+  <div class="jp-section-heading"><span>01 / ROADMAP</span><h2>Jalur Belajar</h2><p>Pelajari satu tahap demi satu tahap. Progres tersimpan otomatis di perangkat ini.</p></div>
   <div class="dual-progress">
     <div class="dp-card">
       <div class="dp-label">🇺🇸 ENGLISH</div>
@@ -1237,6 +1251,50 @@ renderPhases("jp",JP_PHASES,"roadmap-jp");
 </script>
 
 <style>
+/* Japanese learning section: reference-led layout */
+.jp-hero{position:relative;display:grid;grid-template-columns:minmax(0,1fr) minmax(180px,.7fr);gap:18px;align-items:center;overflow:hidden;min-height:230px;margin:2px 0 24px;padding:clamp(20px,4vw,34px);border:1px solid var(--border);border-radius:20px;background:linear-gradient(118deg,#fffdf8 0%,#f3eee3 68%,#e8e0d2 100%);box-shadow:var(--shadow);isolation:isolate}
+.jp-hero-copy{position:relative;z-index:2;max-width:520px}
+.jp-kicker{font-size:10px;font-weight:800;letter-spacing:.16em;color:var(--jp);margin-bottom:10px}
+.jp-hero h1{font-family:'Noto Serif JP','Playfair Display',serif;font-size:clamp(27px,4vw,40px);font-weight:600;line-height:1.25;letter-spacing:.04em;color:#172e43;margin-bottom:10px}
+.jp-hero p{max-width:460px;font-size:13px;line-height:1.9;color:#5f6e78}
+.jp-hero-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px}
+.jp-hero-tags span{padding:5px 10px;border:1px solid #d9cdbb;border-radius:999px;background:rgba(255,253,248,.82);font-family:'Noto Serif JP',serif;font-size:11px;color:#173653}
+.jp-hero-art{position:relative;min-height:170px;height:100%;overflow:hidden;border-radius:14px;background:linear-gradient(180deg,#e9e4d8 0%,#f6f0e4 66%,#d8e0df 100%)}
+.jp-sun{position:absolute;width:74px;height:74px;top:16px;right:22%;border-radius:50%;background:#c8434b;opacity:.95}
+.jp-fuji{position:absolute;z-index:1;left:8%;bottom:34px;width:0;height:0;border-left:110px solid transparent;border-right:110px solid transparent;border-bottom:126px solid #173653;filter:drop-shadow(0 4px 0 rgba(23,54,83,.04))}
+.jp-fuji-snow{position:absolute;z-index:2;left:calc(8% + 77px);bottom:126px;width:0;height:0;border-left:33px solid transparent;border-right:33px solid transparent;border-bottom:38px solid #fffdf8;transform:translateX(-50%)}
+.jp-water{position:absolute;inset:auto 0 0;height:38px;background:linear-gradient(180deg,#b9c9c9,#8ea8b1);border-top:2px solid rgba(255,253,248,.8)}
+.jp-torii{position:absolute;z-index:3;right:12%;bottom:24px;width:46px;height:49px;border-top:5px solid #c8434b;border-bottom:4px solid #c8434b}
+.jp-torii:before{content:"";position:absolute;top:-10px;left:-8px;width:62px;height:6px;background:#c8434b;border-radius:2px}
+.jp-torii i,.jp-torii b{position:absolute;top:0;bottom:-4px;width:5px;background:#c8434b}
+.jp-torii i{left:5px}.jp-torii b{right:5px}
+.jp-section-heading{margin:6px 0 13px;padding:0 2px}
+.jp-section-heading>span{font-size:9px;letter-spacing:.16em;font-weight:800;color:var(--jp)}
+.jp-section-heading h2{margin:4px 0;font-family:'Noto Serif JP','Playfair Display',serif;font-size:21px;font-weight:600;color:var(--text)}
+.jp-section-heading p{font-size:12px;line-height:1.8;color:var(--muted)}
+#pane-jp .dual-progress .dp-card{background:var(--card);border-radius:14px;box-shadow:var(--shadow)}
+#pane-jp .phase.jp{border-radius:14px;background:var(--card);border-color:var(--border);box-shadow:0 4px 15px rgba(20,45,69,.035)}
+#pane-jp .phase.jp.active-phase{border-color:rgba(200,67,75,.42)}
+#pane-jp .phase.jp.done-phase{background:#f0f4ef;border-color:#c7d8ca}
+#pane-jp .ph-num.jp{color:var(--jp);background:#fae9e5;border-radius:999px;padding:5px 9px}
+#pane-jp .ph-header{gap:12px;padding:15px 16px}
+#pane-jp .ph-title{font-family:'Noto Serif JP','DM Sans',sans-serif;font-weight:600}
+#pane-jp .item.jp{border-radius:8px}
+#pane-jp .item.jp .cb{border-radius:5px}
+#pane-jp .vl-wrap,#pane-jp .kl-wrap{border-radius:18px;box-shadow:var(--shadow);padding:clamp(14px,3vw,22px)}
+#pane-jp .vl-title,#pane-jp .kl-title{font-family:'Noto Serif JP','DM Sans',sans-serif;color:var(--text)}
+#pane-jp .vl-btn.primary,#pane-jp .kl-btn.primary{background:var(--jp);border-color:var(--jp);color:#fffdf8}
+#pane-jp .vl-bar-fill{background:linear-gradient(90deg,#173653,#c8434b)}
+#pane-jp .kl-bar-fill{background:linear-gradient(90deg,#173653,#c8434b)}
+html[data-theme="dark"] .jp-hero{background:linear-gradient(118deg,#1b2e42 0%,#203449 68%,#293d4f 100%)}
+html[data-theme="dark"] .jp-hero h1{color:#f7f2e8}
+html[data-theme="dark"] .jp-hero p{color:#c1ccd2}
+html[data-theme="dark"] .jp-hero-art{background:linear-gradient(180deg,#27394a 0%,#344657 66%,#294550 100%)}
+html[data-theme="dark"] .jp-hero-tags span{background:#1b2e42;border-color:#496174;color:#f7f2e8}
+html[data-theme="dark"] #pane-jp .phase.jp.done-phase{background:#23382e;border-color:#54765c}
+@media(max-width:620px){.jp-hero{grid-template-columns:1fr;gap:15px;min-height:0;padding:20px 17px}.jp-hero-art{min-height:140px;grid-row:1}.jp-sun{width:58px;height:58px}.jp-fuji{border-left-width:85px;border-right-width:85px;border-bottom-width:96px;bottom:30px}.jp-fuji-snow{left:calc(8% + 60px);bottom:95px;border-left-width:25px;border-right-width:25px;border-bottom-width:29px}.jp-torii{transform:scale(.85);transform-origin:bottom right;right:13%;bottom:20px}.jp-hero h1{font-size:29px}#pane-jp .ph-header{gap:8px;padding:13px 10px}#pane-jp .ph-num.jp{min-width:auto;padding:5px 8px}}
+@media(prefers-reduced-motion:reduce){.jp-hero *{transition:none!important}}
+
 /* Michishirube language-page visual refresh v2 */
 :root{
  --bg:#f8f5ed;--s1:#fffdf8;--s2:#fffaf1;--border:#e8dfd0;--border2:#d8cdbb;
