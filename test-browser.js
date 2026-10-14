@@ -130,7 +130,7 @@ const { chromium } = require("playwright");
     await page.locator("#kl-search").fill("");
     await page.locator("#kanji-lab").getByRole("button", { name: "Belum hafal", exact: true }).click();
     assert.match(await page.locator("#kl-count").innerText(), /Kartu 1\/99/);
-    await page.getByRole("button", { name: "Tampilkan semua", exact: true }).click();
+    await page.locator("#kanji-lab").getByRole("button", { name: "Tampilkan semua", exact: true }).click();
     assert.match(await page.locator("#kl-count").innerText(), /Kartu 1\/100/);
     stage("kanji quiz");
     await page.locator("#kl-search").fill("");
