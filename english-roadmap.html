@@ -1412,24 +1412,37 @@ function klShowOnlyUnlearned() {
   klRender();
 }
 function klShowAll() {
-  document.getElementById("kl-search").value = "";
-  document.getElementById("kl-level").value = "ALL";
+  const search = document.getElementById("kl-search");
+  const level = document.getElementById("kl-level");
+  const list = document.getElementById("kl-all-list");
+  const listButton = document.getElementById("kl-list-toggle");
+  const showButton = document.getElementById("kl-show-all");
+  if (!search || !level || !list || !listButton) return;
+
+  // Reset every filter before rendering the complete dataset.
+  search.value = "";
+  level.value = "ALL";
   klLevel = "ALL";
   klIndex = 0;
   klRevealed = false;
-  klRefresh();
+  klList = KL_DATA.slice();
+  klRender();
+  klUpdateStats();
 
-  // "Tampilkan semua" should visibly expose the complete 300-kanji list,
-  // not only reset the single-card viewer to the first card.
-  const list = document.getElementById("kl-all-list");
-  const listButton = document.getElementById("kl-list-toggle");
-  if (list && listButton) {
-    list.hidden = false;
-    list.style.display = "grid";
-    listButton.setAttribute("aria-expanded", "true");
-    listButton.textContent = "Sembunyikan daftar kanji";
-    klRenderAllList();
-  }
+  // Set both hidden and display explicitly; CSS/old inline styles must not
+  // leave the list collapsed on mobile browsers.
+  list.hidden = false;
+  list.style.display = "grid";
+  list.setAttribute("aria-label", "Daftar lengkap 300 kanji");
+  listButton.setAttribute("aria-expanded", "true");
+  listButton.textContent = "Sembunyikan daftar kanji";
+  if (showButton) showButton.setAttribute("aria-expanded", "true");
+  klRenderAllList();
+
+  // Confirm the expected data count in the UI for accessibility and testing.
+  const count = document.getElementById("kl-count");
+  if (count) count.textContent = "Daftar lengkap: " + list.children.length + " kanji · Dataset " + KL_DATA.length + " kanji";
+  list.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 function klShuffle(a) {
   const b = a.slice();
@@ -1476,13 +1489,13 @@ function klQuizBuild(mode){
 }
 function klRenderAllList(){
  const el=document.getElementById("kl-all-list");if(!el||el.hidden)return;
- const rows=klFiltered();
- el.innerHTML=rows.map(x=>'<label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-align:left"><input type="checkbox" data-kanji="'+klEsc(x.k)+'" '+(klProgress[x.k]?'checked':'')+'><span><b style="font-size:20px">'+klEsc(x.k)+'</b> <span style="font-size:12px">'+klEsc(x.m)+'</span><br><small>'+klEsc(x.l)+' · '+klEsc(x.kun||x.on||"")+'</small></span></label>').join("");
+ const rows=klLevel==="ALL"&&!document.getElementById("kl-search").value.trim()?KL_DATA:klFiltered();
+ el.innerHTML=rows.map(x=>'<label style="display:flex;align-items:center;gap:8px;min-height:62px;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-align:left;cursor:pointer"><input type="checkbox" data-kanji="'+klEsc(x.k)+'" '+(klProgress[x.k]?'checked':'')+'><span><b style="font-size:20px">'+klEsc(x.k)+'</b> <span style="font-size:12px">'+klEsc(x.m)+'</span><br><small>'+klEsc(x.l)+' · '+klEsc(x.kun||x.on||"")+'</small></span></label>').join("");
 }
 document.getElementById("kl-list-toggle").addEventListener("click",()=>{
  const el=document.getElementById("kl-all-list"),btn=document.getElementById("kl-list-toggle"),show=el.hidden;
  el.hidden=!show;el.style.display=show?"grid":"none";btn.setAttribute("aria-expanded",String(show));btn.textContent=show?"Sembunyikan daftar kanji":"Tampilkan daftar kanji";
- if(show)klRenderAllList();
+ if(show){klRenderAllList();el.scrollIntoView({behavior:"smooth",block:"nearest"});}
 });
 document.getElementById("kl-all-list").addEventListener("change",e=>{
  const key=e.target.dataset.kanji;if(!key)return;
@@ -1578,6 +1591,24 @@ html[data-theme="dark"] .jp-hero-tags span{background:#1b2e42;border-color:#4961
 html[data-theme="dark"] #pane-jp .phase.jp.done-phase{background:#23382e;border-color:#54765c}
 @media(max-width:620px){.jp-hero{grid-template-columns:1fr;gap:15px;min-height:0;padding:20px 17px}.jp-hero-art{min-height:140px;grid-row:1}.jp-sun{width:58px;height:58px}.jp-fuji{border-left-width:85px;border-right-width:85px;border-bottom-width:96px;bottom:30px}.jp-fuji-snow{left:calc(8% + 60px);bottom:95px;border-left-width:25px;border-right-width:25px;border-bottom-width:29px}.jp-torii{transform:scale(.85);transform-origin:bottom right;right:13%;bottom:20px}.jp-hero h1{font-size:29px}#pane-jp .ph-header{gap:8px;padding:13px 10px}#pane-jp .ph-num.jp{min-width:auto;padding:5px 8px}}
 @media(prefers-reduced-motion:reduce){.jp-hero *{transition:none!important}}
+
+
+/* Michishirube Japanese hero — refined Fuji landscape */
+.jp-hero-art{min-height:190px;background:linear-gradient(180deg,#e9e5db 0%,#f8f1e4 65%,#c9d8d7 66%,#9eb8bd 100%);isolation:isolate}
+.jp-hero-art:before{content:"";position:absolute;inset:0;z-index:0;background:radial-gradient(ellipse at 50% 100%,rgba(255,255,255,.25),transparent 60%),linear-gradient(180deg,transparent 72%,rgba(23,54,83,.08))}
+.jp-sun{width:clamp(58px,8vw,86px);height:clamp(58px,8vw,86px);top:12%;right:18%;background:#c8434b;box-shadow:0 0 0 10px rgba(200,67,75,.06)}
+.jp-fuji{left:7%;bottom:23%;border-left-width:clamp(90px,12vw,150px);border-right-width:clamp(90px,12vw,150px);border-bottom-width:clamp(100px,13vw,145px);border-bottom-color:#173653;filter:drop-shadow(0 8px 5px rgba(23,54,83,.12))}
+.jp-fuji:after{content:"";position:absolute;left:calc(-1 * clamp(90px,12vw,150px));bottom:calc(-1 * clamp(100px,13vw,145px));width:clamp(180px,24vw,300px);height:20px;background:rgba(23,54,83,.12);filter:blur(8px)}
+.jp-fuji-snow{left:calc(7% + clamp(62px,8vw,100px));bottom:calc(23% + clamp(100px,13vw,145px) - 6px);border-left-width:clamp(25px,3vw,38px);border-right-width:clamp(25px,3vw,38px);border-bottom-width:clamp(30px,4vw,46px);border-bottom-color:#fffdf8}
+.jp-water{height:25%;background:repeating-linear-gradient(180deg,rgba(255,255,255,.13) 0 2px,transparent 2px 12px),linear-gradient(180deg,#b8cbca,#8eabb2)}
+.jp-torii{right:12%;bottom:18%;transform:scale(1.05);transform-origin:bottom center}
+@media(max-width:620px){.jp-hero-art{min-height:155px}.jp-fuji{left:5%;bottom:24%;border-left-width:90px;border-right-width:90px;border-bottom-width:105px}.jp-fuji-snow{left:calc(5% + 64px);bottom:calc(24% + 98px);border-left-width:27px;border-right-width:27px;border-bottom-width:32px}.jp-torii{right:12%;bottom:18%;transform:scale(.9);transform-origin:bottom right}}
+/* Robust touch targets and list visibility */
+#pane-jp .kl-buttons .kl-btn,#pane-jp .kl-buttons button{min-height:44px;touch-action:manipulation}
+#kl-all-list[hidden]{display:none!important}
+#kl-all-list:not([hidden]){display:grid!important;grid-template-columns:repeat(auto-fit,minmax(min(100%,145px),1fr));gap:8px}
+#kl-show-all{position:relative;z-index:2;pointer-events:auto;touch-action:manipulation}
+#kana-lab,#kanji-lab,#roadmap-jp,#vocab-lab,#kl-quiz{scroll-margin-top:14px}
 
 /* Michishirube language-page visual refresh v2 */
 :root{
