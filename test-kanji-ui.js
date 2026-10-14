@@ -11,7 +11,7 @@ const source = html.slice(start, end);
 
 const ids = [
   "kl-level", "kl-search", "kl-card", "kl-count", "kl-stats",
-  "kl-progress", "kl-quiz", "kl-q-count", "kl-q-question",
+  "kl-progress", "kl-quiz", "kl-q-mode", "kl-q-count", "kl-q-question",
   "kl-q-options", "kl-q-feedback", "kl-q-next"
 ];
 
@@ -20,7 +20,7 @@ function createHarness(saved = {}) {
   const storage = { ...saved };
   for (const id of ids) {
     elements.set(id, {
-      id, value: id === "kl-level" ? "ALL" : "",
+      id, value: id === "kl-level" ? "ALL" : id === "kl-q-mode" ? "mixed" : "",
       textContent: "", innerHTML: "", disabled: false,
       style: {}, listeners: {}, className: "",
       classList: (() => { const values = new Set(); return {
@@ -48,8 +48,8 @@ function createHarness(saved = {}) {
     querySelectorAll(selector) {
       if (selector === "#kl-q-options button") {
         const html = elements.get("kl-q-options").innerHTML;
-        return [...html.matchAll(/data-kanji="([^"]+)"/g)].map(m => ({
-          dataset: { kanji: m[1] }, disabled: false, style: {}
+        return [...html.matchAll(/data-answer="([^"]+)"|data-kanji="([^"]+)"/g)].map(m => ({
+          dataset: { answer: m[1] || m[2], kanji: m[2] || m[1] }, disabled: false, style: {}
         }));
       }
       return [];
@@ -117,7 +117,7 @@ h.context.klQuizStart();
 assert.equal(el("kl-quiz").classList.contains("kl-hidden"), false, "quiz should be shown");
 const options = h.context.document.querySelectorAll("#kl-q-options button");
 assert.ok(options.length >= 2 && options.length <= 4, "quiz should render 2–4 answer options");
-h.context.klQuizAnswer(options[0].dataset.kanji);
+h.context.klQuizAnswer(options[0].dataset.answer || options[0].dataset.kanji);
 assert.equal(el("kl-q-next").disabled, false, "answering should enable next button");
 h.context.klQuizNext();
 assert.match(el("kl-q-count").textContent, /Soal 2\//, "next should advance the quiz");
@@ -127,4 +127,8 @@ assert.match(reloaded.elements.get("kl-stats").textContent, /Hafal 1\/300/, "sav
 const corrupt = createHarness({ sal_kanji_progress: null });
 assert.match(corrupt.elements.get("kl-stats").textContent, /Hafal 0\/300/, "corrupt saved progress should safely reset");
 
-console.log("PASS: Kanji Lab runtime smoke tests (300-card deck, N5/N4 filters, search, flip, progress save/reload, empty search, corrupt storage, quiz).");
+el("kl-q-mode").value = "kanji-hira";
+h.context.klQuizStart();
+assert.ok(el("kl-q-options").innerHTML.includes("data-answer="), "selected kanji quiz mode should render answer choices");
+assert.match(el("kl-q-question").innerHTML, /hiragana/i, "kanji-to-hiragana mode should use the selected prompt");
+console.log("PASS: Kanji Lab runtime smoke tests (300-card deck, N5/N4 filters, search, flip, progress save/reload, empty search, corrupt storage, multi-mode quiz).");
