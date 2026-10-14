@@ -32,6 +32,21 @@ const { chromium } = require("playwright");
     assert.equal(manifest.ok, true, "PWA manifest should load");
     assert.equal(manifest.data.name, "Michishirube — Japanese Learning Journey");
     assert.equal(manifest.data.start_url, "./index.html");
+    const publicConfig = await page.evaluate(async () => {
+      const response = await fetch("./supabase-config.js");
+      return { ok: response.ok, text: await response.text() };
+    });
+    assert.equal(publicConfig.ok, true, "Supabase browser config should load");
+    assert.match(publicConfig.text, /https:\/\/tckhlrauxlwfyujejeiz\.supabase\.co/);
+    assert.match(publicConfig.text, /sb_publishable_/);
+    assert.doesNotMatch(publicConfig.text, /service_role|sb_secret_/i, "server secrets must never be in frontend config");
+
+    // Exercise the safe unconfigured-state UI without starting a real Google OAuth redirect.
+    await page.route("**/supabase-config.js", route => route.fulfill({
+      status: 200,
+      contentType: "application/javascript",
+      body: 'window.MICHISHIRUBE_SUPABASE_CONFIG = { url: "", publishableKey: "" };'
+    }));
     await page.goto("http://127.0.0.1:4173/auth.html", { waitUntil: "domcontentloaded" });
     assert.match(await page.title(), /Michishirube/);
     assert.doesNotMatch(await page.locator("body").innerText(), /Salman/);
