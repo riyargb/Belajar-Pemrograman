@@ -142,6 +142,13 @@ const { chromium } = require("playwright");
     await page.locator("#vl-level").selectOption("N4");
     assert.match(await page.locator("#vl-stats").innerText(), /N4 · Hafal 1\/700 kosakata/);
 
+    stage("combined N5 + N4 vocabulary list");
+    await page.locator("#vl-all-levels").click();
+    assert.equal(await page.locator("#vl-list label").count(), 1500, "combined vocabulary list should include 800 N5 and 700 N4 words");
+    assert.equal(await page.locator("#vl-list").isVisible(), true);
+    await page.locator("#vl-all-levels").click();
+    assert.equal(await page.locator("#vl-list label").count(), 700, "switching back should show the selected level only");
+
     stage("kanji filter and answer");
     await page.locator("#kl-level").selectOption("N5");
     assert.match(await page.locator("#kl-count").innerText(), /Kartu 1\/100/);
