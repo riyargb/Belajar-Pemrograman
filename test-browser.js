@@ -10,6 +10,17 @@ const { chromium } = require("playwright");
   const browser = await chromium.launch({ headless: true });
   const page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1 });
   page.setDefaultTimeout(8000);
+  // Local-only mock session: browser tests never create real Supabase users.
+  await page.addInitScript(() => {
+    const key = "sb-tckhlrauxlwfyujejeiz-auth-token";
+    if (location.pathname.endsWith("/auth.html")) { localStorage.removeItem(key); return; }
+    localStorage.setItem(key, JSON.stringify({
+      access_token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ0ZXN0LXVzZXIiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwicm9sZSI6ImF1dGhlbnRpY2F0ZWQiLCJleHAiOjQxMDAwMDAwMDB9.signature",
+      token_type: "bearer", expires_in: 3600, expires_at: 4100000000,
+      refresh_token: "local-browser-test-refresh-token",
+      user: { id: "local-browser-test-user", aud: "authenticated", role: "authenticated", email: "learner@example.com", app_metadata: { provider: "email", providers: ["email"] }, user_metadata: {} }
+    }));
+  });
   const stage = name => console.log("BROWSER TEST:", name);
   const pageErrors = [];
   page.on("pageerror", error => pageErrors.push(error.message));
@@ -42,9 +53,11 @@ const { chromium } = require("playwright");
     await page.locator("#name").fill("Test Learner");
     await page.locator("#email").fill("learner@example.com");
     await page.locator("#password").fill("safe-test-password");
-    await page.locator("#submit").click();
-    assert.match(await page.locator("#status").innerText(), /Supabase belum dikonfigurasi/);
+    assert.equal(await page.locator("#googleLogin").isVisible(), true, "Google OAuth sign-in should be available");
     assert.match(await page.locator(".fine").innerText(), /jangan pernah memasukkan service_role/);
+    const authConfig = await page.evaluate(() => window.MICHISHIRUBE_SUPABASE_CONFIG);
+    assert.match(authConfig.url, /^https:\/\//, "Supabase project URL should be configured");
+    assert.match(authConfig.publishableKey, /^sb_publishable_/, "only a publishable key should be used in the browser");
     await page.locator("#loginTab").click();
     assert.equal(await page.locator("#name").isVisible(), false);
     assert.equal(await page.locator("#password").getAttribute("autocomplete"), "current-password");
