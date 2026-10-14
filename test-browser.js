@@ -129,6 +129,11 @@ const { chromium } = require("playwright");
     assert.match(await page.locator("#vl-q-feedback").innerText(), /Benar!|Belum tepat/);
     await page.locator("#vl-q-next").click();
     assert.match(await page.locator("#vl-q-count").innerText(), /Soal 2/);
+    await page.locator("#vl-q-mode").selectOption("jp-romaji");
+    await page.locator("#vl-q-start").click();
+    assert.equal(await page.locator("#vl-q-options button").count(), 4, "kana-to-romaji vocabulary quiz should show four choices");
+    await page.locator("#vl-q-options button").first().click();
+    assert.match(await page.locator("#vl-q-feedback").innerText(), /Benar!|Belum tepat/);
 
     stage("vocabulary list and persistence");
     await page.locator("#vl-list-toggle").click();
@@ -171,6 +176,7 @@ const { chromium } = require("playwright");
     await page.locator("#kl-list-toggle").click();
     stage("kanji quiz");
     await page.locator("#kl-search").fill("");
+    await page.locator("#kl-q-mode").selectOption("kanji-hira");
     await page.getByRole("button", { name: "Mulai kuis pilihan ganda" }).click();
     assert.equal(await page.locator("#kl-q-options button").count(), 4);
     for (let i = 0; i < 10; i++) {
