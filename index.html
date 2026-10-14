@@ -1,294 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#142d45">
+<meta name="description" content="Michishirube 道標 — 学びの道を、共に。 Perjalanan belajar bahasa Jepang, satu langkah setiap hari.">
 <title>道標 Michishirube — Japanese Learning Journey</title>
-<meta name="theme-color" content="#0b2545">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Noto+Serif+JP:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-:root{--bg:#0a0a0f;--s1:#0f0f18;--s2:#141420;--border:#1e1e2e;--border2:#2a2a3e;--green:#00ff88;--orange:#ff6b35;--blue:#4fc3f7;--purple:#a78bfa;--red:#ff4757;--text:#e2e8f0;--muted:#555570;--muted2:#3a3a55}
-html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;display:flex;flex-direction:column;height:100dvh;background-image:radial-gradient(ellipse 60% 40% at 80% 10%,rgba(124,58,237,.12) 0%,transparent 60%),radial-gradient(ellipse 40% 30% at 10% 80%,rgba(0,255,136,.07) 0%,transparent 60%)}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--s1);border-bottom:1px solid var(--border);flex-shrink:0}
-.topbar-title{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;letter-spacing:-0.5px;white-space:nowrap}
-.topbar-title span{color:var(--green)}
-.streak{font-size:10px;color:var(--orange);display:flex;align-items:center;gap:4px;white-space:nowrap}
-.tabs{display:flex;background:var(--s1);border-bottom:1px solid var(--border);flex-shrink:0}
-.tab{flex:1;padding:10px 0;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;transition:all .2s;font-family:'Space Mono',monospace}
-.tab.active{color:var(--green);border-bottom-color:var(--green)}
-.pane{flex:1;overflow-y:auto;display:none;padding:16px;padding-bottom:80px}
-.pane.active{display:block}
-.pane::-webkit-scrollbar{width:3px}
-.pane::-webkit-scrollbar-thumb{background:var(--border2)}
-.lang-banner{display:flex;gap:10px;margin-bottom:16px}
-.lang-btn{flex:1;padding:12px 8px;border-radius:6px;border:1px solid var(--border2);background:var(--s2);color:var(--muted);font-family:'Space Mono',monospace;font-size:10px;letter-spacing:1px;text-align:center;text-decoration:none;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px}
-.lang-btn:hover{border-color:var(--blue);color:var(--blue)}
-.lang-btn .flag{font-size:20px}
-.lang-btn .lname{font-size:9px;letter-spacing:2px}
-.g-progress{background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:14px;margin-bottom:16px}
-.g-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-.g-label{font-size:10px;color:var(--muted);letter-spacing:1px}
-.g-count{font-size:11px;color:var(--green);font-weight:700}
-.g-bar-bg{height:4px;background:var(--border2);border-radius:2px;overflow:hidden}
-.g-bar{height:100%;background:linear-gradient(90deg,var(--green),var(--purple));border-radius:2px;transition:width .5s ease}
-.phase{background:var(--s2);border:1px solid var(--border);border-radius:6px;margin-bottom:10px;overflow:hidden;transition:border-color .3s}
-.phase.active-phase{border-color:rgba(0,255,136,.3)}
-.phase.done-phase{border-color:rgba(0,255,136,.15);background:#0d1a12}
-.ph-header{display:flex;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;user-select:none}
-.ph-num{font-size:9px;letter-spacing:2px;color:var(--green);background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.2);padding:2px 7px;border-radius:2px;white-space:nowrap;flex-shrink:0}
-.ph-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:700;flex:1}
-.ph-stat{font-size:9px;color:var(--muted);white-space:nowrap}
-.ph-arrow{font-size:9px;color:var(--muted);transition:transform .2s}
-.phase.open .ph-arrow{transform:rotate(90deg)}
-.ph-body{display:none;padding:0 14px 14px}
-.phase.open .ph-body{display:block}
-.ph-minibar{height:2px;background:var(--border2);border-radius:1px;margin-bottom:12px;overflow:hidden}
-.ph-minibar-fill{height:100%;background:var(--green);border-radius:1px;transition:width .3s}
-.item{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);cursor:pointer}
-.item:last-child{border-bottom:none}
-.cb{width:15px;height:15px;flex-shrink:0;margin-top:1px;border:1.5px solid var(--muted2);border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .15s}
-.item.chk .cb{background:var(--green);border-color:var(--green);color:#000}
-.item-txt{font-size:11px;line-height:1.55;color:var(--text);transition:color .2s}
-.item.chk .item-txt{color:var(--muted);text-decoration:line-through;text-decoration-color:rgba(0,255,136,.35)}
-.nb-input-wrap{background:var(--s2);border:1px solid var(--border2);border-radius:6px;padding:12px;margin-bottom:16px}
-.nb-textarea{width:100%;background:transparent;border:none;color:var(--text);font-family:'Space Mono',monospace;font-size:12px;resize:none;outline:none;min-height:70px;line-height:1.6}
-.nb-textarea::placeholder{color:var(--muted2)}
-.nb-tags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
-.nb-tag{font-size:9px;letter-spacing:1px;padding:3px 10px;border-radius:2px;border:1px solid var(--border2);background:transparent;color:var(--muted);cursor:pointer;transition:all .15s;font-family:'Space Mono',monospace}
-.nb-tag[data-t="skip"].sel{color:#ff4757;background:rgba(255,71,87,.08);border-color:#ff4757}
-.nb-tag[data-t="done"].sel{color:#00ff88;background:rgba(0,255,136,.08);border-color:#00ff88}
-.nb-tag[data-t="struggle"].sel{color:#ff6b35;background:rgba(255,107,53,.08);border-color:#ff6b35}
-.nb-tag[data-t="plan"].sel{color:var(--blue);background:rgba(79,195,247,.08);border-color:var(--blue)}
-.nb-tag[data-t="insight"].sel{color:#a78bfa;background:rgba(167,139,250,.08);border-color:#a78bfa}
-.nb-save{width:100%;padding:9px;background:var(--green);color:#000;border:none;border-radius:4px;font-family:'Space Mono',monospace;font-size:11px;font-weight:700;letter-spacing:1px;cursor:pointer}
-.nb-list-title{font-size:9px;letter-spacing:2px;color:var(--muted);margin-bottom:10px;text-transform:uppercase}
-.note-card{background:var(--s2);border:1px solid var(--border);border-radius:6px;padding:12px;margin-bottom:8px;position:relative}
-.note-card.type-skip{border-left:3px solid #ff4757}
-.note-card.type-done{border-left:3px solid #00ff88}
-.note-card.type-struggle{border-left:3px solid #ff6b35}
-.note-card.type-plan{border-left:3px solid var(--blue)}
-.note-card.type-insight{border-left:3px solid #a78bfa}
-.note-meta{display:flex;align-items:center;gap:8px;margin-bottom:6px}
-.note-type{font-size:8px;letter-spacing:1.5px;text-transform:uppercase;padding:2px 7px;border-radius:2px;font-weight:700}
-.type-skip .note-type{color:#ff4757;background:rgba(255,71,87,.12)}
-.type-done .note-type{color:#00ff88;background:rgba(0,255,136,.12)}
-.type-struggle .note-type{color:#ff6b35;background:rgba(255,107,53,.12)}
-.type-plan .note-type{color:var(--blue);background:rgba(79,195,247,.12)}
-.type-insight .note-type{color:#a78bfa;background:rgba(167,139,250,.12)}
-.note-date{font-size:9px;color:var(--muted)}
-.note-del{position:absolute;top:10px;right:10px;background:none;border:none;color:var(--muted2);font-size:14px;cursor:pointer;line-height:1;padding:2px 5px}
-.note-del:hover{color:#ff4757}
-.note-text{font-size:11px;line-height:1.6;color:var(--text);white-space:pre-wrap}
-.empty-notes{text-align:center;padding:40px 20px;font-size:11px;color:var(--muted);line-height:2}
-.bottom-hint{position:fixed;bottom:0;left:0;right:0;padding:8px;text-align:center;font-size:9px;color:var(--muted2);letter-spacing:1px;background:var(--bg);border-top:1px solid var(--border);pointer-events:none}
-
-/* Michishirube visual identity refresh */
-:root{--bg:#faf7ef;--s1:#fffdf8;--s2:#fffdf8;--border:#e9e2d5;--border2:#d7cebf;--green:#0b2545;--orange:#e63946;--blue:#365a7a;--purple:#b7a48a;--red:#e63946;--text:#142b46;--muted:#69788a;--muted2:#b0b8c0}
-html,body{height:100%;overflow:hidden}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;background-image:radial-gradient(ellipse 55% 35% at 8% 0%,rgba(230,57,70,.08),transparent 70%),radial-gradient(ellipse 55% 45% at 100% 5%,rgba(11,37,69,.09),transparent 70%)}
-.topbar{padding:14px 20px;background:rgba(255,253,248,.94);border-bottom:1px solid var(--border);box-shadow:0 4px 20px rgba(11,37,69,.04)}
-.topbar-title{font-family:'Playfair Display','Noto Serif JP',serif;font-size:20px;letter-spacing:0;color:var(--green);display:flex;align-items:center;gap:10px}
-.topbar-title:before{content:'道標';font-family:'Noto Serif JP',serif;color:#e63946;font-size:23px;letter-spacing:1px}
-.topbar-title span{color:var(--green)}
-.streak{font-family:'DM Sans',sans-serif;font-size:11px;color:#c14a50;background:#fff1ef;border:1px solid #f4d3d0;padding:7px 11px;border-radius:999px}
-.tabs{background:rgba(255,253,248,.94);border-bottom:1px solid var(--border)}
-.tab{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:.8px;color:var(--muted);text-transform:none;padding:13px 0}
-.tab.active{color:var(--green);border-bottom-color:#e63946}
-.pane{padding:18px 18px 80px}
-.lang-banner{gap:12px;margin-bottom:18px}
-.lang-btn{border-radius:14px;border:1px solid var(--border);background:rgba(255,253,248,.9);color:var(--text);font-family:'DM Sans',sans-serif;box-shadow:0 4px 14px rgba(11,37,69,.035);padding:14px 10px}
-.lang-btn:hover{border-color:#e63946;color:#0b2545;transform:translateY(-1px)}
-.lang-btn .flag{font-size:23px}.lang-btn .lname{font-size:10px;letter-spacing:1.3px;font-weight:700}
-.g-progress{border:1px solid var(--border);border-radius:16px;padding:17px;background:linear-gradient(135deg,#fffdf8,#f4efe4);box-shadow:0 6px 18px rgba(11,37,69,.04)}
-.g-label{font-family:'DM Sans',sans-serif;color:#69788a;letter-spacing:1.4px}
-.g-count{color:#0b2545}
-.g-bar-bg{height:6px;background:#e9e2d5;border-radius:99px}.g-bar{background:linear-gradient(90deg,#0b2545,#e63946);border-radius:99px}
-.phase{border:1px solid var(--border);border-radius:14px;background:rgba(255,253,248,.92);box-shadow:0 3px 12px rgba(11,37,69,.025)}
-.phase.active-phase{border-color:#c4d1dc}.phase.done-phase{border-color:#cbd9cc;background:#f2f7f0}
-.ph-header{padding:15px 14px;gap:11px}
-.ph-num{font-family:'DM Sans',sans-serif;color:#0b2545;background:#edf2f6;border:1px solid #d7e1e9;border-radius:999px;letter-spacing:1px}
-.ph-title{font-family:'Playfair Display',serif;font-size:15px;color:#142b46}
-.ph-stat{font-family:'DM Sans',sans-serif;color:#69788a}
-.ph-arrow{color:#e63946}
-.ph-minibar{background:#e9e2d5}.ph-minibar-fill{background:linear-gradient(90deg,#0b2545,#e63946)}
-.item{padding:10px 0;border-bottom:1px solid #f0ece4}.cb{border-radius:5px;border-color:#c7cfd6}
-.item.chk .cb{background:#0b2545;border-color:#0b2545;color:#fff}
-.item-txt{font-family:'DM Sans',sans-serif;font-size:13px;line-height:1.55}
-.nb-input-wrap,.note-card{background:#fffdf8;border:1px solid var(--border);border-radius:14px;box-shadow:0 4px 14px rgba(11,37,69,.03)}
-.nb-textarea{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--text)}
-.nb-tag{font-family:'DM Sans',sans-serif;border-radius:999px;letter-spacing:0;padding:5px 10px}
-.nb-tag[data-t="done"].sel{color:#176b48;background:#edf7ef;border-color:#9bc9aa}
-.nb-tag[data-t="skip"].sel{color:#c43e49;background:#fff0ef;border-color:#e8a7a9}
-.nb-save{background:#0b2545;color:#fff;border-radius:9px;font-family:'DM Sans',sans-serif;letter-spacing:.3px;padding:11px}
-.nb-list-title{font-family:'DM Sans',sans-serif;color:#69788a;letter-spacing:1.4px}
-.note-text,.note-date{font-family:'DM Sans',sans-serif}.note-text{font-size:13px;color:var(--text)}
-.bottom-hint{background:rgba(250,247,239,.96);border-top:1px solid var(--border);font-family:'DM Sans',sans-serif;color:#8a96a3;letter-spacing:.2px}
-@media(min-width:720px){.pane{padding-left:max(24px,calc((100% - 900px)/2));padding-right:max(24px,calc((100% - 900px)/2))}.topbar{padding-left:max(22px,calc((100% - 900px)/2));padding-right:max(22px,calc((100% - 900px)/2))}.lang-banner{max-width:900px}.g-progress{margin-top:8px}}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:84px}body{margin:0;background:#f8f5ed;color:#182f45;font-family:'DM Sans',sans-serif;-webkit-font-smoothing:antialiased}.shell{width:min(1200px,100% - 40px);margin-inline:auto}.topbar{position:sticky;top:0;z-index:10;background:rgba(255,253,248,.94);backdrop-filter:blur(16px);border-bottom:1px solid #e8dfd0}.topbar-inner{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:22px}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;white-space:nowrap;color:#142d45;font:600 20px 'Playfair Display',serif}.brand-jp{font:500 23px 'Noto Serif JP',serif;color:#c8434b;letter-spacing:.12em;padding-right:11px;border-right:1px solid #d8cdbb}.nav{display:flex;align-items:center;justify-content:flex-end;gap:clamp(12px,2vw,25px)}.nav a{color:#6c7b88;text-decoration:none;font-size:11px;font-weight:600;white-space:nowrap}.nav a:hover,.nav a:focus-visible{color:#c8434b}.nav .profile{padding:10px 15px;border:1px solid #d8cdbb;border-radius:999px;color:#142d45;background:#fffdf8}.hero{position:relative;isolation:isolate;overflow:hidden;min-height:clamp(380px,47vw,550px);margin:28px auto 0;border-radius:24px;background:#183650 url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2000&q=85') center 54%/cover no-repeat;display:flex;align-items:flex-end;box-shadow:0 20px 48px rgba(20,45,69,.13)}.hero:before{content:'';position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(10,29,47,.84),rgba(10,29,47,.47) 52%,rgba(10,29,47,.06)),linear-gradient(0deg,rgba(10,29,47,.35),transparent 65%)}.hero-content{padding:clamp(28px,6vw,66px);max-width:760px;color:#fff}.kicker{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#f0c8b9;font-weight:700}.hero h1{font:500 clamp(39px,6.1vw,70px)/1.05 'Playfair Display','Noto Serif JP',serif;letter-spacing:-.03em;margin:18px 0 16px}.hero h1 span{display:block;font:500 .48em 'Noto Serif JP',serif;letter-spacing:.15em;color:#f4d6c7;margin-bottom:12px}.hero p{max-width:490px;font-size:14px;line-height:1.85;color:rgba(255,255,255,.87);margin:0}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:25px}.button{display:inline-flex;align-items:center;justify-content:center;min-height:45px;padding:0 18px;border-radius:999px;text-decoration:none;font-size:12px;font-weight:700;transition:transform .2s,background .2s}.button:hover{transform:translateY(-2px)}.button.primary{background:#fff8ef;color:#183650}.button.secondary{color:white;border:1px solid rgba(255,255,255,.55);background:rgba(255,255,255,.08)}.section{padding:56px 0 0}.section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:18px}.eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#c8434b;font-weight:700;margin-bottom:7px}.section h2{font:500 clamp(26px,3vw,34px) 'Playfair Display','Noto Serif JP',serif;margin:0;color:#142d45}.section-note{font-size:12px;line-height:1.7;color:#6c7b88;max-width:340px;margin:0;text-align:right}.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}.card{min-height:208px;display:flex;flex-direction:column;align-items:flex-start;padding:22px 19px;border:1px solid #e8dfd0;border-radius:18px;background:rgba(255,253,248,.94);color:inherit;text-decoration:none;box-shadow:0 5px 18px rgba(20,45,69,.035);transition:transform .2s,border-color .2s,box-shadow .2s}.card:hover{transform:translateY(-4px);border-color:#c8b9a3;box-shadow:0 14px 30px rgba(20,45,69,.08)}.card:focus-visible,.nav a:focus-visible,.button:focus-visible{outline:3px solid #c8434b;outline-offset:3px}.icon{width:43px;height:43px;display:grid;place-items:center;border-radius:14px;background:#f3eee4;color:#142d45;font:500 21px 'Noto Serif JP',serif;margin-bottom:16px}.card h3{font:600 18px 'Playfair Display','Noto Serif JP',serif;margin:0 0 8px;color:#142d45}.card p{font-size:12px;line-height:1.7;color:#6c7b88;margin:0 0 18px}.card .go{margin-top:auto;font-size:10px;letter-spacing:.06em;font-weight:700;color:#b13d46}.quote{margin-top:25px;padding:17px 20px;border:1px solid #e8d9c9;border-radius:14px;background:#fff8ef;color:#665a4d;font-size:12px;line-height:1.8}.quote strong{color:#142d45}.extras{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}.extras a{display:inline-flex;align-items:center;gap:8px;padding:12px 15px;border:1px solid #e8dfd0;border-radius:12px;background:#fffdf8;color:#456b85;text-decoration:none;font-size:11px;font-weight:600}.extras a:hover{border-color:#c8b9a3;color:#142d45}.footer{margin-top:58px;padding:24px 0 30px;border-top:1px solid #e8dfd0;display:flex;justify-content:space-between;gap:15px;color:#7b8790;font-size:10px;line-height:1.8}.footer .jp{font-family:'Noto Serif JP',serif;color:#c8434b;letter-spacing:.12em}.install-area{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.install-button{border:1px solid #d8cdbb;border-radius:999px;background:#fffdf8;color:#142d45;padding:9px 13px;font:600 10px 'DM Sans',sans-serif;cursor:pointer}.install-button:hover{border-color:#c8434b}.install-help{display:none;max-width:390px;padding:10px 12px;border-radius:10px;background:#fff8ef;border:1px solid #e8d9c9;color:#665a4d;font-size:10px;line-height:1.7}.install-help.visible{display:block}
+@media(max-width:900px){.topbar-inner{flex-wrap:wrap;padding:13px 0}.nav{width:100%;justify-content:flex-start;overflow-x:auto;padding-bottom:3px;gap:20px}.hero{min-height:400px}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.section-head{align-items:flex-start;flex-direction:column}.section-note{text-align:left}}@media(max-width:520px){.shell{width:min(100% - 28px,1200px)}.brand{font-size:18px}.brand-jp{font-size:21px}.nav{gap:18px}.nav a{font-size:10px}.hero{margin-top:15px;min-height:430px;border-radius:18px;background-position:58% center}.hero:before{background:linear-gradient(0deg,rgba(10,29,47,.9),rgba(10,29,47,.25))}.hero-content{padding:25px 21px}.hero h1{font-size:43px}.hero p{font-size:13px}.section{padding-top:40px}.cards{gap:10px}.card{padding:16px 13px;min-height:194px;border-radius:15px}.card h3{font-size:16px}.card p{font-size:11px}.icon{margin-bottom:13px}.footer{flex-direction:column;gap:4px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition:none!important}}
 </style>
 </head>
 <body>
-<div class="topbar">
-  <div class="topbar-title"><span>Michishirube</span></div>
-  <div class="streak" id="streak">🔥 0 hari streak</div>
+<header class="topbar"><div class="shell topbar-inner">
+<a class="brand" href="./index.html" aria-label="Michishirube Beranda"><span class="brand-jp">道標</span><span>Michishirube</span></a>
+<nav class="nav" aria-label="Navigasi utama"><a href="./index.html">Beranda</a><a href="#ruang-belajar">Ruang Belajar</a><a href="./english-roadmap.html#kl-quiz">Latihan &amp; Kuis</a><a href="./english-roadmap.html#roadmap-jp">Perjalanan Belajar</a><a class="profile" href="./auth.html">Profil ↗</a></nav>
+</div></header>
+<main class="shell">
+<section class="hero" id="home" aria-labelledby="hero-title"><div class="hero-content">
+<div class="kicker">日本語を学ぶ · Learn with intention</div>
+<h1 id="hero-title"><span>学びの道を、共に。</span>Temukan jalan belajarmu.</h1>
+<p>Mulai dari satu karakter, satu kata, satu langkah kecil. Bangun kebiasaan belajar bahasa Jepang dengan tenang dan konsisten.</p>
+<div class="actions"><a class="button primary" href="#ruang-belajar">Mulai perjalanan ↗</a><a class="button secondary" href="./english-roadmap.html#roadmap-jp">Lihat roadmap Jepang</a></div>
+</div></section>
+<section class="section" id="ruang-belajar" aria-labelledby="study-title"><div class="section-head"><div><div class="eyebrow">Your learning path · 学習の道</div><h2 id="study-title">Ruang belajar</h2></div><p class="section-note">Pilih satu jalur, belajar sedikit demi sedikit, dan kembali lagi esok hari.</p></div>
+<div class="cards">
+<a class="card" href="./english-roadmap.html#roadmap-jp"><div class="icon">あ</div><h3>Hiragana &amp; Katakana</h3><p>Mulai dari roadmap bahasa Jepang dan latihan dasar kana.</p><span class="go">BUKA RUANG BELAJAR ↗</span></a>
+<a class="card" href="./english-roadmap.html#kanji-lab"><div class="icon">漢</div><h3>Kanji</h3><p>Pelajari karakter, bacaan, arti, contoh, dan kuis kanji.</p><span class="go">BUKA KANJI LAB ↗</span></a>
+<a class="card" href="./english-roadmap.html#vocab-lab"><div class="icon">言</div><h3>Kosakata</h3><p>Latih kosakata N5 dan N4 dengan kartu dan progres tersimpan.</p><span class="go">BUKA VOCABULARY LAB ↗</span></a>
+<a class="card" href="./english-roadmap.html#kl-quiz"><div class="icon">文</div><h3>Latihan &amp; Kuis</h3><p>Uji pemahaman melalui kuis pilihan ganda kanji.</p><span class="go">MULAI LATIHAN ↗</span></a>
 </div>
-<div class="tabs">
-  <button class="tab active" onclick="switchTab('roadmap',this)">📍 Roadmap</button>
-  <button class="tab" onclick="switchTab('notebook',this)">📓 Catatan</button>
-</div>
-<div class="pane active" id="pane-roadmap">
-  <div class="lang-banner">
-    <a href="english-roadmap.html" class="lang-btn">
-      <span class="flag">🇺🇸</span>
-      <span class="lname">ENGLISH</span>
-    </a>
-    <a href="english-roadmap.html" class="lang-btn">
-      <span class="flag">🇯🇵</span>
-      <span class="lname">JAPANESE</span>
-    </a>
-  </div>
-  <div class="g-progress">
-    <div class="g-row"><span class="g-label">TOTAL PROGRESS</span><span class="g-count" id="gcnt">0/0</span></div>
-    <div class="g-bar-bg"><div class="g-bar" id="gbar" style="width:0%"></div></div>
-  </div>
-  <div id="roadmap"></div>
-</div>
-<div class="pane" id="pane-notebook">
-  <div style="font-size:10px;color:var(--muted);letter-spacing:1px;margin-bottom:12px;text-align:center" id="nb-date"></div>
-  <div class="nb-input-wrap">
-    <textarea class="nb-textarea" id="nb-text" placeholder="Hari ini gw skip... / udah belajar... / stuck di... / plan besok..."></textarea>
-    <div class="nb-tags">
-      <button class="nb-tag" data-t="skip" onclick="toggleTag(this)">⛔ Skip</button>
-      <button class="nb-tag" data-t="done" onclick="toggleTag(this)">✅ Selesai</button>
-      <button class="nb-tag" data-t="struggle" onclick="toggleTag(this)">😤 Stuck</button>
-      <button class="nb-tag" data-t="plan" onclick="toggleTag(this)">📌 Plan</button>
-      <button class="nb-tag" data-t="insight" onclick="toggleTag(this)">💡 Insight</button>
-    </div>
-    <button class="nb-save" onclick="saveNote()">+ Simpan Catatan</button>
-  </div>
-  <div class="nb-list-title">Riwayat Catatan</div>
-  <div id="nb-list"></div>
-</div>
-<div class="bottom-hint">学びの道を、共に。 · Perjalanan kecil, kemajuan besar.</div>
+<div class="quote"><strong>道標 Michishirube</strong> berarti “penunjuk jalan”. <span class="jp">学びの道を、共に。</span> — Belajar di sepanjang jalan ini, bersama.</div>
+<div class="extras"><a href="./english-roadmap.html#roadmap-en">Aa · English Learning Roadmap ↗</a><a href="./python-roadmap.html">⌘ · Roadmap Python, progres &amp; catatan ↗</a></div>
+</section>
+</main>
+<footer class="shell footer"><span>道標 · Michishirube</span><div class="install-area"><button class="install-button" id="install-app" type="button" aria-expanded="false" aria-controls="install-help">Pasang aplikasi ↗</button><span>Perjalanan kecil, kemajuan besar.</span><div class="install-help" id="install-help" role="status" aria-live="polite"></div></div></footer>
 <script>
-const PHASES=[{"id":"l1","num":"LEVEL 01","title":"Fundamental Python","items":["Apa itu Python","Instalasi & Python environment","Cara menjalankan Python","print()","Comment","Variables","Aturan penamaan variabel","Tipe data","str — string","int — integer","float","bool — boolean","None","Input user — input()","Konversi tipe data","Operator aritmatika","Operator perbandingan","Operator logika","Assignment operator","F-string","Error dasar Python"]},{"id":"l2","num":"LEVEL 02","title":"Control Flow","items":["if, elif, else","Nested if","Kondisi dengan operator logika","while loop","for loop","range()","break","continue","pass","Nested loop","Simple menu program"]},{"id":"l3","num":"LEVEL 03","title":"Data Structures","items":["List","List indexing","List slicing","Menambah data ke list","Menghapus data dari list","Tuple","Set","Dictionary","Dictionary key-value","Nested list","Nested dictionary","Memilih struktur data yang tepat","List comprehension","Dictionary & Set comprehension"]},{"id":"l4","num":"LEVEL 04","title":"Function","items":["Function — def","Parameter & argument","return","Default parameter","Keyword argument","*args","**kwargs","Scope variabel","Local vs global","Lambda","Higher-order function","map() & filter()","Recursion","Mini project function-based"]},{"id":"l5","num":"LEVEL 05","title":"String & Data Processing","items":["String manipulation","String methods","split()","join()","replace()","strip()","String formatting","Regex dasar","Parsing & validasi data"]},{"id":"l6","num":"LEVEL 06","title":"File & Data","items":["Membaca file","Menulis file","with open()","TXT file","CSV file","JSON file","Serialization","Path & folder","os module","pathlib"]},{"id":"l7","num":"LEVEL 07","title":"Error Handling","items":["Error vs exception","try & except","else & finally","Multiple exceptions","raise","Custom exception","Debugging","Mini project error-safe program"]},{"id":"l8","num":"LEVEL 08","title":"Object-Oriented Programming","items":["Konsep OOP","Class","Object","Attribute","Method","__init__()","self","Encapsulation","Inheritance","Polymorphism","Abstraction","Dunder methods","property","classmethod & staticmethod","Composition"]},{"id":"l9","num":"LEVEL 09","title":"Module & Package","items":["Module","import","from ... import","Custom module","Package","__init__.py","Python standard library","pip","Virtual environment — venv","requirements.txt"]},{"id":"l10","num":"LEVEL 10","title":"Advanced Python","items":["Iterable & iterator","iter() & next()","Generator","yield","Decorator","Closure","Context manager","with statement","dataclass","Type hints dasar","*args & **kwargs advanced","Unpacking","Walrus operator","Pattern matching","Functional programming","Threading dasar","Multiprocessing dasar","async & await","asyncio","Kapan menggunakan concurrency"]},{"id":"l11","num":"LEVEL 11","title":"Modern Python","items":["Modern Python syntax","typing module","Generic","Optional","Union","Literal","Protocol","Dataclass lanjutan","Enum","Modern pattern matching"]},{"id":"l12","num":"LEVEL 12","title":"Database & SQL","items":["Konsep database","RDBMS & tabel","Primary key & foreign key","SELECT","WHERE","ORDER BY","LIMIT","INSERT","UPDATE","DELETE","JOIN — INNER","JOIN — LEFT","JOIN — RIGHT","GROUP BY","COUNT, SUM, AVG","Subquery & nested query","Index & optimasi query","SQLite","Python + sqlite3","Python + psycopg2","CRUD","Parameterized query","Database relationships","ORM","SQLAlchemy","Mini project CRUD app dengan database"]},{"id":"l13","num":"LEVEL 13","title":"API & Internet","items":["Konsep HTTP","Request & response","HTTP methods","REST API","JSON API","Library requests","GET, POST, PUT, PATCH, DELETE","API authentication","Consume REST API","Membuat API dengan FastAPI"]},{"id":"l14","num":"LEVEL 14","title":"Web Development","items":["Konsep web","Client & server","Flask","Routing","Template","Forms","Session","Authentication","FastAPI backend","Backend architecture","Mini project web app"]},{"id":"l15","num":"LEVEL 15","title":"Automation","items":["File automation","Folder automation","Web scraping","BeautifulSoup","Selenium","Playwright","CLI automation script","Work automation project"]},{"id":"l16","num":"LEVEL 16","title":"Data Science & Analysis","items":["NumPy — array","NumPy — operasi array","Pandas — DataFrame","Pandas — read_csv","Pandas — filtering","Pandas — groupby","Pandas — merge","Pandas — pivot","Matplotlib","Seaborn","Exploratory Data Analysis — EDA","Data cleaning","Handle null & duplicate","Statistik dasar","Mean, median & standard deviation","Korelasi","Analisis dataset nyata","Mini project Kaggle"]},{"id":"l17","num":"LEVEL 17","title":"Machine Learning","items":["Konsep Machine Learning","Supervised vs unsupervised learning","Scikit-learn","Pipeline dasar","Regresi Linear","Regresi Logistik","Decision Tree","Random Forest","K-Means Clustering","Train/test split","Cross-validation","Accuracy","F1 Score","RMSE","AUC","Feature engineering","Feature selection","Mini project klasifikasi","Mini project prediksi"]},{"id":"l18","num":"LEVEL 18","title":"AI Engineer","items":["Konsep LLM","Transformer","OpenAI API dasar","Anthropic API dasar","Prompt engineering","Zero-shot prompting","Few-shot prompting","Chain-of-thought concept","RAG","LangChain dasar","LlamaIndex dasar","Vector database","Pinecone","ChromaDB","Fine-tuning konsep","Fine-tuning praktik","Membuat chatbot","Membuat AI app","Deploy ke Render","HuggingFace Spaces","MLOps dasar","Versioning & monitoring","Mini project AI-powered app"]},{"id":"l19","num":"LEVEL 19","title":"Professional Python + Cloud & Tools","items":["PEP8","Clean Code","SOLID","Design Patterns","Logging","Configuration management","Environment variables",".env","Project structure","Documentation","Dependency management","Python packaging","Git","GitHub","Commit","Branch","Pull Request","Docker","Container & image","CLI / Bash scripting","CI/CD","GitHub Actions","Cloud dasar","AWS","GCP","Azure","Unit testing","unittest","pytest","Test case","Mocking","Debugging profesional","Code coverage","Portfolio GitHub rapi & documented"]},{"id":"l20","num":"LEVEL 20","title":"PROJECT MASTER","items":["Project Calculator","Project Kasir","Project To-Do List","Project Login System","Project CRUD","Project Database","Project REST API","Project Web App","Project Automation Bot","Project Data Analysis","Project Machine Learning","Project AI App","FINAL PROJECT — Python portfolio"]}];
-function load(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch{return d}}
-function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
-let checks=load('sal_checks',{});
-// ROADMAP V2 MIGRATION
-if(!load('sal_roadmap_v2',false)){
-  const migration={
-    "p1_0":["l1_5"],
-    "p1_1":["l1_3","l1_13"],
-    "p1_2":["l1_15"],
-    "p1_3":["l2_0"],
-    "p1_4":["l2_4"],
-    "p1_5":["l2_7"],
-    "p1_6":["l4_0"],
-    "p1_7":["l4_7"],
-    "p1_8":["l3_0"],
-    "p1_9":["l3_7"],
-    "p1_10":["l3_5","l3_6"],
-    "p1_11":["l20_0"],
-    "p2_0":["l3_12"],
-    "p2_1":["l4_9"],
-    "p2_2":["l7_1"],
-    "p2_3":["l6_0"],
-    "p2_4":["l9_0"],
-    "p2_5":["l8_1"],
-    "p2_6":["l8_8"],
-    "p2_7":["l10_4"],
-    "p2_8":["l9_8"],
-    "p2_9":["l20_4"]
-  };
-
-  Object.entries(migration).forEach(([oldKey,newKeys])=>{
-    if(checks[oldKey]){
-      newKeys.forEach(k=>checks[k]=true);
-    }
-  });
-
-  save('sal_checks',checks);
-  save('sal_roadmap_v2',true);
-}
-
-let opens=load('sal_opens',{});
-let notes=load('sal_notes',[]);
-let selTag=null;
-function updateStreak(){
-  const today=new Date().toDateString();
-  const last=load('sal_lastday','');
-  let streak=load('sal_streak',0);
-  const doneToday=Object.keys(checks).some(k=>checks[k]);
-  if(doneToday&&last!==today){
-    const y=new Date();y.setDate(y.getDate()-1);
-    streak=last===y.toDateString()?streak+1:1;
-    save('sal_streak',streak);save('sal_lastday',today);
-  }
-  document.getElementById('streak').textContent='🔥 '+streak+' hari streak';
-}
-function switchTab(id,btn){
-  document.querySelectorAll('.pane').forEach(p=>p.classList.remove('active'));
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById('pane-'+id).classList.add('active');
-  btn.classList.add('active');
-  if(id==='notebook')renderNotes();
-}
-function countPhase(p){let done=0;p.items.forEach((_,i)=>{if(checks[p.id+'_'+i])done++});return{done,total:p.items.length}}
-function updateGlobal(){
-  let td=0,tt=0;
-  PHASES.forEach(p=>{const c=countPhase(p);td+=c.done;tt+=c.total});
-  const pct=tt?Math.round(td/tt*100):0;
-  document.getElementById('gcnt').textContent=td+'/'+tt+' ('+pct+'%)';
-  document.getElementById('gbar').style.width=pct+'%';
-}
-function renderRoadmap(){
-  const cont=document.getElementById('roadmap');cont.innerHTML='';
-  PHASES.forEach(p=>{
-    const{done,total}=countPhase(p);
-    const isOpen=!!opens[p.id];
-    const el=document.createElement('div');
-    el.className='phase'+(done===total?' done-phase':done>0?' active-phase':'')+(isOpen?' open':'');
-    el.id='ph-'+p.id;
-    el.innerHTML=`<div class="ph-header" onclick="togglePhase('${p.id}')"><span class="ph-num">${p.num}</span><span class="ph-title">${p.title}</span><span class="ph-stat" id="stat-${p.id}">${done}/${total}</span><span class="ph-arrow">▶</span></div><div class="ph-body"><div class="ph-minibar"><div class="ph-minibar-fill" id="mb-${p.id}" style="width:${total?done/total*100:0}%"></div></div>${p.items.map((it,i)=>{const chk=!!checks[p.id+'_'+i];return`<div class="item${chk?' chk':''}" onclick="toggleItem('${p.id}',${i},this)"><div class="cb">${chk?'✓':''}</div><span class="item-txt">${it}</span></div>`}).join('')}</div>`;
-    cont.appendChild(el);
-  });
-  updateGlobal();
-}
-function togglePhase(id){opens[id]=!opens[id];save('sal_opens',opens);document.getElementById('ph-'+id).classList.toggle('open',opens[id])}
-function toggleItem(pid,idx,el){
-  const key=pid+'_'+idx;checks[key]=!checks[key];save('sal_checks',checks);
-  el.classList.toggle('chk',checks[key]);el.querySelector('.cb').textContent=checks[key]?'✓':'';
-  const p=PHASES.find(x=>x.id===pid);const{done,total}=countPhase(p);
-  document.getElementById('stat-'+pid).textContent=done+'/'+total;
-  document.getElementById('mb-'+pid).style.width=(total?done/total*100:0)+'%';
-  const ph=document.getElementById('ph-'+pid);
-  ph.className='phase'+(done===total?' done-phase':done>0?' active-phase':'')+(opens[pid]?' open':'');
-  updateGlobal();updateStreak();
-}
-function toggleTag(btn){
-  const t=btn.dataset.t;
-  if(selTag===t){selTag=null;btn.classList.remove('sel')}
-  else{document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));selTag=t;btn.classList.add('sel')}
-}
-function saveNote(){
-  const txt=document.getElementById('nb-text').value.trim();if(!txt)return;
-  const note={id:Date.now(),text:txt,type:selTag||'plan',date:new Date().toLocaleDateString('id-ID',{weekday:'short',day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})};
-  notes.unshift(note);save('sal_notes',notes);
-  document.getElementById('nb-text').value='';
-  document.querySelectorAll('.nb-tag').forEach(b=>b.classList.remove('sel'));selTag=null;
-  renderNotes();
-}
-function deleteNote(id){notes=notes.filter(n=>n.id!==id);save('sal_notes',notes);renderNotes()}
-const TL={skip:'⛔ Skip',done:'✅ Selesai',struggle:'😤 Stuck',plan:'📌 Plan',insight:'💡 Insight'};
-function renderNotes(){
-  const list=document.getElementById('nb-list');
-  if(!notes.length){list.innerHTML='<div class="empty-notes">belum ada catatan<br><span style="color:var(--muted2)">tulis dulu di atas</span></div>';return}
-  list.innerHTML=notes.map(n=>`<div class="note-card type-${n.type}"><div class="note-meta"><span class="note-type">${TL[n.type]||n.type}</span><span class="note-date">${n.date}</span></div><button class="note-del" onclick="deleteNote(${n.id})">×</button><div class="note-text">${n.text.replace(/&/g,'&amp;').replace(/</g,'&lt;')}</div></div>`).join('');
-}
-document.getElementById('nb-date').textContent=new Date().toLocaleDateString('id-ID',{weekday:'long',day:'numeric',month:'long',year:'numeric'}).toUpperCase();
-renderRoadmap();updateStreak();
+let installPrompt=null;
+const installButton=document.getElementById("install-app");
+const installHelp=document.getElementById("install-help");
+window.addEventListener("beforeinstallprompt",event=>{event.preventDefault();installPrompt=event;installButton.textContent="Pasang aplikasi ↗";});
+window.addEventListener("appinstalled",()=>{installPrompt=null;installHelp.textContent="Michishirube sudah terpasang di perangkatmu.";installHelp.classList.add("visible");installButton.setAttribute("aria-expanded","true");installButton.textContent="Aplikasi terpasang ✓";});
+installButton.addEventListener("click",async()=>{
+ if(installPrompt){installPrompt.prompt();const choice=await installPrompt.userChoice;installHelp.textContent=choice.outcome==="accepted"?"Permintaan pemasangan diterima. Ikuti petunjuk pada perangkatmu.":"Pemasangan belum dilakukan. Kamu bisa mencobanya lagi nanti.";installPrompt=null;}
+ else if(/iphone|ipad|ipod/i.test(navigator.userAgent)){installHelp.textContent="Untuk memasang di iPhone/iPad: buka halaman ini di Safari, tekan tombol Bagikan, lalu pilih Add to Home Screen / Tambahkan ke Layar Utama.";}
+ else if(/android/i.test(navigator.userAgent)){installHelp.textContent="Buka menu browser, lalu pilih Install app atau Tambahkan ke layar utama jika tersedia. Pastikan situs dibuka melalui HTTPS.";}
+ else{installHelp.textContent="Buka menu browser lalu pilih Install page as app atau Install Michishirube. Jika opsi belum tersedia, buka situs melalui HTTPS dan coba lagi.";}
+ installHelp.classList.add("visible");installButton.setAttribute("aria-expanded","true");
+});
+if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
 </script>
 </body>
 </html>
