@@ -1439,9 +1439,6 @@ function klShowAll() {
   if (showButton) showButton.setAttribute("aria-expanded", "true");
   klRenderAllList();
 
-  // Confirm the expected data count in the UI for accessibility and testing.
-  const count = document.getElementById("kl-count");
-  if (count) count.textContent = "Daftar lengkap: " + list.children.length + " kanji · Dataset " + KL_DATA.length + " kanji";
   list.scrollIntoView({ behavior: "smooth", block: "nearest" });
 }
 function klShuffle(a) {
