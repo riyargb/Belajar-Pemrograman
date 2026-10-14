@@ -592,7 +592,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   </div>
   <div id="kl-quiz" class="kl-hidden">
     <div class="kl-card">
-      <div class="kl-tag">KANJI QUIZ</div>
+      <div class="kl-tag">KANJI QUIZ · LATIHAN DUA ARAH</div>
+      <label class="kl-count" for="kl-q-mode">Pola soal</label>
+      <select class="kl-select" id="kl-q-mode" aria-label="Pola kuis kanji"><option value="mixed">Campuran semua arah</option><option value="kanji-hira">Kanji → Hiragana</option><option value="hira-kanji">Hiragana → Kanji</option><option value="kanji-romaji">Kanji → Romaji</option><option value="romaji-kanji">Romaji → Kanji</option><option value="hira-romaji">Hiragana → Romaji</option><option value="kanji-id">Kanji → Arti Indonesia</option><option value="id-kanji">Arti Indonesia → Kanji</option><option value="hira-id">Hiragana → Arti Indonesia</option><option value="id-hira">Arti Indonesia → Hiragana</option></select>
       <div class="kl-count" id="kl-q-count"></div>
       <div class="kl-quiz-question" id="kl-q-question"></div>
       <div class="kl-options" id="kl-q-options"></div>
@@ -1384,73 +1386,68 @@ function klShuffle(a) {
   }
   return b;
 }
-function klQuizStart() {
-  const pool = klFiltered();
-  if (pool.length < 2) {
-    alert("Pilih minimal dua kanji untuk memulai kuis.");
-    return;
-  }
-  klQuiz = klShuffle(pool).slice(0, Math.min(10,pool.length));
-  klQIndex = 0;
-  klScore = 0;
-  klAnswered = false;
-  document.getElementById("kl-quiz").classList.remove("kl-hidden");
-  klQuizRender();
-  document.getElementById("kl-quiz").scrollIntoView({behavior:"smooth",block:"start"});
+function klToHiragana(value){return String(value||"").replace(/[ァ-ヶ]/g,ch=>String.fromCharCode(ch.charCodeAt(0)-0x60));}
+function klKanaToRomaji(value){
+ const map={あ:"a",い:"i",う:"u",え:"e",お:"o",か:"ka",き:"ki",く:"ku",け:"ke",こ:"ko",さ:"sa",し:"shi",す:"su",せ:"se",そ:"so",た:"ta",ち:"chi",つ:"tsu",て:"te",と:"to",な:"na",に:"ni",ぬ:"nu",ね:"ne",の:"no",は:"ha",ひ:"hi",ふ:"fu",へ:"he",ほ:"ho",ま:"ma",み:"mi",む:"mu",め:"me",も:"mo",や:"ya",ゆ:"yu",よ:"yo",ら:"ra",り:"ri",る:"ru",れ:"re",ろ:"ro",わ:"wa",を:"wo",ん:"n",が:"ga",ぎ:"gi",ぐ:"gu",げ:"ge",ご:"go",ざ:"za",じ:"ji",ず:"zu",ぜ:"ze",ぞ:"zo",だ:"da",ぢ:"ji",づ:"zu",で:"de",ど:"do",ば:"ba",び:"bi",ぶ:"bu",べ:"be",ぼ:"bo",ぱ:"pa",ぴ:"pi",ぷ:"pu",ぺ:"pe",ぽ:"po",ゃ:"ya",ゅ:"yu",ょ:"yo",ぁ:"a",ぃ:"i",ぅ:"u",ぇ:"e",ぉ:"o",っ:""};
+ const combos={"きゃ":"kya","きゅ":"kyu","きょ":"kyo","しゃ":"sha","しゅ":"shu","しょ":"sho","ちゃ":"cha","ちゅ":"chu","ちょ":"cho","にゃ":"nya","にゅ":"nyu","にょ":"nyo","ひゃ":"hya","ひゅ":"hyu","ひょ":"hyo","みゃ":"mya","みゅ":"myu","みょ":"myo","りゃ":"rya","りゅ":"ryu","りょ":"ryo","ぎゃ":"gya","ぎゅ":"gyu","ぎょ":"gyo","じゃ":"ja","じゅ":"ju","じょ":"jo","びゃ":"bya","びゅ":"byu","びょ":"byo","ぴゃ":"pya","ぴゅ":"pyu","ぴょ":"pyo"};
+ let text=klToHiragana(value).replace(/[・\s]/g,""),out="";
+ for(let i=0;i<text.length;i++){const pair=text.slice(i,i+2);if(combos[pair]){out+=combos[pair];i++;continue;}if(text[i]==="っ"&&i+1<text.length){const next=text.slice(i+1,i+3);const syll=combos[next]||map[text[i+1]]||"";out+=(syll[0]||"");continue;}out+=map[text[i]]||text[i];}
+ return out;
 }
-function klQuizRender() {
-  const x = klQuiz[klQIndex];
-  if (!x) return;
-  klAnswered = false;
-  document.getElementById("kl-q-count").textContent =
-    `Soal ${klQIndex+1}/${klQuiz.length} · Skor ${klScore}`;
-  document.getElementById("kl-q-question").innerHTML =
-    `Apa arti kanji <span class="kl-kanji">${klEsc(x.k)}</span>?`;
-  const wrong = klShuffle(KL_DATA.filter(y=>y.k!==x.k && (klLevel==="ALL" || y.l===klLevel))).slice(0,3);
-  const options = klShuffle([x,...wrong]).slice(0,4);
-  document.getElementById("kl-q-options").innerHTML = options.map((o,i)=>
-    `<button class="kl-btn kl-option" data-kanji="${klEsc(o.k)}"
-      onclick="klQuizAnswer('${klEsc(o.k)}')">${klEsc(o.m)}</button>`
-  ).join("");
-  document.getElementById("kl-q-feedback").textContent = "";
-  document.getElementById("kl-q-feedback").className = "kl-feedback";
-  const next = document.getElementById("kl-q-next");
-  next.disabled = true;
-  next.textContent = klQIndex === klQuiz.length-1 ? "Lihat hasil" : "Soal berikutnya →";
+function klReadings(x){
+ const vals=[...(x.kun||"").split(/[・、,／\/]/),...(x.on||"").split(/[・、,／\/]/)];
+ return [...new Set(vals.map(v=>klToHiragana(v.trim())).filter(v=>v&&v!=="—"&&v!=="-"&&/[\u3040-\u309f]/.test(v)))];
 }
-function klQuizAnswer(k) {
-  if (klAnswered) return;
-  klAnswered = true;
-  const x = klQuiz[klQIndex];
-  const correct = k === x.k;
-  if (correct) klScore++;
-  document.querySelectorAll("#kl-q-options button").forEach(b=>{
-    b.disabled = true;
-    if (b.dataset.kanji === x.k) b.style.borderColor = "#00d68f";
-    if (b.dataset.kanji === k && !correct) b.style.borderColor = "#ff6b6b";
-  });
-  const fb = document.getElementById("kl-q-feedback");
-  fb.className = "kl-feedback " + (correct ? "good" : "bad");
-  fb.textContent = `${correct ? "Benar!" : "Belum tepat."} Jawaban: ${x.k} — ${x.m}. Kosakata: ${x.v}. ${x.s}`;
-  document.getElementById("kl-q-count").textContent =
-    `Soal ${klQIndex+1}/${klQuiz.length} · Skor ${klScore}`;
-  document.getElementById("kl-q-next").disabled = false;
+let klQuizQuestions=[],klQuizCurrent=null;
+function klQuizBuild(mode){
+ const base=klFiltered(),readings=[];
+ base.forEach(x=>klReadings(x).forEach(reading=>readings.push({x,reading,romaji:klKanaToRomaji(reading)})));
+ const uniqueReading=readings.filter(p=>readings.filter(q=>q.reading===p.reading).length===1);
+ const uniqueRomaji=readings.filter(p=>p.romaji&&readings.filter(q=>q.romaji===p.romaji).length===1);
+ const uniqueMeaning=base.filter(x=>base.filter(y=>y.m===x.m).length===1);
+ const configs={
+ "kanji-hira":{pool:readings,prompt:"Apa bacaan hiragana kanji ini?",ask:p=>p.x.k,answer:p=>p.reading},
+ "hira-kanji":{pool:uniqueReading,prompt:"Pilih kanji yang memiliki bacaan hiragana ini.",ask:p=>p.reading,answer:p=>p.x.k},
+ "kanji-romaji":{pool:readings,prompt:"Bagaimana romaji bacaan kanji ini?",ask:p=>p.x.k,answer:p=>p.romaji},
+ "romaji-kanji":{pool:uniqueRomaji,prompt:"Pilih kanji dengan bacaan romaji ini.",ask:p=>p.romaji,answer:p=>p.x.k},
+ "hira-romaji":{pool:readings,prompt:"Apa romaji dari hiragana ini?",ask:p=>p.reading,answer:p=>p.romaji},
+ "kanji-id":{pool:base,prompt:"Apa arti kanji ini dalam bahasa Indonesia?",ask:p=>p.k,answer:p=>p.m},
+ "id-kanji":{pool:uniqueMeaning,prompt:"Pilih kanji yang sesuai dengan arti Indonesia ini.",ask:p=>p.m,answer:p=>p.k},
+ "hira-id":{pool:readings,prompt:"Kanji dengan bacaan ini memiliki arti apa?",ask:p=>p.reading,answer:p=>p.x.m},
+ "id-hira":{pool:uniqueMeaning.map(x=>({x,reading:klReadings(x)[0]})).filter(p=>p.reading),prompt:"Pilih bacaan hiragana kanji untuk arti ini.",ask:p=>p.x.m,answer:p=>p.reading}
+ };
+ const modes=Object.keys(configs).filter(k=>configs[k].pool.length>=4);
+ if(mode==="mixed"){const mixed=[];for(let i=0;i<10;i++){const m=modes[Math.floor(Math.random()*modes.length)],batch=klQuizBuild(m);if(batch.length)mixed.push(batch[Math.floor(Math.random()*batch.length)]);}return mixed;}
+ const cfg=configs[mode];if(!cfg||cfg.pool.length<4)return [];
+ return klShuffle(cfg.pool).slice(0,10).map(item=>{const answer=String(cfg.answer(item)),wrong=klShuffle(cfg.pool.filter(other=>String(cfg.answer(other))!==answer)).map(other=>String(cfg.answer(other))),options=klShuffle([...new Set([answer,...wrong])]).slice(0,4);return {mode,prompt:cfg.prompt,question:String(cfg.ask(item)),answer,options,item};}).filter(q=>q.options.length>=2);
 }
-function klQuizNext() {
-  if (!klAnswered) return;
-  if (klQIndex < klQuiz.length-1) {
-    klQIndex++;
-    klQuizRender();
-  } else {
-    document.getElementById("kl-q-question").innerHTML =
-      `Kuis selesai!<br><span class="kl-kanji">${klScore}/${klQuiz.length}</span>`;
-    document.getElementById("kl-q-options").innerHTML = "";
-    document.getElementById("kl-q-feedback").textContent =
-      `Nilai ${Math.round(klScore/klQuiz.length*100)}%. Ulangi kuis untuk latihan lagi.`;
-    document.getElementById("kl-q-feedback").className = "kl-feedback";
-    document.getElementById("kl-q-count").textContent = "HASIL AKHIR";
-    document.getElementById("kl-q-next").disabled = true;
-  }
+function klQuizStart(){
+ const mode=document.getElementById("kl-q-mode").value;klQuizQuestions=klQuizBuild(mode);
+ if(!klQuizQuestions.length){alert("Data unik belum cukup untuk pola soal ini. Coba Campuran atau pilih level Semua.");return;}
+ klQuiz=klQuizQuestions;klQIndex=0;klScore=0;klAnswered=false;document.getElementById("kl-quiz").classList.remove("kl-hidden");klQuizRender();document.getElementById("kl-quiz").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function klQuizRender(){
+ const q=klQuizQuestions[klQIndex];if(!q)return;klQuizCurrent=q;klAnswered=false;
+ document.getElementById("kl-q-count").textContent="Soal "+(klQIndex+1)+"/"+klQuizQuestions.length+" · Skor "+klScore+" · "+q.mode;
+ document.getElementById("kl-q-question").innerHTML="<div>"+klEsc(q.prompt)+"</div><div class=\"kl-quiz-question\">"+klEsc(q.question)+"</div>";
+ document.getElementById("kl-q-options").innerHTML=q.options.map(o=>"<button type=\"button\" class=\"kl-btn kl-option\" data-answer=\""+klEsc(o)+"\">"+klEsc(o)+"</button>").join("");
+ document.querySelectorAll("#kl-q-options button").forEach(b=>b.addEventListener("click",()=>klQuizAnswer(b.dataset.answer)));
+ document.getElementById("kl-q-feedback").textContent="";document.getElementById("kl-q-feedback").className="kl-feedback";
+ const next=document.getElementById("kl-q-next");next.disabled=true;next.textContent=klQIndex===klQuizQuestions.length-1?"Lihat hasil":"Soal berikutnya →";
+}
+function klQuizAnswer(answer){
+ if(klAnswered||!klQuizCurrent)return;klAnswered=true;const q=klQuizCurrent,correct=String(answer)===String(q.answer);if(correct)klScore++;
+ document.querySelectorAll("#kl-q-options button").forEach(b=>{b.disabled=true;if(b.dataset.answer===String(q.answer))b.style.borderColor="#00d68f";if(b.dataset.answer===String(answer)&&!correct)b.style.borderColor="#ff6b6b";});
+ const x=q.item.x||q.item,fb=document.getElementById("kl-q-feedback");fb.className="kl-feedback "+(correct?"good":"bad");
+ fb.textContent=(correct?"Benar! ":"Belum tepat. ")+"Jawaban: "+q.answer+". Arti: "+(x.m||"—")+". Bacaan: "+(q.item.reading||klReadings(x).join(" / ")||"—")+". Kosakata: "+(x.v||"—")+". "+(x.s||"");
+ document.getElementById("kl-q-count").textContent="Soal "+(klQIndex+1)+"/"+klQuizQuestions.length+" · Skor "+klScore;document.getElementById("kl-q-next").disabled=false;
+}
+function klQuizNext(){
+ if(!klAnswered)return;
+ if(klQIndex<klQuizQuestions.length-1){klQIndex++;klQuizRender();return;}
+ const total=klQuizQuestions.length;document.getElementById("kl-q-question").innerHTML="Kuis selesai!<br><span class=\"kl-kanji\">"+klScore+"/"+total+"</span>";
+ document.getElementById("kl-q-options").innerHTML="";document.getElementById("kl-q-feedback").textContent="Nilai "+Math.round(klScore/total*100)+"%. Coba pola soal lain untuk menguji ingatan dari arah berbeda.";
+ document.getElementById("kl-q-feedback").className="kl-feedback";document.getElementById("kl-q-count").textContent="HASIL AKHIR";document.getElementById("kl-q-next").disabled=true;
 }
 document.getElementById("kl-level").addEventListener("change",e=>{
   klLevel = e.target.value;
