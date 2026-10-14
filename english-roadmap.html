@@ -589,7 +589,9 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
     <button class="kl-btn" onclick="klQuizStart()">Mulai kuis pilihan ganda</button>
     <button class="kl-btn" onclick="klShowOnlyUnlearned()">Belum hafal</button>
     <button class="kl-btn" onclick="klShowAll()">Tampilkan semua</button>
+    <button class="kl-btn" id="kl-list-toggle" type="button" aria-controls="kl-all-list" aria-expanded="false">Tampilkan daftar kanji</button>
   </div>
+  <div id="kl-all-list" hidden style="display:none;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:8px;margin:12px 0"></div>
   <div id="kl-quiz" class="kl-hidden">
     <div class="kl-card">
       <div class="kl-tag">KANJI QUIZ · LATIHAN DUA ARAH</div>
@@ -1299,6 +1301,7 @@ function klRefresh() {
   if (klIndex >= klList.length) klIndex = 0;
   klRender();
   klUpdateStats();
+  klRenderAllList();
 }
 function klUpdateStats() {
   const total = KL_DATA.length;
@@ -1361,6 +1364,7 @@ function klMark() {
   save("sal_kanji_progress", klProgress);
   klUpdateStats();
   klRender();
+  klRenderAllList();
 }
 function klShowOnlyUnlearned() {
   document.getElementById("kl-search").value = "";
@@ -1420,6 +1424,21 @@ function klQuizBuild(mode){
  const cfg=configs[mode];if(!cfg||cfg.pool.length<4)return [];
  return klShuffle(cfg.pool).slice(0,10).map(item=>{const answer=String(cfg.answer(item)),wrong=klShuffle(cfg.pool.filter(other=>String(cfg.answer(other))!==answer)).map(other=>String(cfg.answer(other))),options=klShuffle([...new Set([answer,...wrong])]).slice(0,4);return {mode,prompt:cfg.prompt,question:String(cfg.ask(item)),answer,options,item};}).filter(q=>q.options.length>=2);
 }
+function klRenderAllList(){
+ const el=document.getElementById("kl-all-list");if(!el||el.hidden)return;
+ const rows=klFiltered();
+ el.innerHTML=rows.map(x=>'<label style="display:flex;align-items:center;gap:8px;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--card);text-align:left"><input type="checkbox" data-kanji="'+klEsc(x.k)+'" '+(klProgress[x.k]?'checked':'')+'><span><b style="font-size:20px">'+klEsc(x.k)+'</b> <span style="font-size:12px">'+klEsc(x.m)+'</span><br><small>'+klEsc(x.l)+' · '+klEsc(x.kun||x.on||"")+'</small></span></label>').join("");
+}
+document.getElementById("kl-list-toggle").addEventListener("click",()=>{
+ const el=document.getElementById("kl-all-list"),btn=document.getElementById("kl-list-toggle"),show=el.hidden;
+ el.hidden=!show;el.style.display=show?"grid":"none";btn.setAttribute("aria-expanded",String(show));btn.textContent=show?"Sembunyikan daftar kanji":"Tampilkan daftar kanji";
+ if(show)klRenderAllList();
+});
+document.getElementById("kl-all-list").addEventListener("change",e=>{
+ const key=e.target.dataset.kanji;if(!key)return;
+ if(e.target.checked)klProgress[key]=true;else delete klProgress[key];
+ save("sal_kanji_progress",klProgress);klUpdateStats();klRenderAllList();klRender();
+});
 function klQuizStart(){
  const mode=document.getElementById("kl-q-mode").value;klQuizQuestions=klQuizBuild(mode);
  if(!klQuizQuestions.length){alert("Data unik belum cukup untuk pola soal ini. Coba Campuran atau pilih level Semua.");return;}
