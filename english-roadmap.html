@@ -1715,6 +1715,46 @@ body{font-family:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI"
   #pane-jp #vocab-lab #vl-category{width:max-content;inline-size:max-content;max-width:100%;justify-self:start;white-space:nowrap}
 }
 
+/* RESPONSIVE FIX: stack all vocabulary controls on narrow screens to prevent horizontal overflow. */
+#pane-jp #vocab-lab,
+#vocab-lab { min-width: 0; max-width: 100%; box-sizing: border-box; }
+#pane-jp #vocab-lab .vl-controls,
+#vocab-lab .vl-controls { min-width: 0; max-width: 100%; box-sizing: border-box; }
+@media screen and (max-width: 700px) {
+  #pane-jp #vocab-lab .vl-controls,
+  #vocab-lab .vl-controls {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    gap: 9px !important;
+  }
+  #pane-jp #vocab-lab .vl-controls > *,
+  #vocab-lab .vl-controls > *,
+  #pane-jp #vocab-lab .vl-controls .vl-select,
+  #vocab-lab .vl-controls .vl-select,
+  #pane-jp #vocab-lab .vl-controls .vl-input,
+  #vocab-lab .vl-controls .vl-input {
+    display: block !important;
+    width: 100% !important;
+    inline-size: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    justify-self: stretch !important;
+  }
+  #pane-jp #vocab-lab #vl-category,
+  #vocab-lab #vl-category {
+    width: 100% !important;
+    inline-size: 100% !important;
+    max-width: 100% !important;
+    white-space: normal !important;
+  }
+  #pane-jp #vocab-lab,
+  #vocab-lab { overflow-x: hidden !important; }
+}
 /* MOBILE FIX: the category select must not inherit the full-width mobile select rule. */
 @media (max-width: 700px) {
   #vocab-lab .vl-controls #vl-category,
