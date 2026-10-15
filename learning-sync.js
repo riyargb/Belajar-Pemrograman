@@ -60,6 +60,8 @@
         hydrate(legacy);ready=true;
         const {error:saveError}=await client.from("user_learning_state").upsert({user_id:uid,state:state(),updated_at:new Date().toISOString()},{onConflict:"user_id"});
         if(saveError)throw saveError;
+        // Remove shared legacy keys after successful import so another account cannot inherit them.
+        if(Object.keys(legacy).length) keys.forEach(k=>remove.call(localStorage,k));
         if(Object.keys(legacy).length&&!sessionStorage.getItem(marker)){sessionStorage.setItem(marker,"1");location.reload();return;}
       }
       client.auth.onAuthStateChange((_event,s)=>{if(!s?.user||s.user.id!==uid){ready=false;location.reload();}});
