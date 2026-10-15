@@ -5,7 +5,7 @@ const cfg = window.MICHISHIRUBE_SUPABASE_CONFIG || {};
 const BASE_PATH = "/index.html";
 const authUrl = new URL("./auth.html", window.location.href);
 const requestedNext = window.location.pathname + window.location.search + window.location.hash;
-authUrl.searchParams.set("next", /\\/auth\\.html$/i.test(window.location.pathname) ? BASE_PATH : requestedNext || BASE_PATH);
+authUrl.searchParams.set("next", window.location.pathname.endsWith("/auth.html") ? BASE_PATH : requestedNext || BASE_PATH);
 
 // The landing page must remain reachable from the login screen even when signed out.
 const isLandingPage = window.location.pathname === "/" || /\/index\.html$/i.test(window.location.pathname);
