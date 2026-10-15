@@ -82,16 +82,15 @@ function showSignedOut() {
 }
 function safeNextUrl() {
   const raw = new URLSearchParams(window.location.search).get("next");
-  if (!raw) return null;
+  if (!raw) return new URL("./index.html", window.location.href).href;
   try {
     const target = new URL(raw, window.location.origin);
-    if (target.origin !== window.location.origin || !target.pathname.startsWith("/Belajar-Pemrograman/")) return null;
+    if (target.origin !== window.location.origin || /\/auth\.html$/i.test(target.pathname)) return new URL("./index.html", window.location.href).href;
     return target.href;
-  } catch { return null; }
+  } catch { return new URL("./index.html", window.location.href).href; }
 }
 function redirectAfterAuth() {
-  const target = safeNextUrl();
-  if (target) window.location.replace(target);
+  window.location.replace(safeNextUrl());
 }
 googleLogin.addEventListener("click", async () => {
   if (!supabase || busy) {
@@ -221,9 +220,11 @@ async function initialise() {
     const { data, error } = await supabase.auth.getSession();
     if (error) throw error;
     if (data.session?.user) { showSignedIn(data.session.user); redirectAfterAuth(); }
-    supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) showSignedIn(session.user);
-      else showSignedOut();
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (session?.user) {
+        showSignedIn(session.user);
+        if (event === "SIGNED_IN") redirectAfterAuth();
+      } else showSignedOut();
     });
     clearStatus();
   } catch (_error) {
