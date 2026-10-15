@@ -467,7 +467,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
  <div class="vl-count" id="vl-q-count"></div><div class="vl-list" id="vl-q-options"></div>
  <div class="vl-detail" id="vl-q-feedback" aria-live="polite"></div>
  <div class="vl-buttons"><button class="vl-btn primary" id="vl-q-start" type="button">Mulai kuis 10 soal</button><button class="vl-btn" id="vl-q-next" type="button" disabled>Soal berikutnya →</button></div>
-  <div class="vl-sub">Catatan: daftar N5 dan N4 adalah kurasi belajar, bukan daftar resmi tertutup JLPT. Label level adalah klasifikasi belajar, bukan jaminan bahwa setiap kata termasuk daftar resmi. Progres hafalan disimpan terpisah untuk tiap level. Periksa konteks dan contoh kalimat saat menghafal.</div>
+  <div class="vl-sub">Catatan: kosakata N5/N4 ini disusun sebagai panduan belajar, bukan daftar resmi JLPT. Progres hafalan disimpan terpisah per level.</div>
 </section>
 <!-- END SALMAN_VOCAB_LAB_V1 -->
 
@@ -657,12 +657,11 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
     </div>
   </div>
   <div class="kl-sub" style="margin-top:12px">
-    Progres tersimpan otomatis di browser/perangkat ini. Dataset fitur ini memuat 300 kanji: 100 entri N5 dan 200 entri N4. Pembagian level merupakan panduan belajar, bukan daftar resmi JLPT yang tertutup.
-    Daftar JLPT kanji tidak diterbitkan sebagai daftar resmi tertutup yang definitif.
+    Progres tersimpan otomatis di perangkat ini. Tersedia 300 kanji: 100 untuk N5 dan 200 untuk N4. Pembagian level adalah panduan belajar, bukan daftar resmi JLPT.
   </div>
 </section>
   <div style="font-size:10px;line-height:1.7;color:var(--muted);padding:8px 2px 16px">
-    Ini roadmap dan checklist belajar, bukan ujian JLPT resmi. Tandai materi setelah lu benar-benar menguasainya dan uji pemahaman dengan soal latihan.
+    Gunakan roadmap ini untuk memantau belajar dan menguji pemahaman lewat latihan.
   </div>
 </div>
 <div class="pane" id="pane-nb">
@@ -681,7 +680,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   <div class="nb-list-title">Riwayat Catatan Bahasa</div>
   <div id="nb-list"></div>
 </div>
-<div class="bottom-hint">data tersimpan otomatis · tidak hilang</div>
+<div class="bottom-hint">Progres dan catatan tersimpan di perangkat ini.</div>
 <script>
 (function(){
  const root=document.documentElement,btn=document.getElementById('theme-toggle'),meta=document.getElementById('theme-color-meta');
