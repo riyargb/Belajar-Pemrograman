@@ -363,7 +363,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
    return klabShuffle(unique).slice(0,10).map(x=>{const wrong=klabShuffle(pool.filter(y=>y.script===x.script&&y.ch!==x.ch).map(y=>y.ch)).slice(0,3);return {mode,question:x.romaji,answer:x.ch,options:klabShuffle([x.ch,...wrong]),note:x.group==="dakuten"?"Dakuten ゛":"Handakuten ゜"};});
   }
   const target=mode.endsWith("-romaji")?"romaji":mode==="romaji-H"?"H":mode==="romaji-K"?"K":mode==="H-K"?"K":"H";
-  const sourceRows=all.filter(x=>x.script===source);
+  const sourceRows=all.filter(x=>x.script===source&&(!mode.startsWith("romaji-")||all.filter(y=>y.script===source&&y.romaji===x.romaji).length===1));
   return klabShuffle(sourceRows).slice(0,10).map(x=>{
    let answer;
    if(target==="romaji")answer=x.romaji;
