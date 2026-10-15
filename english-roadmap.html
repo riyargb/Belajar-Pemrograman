@@ -1500,7 +1500,7 @@ function klQuizBuild(mode){
  const modes=Object.keys(configs).filter(k=>configs[k].pool.length>=4);
  if(mode==="mixed"){const mixed=[];for(let i=0;i<10;i++){const m=modes[Math.floor(Math.random()*modes.length)],batch=klQuizBuild(m);if(batch.length)mixed.push(batch[Math.floor(Math.random()*batch.length)]);}return mixed;}
  const cfg=configs[mode];if(!cfg||cfg.pool.length<4)return [];
- return klShuffle(cfg.pool).slice(0,10).map(item=>{const answer=String(cfg.answer(item)),wrong=klShuffle(cfg.pool.filter(other=>String(cfg.answer(other))!==answer)).map(other=>String(cfg.answer(other))),options=klShuffle([...new Set([answer,...wrong])]).slice(0,4);return {mode,prompt:cfg.prompt,question:String(cfg.ask(item)),answer,options,item};}).filter(q=>q.options.length>=2);
+ return klShuffle(cfg.pool).slice(0,10).map(item=>{const answer=String(cfg.answer(item)),wrong=klShuffle([...new Set(cfg.pool.filter(other=>String(cfg.answer(other))!==answer).map(other=>String(cfg.answer(other))))]).slice(0,3),options=klShuffle([...wrong,answer]);return {mode,prompt:cfg.prompt,question:String(cfg.ask(item)),answer,options,item};}).filter(q=>q.options.length>=2);
 }
 function klRenderAllList(){
  const el=document.getElementById("kl-all-list");if(!el||el.hidden)return;
