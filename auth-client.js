@@ -223,7 +223,7 @@ async function initialise() {
       showSignedIn(data.session.user);
       // Opening Profil directly should show the signed-in account screen.
       // Only redirect on initial load when an explicit destination was supplied.
-      if (new URLSearchParams(window.location.search).has("next")) redirectAfterAuth();
+      if (new URLSearchParams(window.location.search).has("next") && new URLSearchParams(window.location.search).get("next") !== "/index.html") redirectAfterAuth();
     }
     supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
