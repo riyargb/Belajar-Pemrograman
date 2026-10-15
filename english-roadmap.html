@@ -436,6 +436,19 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
 .vl-row-jp{font-weight:800;font-size:17px}
 .vl-row-sub{font-size:11px;color:var(--muted);overflow-wrap:anywhere}
 .vl-check{accent-color:var(--accent);width:18px;height:18px}
+
+/* Keep the category filter compact on phones; prevent native select overflow. */
+#vocab-lab{width:100%;max-width:100%;min-width:0;box-sizing:border-box}
+#vocab-lab .vl-controls{width:100%;max-width:100%;min-width:0;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr) minmax(0,1.1fr)}
+#vocab-lab .vl-controls>*{box-sizing:border-box;min-width:0;max-width:100%}
+#vocab-lab #vl-category{width:auto;max-width:100%;min-width:0;justify-self:start;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@media(max-width:700px){
+  #pane-jp #vocab-lab{width:100%;max-width:100%;min-width:0;overflow-x:clip}
+  #pane-jp #vocab-lab .vl-controls{grid-template-columns:minmax(0,1fr);width:100%;max-width:100%;min-width:0}
+  #pane-jp #vocab-lab .vl-controls>*{box-sizing:border-box;max-width:100%;min-width:0}
+  #pane-jp #vocab-lab #vl-category{width:fit-content;max-width:100%;min-width:0;justify-self:start;display:block}
+}
+
 @media(max-width:700px){.vl-controls{grid-template-columns:minmax(0,1fr);gap:9px}.vl-controls .vl-select,.vl-controls .vl-input{width:100%;min-width:0;max-width:100%}}@media(max-width:420px){.vl-wrap{padding:12px}.vl-jp{font-size:30px}}
 </style>
 <section class="vl-wrap" id="vocab-lab">
