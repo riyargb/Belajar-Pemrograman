@@ -189,11 +189,14 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
 #kana-lab{scroll-margin-top:128px}
 @media(max-width:620px){.jp-hero-actions{display:grid;grid-template-columns:1fr 1fr}.jp-kana-cta,.jp-kana-secondary{padding:10px 8px;font-size:11px;text-align:center}}
 
+/* PAGE SEPARATION: English roadmap stays English-only */
+body[data-page="english"] .tab.jp,body[data-page="english"] #pane-jp{display:none!important}
+body[data-page="english"] .tab.en{display:block}
 </style>
 <script>document.documentElement.classList.add("auth-pending");</script><style>html.auth-pending body{visibility:hidden!important}</style><script src="./supabase-config.js"></script>
 <script src="./learning-sync.js"></script><script type="module" src="./site-auth.js"></script>
 </head>
-<body>
+<body data-page="english">
 <div class="topbar">
   <a class="topbar-title" href="./index.html" style="text-decoration:none;font-family:'Playfair Display',serif;color:#142d45"><span style="font-family:'Noto Serif JP',serif;color:#c8434b;margin-right:8px">道標</span>Michishirube</a>
   <div class="topbar-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Aktifkan mode gelap" title="Ganti tema">☾ <span>Mode gelap</span></button><a href="index.html" class="back-btn">← Beranda</a></div>
