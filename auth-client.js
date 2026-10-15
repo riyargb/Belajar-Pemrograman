@@ -221,9 +221,8 @@ async function initialise() {
     if (error) throw error;
     if (data.session?.user) {
       showSignedIn(data.session.user);
-      // Opening Profil directly should show the signed-in account screen.
-      // Only redirect on initial load when an explicit destination was supplied.
-      if (new URLSearchParams(window.location.search).has("next") && new URLSearchParams(window.location.search).get("next") !== "/index.html") redirectAfterAuth();
+      // Keep the profile page open when an existing session is detected.
+      // Successful sign-in handlers below perform any requested redirect.
     }
     supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
