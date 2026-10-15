@@ -33,9 +33,9 @@
 #entry-screen{position:fixed;inset:0;z-index:9999;display:grid;place-items:center;background:#f8f5ed;opacity:1;visibility:visible;transition:opacity .55s ease,visibility .55s ease}
 #entry-screen.is-leaving{opacity:0;visibility:hidden;pointer-events:none}
 .entry-inner{display:flex;flex-direction:column;align-items:center;gap:22px;padding:28px;text-align:center;animation:entry-rise .7s ease both}
-.entry-logo-frame{position:relative;width:min(48vw,210px);aspect-ratio:1;display:grid;place-items:center;background:#fffdf8;box-shadow:0 18px 50px #182f4512;animation:entry-breathe 2.4s ease-in-out infinite}
-.entry-logo-frame img{display:block;width:100%;height:100%;object-fit:contain}
-.entry-corner{position:absolute;width:25px;height:25px;border-color:#a84c51;border-style:solid;opacity:.95}
+.entry-logo-frame{position:relative;width:min(48vw,210px);aspect-ratio:1;display:grid;place-items:center;background:transparent;border-radius:50%;animation:entry-breathe 2.4s ease-in-out infinite}
+.entry-logo-frame img{display:block;width:100%;height:100%;object-fit:contain;border-radius:50%;clip-path:circle(49% at 50% 50%);filter:drop-shadow(0 12px 20px #182f4518)}
+.entry-corner{position:absolute;width:29px;height:29px;border-color:#a84c51;border-style:solid;opacity:.95;filter:drop-shadow(0 2px 2px #f8f5ed)}
 .entry-corner.tl{top:-7px;left:-7px;border-width:2px 0 0 2px}.entry-corner.tr{top:-7px;right:-7px;border-width:2px 2px 0 0}.entry-corner.bl{bottom:-7px;left:-7px;border-width:0 0 2px 2px}.entry-corner.br{bottom:-7px;right:-7px;border-width:0 2px 2px 0}
 .entry-name{margin:0;color:#182f45;font:600 20px/1.3 'Playfair Display','Noto Serif JP',serif;letter-spacing:.04em}.entry-tagline{margin:-13px 0 0;color:#8f464c;font-size:10px;letter-spacing:.24em;text-transform:uppercase}
 .entry-loader{width:92px;height:2px;background:#e5ddcf;overflow:hidden}.entry-loader span{display:block;width:36%;height:100%;background:#a84c51;animation:entry-load 1.25s ease-in-out infinite}
