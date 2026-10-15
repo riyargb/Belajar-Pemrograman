@@ -1715,6 +1715,25 @@ body{font-family:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI"
   #pane-jp #vocab-lab #vl-category{width:max-content;inline-size:max-content;max-width:100%;justify-self:start;white-space:nowrap}
 }
 
+/* MOBILE FIX: the category select must not inherit the full-width mobile select rule. */
+@media (max-width: 700px) {
+  #vocab-lab .vl-controls #vl-category,
+  #pane-jp #vocab-lab .vl-controls #vl-category {
+    display: inline-block !important;
+    width: fit-content !important;
+    inline-size: fit-content !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    justify-self: start !important;
+    align-self: start !important;
+    box-sizing: border-box !important;
+    white-space: nowrap !important;
+  }
+  #vocab-lab .vl-controls,
+  #pane-jp #vocab-lab .vl-controls {
+    justify-items: stretch;
+  }
+}
 /* FINAL FIX: keep category dropdown as compact as its selected label */
 #pane-jp #vocab-lab .vl-controls #vl-category {
   width: fit-content !important;
