@@ -543,7 +543,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   let pool=data.filter(x=>x.jp&&x.kana&&x.arti&&String(cfg.answer(x)).trim()&&String(cfg.ask(x)).trim());
   if(["romaji-jp","id-jp","kana-jp","id-kana"].includes(mode))pool=pool.filter(x=>pool.filter(y=>String(cfg.ask(y))===String(cfg.ask(x))).length===1);
   if(pool.length<4)return [];
-  return vocabQuizShuffle(pool).slice(0,10).map(x=>{const answer=String(cfg.answer(x)),wrong=vocabQuizShuffle(pool.filter(y=>String(cfg.answer(y))!==answer)).map(y=>String(cfg.answer(y))),options=vocabQuizShuffle([...new Set([answer,...wrong])]).slice(0,4);return {mode,prompt:cfg.prompt,question:String(cfg.ask(x)),answer,options,item:x};}).filter(q=>q.options.length>=2);
+  return vocabQuizShuffle(pool).slice(0,10).map(x=>{const answer=String(cfg.answer(x)),wrong=vocabQuizShuffle([...new Set(pool.filter(y=>String(cfg.answer(y))!==answer).map(y=>String(cfg.answer(y))))]).slice(0,3),options=vocabQuizShuffle([...wrong,answer]);return {mode,prompt:cfg.prompt,question:String(cfg.ask(x)),answer,options,item:x};}).filter(q=>q.options.length>=2);
  }
  function vocabQuizRender(){
   vocabQuizCurrent=vocabQuiz[vocabQuizIndex];if(!vocabQuizCurrent)return;vocabQuizAnswered=false;const q=vocabQuizCurrent;
