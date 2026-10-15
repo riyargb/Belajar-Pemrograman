@@ -219,7 +219,12 @@ async function initialise() {
     });
     const { data, error } = await supabase.auth.getSession();
     if (error) throw error;
-    if (data.session?.user) { showSignedIn(data.session.user); redirectAfterAuth(); }
+    if (data.session?.user) {
+      showSignedIn(data.session.user);
+      // Opening Profil directly should show the signed-in account screen.
+      // Only redirect on initial load when an explicit destination was supplied.
+      if (new URLSearchParams(window.location.search).has("next")) redirectAfterAuth();
+    }
     supabase.auth.onAuthStateChange((event, session) => {
       if (session?.user) {
         showSignedIn(session.user);
