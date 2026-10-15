@@ -360,7 +360,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
   const source=mode.startsWith("H-")?"H":mode.startsWith("K-")?"K":mode.startsWith("romaji-")?(mode==="romaji-H"?"H":"K"):"H";
   if(mode==="sound"){
    const unique=pool.filter(x=>x.group!=="basic");
-   return klabShuffle(unique).slice(0,10).map(x=>({mode,question:x.romaji,answer:x.ch,options:klabShuffle([...new Set([x.ch,...klabShuffle(pool.filter(y=>y.script===x.script&&y.ch!==x.ch).map(y=>y.ch)).slice(0,3)])]),note:x.group==="dakuten"?"Dakuten ゛":"Handakuten ゜"}));
+   return klabShuffle(unique).slice(0,10).map(x=>{const wrong=klabShuffle(pool.filter(y=>y.script===x.script&&y.ch!==x.ch).map(y=>y.ch)).slice(0,3);return {mode,question:x.romaji,answer:x.ch,options:klabShuffle([x.ch,...wrong]),note:x.group==="dakuten"?"Dakuten ゛":"Handakuten ゜"};});
   }
   const target=mode.endsWith("-romaji")?"romaji":mode==="romaji-H"?"H":mode==="romaji-K"?"K":mode==="H-K"?"K":"H";
   const sourceRows=all.filter(x=>x.script===source);
@@ -370,7 +370,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
    else answer=all.find(y=>y.script===target&&y.romaji===x.romaji)?.ch||x.ch;
    const question=mode.startsWith("romaji-")?x.romaji:x.ch;
    const wrong=klabShuffle(all.filter(y=>(target==="romaji"||y.script===target)&&String(target==="romaji"?y.romaji:y.ch)!==String(answer)).map(y=>String(target==="romaji"?y.romaji:y.ch)));
-   return {mode,question,answer:String(answer),options:klabShuffle([...new Set([String(answer),...wrong])]).slice(0,4),note:x.script==="H"?"Hiragana":"Katakana"};
+   const choices=klabShuffle([...new Set(wrong)]).slice(0,3);return {mode,question,answer:String(answer),options:klabShuffle([...choices,String(answer)]),note:x.script==="H"?"Hiragana":"Katakana"};
   }).filter(q=>q.options.length>=2);
  }
  function qRender(){
