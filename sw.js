@@ -1,4 +1,4 @@
-const CACHE_NAME='michishirube-shell-v9';
+const CACHE_NAME='michishirube-shell-v10';
 const APP_SHELL=['./','./index.html','./auth.html','./english-roadmap.html','./python-roadmap.html','./manifest.webmanifest','./favicon.svg','./1000401890%20(1).png','./supabase-config.js','./auth-client.js','./site-auth.js','./learning-sync.js'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(APP_SHELL)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(key=>key!==CACHE_NAME).map(key=>caches.delete(key)))).then(()=>self.clients.claim()))});
