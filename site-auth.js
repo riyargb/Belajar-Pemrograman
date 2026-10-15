@@ -7,6 +7,14 @@ const authUrl = new URL("./auth.html", window.location.href);
 const requestedNext = window.location.pathname + window.location.search + window.location.hash;
 authUrl.searchParams.set("next", requestedNext.startsWith(BASE_PATH) ? requestedNext : BASE_PATH);
 
+// The landing page must remain reachable from the login screen even when signed out.
+const isLandingPage = window.location.pathname === "/" || /\/index\.html$/i.test(window.location.pathname);
+if (isLandingPage) {
+  document.documentElement.classList.remove("auth-pending");
+} else {
+  startSiteAuth();
+}
+
 function addAuthControls(user, supabase) {
   let profile = document.querySelector(".nav a.profile");
   if (!profile) {
@@ -37,8 +45,7 @@ function addAuthControls(user, supabase) {
     logout.type = "button";
     logout.textContent = "Keluar";
     logout.style.cssText = "display:inline-flex;align-items:center;justify-content:center;padding:8px 11px;border:1px solid var(--border2,#d8cdbb);border-radius:999px;background:transparent;color:var(--text,#182f45);font:600 11px sans-serif;white-space:nowrap;cursor:pointer";
-    const parent = profile.parentElement;
-    parent.appendChild(logout);
+    profile.parentElement.appendChild(logout);
   }
   logout.onclick = async () => {
     logout.disabled = true;
@@ -79,4 +86,3 @@ async function startSiteAuth() {
     document.body.innerHTML = '<main style="max-width:560px;margin:12vh auto;padding:24px;font:16px/1.7 sans-serif;color:#182f45"><h1>Michishirube belum bisa memeriksa sesi</h1><p>Periksa koneksi internet, lalu muat ulang. Jika masalah berlanjut, buka halaman masuk dan pastikan konfigurasi Supabase benar.</p><p><a href="./auth.html">Buka halaman masuk</a></p></main>';
   }
 }
-startSiteAuth();
