@@ -9,7 +9,8 @@ authUrl.searchParams.set("next", window.location.pathname.endsWith("/auth.html")
 
 // The landing page must remain reachable from the login screen even when signed out.
 const isLandingPage = window.location.pathname === "/" || /\/index\.html$/i.test(window.location.pathname);
-if (isLandingPage) {
+const isAuthPage = /\/auth\.html$/i.test(window.location.pathname);
+if (isLandingPage || isAuthPage) {
   document.documentElement.classList.remove("auth-pending");
 } else {
   startSiteAuth();
