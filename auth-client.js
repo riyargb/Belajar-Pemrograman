@@ -82,12 +82,12 @@ function showSignedOut() {
 }
 function safeNextUrl() {
   const raw = new URLSearchParams(window.location.search).get("next");
-  if (!raw) return new URL("./index.html", window.location.href).href;
+  if (!raw) return new URL("/index.html", window.location.origin).href;
   try {
     const target = new URL(raw, window.location.origin);
-    if (target.origin !== window.location.origin || /\/auth\.html$/i.test(target.pathname)) return new URL("./index.html", window.location.href).href;
+    if (target.origin !== window.location.origin || /\/auth\.html$/i.test(target.pathname)) return new URL("/index.html", window.location.origin).href;
     return target.href;
-  } catch { return new URL("./index.html", window.location.href).href; }
+  } catch { return new URL("/index.html", window.location.origin).href; }
 }
 function redirectAfterAuth() {
   window.location.replace(safeNextUrl());
