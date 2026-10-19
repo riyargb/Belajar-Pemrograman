@@ -193,6 +193,21 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
 body[data-page="english"] .tab.jp,body[data-page="english"] #pane-jp,
 body[data-page="english"] .tab.nb,body[data-page="english"] #pane-nb{display:none!important}
 body[data-page="english"] .tab.en{display:block}
+
+/* ENGLISH ROADMAP: clear hierarchy while preserving the existing visual identity. */
+body[data-page="english"] #pane-en{padding:clamp(16px,3vw,28px);gap:18px}
+body[data-page="english"] .en-roadmap-intro{position:relative;overflow:hidden;padding:clamp(20px,4vw,32px);border:1px solid var(--border2);border-radius:18px;background:linear-gradient(135deg,var(--s1),var(--s2));}
+body[data-page="english"] .en-roadmap-kicker{font-size:10px;letter-spacing:.16em;color:var(--en);font-weight:700;margin-bottom:10px}
+body[data-page="english"] .en-roadmap-intro h1{font-family:'Syne',sans-serif;font-size:clamp(24px,4vw,36px);line-height:1.15;letter-spacing:-.04em;margin-bottom:10px}
+body[data-page="english"] .en-roadmap-intro p{max-width:660px;color:var(--muted);font:500 13px/1.8 'DM Sans',sans-serif}
+body[data-page="english"] .en-progress-card{max-width:560px;margin-top:20px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:rgba(79,195,247,.045)}
+body[data-page="english"] .en-progress-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;font:600 12px 'DM Sans',sans-serif}
+body[data-page="english"] .en-progress-heading strong{font:700 12px 'Space Mono',monospace;color:var(--en);white-space:nowrap}
+body[data-page="english"] #roadmap-en{display:flex;flex-direction:column;gap:12px;min-width:0}
+body[data-page="english"] #roadmap-en .phase{margin:0;border-radius:14px;overflow:hidden}
+body[data-page="english"] #roadmap-en .ph-header{border-radius:14px;transition:background .18s ease,border-color .18s ease}
+body[data-page="english"] #roadmap-en .ph-body{padding-top:4px}
+@media(max-width:600px){body[data-page="english"] #pane-en{padding:12px;gap:14px}body[data-page="english"] .en-roadmap-intro{padding:19px 16px;border-radius:15px}body[data-page="english"] .en-roadmap-intro p{font-size:12px}body[data-page="english"] .en-progress-card{padding:12px;margin-top:16px}body[data-page="english"] #roadmap-en{gap:10px}}
 </style>
 <script>document.documentElement.classList.add("auth-pending");</script><style>html.auth-pending body{visibility:hidden!important}</style><script src="./supabase-config.js"></script>
 <script src="./learning-sync.js"></script><script type="module" src="./site-auth.js"></script>
@@ -208,18 +223,15 @@ body[data-page="english"] .tab.en{display:block}
   <button class="tab nb" onclick="switchTab('nb',this)">📓 Catatan</button>
 </div>
 <div class="pane active" id="pane-en">
-  <div class="dual-progress">
-    <div class="dp-card">
-      <div class="dp-label">🇺🇸 ENGLISH</div>
-      <div class="dp-count en" id="gcnt-en">0/0</div>
+  <section class="en-roadmap-intro" aria-labelledby="en-roadmap-title">
+    <div class="en-roadmap-kicker">ENGLISH · LEARNING PATH</div>
+    <h1 id="en-roadmap-title">English Roadmap</h1>
+    <p>Belajar bertahap dari fondasi sampai materi lanjutan. Tandai materi yang sudah dikuasai untuk memantau progresmu.</p>
+    <div class="en-progress-card">
+      <div class="en-progress-heading"><span>Progres belajar</span><strong id="gcnt-en">0/0</strong></div>
       <div class="dp-bar-bg"><div class="dp-bar en" id="gbar-en" style="width:0%"></div></div>
     </div>
-    <div class="dp-card">
-      <div class="dp-label">🇯🇵 JAPANESE</div>
-      <div class="dp-count jp" id="gcnt-jp-side">0/0</div>
-      <div class="dp-bar-bg"><div class="dp-bar jp" id="gbar-jp-side" style="width:0%"></div></div>
-    </div>
-  </div>
+  </section>
   <div id="roadmap-en"></div>
 </div>
 <div class="pane" id="pane-jp">
