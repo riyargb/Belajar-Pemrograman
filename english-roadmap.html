@@ -194,20 +194,61 @@ body[data-page="english"] .tab.jp,body[data-page="english"] #pane-jp,
 body[data-page="english"] .tab.nb,body[data-page="english"] #pane-nb{display:none!important}
 body[data-page="english"] .tab.en{display:block}
 
-/* ENGLISH ROADMAP: clear hierarchy while preserving the existing visual identity. */
-body[data-page="english"] #pane-en{padding:clamp(16px,3vw,28px);gap:18px}
-body[data-page="english"] .en-roadmap-intro{position:relative;overflow:hidden;padding:clamp(20px,4vw,32px);border:1px solid var(--border2);border-radius:18px;background:linear-gradient(135deg,var(--s1),var(--s2));}
-body[data-page="english"] .en-roadmap-kicker{font-size:10px;letter-spacing:.16em;color:var(--en);font-weight:700;margin-bottom:10px}
-body[data-page="english"] .en-roadmap-intro h1{font-family:'Syne',sans-serif;font-size:clamp(24px,4vw,36px);line-height:1.15;letter-spacing:-.04em;margin-bottom:10px}
-body[data-page="english"] .en-roadmap-intro p{max-width:660px;color:var(--muted);font:500 13px/1.8 'DM Sans',sans-serif}
-body[data-page="english"] .en-progress-card{max-width:560px;margin-top:20px;padding:14px 16px;border:1px solid var(--border);border-radius:12px;background:rgba(79,195,247,.045)}
-body[data-page="english"] .en-progress-heading{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:10px;font:600 12px 'DM Sans',sans-serif}
-body[data-page="english"] .en-progress-heading strong{font:700 12px 'Space Mono',monospace;color:var(--en);white-space:nowrap}
-body[data-page="english"] #roadmap-en{display:flex;flex-direction:column;gap:12px;min-width:0}
-body[data-page="english"] #roadmap-en .phase{margin:0;border-radius:14px;overflow:hidden}
-body[data-page="english"] #roadmap-en .ph-header{border-radius:14px;transition:background .18s ease,border-color .18s ease}
-body[data-page="english"] #roadmap-en .ph-body{padding-top:4px}
-@media(max-width:600px){body[data-page="english"] #pane-en{padding:12px;gap:14px}body[data-page="english"] .en-roadmap-intro{padding:19px 16px;border-radius:15px}body[data-page="english"] .en-roadmap-intro p{font-size:12px}body[data-page="english"] .en-progress-card{padding:12px;margin-top:16px}body[data-page="english"] #roadmap-en{gap:10px}}
+
+/* Stronger English dashboard layout; preserve Michishirube palette and typography. */
+body[data-page="english"] #pane-en{padding:clamp(14px,3vw,30px);gap:22px;max-width:1100px;width:100%;margin:0 auto}
+body[data-page="english"] .en-dashboard{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(160px,.75fr);align-items:center;column-gap:16px;row-gap:20px;position:relative;overflow:hidden;padding:clamp(22px,4vw,38px);border:1px solid var(--border2);border-radius:22px;background:linear-gradient(120deg,var(--s1) 0%,var(--s2) 100%);box-shadow:0 14px 36px rgba(0,0,0,.09);isolation:isolate}
+body[data-page="english"] .en-dashboard:before{content:"";position:absolute;width:250px;height:250px;right:-90px;top:-130px;border-radius:50%;background:radial-gradient(circle,rgba(79,195,247,.17),transparent 70%);z-index:-1}
+body[data-page="english"] .en-dashboard-copy{position:relative;z-index:1}
+body[data-page="english"] .en-roadmap-kicker{font-size:10px;letter-spacing:.18em;color:var(--en);font-weight:800;margin-bottom:13px}
+body[data-page="english"] .en-dashboard h1{font-family:'Syne',sans-serif;font-size:clamp(28px,4.6vw,44px);line-height:1.08;letter-spacing:-.05em;margin:0 0 13px}
+body[data-page="english"] .en-dashboard-copy p{max-width:470px;color:var(--muted);font:500 13px/1.85 'DM Sans',sans-serif}
+body[data-page="english"] .en-dashboard-visual{height:155px;position:relative;display:grid;place-items:center;min-width:0}
+body[data-page="english"] .en-orbit{position:absolute;border:1px solid rgba(79,195,247,.28);border-radius:50%;transform:rotate(-24deg)}
+body[data-page="english"] .en-orbit-one{width:150px;height:94px}
+body[data-page="english"] .en-orbit-two{width:115px;height:150px;transform:rotate(34deg);border-color:rgba(79,195,247,.16)}
+body[data-page="english"] .en-book{display:grid;place-items:center;width:82px;height:94px;border:1px solid rgba(79,195,247,.5);border-radius:8px 13px 13px 8px;background:linear-gradient(145deg,rgba(79,195,247,.18),var(--s1));box-shadow:8px 8px 0 rgba(79,195,247,.07);font:800 31px 'Syne',sans-serif;color:var(--en);transform:rotate(-7deg)}
+body[data-page="english"] .en-book span{font-size:9px;letter-spacing:.12em;color:var(--muted);margin:-5px 0}
+body[data-page="english"] .en-spark{position:absolute;color:var(--en);font-size:19px}
+body[data-page="english"] .en-spark-one{right:15%;top:18%}
+body[data-page="english"] .en-spark-two{left:17%;bottom:18%;font-size:24px}
+body[data-page="english"] .en-dashboard-progress{grid-column:1/-1;padding-top:17px;border-top:1px solid var(--border2)}
+body[data-page="english"] .en-progress-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px}
+body[data-page="english"] .en-progress-top span{font:700 9px 'Space Mono',monospace;letter-spacing:.12em;color:var(--muted)}
+body[data-page="english"] .en-progress-top strong{font:700 13px 'Space Mono',monospace;color:var(--en)}
+body[data-page="english"] .en-progress-track{height:7px;overflow:hidden;border-radius:99px;background:var(--border2)}
+body[data-page="english"] .en-progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--en),#8ee5ff);transition:width .35s ease}
+body[data-page="english"] .en-progress-foot{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-top:10px;color:var(--muted);font:500 10px 'DM Sans',sans-serif}
+body[data-page="english"] .en-live-label{display:flex;align-items:center;gap:6px;letter-spacing:.08em;font-size:9px;white-space:nowrap}
+body[data-page="english"] .en-live-label i{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--en)}
+body[data-page="english"] #roadmap-en{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:14px;min-width:0}
+body[data-page="english"] #roadmap-en .phase{margin:0;border-radius:15px;align-self:start;overflow:hidden;transition:border-color .2s,box-shadow .2s,transform .2s}
+body[data-page="english"] #roadmap-en .phase:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(0,0,0,.08)}
+body[data-page="english"] #roadmap-en .ph-header{min-height:72px;padding:16px;gap:11px}
+body[data-page="english"] #roadmap-en .ph-num{font-size:9px;letter-spacing:.08em;padding:5px 7px;border-radius:5px}
+body[data-page="english"] #roadmap-en .ph-title{font-size:14px;line-height:1.4}
+body[data-page="english"] #roadmap-en .ph-stat{font-size:10px;background:var(--s1);padding:5px 7px;border-radius:7px}
+body[data-page="english"] #roadmap-en .ph-body{padding:0 16px 15px}
+body[data-page="english"] #roadmap-en .ph-minibar{height:4px;border-radius:99px;margin-bottom:11px}
+body[data-page="english"] #roadmap-en .item{padding:10px 0;gap:11px}
+body[data-page="english"] #roadmap-en .item-txt{font-size:12px;line-height:1.7}
+@media(max-width:680px){
+ body[data-page="english"] #pane-en{padding:12px;gap:16px}
+ body[data-page="english"] .en-dashboard{grid-template-columns:minmax(0,1fr) 104px;column-gap:8px;row-gap:16px;padding:20px 16px;border-radius:18px}
+ body[data-page="english"] .en-dashboard h1{font-size:clamp(24px,7vw,32px)}
+ body[data-page="english"] .en-dashboard-copy p{font-size:11px;line-height:1.7}
+ body[data-page="english"] .en-dashboard-visual{height:118px}
+ body[data-page="english"] .en-orbit-one{width:100px;height:68px}
+ body[data-page="english"] .en-orbit-two{width:82px;height:112px}
+ body[data-page="english"] .en-book{width:59px;height:72px;font-size:24px}
+ body[data-page="english"] .en-spark-one{right:3%;top:10%}
+ body[data-page="english"] .en-spark-two{left:2%;bottom:8%}
+ body[data-page="english"] .en-dashboard-progress{padding-top:14px}
+ body[data-page="english"] .en-progress-foot{align-items:flex-start;font-size:9px}
+ body[data-page="english"] #roadmap-en{grid-template-columns:minmax(0,1fr);gap:10px}
+ body[data-page="english"] #roadmap-en .ph-header{min-height:66px;padding:13px}
+ body[data-page="english"] #roadmap-en .ph-title{font-size:13px}
+}
 </style>
 <script>document.documentElement.classList.add("auth-pending");</script><style>html.auth-pending body{visibility:hidden!important}</style><script src="./supabase-config.js"></script>
 <script src="./learning-sync.js"></script><script type="module" src="./site-auth.js"></script>
@@ -223,13 +264,21 @@ body[data-page="english"] #roadmap-en .ph-body{padding-top:4px}
   <button class="tab nb" onclick="switchTab('nb',this)">📓 Catatan</button>
 </div>
 <div class="pane active" id="pane-en">
-  <section class="en-roadmap-intro" aria-labelledby="en-roadmap-title">
-    <div class="en-roadmap-kicker">ENGLISH · LEARNING PATH</div>
-    <h1 id="en-roadmap-title">English Roadmap</h1>
-    <p>Belajar bertahap dari fondasi sampai materi lanjutan. Tandai materi yang sudah dikuasai untuk memantau progresmu.</p>
-    <div class="en-progress-card">
-      <div class="en-progress-heading"><span>Progres belajar</span><strong id="gcnt-en">0/0</strong></div>
-      <div class="dp-bar-bg"><div class="dp-bar en" id="gbar-en" style="width:0%"></div></div>
+  <section class="en-dashboard" aria-labelledby="en-roadmap-title">
+    <div class="en-dashboard-copy">
+      <div class="en-roadmap-kicker">YOUR ENGLISH JOURNEY</div>
+      <h1 id="en-roadmap-title">English Roadmap</h1>
+      <p>Belajar satu langkah setiap hari. Pilih level, buka materi, lalu tandai yang sudah kamu kuasai.</p>
+    </div>
+    <div class="en-dashboard-visual" aria-hidden="true">
+      <div class="en-orbit en-orbit-one"></div><div class="en-orbit en-orbit-two"></div>
+      <div class="en-book">A<span>to</span>Z</div>
+      <span class="en-spark en-spark-one">✦</span><span class="en-spark en-spark-two">✧</span>
+    </div>
+    <div class="en-dashboard-progress">
+      <div class="en-progress-top"><span>OVERALL PROGRESS</span><strong id="gcnt-en">0/0</strong></div>
+      <div class="en-progress-track"><div id="gbar-en" class="en-progress-fill" style="width:0%"></div></div>
+      <div class="en-progress-foot"><span>Progres tersimpan saat kamu belajar</span><span class="en-live-label"><i></i> MY LEARNING</span></div>
     </div>
   </section>
   <div id="roadmap-en"></div>
