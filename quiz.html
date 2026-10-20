@@ -1920,6 +1920,11 @@ body{font-family:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI"
 </style>
 
 <style id="quiz-hub-styles">
+/* Let the dedicated hub own page scrolling, not the inherited single-screen layout. */
+html{height:auto!important;overflow-x:hidden!important;overflow-y:auto!important}
+body[data-page="quiz"]{height:auto!important;min-height:100vh!important;overflow:visible!important;display:block!important;background:var(--bg,#f8f5ed)}
+body[data-page="quiz"] #quiz-picker{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media(max-width:620px){body[data-page="quiz"] #quiz-picker{grid-template-columns:minmax(0,1fr)}}
 body[data-page="quiz"]{overflow:auto!important;min-height:100vh;background:var(--bg,#f8f5ed)}
 body[data-page="quiz"] .tabs,
 body[data-page="quiz"] #pane-en,
