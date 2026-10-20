@@ -69,8 +69,23 @@ const { chromium } = require("playwright");
     await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
     await page.context().setOffline(true);
     try {
-      await page.goto("http://127.0.0.1:4173/python-roadmap.html", { waitUntil: "domcontentloaded" });
-      assert.match(await page.locator("body").innerText(), /Python Basic|Python/, "Python roadmap should be available from the offline app shell");
+      const offlineShell = await page.evaluate(async () => {
+        const [pythonResponse, quizResponse] = await Promise.all([
+          fetch("./python-roadmap.html"),
+          fetch("./quiz.html")
+        ]);
+        const [pythonHtml, quizHtml] = await Promise.all([pythonResponse.text(), quizResponse.text()]);
+        return {
+          pythonOk: pythonResponse.ok,
+          pythonContains: /Python Basic|Python/.test(pythonHtml),
+          quizOk: quizResponse.ok,
+          quizContains: /Pusat Kuis|quiz-picker/.test(quizHtml)
+        };
+      });
+      assert.equal(offlineShell.pythonOk, true, "Python page source should be served by the offline app shell");
+      assert.equal(offlineShell.pythonContains, true, "offline app shell should return the cached Python page");
+      assert.equal(offlineShell.quizOk, true, "quiz page source should be served by the offline app shell");
+      assert.equal(offlineShell.quizContains, true, "offline app shell should return the cached quiz page");
     } finally { await page.context().setOffline(false); }
 
 
