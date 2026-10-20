@@ -5,7 +5,13 @@ on:
     paths:
       - "english-roadmap.html"
       - "japanese-roadmap.html"
+      - "kana.html"
+      - "kanji.html"
+      - "kosakata.html"
       - "quiz.html"
+      - "kana.html"
+      - "kanji.html"
+      - "kosakata.html"
       - "index.html"
       - "python-roadmap.html"
       - "auth.html"
