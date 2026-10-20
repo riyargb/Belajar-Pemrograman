@@ -4,6 +4,8 @@ on:
   push:
     paths:
       - "english-roadmap.html"
+      - "japanese-roadmap.html"
+      - "quiz.html"
       - "index.html"
       - "python-roadmap.html"
       - "auth.html"
@@ -17,6 +19,10 @@ on:
   pull_request:
     paths:
       - "english-roadmap.html"
+      - "japanese-roadmap.html"
+      - "quiz.html"
+      - "index.html"
+      - "sw.js"
       - "data/vocabulary-*.js"
       - "test-browser.js"
       - ".github/workflows/browser-ui.yml"
