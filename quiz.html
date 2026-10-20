@@ -239,9 +239,9 @@ body[data-page="japanese"] #pane-en,body[data-page="japanese"] #pane-nb{display:
     <div class="quiz-settings quiz-vocab-settings">
       <label class="quiz-field-label">Level kosakata <span id="quiz-vocab-level-mount"></span></label>
       <label class="quiz-field-label">Pola soal <span id="quiz-vocab-mode-mount"></span></label>
-      <button class="vl-btn primary quiz-start-button" id="quiz-vocab-start-proxy" type="button">Mulai kuis 10 soal →</button>
     </div>
     <div class="quiz-questions" id="quiz-vocab-questions"></div>
+    <div class="quiz-questions-actions" id="quiz-vocab-actions"></div>
   </section>
   <p class="quiz-footnote">Progres hafalan Kanji dan Kosakata tetap menggunakan penyimpanan Michishirube yang sudah ada.</p>
 </main>
@@ -1896,6 +1896,7 @@ body[data-page="quiz"] .quiz-vocab-settings{grid-template-columns:repeat(2,minma
 body[data-page="quiz"] .quiz-field-label{display:flex;flex-direction:column;gap:7px;min-width:0;font-size:11px;font-weight:800;color:var(--muted)}
 body[data-page="quiz"] #quiz-kanji-level-mount select,body[data-page="quiz"] #quiz-vocab-level-mount select,body[data-page="quiz"] #quiz-vocab-mode-mount select{width:100%;min-width:0;max-width:100%}
 body[data-page="quiz"] .quiz-start-button{min-height:42px;white-space:normal}
+body[data-page="quiz"] #quiz-vocab-actions .vl-btn{min-height:42px}
 body[data-page="quiz"] #quiz-kanji-mount,body[data-page="quiz"] #quiz-vocab-questions{min-width:0}
 body[data-page="quiz"] #quiz-kanji-mount #kl-quiz{display:block!important;margin-top:12px}
 body[data-page="quiz"] #kl-quiz.kl-hidden{display:block!important}
@@ -1903,9 +1904,8 @@ body[data-page="quiz"] #kl-quiz .kl-card{margin-top:8px}
 body[data-page="quiz"] #quiz-vocab-questions{display:grid;gap:10px}
 body[data-page="quiz"] #quiz-vocab-questions .vl-card{min-height:130px}
 body[data-page="quiz"] #quiz-vocab-questions #vl-q-options{display:grid;gap:8px}
-body[data-page="quiz"] #quiz-vocab-questions .vl-buttons{display:flex;flex-wrap:wrap;gap:9px}
+body[data-page="quiz"] #quiz-vocab-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:4px}
 body[data-page="quiz"] #quiz-vocab-questions .vl-btn{cursor:pointer}
-body[data-page="quiz"] #quiz-vocab-questions #vl-q-start{display:none!important}
 body[data-page="quiz"] #quiz-vocab-questions #vl-q-card .vl-jp{font-size:clamp(25px,5vw,39px);margin-top:8px}
 body[data-page="quiz"] #quiz-vocab-questions #vl-q-options .vl-row{width:100%;cursor:pointer;text-align:left;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;color:var(--text)}
 body[data-page="quiz"] #quiz-vocab-questions #vl-q-options .vl-row:hover{border-color:var(--coral)}
@@ -1940,9 +1940,10 @@ body[data-page="quiz"] .quiz-footnote{font-size:10px;line-height:1.7;color:var(-
   const vocabLevel=move("vl-level",byId("quiz-vocab-level-mount"));
   vocabLevel.setAttribute("aria-label","Pilih level kuis Kosakata");
   move("vl-q-mode",byId("quiz-vocab-mode-mount"));
-  ["vl-q-card","vl-q-count","vl-q-options","vl-q-feedback","vl-q-start","vl-q-next"].forEach(id=>move(id,vocabMount));
-  byId("vl-q-start").style.display="none";
-  byId("quiz-vocab-start-proxy").addEventListener("click",()=>byId("vl-q-start").click());
+  ["vl-q-card","vl-q-count","vl-q-options","vl-q-feedback"].forEach(id=>move(id,vocabMount));
+  move("vl-q-start",byId("quiz-vocab-actions"));
+  move("vl-q-next",byId("quiz-vocab-actions"));
+  byId("vl-q-start").textContent="Mulai kuis 10 soal →";
   byId("quiz-kanji-start").addEventListener("click",()=>{if(typeof window.klQuizStart==="function")window.klQuizStart();});
   const picker=byId("quiz-picker"),back=byId("quiz-back-choice");
   const panels={kanji:byId("quiz-kanji"),vocab:byId("quiz-kosakata")};
