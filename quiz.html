@@ -209,6 +209,10 @@ body[data-page="japanese"] #pane-en,body[data-page="japanese"] #pane-nb{display:
     <p>Pilih yang ingin kamu latih. Setiap sesi berisi 10 soal pilihan ganda dengan pola yang bisa kamu tentukan.</p>
   </header>
   <section class="quiz-picker" id="quiz-picker" aria-label="Pilih kategori kuis">
+    <a class="quiz-choice kana-choice" href="#quiz-kana" data-open-quiz="kana">
+      <span class="quiz-choice-icon" aria-hidden="true">あ</span>
+      <span class="quiz-choice-copy"><span class="quiz-choice-kicker">KANA PRACTICE</span><strong>Kuis Kana</strong><span>Latih Hiragana, Katakana, romaji, dan bunyi dakuten.</span><em>Pilih kuis <b aria-hidden="true">↗</b></em></span>
+    </a>
     <a class="quiz-choice kanji-choice" href="#quiz-kanji" data-open-quiz="kanji">
       <span class="quiz-choice-icon" aria-hidden="true">漢</span>
       <span class="quiz-choice-copy"><span class="quiz-choice-kicker">KANJI PRACTICE</span><strong>Kuis Kanji</strong><span>Latih bacaan, romaji, dan arti karakter Jepang.</span><em>Pilih kuis <b aria-hidden="true">↗</b></em></span>
@@ -219,6 +223,17 @@ body[data-page="japanese"] #pane-en,body[data-page="japanese"] #pane-nb{display:
     </a>
   </section>
   <button class="quiz-back-choice" id="quiz-back-choice" type="button" hidden>← Pilih kategori lain</button>
+  <section class="quiz-panel kana-quiz-panel" id="quiz-kana" hidden aria-labelledby="quiz-kana-title">
+    <header class="quiz-panel-heading">
+      <div><div class="quiz-eyebrow">ひらがな · カタカナ</div><h2 id="quiz-kana-title">Kuis Kana</h2><p>Pilih jenis latihan, lalu jawab 10 soal. Progres hafalan Kana tetap tersimpan seperti sebelumnya.</p></div>
+      <span class="quiz-level-chip">Hiragana · Katakana</span>
+    </header>
+    <div class="quiz-settings">
+      <label class="quiz-field-label">Pola soal <span id="quiz-kana-mode-mount"></span></label>
+    </div>
+    <div class="quiz-questions" id="quiz-kana-questions"></div>
+    <div class="quiz-questions-actions" id="quiz-kana-actions"></div>
+  </section>
   <section class="quiz-panel kl-wrap" id="quiz-kanji" hidden aria-labelledby="quiz-kanji-title">
     <header class="quiz-panel-heading">
       <div><div class="quiz-eyebrow">漢字 · KANJI</div><h2 id="quiz-kanji-title">Kuis Kanji</h2><p>Atur level dan pola soal, lalu mulai latihan.</p></div>
@@ -1927,6 +1942,12 @@ body[data-page="quiz"] .quiz-footnote{font-size:10px;line-height:1.7;color:var(-
 <script id="quiz-hub-controller">
 (function(){
   const byId=id=>document.getElementById(id);
+  const kanaMount=byId("quiz-kana-questions");
+  const kanaMode=move("klab-q-mode",byId("quiz-kana-mode-mount"));
+  ["klab-q-card","klab-q-count","klab-q-options","klab-q-feedback"].forEach(id=>move(id,kanaMount));
+  move("klab-q-start",byId("quiz-kana-actions"));
+  move("klab-q-next",byId("quiz-kana-actions"));
+  byId("klab-q-start").textContent="Mulai kuis 10 soal →";
   const kanjiMount=byId("quiz-kanji-mount");
   const vocabMount=byId("quiz-vocab-questions");
   const move=(id,target)=>{const el=byId(id);if(!el||!target)throw new Error("Pusat kuis gagal memindahkan elemen "+id);target.appendChild(el);return el;};
@@ -1945,14 +1966,14 @@ body[data-page="quiz"] .quiz-footnote{font-size:10px;line-height:1.7;color:var(-
   byId("vl-q-start").textContent="Mulai kuis 10 soal →";
   byId("quiz-kanji-start").addEventListener("click",()=>{if(typeof window.klQuizStart==="function")window.klQuizStart();});
   const picker=byId("quiz-picker"),back=byId("quiz-back-choice");
-  const panels={kanji:byId("quiz-kanji"),vocab:byId("quiz-kosakata")};
+  const panels={kana:byId("quiz-kana"),kanji:byId("quiz-kanji"),vocab:byId("quiz-kosakata")};
   function openQuiz(type,changeHash){
     if(!panels[type])return;
     picker.hidden=true;back.hidden=false;
     Object.entries(panels).forEach(([key,panel])=>panel.hidden=key!==type);
     document.body.dataset.activeQuiz=type;
-    document.title=type==="kanji"?"道標 Michishirube — Kuis Kanji":"道標 Michishirube — Kuis Kosakata";
-    const hash=type==="kanji"?"#quiz-kanji":"#quiz-kosakata";
+    document.title=type==="kana"?"道標 Michishirube — Kuis Kana":type==="kanji"?"道標 Michishirube — Kuis Kanji":"道標 Michishirube — Kuis Kosakata";
+    const hash=type==="kana"?"#quiz-kana":type==="kanji"?"#quiz-kanji":"#quiz-kosakata";
     if(changeHash&&location.hash!==hash)history.replaceState(null,"",location.pathname+location.search+hash);
     requestAnimationFrame(()=>panels[type].scrollIntoView({behavior:"smooth",block:"start"}));
   }
@@ -1965,7 +1986,8 @@ body[data-page="quiz"] .quiz-footnote{font-size:10px;line-height:1.7;color:var(-
   }
   document.querySelectorAll("[data-open-quiz]").forEach(link=>link.addEventListener("click",event=>{event.preventDefault();openQuiz(link.dataset.openQuiz,true);}));
   back.addEventListener("click",backToPicker);
-  if(location.hash==="#quiz-kanji")openQuiz("kanji",false);
+  if(location.hash==="#quiz-kana")openQuiz("kana",false);
+  else if(location.hash==="#quiz-kanji")openQuiz("kanji",false);
   else if(location.hash==="#quiz-kosakata")openQuiz("vocab",false);
 })();
 </script>
