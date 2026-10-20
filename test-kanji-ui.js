@@ -2,7 +2,7 @@ const fs = require("node:fs");
 const vm = require("node:vm");
 const assert = require("node:assert/strict");
 
-const html = fs.readFileSync("english-roadmap.html", "utf8");
+const html = fs.readFileSync("japanese-roadmap.html", "utf8");
 const start = html.indexOf("// SALMAN_KANJI_LAB_V1");
 const end = html.indexOf("// END SALMAN_KANJI_LAB_V1", start);
 assert.notEqual(start, -1, "Kanji Lab script marker must exist");
