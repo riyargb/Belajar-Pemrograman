@@ -1937,6 +1937,8 @@ body[data-page="quiz"] .quiz-footnote{font-size:10px;line-height:1.7;color:var(-
   kanjiLevel.setAttribute("aria-label","Pilih level kuis Kanji");
   const kanjiQuiz=move("kl-quiz",kanjiMount);
   kanjiQuiz.classList.remove("kl-hidden");
+  byId("kl-q-question").textContent="Atur pola soal di atas, lalu tekan Mulai kuis.";
+  byId("kl-q-count").textContent="10 soal per sesi";
   const vocabLevel=move("vl-level",byId("quiz-vocab-level-mount"));
   vocabLevel.setAttribute("aria-label","Pilih level kuis Kosakata");
   move("vl-q-mode",byId("quiz-vocab-mode-mount"));
