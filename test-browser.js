@@ -185,7 +185,9 @@ const { chromium } = require("playwright");
     await page.locator("#vl-list input[type=checkbox]").first().check();
     assert.ok(await page.evaluate(() => Boolean(localStorage.getItem("sal_vocab_n4_progress_v1"))));
     await page.reload({ waitUntil: "domcontentloaded" });
+    console.log("VOCAB_PROGRESS_DEBUG immediate-reload", await page.evaluate(() => ({path:location.pathname,keys:Object.keys(localStorage).filter(k=>k.includes("vocab")||k.includes("__ms_user"))})));
     await page.goto("http://127.0.0.1:4173/kosakata.html", { waitUntil: "domcontentloaded" });
+    console.log("VOCAB_PROGRESS_DEBUG after-reload-page", await page.evaluate(() => ({path:location.pathname,keys:Object.keys(localStorage).filter(k=>k.includes("vocab")||k.includes("__ms_user")), n5:localStorage.getItem("sal_vocab_n5_progress_v1")})));
     await assertEventually(async () => {
       assert.match(await page.locator("#vl-stats").innerText(), /N5 · Hafal 1\/800 kosakata/);
     }, "N5 progress should persist after reload");
