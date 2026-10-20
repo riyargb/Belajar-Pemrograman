@@ -15,6 +15,9 @@
       return JSON.parse(atob(token.split(".")[1].replace(/-/g,"+").replace(/_/g,"/"))).sub || null;
     } catch (_) { return null; }
   }
+  // Resolve the account before page scripts read progress during HTML parsing.
+  // Otherwise the first load reads an unscoped key before DOMContentLoaded boot().
+  uid = getUid();
   function key(k) { return uid && keys.includes(k) ? "__ms_user_" + uid + "__" + k : k; }
   Storage.prototype.getItem = function(k) { return get.call(this, key(String(k))); };
   Storage.prototype.setItem = function(k,v) {
