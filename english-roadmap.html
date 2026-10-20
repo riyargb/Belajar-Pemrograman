@@ -252,12 +252,20 @@ body[data-page="english"] #roadmap-en .item-txt{font-size:12px;line-height:1.7}
 </style>
 <script>document.documentElement.classList.add("auth-pending");</script><style>html.auth-pending body{visibility:hidden!important}</style><script src="./supabase-config.js"></script>
 <script src="./learning-sync.js"></script><script type="module" src="./site-auth.js"></script>
+<style id="michi-layout-polish">
+.topbar{gap:12px;min-width:0}.topbar-title{display:inline-flex;align-items:center;gap:8px;min-width:0;flex-shrink:0}.topbar-actions{gap:7px;flex-shrink:0}
+.english-switcher{width:min(980px,calc(100% - 28px));margin:12px auto 0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;padding:5px;border:1px solid var(--border);border-radius:14px;background:var(--s1)}
+.english-switcher a{display:flex;align-items:center;justify-content:center;min-width:0;min-height:40px;padding:8px;border:1px solid transparent;border-radius:10px;color:var(--muted);text-decoration:none;font-size:11px;font-weight:700;text-align:center}
+.english-switcher a:hover{background:var(--s2);color:var(--text)}.english-switcher a[aria-current="page"]{border-color:var(--border2);background:var(--s2);color:var(--accent)}
+@media(max-width:560px){.topbar{padding:10px 12px}.topbar-actions .theme-toggle span{display:none}.english-switcher{display:flex;overflow-x:auto;scrollbar-width:none;white-space:nowrap;width:calc(100% - 20px)}.english-switcher::-webkit-scrollbar{display:none}.english-switcher a{flex:0 0 auto;min-width:68px;padding-inline:12px}.english-switcher a[href*="kosakata"]{min-width:88px}}
+</style>
 </head>
 <body data-page="english">
 <div class="topbar">
   <a class="topbar-title" href="./index.html" style="text-decoration:none;font-family:'Playfair Display',serif;color:#142d45"><span style="font-family:'Noto Serif JP',serif;color:#c8434b;margin-right:8px">道標</span>Michishirube</a>
   <div class="topbar-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Aktifkan mode gelap" title="Ganti tema">☾ <span>Mode gelap</span></button><a href="index.html" class="back-btn">← Beranda</a></div>
 </div>
+<nav class="study-switcher english-switcher" aria-label="Navigasi Michishirube"><a href="./index.html">Beranda</a><a href="./english-roadmap.html#roadmap-en" aria-current="page">English</a><a href="./kana.html">Kana</a><a href="./kanji.html">Kanji</a><a href="./kosakata.html">Kosakata</a><a href="./quiz.html">Kuis</a></nav>
 <div class="tabs">
   <button class="tab en active" onclick="switchTab('en',this)">🇺🇸 English</button>
   <button class="tab jp" onclick="switchTab('jp',this)">🇯🇵 Japanese</button>
