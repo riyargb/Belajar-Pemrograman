@@ -8,7 +8,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
 
-const html = fs.readFileSync(path.join(__dirname, "english-roadmap.html"), "utf8");
+const html = fs.readFileSync(path.join(__dirname, "japanese-roadmap.html"), "utf8");
 const start = html.indexOf("// SALMAN_VOCAB_LAB_V3");
 const end = html.indexOf("// END SALMAN_VOCAB_LAB_V3", start);
 assert.notEqual(start, -1, "Vocabulary Lab script marker must exist");
