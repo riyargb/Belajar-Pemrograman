@@ -254,7 +254,7 @@ body[data-page="english"] #roadmap-en .item-txt{font-size:12px;line-height:1.7}
 <script src="./learning-sync.js"></script><script type="module" src="./site-auth.js"></script>
 <style id="michi-layout-polish">
 .topbar{gap:12px;min-width:0}.topbar-title{display:inline-flex;align-items:center;gap:8px;min-width:0;flex-shrink:0}.topbar-actions{gap:7px;flex-shrink:0}
-.english-switcher{width:min(980px,calc(100% - 28px));margin:12px auto 0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;padding:5px;border:1px solid var(--border);border-radius:14px;background:var(--s1)}
+.english-switcher{width:min(980px,calc(100% - 28px));margin:12px auto 0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;padding:5px;border:1px solid var(--border);border-radius:14px;background:var(--s1)}
 .english-switcher a{display:flex;align-items:center;justify-content:center;min-width:0;min-height:40px;padding:8px;border:1px solid transparent;border-radius:10px;color:var(--muted);text-decoration:none;font-size:11px;font-weight:700;text-align:center}
 .english-switcher a:hover{background:var(--s2);color:var(--text)}.english-switcher a[aria-current="page"]{border-color:var(--border2);background:var(--s2);color:var(--accent)}
 @media(max-width:560px){.topbar{padding:10px 12px}.topbar-actions .theme-toggle span{display:none}.english-switcher{display:flex;overflow-x:auto;scrollbar-width:none;white-space:nowrap;width:calc(100% - 20px)}.english-switcher::-webkit-scrollbar{display:none}.english-switcher a{flex:0 0 auto;min-width:68px;padding-inline:12px}.english-switcher a[href*="kosakata"]{min-width:88px}}
@@ -1885,5 +1885,23 @@ body{font-family:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI"
 
 </style>
 <style id="english-page-separation-polish">body[data-page="english"] .tabs{display:none!important}body[data-page="english"] #pane-en{padding-top:clamp(16px,3vw,30px)}</style>
+<style id="roadmap-navigation-polish-v1">
+body[data-page="japanese"] .tabs,
+body[data-page="japanese"] .jp-learning-hub{display:none!important}
+body[data-page="japanese"] .study-switcher.english-switcher{width:min(980px,calc(100% - 28px));margin:12px auto 0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;padding:5px;border:1px solid var(--border);border-radius:14px;background:var(--s1)}
+body[data-page="japanese"] .study-switcher.english-switcher a{display:flex;align-items:center;justify-content:center;min-width:0;min-height:40px;padding:8px;border:1px solid transparent;border-radius:10px;color:var(--muted);text-decoration:none;font-size:11px;font-weight:700;text-align:center}
+body[data-page="japanese"] .study-switcher.english-switcher a:hover{background:var(--s2);color:var(--text)}
+body[data-page="japanese"] .study-switcher.english-switcher a[aria-current="page"]{border-color:var(--border2);background:var(--s2);color:var(--accent)}
+@media(max-width:760px){
+ body[data-page="english"] .english-switcher,
+ body[data-page="japanese"] .study-switcher.english-switcher{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;gap:7px!important;width:calc(100% - 20px)!important;min-width:0!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important;white-space:nowrap;padding:2px 1px 8px!important;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+ body[data-page="english"] .english-switcher::-webkit-scrollbar,
+ body[data-page="japanese"] .study-switcher.english-switcher::-webkit-scrollbar{display:none}
+ body[data-page="english"] .english-switcher a,
+ body[data-page="japanese"] .study-switcher.english-switcher a{flex:0 0 auto!important;min-width:0!important;min-height:36px!important;padding:8px 12px!important;border-radius:999px!important;scroll-snap-align:start;white-space:nowrap!important}
+}
+body[data-page="english"] .english-switcher a:focus-visible,
+body[data-page="japanese"] .study-switcher.english-switcher a:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+</style>
 </body>
 </html>
