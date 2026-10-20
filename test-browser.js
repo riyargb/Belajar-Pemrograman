@@ -140,6 +140,10 @@ const { chromium } = require("playwright");
     assert.equal(await page.locator("#jp-hero-title").innerText(), "日本語の学び");
     assert.equal(await page.locator("#pane-jp .jp-hero-art").count(), 1);
     assert.equal(await page.locator("#pane-jp .jp-learning-hub").count(), 1, "Japanese roadmap should show its category hub");
+    for (const [label, href] of [["Kana","./kana.html"],["Kanji","./kanji.html"],["Kosakata","./kosakata.html"],["Pusat Kuis","./quiz.html"]]) {
+      assert.equal(await page.locator(`.jp-learning-hub a[href="${href}"]`).count(), 1, `${label} navigation should route to its dedicated page`);
+    }
+    assert.equal(await page.locator('.jp-learning-hub a[href="#kana-lab"], .jp-learning-hub a[href="#kanji-lab"], .jp-learning-hub a[href="#vocab-lab"]').count(), 0, "Japanese roadmap should not route category cards into the old combined page");
     assert.equal(await page.locator("#kana-lab").isVisible(), false, "Kana lab should live on its own page");
     assert.equal(await page.locator("#kanji-lab").isVisible(), false, "Kanji lab should live on its own page");
     assert.equal(await page.locator("#vocab-lab").isVisible(), false, "Vocabulary lab should live on its own page");
