@@ -242,6 +242,7 @@ body[data-page="japanese"] .jp-kana-intro{display:none!important}
   <a class="topbar-title" href="./index.html" style="text-decoration:none;font-family:'Playfair Display',serif;color:#142d45"><span style="font-family:'Noto Serif JP',serif;color:#c8434b;margin-right:8px">道標</span>Michishirube</a>
   <div class="topbar-actions"><button class="theme-toggle" id="theme-toggle" type="button" aria-label="Aktifkan mode gelap" title="Ganti tema">☾ <span>Mode gelap</span></button><a href="index.html" class="back-btn">← Beranda</a></div>
 </div>
+<nav class="study-switcher english-switcher" aria-label="Navigasi Michishirube"><a href="./index.html">Beranda</a><a href="./english-roadmap.html#roadmap-en">English</a><a href="./japanese-roadmap.html#roadmap-jp" aria-current="page">Roadmap Jepang</a><a href="./kana.html">Kana</a><a href="./kanji.html">Kanji</a><a href="./kosakata.html">Kosakata</a><a href="./quiz.html">Kuis</a></nav>
 <div class="tabs">
   <button class="tab en" onclick="switchTab('en',this)">🇺🇸 English</button>
   <button class="tab jp active" onclick="switchTab('jp',this)">🇯🇵 Japanese</button>
@@ -274,7 +275,7 @@ body[data-page="japanese"] .jp-kana-intro{display:none!important}
       <h1 id="jp-hero-title">日本語の学び</h1>
       <p>Mulai dari kana, bangun pemahaman kanji dan kosakata, lalu melangkah menuju JLPT N4.</p>
       <div class="jp-hero-tags"><span>ひらがな</span><span>カタカナ</span><span>漢字</span><span>単語</span></div>
-      <div class="jp-hero-actions"><a class="jp-kana-cta" href="./kana.html">ひらがなを学ぶ · Mulai belajar Hiragana ↗</a><a class="jp-kana-secondary" href="./kana.html">Belajar Katakana</a></div>
+      <div class="jp-hero-actions"><a class="jp-kana-cta" href="./kana.html">Mulai belajar Kana ↗</a><a class="jp-kana-secondary" href="#roadmap-jp">Lihat roadmap</a></div>
     </div>
   </section>
 
@@ -1868,6 +1869,20 @@ body[data-page="japanese"] #kanji-lab {
 body[data-page="japanese"] #roadmap-jp {
   scroll-margin-top:22px;
 }
+</style>
+<style id="roadmap-navigation-polish-v1">
+body[data-page="japanese"] .tabs,
+body[data-page="japanese"] .jp-learning-hub{display:none!important}
+body[data-page="japanese"] .study-switcher.english-switcher{width:min(980px,calc(100% - 28px));margin:12px auto 0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;padding:5px;border:1px solid var(--border);border-radius:14px;background:var(--s1)}
+body[data-page="japanese"] .study-switcher.english-switcher a{display:flex;align-items:center;justify-content:center;min-width:0;min-height:40px;padding:8px;border:1px solid transparent;border-radius:10px;color:var(--muted);text-decoration:none;font-size:11px;font-weight:700;text-align:center}
+body[data-page="japanese"] .study-switcher.english-switcher a:hover{background:var(--s2);color:var(--text)}
+body[data-page="japanese"] .study-switcher.english-switcher a[aria-current="page"]{border-color:var(--border2);background:var(--s2);color:var(--accent)}
+@media(max-width:760px){
+ body[data-page="japanese"] .study-switcher.english-switcher{display:flex!important;flex-wrap:nowrap!important;justify-content:flex-start!important;gap:7px!important;width:calc(100% - 20px)!important;min-width:0!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important;white-space:nowrap;padding:2px 1px 8px!important;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+ body[data-page="japanese"] .study-switcher.english-switcher::-webkit-scrollbar{display:none}
+ body[data-page="japanese"] .study-switcher.english-switcher a{flex:0 0 auto!important;min-width:0!important;min-height:36px!important;padding:8px 12px!important;border-radius:999px!important;scroll-snap-align:start;white-space:nowrap!important}
+}
+body[data-page="japanese"] .study-switcher.english-switcher a:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 </style>
 </body>
 </html>
