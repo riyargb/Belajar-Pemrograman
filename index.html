@@ -88,7 +88,28 @@
 </style>
 <script>document.documentElement.classList.add("auth-pending");</script><style>html.auth-pending body{visibility:hidden!important}</style><script src="./supabase-config.js"></script><script type="module" src="./site-auth.js"></script>
 </head>
-<body><script>try{if(sessionStorage.getItem("michi-entry-seen")==="1")document.documentElement.classList.add("entry-seen");else sessionStorage.setItem("michi-entry-seen","1")}catch(e){}</script><style>.entry-seen #entry-screen{display:none!important}</style><div id="entry-screen" role="status" aria-label="Memuat Michishirube"><div class="entry-inner"><div class="entry-logo-frame"><img src="./1000401890%20(1).png" alt="Logo Michishirube"><i class="entry-corner tl"></i><i class="entry-corner tr"></i><i class="entry-corner bl"></i><i class="entry-corner br"></i></div><p class="entry-name">道標 Michishirube</p><p class="entry-tagline">学びの道を、共に。</p><div class="entry-loader" aria-hidden="true"><span></span></div></div></div>
+<body><script>try{if(sessionStorage.getItem("michi-entry-seen")==="1")document.documentElement.classList.add("entry-seen");else sessionStorage.setItem("michi-entry-seen","1")}catch(e){}</script><style>.entry-seen #entry-screen{display:none!important}
+/* MICHISHIRUBE UI POLISH — keep the artwork; make navigation easier to scan */
+.feature-link:focus-visible,.extras a:focus-visible,.install-button:focus-visible{outline:3px solid #c8434b;outline-offset:3px}
+@media(max-width:900px){
+ .topbar-inner{display:grid;grid-template-columns:minmax(0,1fr);align-items:start;gap:9px;padding:12px 0 8px}
+ .brand{width:max-content;max-width:100%}
+ .nav{width:100%;min-width:0;display:flex;flex-wrap:nowrap;justify-content:flex-start;gap:7px;overflow-x:auto;overflow-y:hidden;padding:3px 2px 8px;scrollbar-width:none;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity}
+ .nav::-webkit-scrollbar{display:none}
+ .nav a{flex:0 0 auto;min-height:36px;display:inline-flex;align-items:center;padding:8px 11px;border:1px solid transparent;border-radius:999px;background:rgba(255,253,248,.7);scroll-snap-align:start}
+ .nav a[aria-current="page"]{background:#f1e8db;border-color:#dfd0bc;color:#142d45}
+ .nav .profile{margin-left:0;padding:8px 12px}
+}
+@media(max-width:520px){
+ .topbar-inner{gap:7px;padding-top:10px}
+ .nav{gap:6px;padding-bottom:7px}
+ .nav a{font-size:10px;min-height:35px;padding:7px 10px}
+ .hero{min-height:410px}
+ .section-head{gap:8px}
+ .section-note{max-width:44ch}
+}
+@media(prefers-reduced-motion:reduce){.feature-link,.card,.button{transition:none!important}}
+</style><div id="entry-screen" role="status" aria-label="Memuat Michishirube"><div class="entry-inner"><div class="entry-logo-frame"><img src="./1000401890%20(1).png" alt="Logo Michishirube"><i class="entry-corner tl"></i><i class="entry-corner tr"></i><i class="entry-corner bl"></i><i class="entry-corner br"></i></div><p class="entry-name">道標 Michishirube</p><p class="entry-tagline">学びの道を、共に。</p><div class="entry-loader" aria-hidden="true"><span></span></div></div></div>
 <header class="topbar"><div class="shell topbar-inner">
 <a class="brand" href="./index.html" aria-label="Michishirube Beranda"><span class="brand-jp">道標</span><span>Michishirube</span></a>
 <nav class="nav" aria-label="Navigasi utama"><a href="./index.html" aria-current="page">Beranda</a><a href="./kana.html">Kana</a><a href="./kanji.html">Kanji</a><a href="./kosakata.html">Kosakata</a><a href="./quiz.html">Pusat Kuis</a><a href="./japanese-roadmap.html#roadmap-jp">Roadmap</a><a class="profile" href="./auth.html">Profil ↗</a></nav>
