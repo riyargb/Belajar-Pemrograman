@@ -231,7 +231,7 @@ body[data-page="kosakata"] .category-quiz-link{display:inline-flex;align-items:c
 @media(max-width:700px){
  body[data-page="kosakata"] #category-content #vocab-lab .vl-controls{align-items:flex-start!important}
  body[data-page="kosakata"] #category-content #vocab-lab .vl-controls #vl-level,
- body[data-page="kosakata"] #category-content #vocab-lab .vl-controls #vl-category{box-sizing:border-box!important;width:19ch!important;inline-size:19ch!important;min-width:0!important;max-width:100%!important;flex:0 0 auto!important;align-self:flex-start!important;white-space:nowrap!important;text-overflow:ellipsis!important}
+ body[data-page="kosakata"] #category-content #vocab-lab .vl-controls #vl-category{box-sizing:border-box!important;width:132px!important;inline-size:132px!important;min-width:0!important;max-width:100%!important;flex:0 0 auto!important;align-self:flex-start!important;white-space:nowrap!important;text-overflow:ellipsis!important}
  body[data-page="kosakata"] #category-content #vocab-lab .vl-controls #vl-search{box-sizing:border-box!important;width:100%!important;inline-size:100%!important;max-width:100%!important;min-width:0!important}
 }
 </style>
@@ -1872,5 +1872,11 @@ body{font-family:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI"
   const quizLabel=[...section.querySelectorAll(".vl-sub")].find(el=>el.textContent.includes("KUIS KOSAKATA"));if(quizLabel)quizLabel.innerHTML='<b>KUIS KOSAKATA · LATIHAN DUA ARAH</b><p><a class="category-quiz-link" href="./quiz.html#quiz-kosakata">Buka Kuis Kosakata →</a></p>';const start=document.getElementById("vl-q-start");if(start&&start.parentElement)start.parentElement.hidden=true;
 })();
 </script>
+<style id="kosakata-mobile-filter-fix-final">
+@media(max-width:700px){
+ body[data-page="kosakata"] #category-content #vocab-lab .vl-controls #vl-level,
+ body[data-page="kosakata"] #category-content #vocab-lab .vl-controls #vl-category{display:block!important;box-sizing:border-box!important;width:132px!important;inline-size:132px!important;max-width:calc(100vw - 32px)!important;min-width:0!important;flex:0 0 132px!important;align-self:flex-start!important}
+}
+</style>
 </body>
 </html>
