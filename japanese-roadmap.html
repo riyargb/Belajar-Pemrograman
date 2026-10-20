@@ -202,6 +202,40 @@ body[data-page="japanese"] #kanji-lab,
 body[data-page="japanese"] #vocab-lab,
 body[data-page="japanese"] .jp-kana-intro{display:none!important}
 </style>
+<style id="michi-roadmap-polish">
+/* Roadmap hero: use real Japanese landscape photography, not the rough CSS mountain */
+.jp-hero{grid-template-columns:minmax(0,1fr) minmax(190px,.72fr);gap:22px;align-items:stretch}
+.jp-hero-art{min-height:225px;height:100%;background:#d7e1e2 url('https://images.unsplash.com/photo-1717089634125-19f8ec12e86e?auto=format&fit=crop&w=1200&q=85') center 46%/cover no-repeat;box-shadow:inset 0 0 0 1px rgba(23,54,83,.08)}
+.jp-hero-art>span{display:none!important}
+.jp-hero-copy{padding-block:4px}
+.jp-hero p{max-width:48ch}
+.jp-hero-actions{display:flex;flex-wrap:wrap;gap:9px}
+.jp-learning-hub{margin-top:18px;margin-bottom:28px;gap:10px}
+.jp-hub-card{min-height:74px}
+.topbar{gap:12px;min-width:0}
+.topbar-title{display:inline-flex;align-items:center;gap:8px;min-width:0;flex-shrink:0}
+.topbar-actions{gap:7px;flex-shrink:0}
+.topbar-actions .theme-toggle,.topbar-actions .back-btn{min-height:38px;padding:8px 11px;border-radius:12px;font-size:11px}
+@media(max-width:700px){
+ .jp-hero{grid-template-columns:minmax(0,1fr);gap:14px;padding:16px}
+ .jp-hero-art{min-height:190px;max-height:240px;order:-1}
+ .jp-hero-copy{padding:0 2px 2px}
+ .jp-hero h1{font-size:clamp(27px,7vw,36px)}
+ .jp-learning-hub{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+}
+@media(max-width:560px){
+ .topbar{padding:10px 12px}
+ .topbar-title{font-size:14px}
+ .topbar-actions .theme-toggle,.topbar-actions .back-btn{padding:7px 9px;font-size:10px;min-height:34px}
+ .topbar-actions .theme-toggle span{display:none}
+ .jp-hero{margin-bottom:16px;border-radius:17px}
+ .jp-hero-art{min-height:165px;border-radius:12px;background-position:center 48%}
+ .jp-hero p{font-size:12px;line-height:1.75}
+ .jp-hero-actions a{max-width:100%}
+ .jp-learning-hub{margin-top:12px;margin-bottom:22px}
+}
+@media(max-width:360px){.topbar-title{font-size:12px}.topbar-actions .back-btn{font-size:9px;padding-inline:7px}}
+</style>
 </head>
 <body data-page="japanese">
 <div class="topbar">
