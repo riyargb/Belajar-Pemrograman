@@ -158,7 +158,6 @@ const { chromium } = require("playwright");
 
     stage("standalone vocabulary lab and progress");
     await page.goto("http://127.0.0.1:4173/kosakata.html", { waitUntil: "domcontentloaded" });
-    console.log("VOCAB_PROGRESS_DEBUG after-reload", await page.evaluate(() => ({keys:Object.keys(localStorage).filter(k=>k.includes("vocab")||k.includes("__ms_user")), n5:localStorage.getItem("sal_vocab_n5_progress_v1")})));
     await assertEventually(async () => {
       assert.match(await page.locator("#vl-stats").innerText(), /N5 · Hafal 0\/800 kosakata/);
       assert.match(await page.locator("#vl-count").innerText(), /\[N5\] Kartu 1\/800/);
@@ -170,7 +169,6 @@ const { chromium } = require("playwright");
     assert.match(await page.locator("#vl-count").innerText(), /Kartu 2\/800/);
     await page.locator("#vl-mark").click();
     assert.match(await page.locator("#vl-stats").innerText(), /Hafal 1\/800 kosakata/);
-    console.log("VOCAB_PROGRESS_DEBUG after-mark", await page.evaluate(() => ({keys:Object.keys(localStorage).filter(k=>k.includes("vocab")||k.includes("__ms_user")), n5:localStorage.getItem("sal_vocab_n5_progress_v1")})));
     await page.locator("#vl-level").selectOption("N4");
     assert.match(await page.locator("#vl-stats").innerText(), /N4 · Hafal 0\/700 kosakata/);
     await page.locator("#vl-search").fill("definitely-no-such-vocabulary");
@@ -186,9 +184,7 @@ const { chromium } = require("playwright");
     await page.locator("#vl-list input[type=checkbox]").first().check();
     assert.ok(await page.evaluate(() => Boolean(localStorage.getItem("sal_vocab_n4_progress_v1"))));
     await page.reload({ waitUntil: "domcontentloaded" });
-    console.log("VOCAB_PROGRESS_DEBUG immediate-reload", await page.evaluate(() => ({path:location.pathname,keys:Object.keys(localStorage).filter(k=>k.includes("vocab")||k.includes("__ms_user"))})));
     await page.goto("http://127.0.0.1:4173/kosakata.html", { waitUntil: "domcontentloaded" });
-    console.log("VOCAB_PROGRESS_DEBUG after-reload-page", await page.evaluate(() => ({path:location.pathname,keys:Object.keys(localStorage).filter(k=>k.includes("vocab")||k.includes("__ms_user")), n5:localStorage.getItem("sal_vocab_n5_progress_v1")})));
     await assertEventually(async () => {
       assert.match(await page.locator("#vl-stats").innerText(), /N5 · Hafal 1\/800 kosakata/);
     }, "N5 progress should persist after reload");
