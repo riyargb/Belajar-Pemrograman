@@ -124,7 +124,7 @@ const { chromium } = require("playwright");
     assert.equal(await page.evaluate(() => document.documentElement.dataset.theme), "light");
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()), "#f8f5ed");
 
-    stage("Japanese roadmap has its own visual and learning pane");
+    stage("Japanese roadmap focuses on roadmap and navigation");
     await page.goto("http://127.0.0.1:4173/japanese-roadmap.html", { waitUntil: "domcontentloaded" });
     assert.match(await page.title(), /Michishirube.*Japanese Learning/);
     assert.equal(await page.locator(".topbar-title").innerText().then(t => t.includes("道標") && t.includes("Michishirube")), true);
@@ -133,9 +133,14 @@ const { chromium } = require("playwright");
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()), "#f8f5ed");
     assert.equal(await page.locator("#jp-hero-title").innerText(), "日本語の学び");
     assert.equal(await page.locator("#pane-jp .jp-hero-art").count(), 1);
-    assert.equal(await page.locator("#pane-jp .jp-learning-hub").count(), 1, "Japanese page should show its dedicated learning hub");
-    stage("Hiragana/Katakana lab and kana quiz regression");
-    await page.locator("#kana-lab").waitFor({ state: "attached" });
+    assert.equal(await page.locator("#pane-jp .jp-learning-hub").count(), 1, "Japanese roadmap should show its category hub");
+    assert.equal(await page.locator("#kana-lab").isVisible(), false, "Kana lab should live on its own page");
+    assert.equal(await page.locator("#kanji-lab").isVisible(), false, "Kanji lab should live on its own page");
+    assert.equal(await page.locator("#vocab-lab").isVisible(), false, "Vocabulary lab should live on its own page");
+
+    stage("standalone Kana learning lab");
+    await page.goto("http://127.0.0.1:4173/kana.html", { waitUntil: "domcontentloaded" });
+    await page.locator("#category-content #kana-lab").waitFor({ state: "visible" });
     assert.match(await page.locator("#klab-stats").innerText(), /kana/i);
     await page.locator("#klab-script").selectOption("K");
     assert.match(await page.locator("#klab-card").innerText(), /KATAKANA/);
@@ -144,26 +149,21 @@ const { chromium } = require("playwright");
     await page.locator("#klab-show-all").click();
     assert.equal(await page.locator("#klab-list").isVisible(), true, "show-all should reveal the kana reference grid");
     assert.ok(await page.locator("#klab-list .klab-cell").count() >= 50, "kana reference grid should include many kana entries");
-    await page.locator("#klab-q-mode").selectOption("mixed");
-    await page.locator("#klab-q-start").click();
-    assert.equal(await page.locator("#klab-q-options button").count(), 4, "kana quiz should show four choices");
-    await page.locator("#klab-q-options button").first().click();
-    await page.locator("#klab-q-next").click();
-    assert.match(await page.locator("#klab-q-count").innerText(), /Soal 2/);
-    await page.locator("#vocab-lab").scrollIntoViewIfNeeded();
+    assert.equal(await page.locator("#klab-q-start").isVisible(), false, "Kana quizzes should be centralized in the quiz hub");
+
+    stage("standalone vocabulary lab and progress");
+    await page.goto("http://127.0.0.1:4173/kosakata.html", { waitUntil: "domcontentloaded" });
     await assertEventually(async () => {
       assert.match(await page.locator("#vl-stats").innerText(), /N5 · Hafal 0\/800 kosakata/);
       assert.match(await page.locator("#vl-count").innerText(), /\[N5\] Kartu 1\/800/);
-    }, "N5 vocabulary should render");
-
-    stage("vocabulary reveal/next/mark");
+    }, "N5 vocabulary should render on its own page");
+    assert.equal(await page.locator("#vl-q-start").isVisible(), false, "Vocabulary quizzes should be centralized in the quiz hub");
     await page.locator("#vl-reveal").click();
     assert.match(await page.locator("#vl-card").innerText(), /Contoh:/);
     await page.locator("#vl-next").click();
     assert.match(await page.locator("#vl-count").innerText(), /Kartu 2\/800/);
     await page.locator("#vl-mark").click();
     assert.match(await page.locator("#vl-stats").innerText(), /Hafal 1\/800 kosakata/);
-
     await page.locator("#vl-level").selectOption("N4");
     assert.match(await page.locator("#vl-stats").innerText(), /N4 · Hafal 0\/700 kosakata/);
     await page.locator("#vl-search").fill("definitely-no-such-vocabulary");
@@ -175,46 +175,30 @@ const { chromium } = require("playwright");
     assert.match(await page.locator("#vl-count").innerText(), /Kartu 1\/700/);
     await page.locator("#vl-all").click();
     assert.match(await page.locator("#vl-count").innerText(), /Kartu 1\/700/);
-
-    stage("vocabulary quiz modes regression");
-    await page.locator("#vl-q-mode").selectOption("jp-id");
-    await page.locator("#vl-q-start").click();
-    assert.equal(await page.locator("#vl-q-options button").count(), 4, "vocabulary quiz should show four choices");
-    await page.locator("#vl-q-options button").first().click();
-    assert.match(await page.locator("#vl-q-feedback").innerText(), /Benar!|Belum tepat/);
-    await page.locator("#vl-q-next").click();
-    assert.match(await page.locator("#vl-q-count").innerText(), /Soal 2/);
-    await page.locator("#vl-q-mode").selectOption("jp-romaji");
-    await page.locator("#vl-q-start").click();
-    assert.equal(await page.locator("#vl-q-options button").count(), 4, "kana-to-romaji vocabulary quiz should show four choices");
-    await page.locator("#vl-q-options button").first().click();
-    assert.match(await page.locator("#vl-q-feedback").innerText(), /Benar!|Belum tepat/);
-
-    stage("vocabulary list and persistence");
     await page.locator("#vl-list-toggle").click();
     await page.locator("#vl-list input[type=checkbox]").first().check();
     assert.ok(await page.evaluate(() => Boolean(localStorage.getItem("sal_vocab_n4_progress_v1"))));
     await page.reload({ waitUntil: "domcontentloaded" });
-    await page.goto("http://127.0.0.1:4173/japanese-roadmap.html", { waitUntil: "domcontentloaded" });
+    await page.goto("http://127.0.0.1:4173/kosakata.html", { waitUntil: "domcontentloaded" });
     await assertEventually(async () => {
       assert.match(await page.locator("#vl-stats").innerText(), /N5 · Hafal 1\/800 kosakata/);
     }, "N5 progress should persist after reload");
     await page.locator("#vl-level").selectOption("N4");
     assert.match(await page.locator("#vl-stats").innerText(), /N4 · Hafal 1\/700 kosakata/);
-
-    stage("combined N5 + N4 vocabulary list");
     await page.locator("#vl-all-levels").click();
-    assert.equal(await page.locator("#vl-list label").count(), 1500, "combined vocabulary list should include 800 N5 and 700 N4 words");
+    assert.equal(await page.locator("#vl-list label").count(), 1500, "combined list should include all 1,500 N5/N4 entries");
     assert.equal(await page.locator("#vl-list").isVisible(), true);
     await page.locator("#vl-all-levels").click();
-    assert.equal(await page.locator("#vl-list label").count(), 700, "switching back should show the selected level only");
+    assert.equal(await page.locator("#vl-list label").count(), 700, "switching back should show only selected level");
 
-    stage("kanji filter and answer");
+    stage("standalone Kanji lab and progress");
+    await page.goto("http://127.0.0.1:4173/kanji.html", { waitUntil: "domcontentloaded" });
+    await page.locator("#category-content #kanji-lab").waitFor({ state: "visible" });
     await page.locator("#kl-level").selectOption("N5");
     assert.match(await page.locator("#kl-count").innerText(), /Kartu 1\/100/);
-    await page.getByRole("button", { name: "Lihat jawaban", exact: true }).last().click();
+    await page.getByRole("button", { name: "Lihat jawaban", exact: true }).click();
     assert.match(await page.locator("#kl-card").innerText(), /Onyomi:/);
-    await page.getByRole("button", { name: /Tandai hafal/ }).last().click();
+    await page.getByRole("button", { name: /Tandai hafal/ }).click();
     assert.match(await page.locator("#kl-stats").innerText(), /Hafal 1\/300 kanji/);
     assert.ok(await page.evaluate(() => Boolean(localStorage.getItem("sal_kanji_progress"))));
     await page.locator("#kl-search").fill("definitely-no-such-kanji");
@@ -225,14 +209,13 @@ const { chromium } = require("playwright");
     await page.locator("#kanji-lab").getByRole("button", { name: "Tampilkan semua", exact: true }).click();
     assert.equal(await page.locator("#kl-level").inputValue(), "ALL", "Tampilkan semua should reset the level filter");
     assert.match(await page.locator("#kl-count").innerText(), /Kartu 1\/300/);
-    assert.equal(await page.locator("#kl-all-list").isVisible(), true, "Tampilkan semua should visibly open the complete kanji list");
-    assert.equal(await page.locator("#kl-all-list label").count(), 300, "Tampilkan semua should display all 300 kanji");
-    assert.equal(await page.locator("#kl-list-toggle").innerText(), "Sembunyikan daftar kanji");
+    assert.equal(await page.locator("#kl-all-list").isVisible(), true, "Tampilkan semua should open the complete kanji list");
+    assert.equal(await page.locator("#kl-all-list label").count(), 300, "complete kanji list should display all entries");
     await page.locator("#kl-list-toggle").click();
-    assert.equal(await page.locator("#kl-all-list").isVisible(), false, "kanji checklist should close when toggled");
+    assert.equal(await page.locator("#kl-all-list").isVisible(), false);
     await page.locator("#kl-list-toggle").click();
-    assert.equal(await page.locator("#kl-all-list").isVisible(), true, "kanji checklist should reopen when toggled");
-    assert.equal(await page.locator("#kl-all-list label").count(), 300, "kanji checklist should list all 300 kanji");
+    assert.equal(await page.locator("#kl-all-list").isVisible(), true);
+    assert.equal(await page.locator("#kl-all-list label").count(), 300);
     await page.locator("#kl-list-toggle").click();
     stage("dedicated quiz hub routes to Kanji and Kosakata engines");
     await page.goto("http://127.0.0.1:4173/quiz.html", { waitUntil: "domcontentloaded" });
@@ -270,21 +253,6 @@ const { chromium } = require("playwright");
     await page.locator("#vl-q-next").click();
     assert.match(await page.locator("#vl-q-count").innerText(), /Soal 2/);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, "quiz hub should not overflow horizontally on mobile");
-
-    await page.goto("http://127.0.0.1:4173/japanese-roadmap.html", { waitUntil: "domcontentloaded" });
-
-    stage("kanji quiz");
-    await page.locator("#kl-search").fill("");
-    await page.getByRole("button", { name: "Mulai kuis pilihan ganda" }).click();
-    await page.locator("#kl-q-mode").selectOption("kanji-hira");
-    await page.getByRole("button", { name: "Mulai kuis pilihan ganda" }).click();
-    assert.equal(await page.locator("#kl-q-options button").count(), 4);
-    for (let i = 0; i < 10; i++) {
-      await page.locator("#kl-q-options button").first().click();
-      assert.equal(await page.locator("#kl-q-next").isDisabled(), false);
-      await page.locator("#kl-q-next").click();
-    }
-    assert.match(await page.locator("#kl-q-question").innerText(), /Kuis selesai!/);
 
     stage("responsive viewport and JS errors");
     const mobileOverflow = await page.evaluate(() =>
