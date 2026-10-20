@@ -2037,5 +2037,45 @@ body[data-page="quiz"] .quiz-footnote{font-size:10px;line-height:1.7;color:var(-
   else if(location.hash==="#quiz-kosakata")openQuiz("vocab",false);
 })();
 </script>
+
+<style id="michi-navigation-polish-v1">
+/* Keep section navigation on one compact, swipeable rail on phones. */
+@media(max-width:760px){
+ body[data-page="kana"] .study-switcher,
+ body[data-page="kanji"] .study-switcher,
+ body[data-page="kosakata"] .study-switcher,
+ body[data-page="quiz"] .study-switcher{
+  display:flex!important;grid-template-columns:none!important;flex-wrap:nowrap!important;
+  justify-content:flex-start!important;gap:7px!important;width:calc(100% - 24px)!important;
+  max-width:980px!important;margin:10px auto 0!important;padding:2px 1px 8px!important;
+  min-width:0!important;overflow-x:auto!important;overflow-y:hidden!important;
+  scrollbar-width:none!important;-webkit-overflow-scrolling:touch;scroll-snap-type:x proximity
+ }
+ body[data-page="kana"] .study-switcher::-webkit-scrollbar,
+ body[data-page="kanji"] .study-switcher::-webkit-scrollbar,
+ body[data-page="kosakata"] .study-switcher::-webkit-scrollbar,
+ body[data-page="quiz"] .study-switcher::-webkit-scrollbar{display:none}
+ body[data-page="kana"] .study-switcher a,
+ body[data-page="kanji"] .study-switcher a,
+ body[data-page="kosakata"] .study-switcher a,
+ body[data-page="quiz"] .study-switcher a{
+  flex:0 0 auto!important;white-space:nowrap!important;min-height:36px!important;
+  display:inline-flex!important;align-items:center!important;justify-content:center!important;
+  padding:8px 12px!important;border:1px solid var(--border)!important;border-radius:999px!important;
+  scroll-snap-align:start;background:var(--card)
+ }
+ body[data-page="kana"] .study-switcher a[aria-current="page"],
+ body[data-page="kanji"] .study-switcher a[aria-current="page"],
+ body[data-page="kosakata"] .study-switcher a[aria-current="page"],
+ body[data-page="quiz"] .study-switcher a[aria-current="page"]{
+  border-color:var(--border2)!important;background:var(--s2)!important;color:var(--text)!important;font-weight:800
+ }
+}
+body[data-page="kana"] .study-switcher a:focus-visible,
+body[data-page="kanji"] .study-switcher a:focus-visible,
+body[data-page="kosakata"] .study-switcher a:focus-visible,
+body[data-page="quiz"] .study-switcher a:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
+@media(prefers-reduced-motion:reduce){body[data-page="kana"] .study-switcher,body[data-page="kanji"] .study-switcher,body[data-page="kosakata"] .study-switcher,body[data-page="quiz"] .study-switcher{scroll-behavior:auto}}
+</style>
 </body>
 </html>
