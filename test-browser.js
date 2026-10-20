@@ -140,11 +140,14 @@ const { chromium } = require("playwright");
     assert.equal(await page.evaluate(() => getComputedStyle(document.documentElement).getPropertyValue("--bg").trim()), "#f8f5ed");
     assert.equal(await page.locator("#jp-hero-title").innerText(), "日本語の学び");
     assert.equal(await page.locator("#pane-jp .jp-hero-art").count(), 1);
-    assert.equal(await page.locator("#pane-jp .jp-learning-hub").count(), 1, "Japanese roadmap should show its category hub");
-    for (const [label, href] of [["Kana","./kana.html"],["Kanji","./kanji.html"],["Kosakata","./kosakata.html"],["Pusat Kuis","./quiz.html"]]) {
-      assert.equal(await page.locator(`.jp-learning-hub a[href="${href}"]`).count(), 1, `${label} navigation should route to its dedicated page`);
+    const roadmapNav=page.locator(".study-switcher.english-switcher");
+    assert.equal(await roadmapNav.isVisible(), true, "Japanese roadmap should show its shared site navigation");
+    assert.equal(await roadmapNav.locator("a").count(), 7, "Japanese roadmap navigation should include all main site destinations");
+    assert.equal(await roadmapNav.locator('a[aria-current="page"]').innerText(), "Roadmap Jepang", "Japanese roadmap navigation should mark its current page");
+    for (const [label, href] of [["Kana","./kana.html"],["Kanji","./kanji.html"],["Kosakata","./kosakata.html"],["Kuis","./quiz.html"]]) {
+      assert.equal(await roadmapNav.locator(`a[href="${href}"]`).count(), 1, `${label} navigation should route to its dedicated page`);
     }
-    assert.equal(await page.locator('.jp-learning-hub a[href="#kana-lab"], .jp-learning-hub a[href="#kanji-lab"], .jp-learning-hub a[href="#vocab-lab"]').count(), 0, "Japanese roadmap should not route category cards into the old combined page");
+    assert.equal(await page.locator("#pane-jp .jp-learning-hub").count(), 0, "Japanese roadmap should not duplicate the category hub below the hero");
     assert.equal(await page.locator("#kana-lab").isVisible(), false, "Kana lab should live on its own page");
     assert.equal(await page.locator("#kanji-lab").isVisible(), false, "Kanji lab should live on its own page");
     assert.equal(await page.locator("#vocab-lab").isVisible(), false, "Vocabulary lab should live on its own page");
@@ -233,7 +236,7 @@ const { chromium } = require("playwright");
     assert.equal(await page.locator("#kl-all-list").isVisible(), true);
     assert.equal(await page.locator("#kl-all-list label").count(), 300);
     await page.locator("#kl-list-toggle").click();
-    stage("dedicated quiz hub routes to Kanji and Kosakata engines");
+    stage("dedicated quiz hub routes Kana, Kanji, and Kosakata engines");
     await page.goto("http://127.0.0.1:4173/quiz.html", { waitUntil: "domcontentloaded" });
     assert.match(await page.title(), /Pusat Kuis/);
     assert.equal(await page.locator(".study-switcher a").count(), 5, "quiz page should show the shared category navigation");
