@@ -29,9 +29,9 @@ const { chromium } = require("playwright");
     await page.goto("http://127.0.0.1:4173/index.html", { waitUntil: "domcontentloaded" });
     assert.match(await page.title(), /Michishirube/);
     assert.equal(await page.locator(".card").count(), 4, "homepage should show four learning cards");
-    assert.equal(await page.locator(".hero .actions a.primary").getAttribute("href"), "./japanese-roadmap.html#kana-lab", "top hero button should link directly to the separate kana page");
-    assert.equal(await page.locator('.card[href="./japanese-roadmap.html#kanji-lab"]').getAttribute("href"), "./japanese-roadmap.html#kanji-lab");
-    assert.equal(await page.locator('.card[href="./japanese-roadmap.html#vocab-lab"]').getAttribute("href"), "./japanese-roadmap.html#vocab-lab");
+    assert.equal(await page.locator(".hero .actions a.primary").getAttribute("href"), "./kana.html", "top hero button should link directly to the separate kana page");
+    assert.equal(await page.locator('.card[href="./kanji.html"]').getAttribute("href"), "./kanji.html");
+    assert.equal(await page.locator('.card[href="./kosakata.html"]').getAttribute("href"), "./kosakata.html");
     assert.equal(await page.locator('.card[href="./quiz.html"]').getAttribute("href"), "./quiz.html");
     assert.equal(await page.locator("#install-app").isVisible(), true, "PWA install guidance button should be visible");
     await page.locator("#install-app").click();
@@ -70,41 +70,47 @@ const { chromium } = require("playwright");
     await page.context().setOffline(true);
     try {
       const offlineShell = await page.evaluate(async () => {
-        const [pythonResponse, quizResponse] = await Promise.all([
-          fetch("./python-roadmap.html"),
-          fetch("./quiz.html")
+        const [pythonResponse, quizResponse, kanaResponse, kanjiResponse, vocabResponse] = await Promise.all([
+          fetch("./python-roadmap.html"), fetch("./quiz.html"), fetch("./kana.html"), fetch("./kanji.html"), fetch("./kosakata.html")
         ]);
-        const [pythonHtml, quizHtml] = await Promise.all([pythonResponse.text(), quizResponse.text()]);
+        const [pythonHtml, quizHtml, kanaHtml, kanjiHtml, vocabHtml] = await Promise.all([pythonResponse.text(), quizResponse.text(), kanaResponse.text(), kanjiResponse.text(), vocabResponse.text()]);
         return {
-          pythonOk: pythonResponse.ok,
-          pythonContains: /Python Basic|Python/.test(pythonHtml),
-          quizOk: quizResponse.ok,
-          quizContains: /Pusat Kuis|quiz-picker/.test(quizHtml)
+          pythonOk: pythonResponse.ok, pythonContains: /Python Basic|Python/.test(pythonHtml),
+          quizOk: quizResponse.ok, quizContains: /Pusat Kuis|quiz-picker/.test(quizHtml),
+          kanaOk: kanaResponse.ok, kanaContains: /category-content|kana-lab/.test(kanaHtml),
+          kanjiOk: kanjiResponse.ok, kanjiContains: /category-content|kanji-lab/.test(kanjiHtml),
+          vocabOk: vocabResponse.ok, vocabContains: /category-content|vocab-lab/.test(vocabHtml)
         };
       });
       assert.equal(offlineShell.pythonOk, true, "Python page source should be served by the offline app shell");
       assert.equal(offlineShell.pythonContains, true, "offline app shell should return the cached Python page");
       assert.equal(offlineShell.quizOk, true, "quiz page source should be served by the offline app shell");
       assert.equal(offlineShell.quizContains, true, "offline app shell should return the cached quiz page");
+      for (const [name, ok, contains] of [["Kana", offlineShell.kanaOk, offlineShell.kanaContains], ["Kanji", offlineShell.kanjiOk, offlineShell.kanjiContains], ["Kosakata", offlineShell.vocabOk, offlineShell.vocabContains]]) {
+        assert.equal(ok, true, name + " page should be served by the offline app shell");
+        assert.equal(contains, true, name + " page source should be cached");
+      }
     } finally { await page.context().setOffline(false); }
 
 
 
-    stage("homepage Japanese cards route to separate pages");
+    stage("homepage Japanese cards route to standalone learning pages");
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
     await page.getByRole("link", { name: /Belajar Hiragana & Katakana/ }).click();
-    await page.waitForURL("**/japanese-roadmap.html#kana-lab");
-    await page.waitForFunction(() => document.querySelector("#pane-jp")?.classList.contains("active") && getComputedStyle(document.body).visibility !== "hidden");
-    assert.equal(await page.locator("#pane-jp").isVisible(), true, "Japanese page should show the Japanese learning pane");
-    assert.equal(await page.locator("#kana-lab").isVisible(), true, "kana deep link should land on its lab");
+    await page.waitForURL("**/kana.html");
+    await page.waitForFunction(() => document.querySelector("#category-content #kana-lab") && getComputedStyle(document.body).visibility !== "hidden");
+    assert.equal(await page.locator("#category-content #kana-lab").isVisible(), true, "hero CTA should open the standalone Kana page");
+    assert.equal(await page.locator(".tabs").isVisible(), false, "Kana page should not show the old mixed-category tabs");
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
-    await page.locator('a.card[href="./japanese-roadmap.html#kana-lab"]').click();
-    await page.waitForURL("**/japanese-roadmap.html#kana-lab");
-    await page.waitForFunction(() => document.querySelector("#pane-jp")?.classList.contains("active") && getComputedStyle(document.body).visibility !== "hidden");
-    assert.equal(await page.locator("#kana-lab").isVisible(), true, "Kana home card should open the dedicated Japanese page");
-    await page.goto("http://127.0.0.1:4173/japanese-roadmap.html#kanji-lab", { waitUntil: "load" });
-    assert.equal(await page.locator("#kanji-lab").isVisible(), true, "Kanji deep link should land on the Kanji lab");
-
+    await page.locator('a.card[href="./kana.html"]').click();
+    await page.waitForURL("**/kana.html");
+    assert.equal(await page.locator("#category-content #kana-lab").isVisible(), true, "Kana home card should open the separate Kana page");
+    await page.goto("http://127.0.0.1:4173/kanji.html", { waitUntil: "load" });
+    assert.equal(await page.locator("#category-content #kanji-lab").isVisible(), true, "Kanji page should show its own learning lab");
+    assert.equal(await page.locator(".tabs").isVisible(), false, "Kanji page should not show the old mixed-category tabs");
+    await page.goto("http://127.0.0.1:4173/kosakata.html", { waitUntil: "load" });
+    assert.equal(await page.locator("#category-content #vocab-lab").isVisible(), true, "Vocabulary page should show its own learning lab");
+    assert.equal(await page.locator(".tabs").isVisible(), false, "Vocabulary page should not show the old mixed-category tabs");
     stage("English roadmap is a separate page");
     await page.goto("http://127.0.0.1:4173/english-roadmap.html", { waitUntil: "domcontentloaded" });
     assert.match(await page.title(), /Michishirube.*English Roadmap/);
