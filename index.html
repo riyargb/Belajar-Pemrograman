@@ -42,6 +42,49 @@
 .entry-loader{width:92px;height:2px;background:#e5ddcf;overflow:hidden}.entry-loader span{display:block;width:36%;height:100%;background:#a84c51;animation:entry-load 1.25s ease-in-out infinite}
 @keyframes entry-rise{from{opacity:0;transform:translateY(9px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}@keyframes entry-breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.025)}}@keyframes entry-load{from{transform:translateX(-110%)}to{transform:translateX(290%)}}
 @media(prefers-reduced-motion:reduce){#entry-screen,.entry-inner,.entry-logo-frame,.entry-loader span{animation:none;transition:none}}
+
+/* Homepage information hierarchy */
+.cards{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.card{min-height:218px;padding:24px 22px}
+.card p{max-width:31ch}
+.go b{font-size:14px;margin-left:5px}
+.learning-next{padding-top:44px}
+.feature-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.feature-link{display:flex;align-items:center;gap:16px;min-width:0;padding:20px;border:1px solid #e8dfd0;border-radius:18px;background:#fffdf8;color:inherit;text-decoration:none;transition:transform .2s,border-color .2s,box-shadow .2s}
+.feature-link:hover{transform:translateY(-3px);border-color:#c8b9a3;box-shadow:0 12px 24px rgba(20,45,69,.07)}
+.feature-icon{width:50px;height:50px;flex:0 0 50px;display:grid;place-items:center;border-radius:16px;background:#f3eee4;color:#142d45;font:500 25px 'Noto Serif JP',serif}
+.feature-copy{display:flex;flex-direction:column;gap:5px;min-width:0}
+.feature-copy small{font-size:9px;letter-spacing:.16em;font-weight:700;color:#b13d46}
+.feature-copy strong{font:600 19px 'Playfair Display','Noto Serif JP',serif;color:#142d45}
+.feature-copy>span{font-size:12px;line-height:1.6;color:#6c7b88}
+.feature-arrow{margin-left:auto;align-self:flex-start;color:#b13d46;font-size:16px}
+.other-paths{padding-top:42px}
+.extras{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:0}
+.extras a{min-width:0;display:flex;align-items:center;gap:13px;padding:16px 18px;border-radius:14px}
+.extras a>span:first-child{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;border-radius:12px;background:#f3eee4;color:#142d45;font:600 17px 'Noto Serif JP',serif}
+.extras a>span:last-child{display:flex;flex-direction:column;gap:4px}
+.extras strong{font-size:12px;color:#142d45}
+.extras small{font-size:10px;font-weight:500;color:#6c7b88}
+.quote{display:none}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.feature-links{grid-template-columns:1fr}}
+@media(max-width:520px){
+ .cards{grid-template-columns:1fr;gap:10px}
+ .card{min-height:0;padding:18px;display:grid;grid-template-columns:48px minmax(0,1fr);column-gap:14px;align-items:start}
+ .card .icon{grid-row:1 / span 3;width:46px;height:46px;margin:0}
+ .card h3{font-size:17px;margin:0 0 4px}
+ .card p{font-size:12px;margin:0 0 10px}
+ .card .go{grid-column:2;margin-top:0}
+ .section{padding-top:34px}
+ .feature-link{padding:16px;gap:12px}
+ .feature-icon{width:44px;height:44px;flex-basis:44px;border-radius:13px}
+ .feature-copy strong{font-size:17px}
+ .feature-copy>span{font-size:11px}
+ .other-paths{padding-top:34px}
+ .extras{grid-template-columns:1fr}
+ .hero .actions{display:grid;grid-template-columns:1fr;max-width:320px}
+ .hero .button{width:100%}
+}
+
 </style>
 <script>document.documentElement.classList.add("auth-pending");</script><style>html.auth-pending body{visibility:hidden!important}</style><script src="./supabase-config.js"></script><script type="module" src="./site-auth.js"></script>
 </head>
@@ -52,20 +95,32 @@
 </div></header>
 <main class="shell">
 <section class="hero" id="home" aria-labelledby="hero-title"><div class="hero-content">
-<div class="kicker">日本語を学ぶ · Learn with intention</div>
+<div class="kicker">日本語を学ぶ · LEARN WITH INTENTION</div>
 <h1 id="hero-title"><span>学びの道を、共に。</span>Temukan jalan belajarmu.</h1>
 <p>Mulai dari satu karakter, satu kata, satu langkah kecil. Bangun kebiasaan belajar bahasa Jepang dengan tenang dan konsisten.</p>
-<div class="actions"><a class="button primary" href="./kana.html">Belajar Hiragana &amp; Katakana ↗</a><a class="button secondary" href="./japanese-roadmap.html#roadmap-jp">Lihat roadmap Jepang</a><a class="button secondary" href="#ruang-belajar">Semua jalur belajar ↓</a></div>
+<div class="actions"><a class="button primary" href="./kana.html">Mulai dari Kana <span aria-hidden="true">↗</span></a><a class="button secondary" href="./quiz.html">Pusat Kuis <span aria-hidden="true">↗</span></a></div>
 </div></section>
-<section class="section" id="ruang-belajar" aria-labelledby="study-title"><div class="section-head"><div><div class="eyebrow">Your learning path · 学習の道</div><h2 id="study-title">Ruang belajar</h2></div><p class="section-note">Pilih satu jalur, belajar sedikit demi sedikit, dan kembali lagi esok hari.</p></div>
+
+<section class="section" id="ruang-belajar" aria-labelledby="study-title">
+<div class="section-head"><div><div class="eyebrow">JAPANESE · 学習の道</div><h2 id="study-title">Ruang belajar</h2></div><p class="section-note">Tiga ruang utama untuk membangun fondasi bahasa Jepang.</p></div>
 <div class="cards">
-<a class="card" href="./kana.html"><div class="icon">あ</div><h3>Hiragana &amp; Katakana</h3><p>Mulai dari roadmap bahasa Jepang dan latihan dasar kana.</p><span class="go">BUKA RUANG BELAJAR ↗</span></a>
-<a class="card" href="./kanji.html"><div class="icon">漢</div><h3>Kanji</h3><p>Pelajari karakter, bacaan, arti, contoh, dan kuis kanji.</p><span class="go">BUKA KANJI LAB ↗</span></a>
-<a class="card" href="./kosakata.html"><div class="icon">言</div><h3>Kosakata</h3><p>Latih kosakata N5 dan N4 dengan kartu dan progres tersimpan.</p><span class="go">BUKA VOCABULARY LAB ↗</span></a>
-<a class="card" href="./quiz.html"><div class="icon">文</div><h3>Latihan &amp; Kuis</h3><p>Pilih Kuis Kana, Kanji, atau Kosakata dalam satu halaman.</p><span class="go">MULAI LATIHAN ↗</span></a>
+<a class="card" href="./kana.html"><div class="icon">あ</div><h3>Hiragana &amp; Katakana</h3><p>Kenali bentuk, bunyi, dan cara membaca kana secara bertahap.</p><span class="go">BUKA RUANG KANA <b aria-hidden="true">↗</b></span></a>
+<a class="card" href="./kanji.html"><div class="icon">漢</div><h3>Kanji</h3><p>Pelajari karakter, bacaan, arti, contoh, dan tingkat JLPT.</p><span class="go">BUKA RUANG KANJI <b aria-hidden="true">↗</b></span></a>
+<a class="card" href="./kosakata.html"><div class="icon">言</div><h3>Kosakata</h3><p>Bangun kosakata N5 dan N4 lewat daftar kata dan kartu belajar.</p><span class="go">BUKA RUANG KOSAKATA <b aria-hidden="true">↗</b></span></a>
 </div>
-<div class="quote"><strong>道標 Michishirube</strong> berarti “penunjuk jalan”. <span class="jp">学びの道を、共に。</span> — Belajar di sepanjang jalan ini, bersama.</div>
-<div class="extras"><a href="./english-roadmap.html#roadmap-en">Aa · English Learning Roadmap ↗</a><a href="./python-roadmap.html">⌘ · Roadmap Python, progres &amp; catatan ↗</a></div>
+</section>
+
+<section class="section learning-next" id="latihan" aria-labelledby="practice-title">
+<div class="section-head"><div><div class="eyebrow">PRACTICE &amp; PROGRESS</div><h2 id="practice-title">Latihan dan perjalanan</h2></div><p class="section-note">Pilih mode untuk menguji ingatan atau melihat urutan belajar berikutnya.</p></div>
+<div class="feature-links">
+<a class="feature-link" href="./quiz.html"><span class="feature-icon">文</span><span class="feature-copy"><small>LATIHAN TERARAH</small><strong>Pusat Kuis</strong><span>Kuis Kana, Kanji, dan Kosakata ada di satu tempat.</span></span><span class="feature-arrow" aria-hidden="true">↗</span></a>
+<a class="feature-link" href="./japanese-roadmap.html#roadmap-jp"><span class="feature-icon">道</span><span class="feature-copy"><small>STUDY PLAN</small><strong>Roadmap Jepang</strong><span>Ikuti tahapan belajar dan lihat gambaran perjalananmu.</span></span><span class="feature-arrow" aria-hidden="true">↗</span></a>
+</div>
+</section>
+
+<section class="section other-paths" id="jalur-lain" aria-labelledby="other-title">
+<div class="section-head"><div><div class="eyebrow">MORE TO EXPLORE</div><h2 id="other-title">Jalur lainnya</h2></div><p class="section-note">Ruang belajar tambahan, terpisah dari materi bahasa Jepang.</p></div>
+<div class="extras"><a href="./english-roadmap.html#roadmap-en"><span aria-hidden="true">Aa</span><span><strong>English Roadmap</strong><small>Belajar bahasa Inggris ↗</small></span></a><a href="./python-roadmap.html"><span aria-hidden="true">⌘</span><span><strong>Python Roadmap</strong><small>Dasar pemrograman ↗</small></span></a></div>
 </section>
 </main>
 <footer class="shell footer"><span>道標 · Michishirube</span><div class="install-area"><button class="install-button" id="install-app" type="button" aria-expanded="false" aria-controls="install-help">Pasang aplikasi ↗</button><span>Perjalanan kecil, kemajuan besar.</span><div class="install-help" id="install-help" role="status" aria-live="polite"></div></div></footer>
