@@ -1942,15 +1942,15 @@ body[data-page="quiz"] .quiz-footnote{font-size:10px;line-height:1.7;color:var(-
 <script id="quiz-hub-controller">
 (function(){
   const byId=id=>document.getElementById(id);
+  const move=(id,target)=>{const el=byId(id);if(!el||!target)throw new Error("Pusat kuis gagal memindahkan elemen "+id);target.appendChild(el);return el;};
   const kanaMount=byId("quiz-kana-questions");
-  const kanaMode=move("klab-q-mode",byId("quiz-kana-mode-mount"));
+  move("klab-q-mode",byId("quiz-kana-mode-mount"));
   ["klab-q-card","klab-q-count","klab-q-options","klab-q-feedback"].forEach(id=>move(id,kanaMount));
   move("klab-q-start",byId("quiz-kana-actions"));
   move("klab-q-next",byId("quiz-kana-actions"));
   byId("klab-q-start").textContent="Mulai kuis 10 soal →";
   const kanjiMount=byId("quiz-kanji-mount");
   const vocabMount=byId("quiz-vocab-questions");
-  const move=(id,target)=>{const el=byId(id);if(!el||!target)throw new Error("Pusat kuis gagal memindahkan elemen "+id);target.appendChild(el);return el;};
   const kanjiLevel=move("kl-level",byId("quiz-kanji-level-mount"));
   kanjiLevel.setAttribute("aria-label","Pilih level kuis Kanji");
   const kanjiQuiz=move("kl-quiz",kanjiMount);
