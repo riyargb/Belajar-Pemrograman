@@ -100,6 +100,7 @@ const { chromium } = require("playwright");
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
     await page.locator('a.card[href="./japanese-roadmap.html#kana-lab"]').click();
     await page.waitForURL("**/japanese-roadmap.html#kana-lab");
+    await page.waitForFunction(() => document.querySelector("#pane-jp")?.classList.contains("active") && getComputedStyle(document.body).visibility !== "hidden");
     assert.equal(await page.locator("#kana-lab").isVisible(), true, "Kana home card should open the dedicated Japanese page");
     await page.goto("http://127.0.0.1:4173/japanese-roadmap.html#kanji-lab", { waitUntil: "load" });
     assert.equal(await page.locator("#kanji-lab").isVisible(), true, "Kanji deep link should land on the Kanji lab");
