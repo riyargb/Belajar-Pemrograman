@@ -264,6 +264,43 @@ body[data-page="kosakata"] .category-quiz-link{display:inline-flex;align-items:c
  .topbar-actions .back-btn{font-size:9px;padding-inline:7px}
 }
 </style>
+
+<style id="kosakata-mobile-filter-compact-fix">
+/* Fix select controls on phones: flex-basis was being interpreted as their height. */
+@media (max-width:700px){
+  body[data-page="kosakata"] #category-content #vocab-lab .vl-controls{
+    display:grid!important;
+    grid-template-columns:minmax(0,1fr)!important;
+    align-items:start!important;
+    justify-items:start!important;
+    gap:9px!important;
+  }
+  body[data-page="kosakata"] #category-content #vocab-lab .vl-controls #vl-level,
+  body[data-page="kosakata"] #category-content #vocab-lab .vl-controls #vl-category{
+    display:block!important;
+    box-sizing:border-box!important;
+    width:min(100%,220px)!important;
+    inline-size:min(100%,220px)!important;
+    height:48px!important;
+    min-height:48px!important;
+    max-height:48px!important;
+    flex:none!important;
+    align-self:start!important;
+    padding:0 12px!important;
+    white-space:nowrap!important;
+    overflow:hidden!important;
+    text-overflow:ellipsis!important;
+  }
+  body[data-page="kosakata"] #category-content #vocab-lab .vl-controls #vl-search{
+    width:100%!important;
+    inline-size:100%!important;
+    height:48px!important;
+    min-height:48px!important;
+    box-sizing:border-box!important;
+  }
+}
+</style>
+
 </head>
 <body data-page="kosakata">
 <div class="topbar">
