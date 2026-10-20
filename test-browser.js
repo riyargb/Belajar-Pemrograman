@@ -94,6 +94,7 @@ const { chromium } = require("playwright");
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
     await page.getByRole("link", { name: /Belajar Hiragana & Katakana/ }).click();
     await page.waitForURL("**/japanese-roadmap.html#kana-lab");
+    await page.waitForFunction(() => document.querySelector("#pane-jp")?.classList.contains("active") && getComputedStyle(document.body).visibility !== "hidden");
     assert.equal(await page.locator("#pane-jp").isVisible(), true, "Japanese page should show the Japanese learning pane");
     assert.equal(await page.locator("#kana-lab").isVisible(), true, "kana deep link should land on its lab");
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
