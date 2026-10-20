@@ -31,7 +31,7 @@ const { chromium } = require("playwright");
     assert.equal(await page.locator(".card").count(), 4, "homepage should show four learning cards");
     assert.equal(await page.locator(".hero .actions a.primary").getAttribute("href"), "./japanese-roadmap.html#kana-lab", "top hero button should link directly to the separate kana page");
     assert.equal(await page.locator('.card[href="./japanese-roadmap.html#kanji-lab"]').getAttribute("href"), "./japanese-roadmap.html#kanji-lab");
-    assert.equal(await page.getByRole("link", { name: /Kosakata/ }).getAttribute("href"), "./japanese-roadmap.html#vocab-lab");
+    assert.equal(await page.locator('.card[href="./japanese-roadmap.html#vocab-lab"]').getAttribute("href"), "./japanese-roadmap.html#vocab-lab");
     assert.equal(await page.locator('.card[href="./quiz.html"]').getAttribute("href"), "./quiz.html");
     assert.equal(await page.locator("#install-app").isVisible(), true, "PWA install guidance button should be visible");
     await page.locator("#install-app").click();
