@@ -104,6 +104,7 @@ const { chromium } = require("playwright");
     await page.goto("http://127.0.0.1:4173/", { waitUntil: "load" });
     await page.locator('a.card[href="./kana.html"]').click();
     await page.waitForURL("**/kana.html");
+    await page.waitForFunction(() => document.querySelector("#category-content #kana-lab") && getComputedStyle(document.body).visibility !== "hidden");
     assert.equal(await page.locator("#category-content #kana-lab").isVisible(), true, "Kana home card should open the separate Kana page");
     await page.goto("http://127.0.0.1:4173/kanji.html", { waitUntil: "load" });
     await page.waitForFunction(() => document.querySelector("#category-content #kanji-lab") && getComputedStyle(document.body).visibility !== "hidden");
