@@ -195,13 +195,14 @@ body[data-page="japanese"] #pane-en,body[data-page="japanese"] #pane-nb{display:
 
 /* Quiz polish: readable kanji prompt and balanced two-column vocabulary answers */
 body[data-page="quiz"] #quiz-kanji-mount #kl-q-question{font-size:16px;line-height:1.65}
-body[data-page="quiz"] #quiz-kanji-mount #kl-q-question>div:first-child{font-family:'Noto Serif JP','Yu Mincho',serif;font-size:clamp(42px,10vw,64px);font-weight:600;line-height:1.25;text-align:center;margin:4px 0 12px;color:var(--text)}
+body[data-page="quiz"] #quiz-kanji-mount #kl-q-question>div:first-child{font-family:'Noto Serif JP','Yu Mincho',serif;font-size:clamp(56px,10vw,64px);font-weight:600;line-height:1.2;text-align:center;margin:4px 0 12px;color:var(--text)}
 body[data-page="quiz"] #quiz-kanji-mount #kl-q-question .kl-quiz-question{font-size:15px;line-height:1.65;text-align:center;margin:8px 0 14px}
 body[data-page="quiz"] #quiz-kanji-mount #kl-q-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
-body[data-page="quiz"] #quiz-kanji-mount #kl-q-options .kl-option{min-height:54px;padding:12px 8px;font-size:clamp(16px,4vw,20px);line-height:1.45;border-radius:14px;overflow-wrap:anywhere}
-body[data-page="quiz"] #quiz-vocab-questions #vl-q-options{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:10px}
-body[data-page="quiz"] #quiz-vocab-questions #vl-q-options .vl-row{min-width:0;min-height:58px;padding:14px 12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(14px,3.6vw,17px);line-height:1.45;overflow-wrap:anywhere;word-break:normal;border-radius:14px;}
-@media(max-width:360px){body[data-page="quiz"] #quiz-kanji-mount #kl-q-options,body[data-page="quiz"] #quiz-vocab-questions #vl-q-options{gap:7px}body[data-page="quiz"] #quiz-vocab-questions #vl-q-options .vl-row{padding:11px 7px;font-size:14px}}
+body[data-page="quiz"] #quiz-kanji-mount #kl-q-options .kl-option{min-width:0;min-height:56px;padding:12px 8px;font-size:clamp(16px,4vw,20px);line-height:1.45;border-radius:14px;overflow-wrap:anywhere;display:flex;align-items:center;justify-content:center}
+body[data-page="quiz"] #quiz-vocab-questions #vl-q-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:12px}
+body[data-page="quiz"] #quiz-vocab-questions #vl-q-options .vl-row{box-sizing:border-box;min-width:0;min-height:64px;padding:14px 12px;display:flex;align-items:center;justify-content:center;text-align:center;font-size:clamp(15px,3.8vw,18px);font-weight:600;line-height:1.45;overflow-wrap:anywhere;word-break:normal;border-radius:14px;white-space:normal}
+body[data-page="quiz"] #quiz-vocab-questions #vl-q-options .vl-row-main{max-width:100%;overflow-wrap:anywhere}
+@media(max-width:360px){body[data-page="quiz"] #quiz-kanji-mount #kl-q-options,body[data-page="quiz"] #quiz-vocab-questions #vl-q-options{gap:8px}body[data-page="quiz"] #quiz-vocab-questions #vl-q-options .vl-row{min-height:58px;padding:11px 7px;font-size:14px}}
 </style>
 <script>document.documentElement.classList.add("auth-pending");</script><style>html.auth-pending body{visibility:hidden!important}</style><script src="./supabase-config.js"></script>
 <script src="./learning-sync.js"></script><script type="module" src="./site-auth.js"></script>
