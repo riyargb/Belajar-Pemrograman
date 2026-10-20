@@ -130,6 +130,7 @@ const { chromium } = require("playwright");
 
     stage("Japanese roadmap focuses on roadmap and navigation");
     await page.goto("http://127.0.0.1:4173/japanese-roadmap.html", { waitUntil: "domcontentloaded" });
+    await page.waitForFunction(() => getComputedStyle(document.body).visibility !== "hidden");
     assert.match(await page.title(), /Michishirube.*Japanese Learning/);
     assert.equal(await page.locator(".topbar-title").innerText().then(t => t.includes("道標") && t.includes("Michishirube")), true);
     assert.equal(await page.locator(".topbar-title span").evaluate(el => getComputedStyle(el).display), "block");
