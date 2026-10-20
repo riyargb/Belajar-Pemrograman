@@ -238,6 +238,8 @@ const { chromium } = require("playwright");
     assert.match(await page.locator("#vl-q-count").innerText(), /Soal 2/);
     assert.equal(await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth), false, "quiz hub should not overflow horizontally on mobile");
 
+    await page.goto("http://127.0.0.1:4173/japanese-roadmap.html", { waitUntil: "domcontentloaded" });
+
     stage("kanji quiz");
     await page.locator("#kl-search").fill("");
     await page.getByRole("button", { name: "Mulai kuis pilihan ganda" }).click();
