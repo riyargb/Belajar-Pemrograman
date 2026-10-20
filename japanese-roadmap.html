@@ -1856,5 +1856,18 @@ body{font-family:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI"
 }
 
 </style>
+<style id="roadmap-category-separation">
+/* Keep the roadmap page focused; each hands-on lab lives on its own page.
+   Elements stay in the DOM so existing progress and quiz scripts keep their bindings. */
+body[data-page="japanese"] .jp-kana-intro,
+body[data-page="japanese"] #kana-lab,
+body[data-page="japanese"] #vocab-lab,
+body[data-page="japanese"] #kanji-lab {
+  display:none !important;
+}
+body[data-page="japanese"] #roadmap-jp {
+  scroll-margin-top:22px;
+}
+</style>
 </body>
 </html>
