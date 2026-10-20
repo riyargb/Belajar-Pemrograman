@@ -99,10 +99,14 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
 </style>
 <script>document.documentElement.classList.add("auth-pending");</script><style>html.auth-pending body{visibility:hidden!important}</style><script src="./supabase-config.js"></script>
 <script src="./learning-sync.js"></script><script type="module" src="./site-auth.js"></script>
+<style id="michi-layout-polish">
+.topbar{gap:12px;min-width:0}.topbar-title{display:inline-flex;align-items:center;min-width:0;flex-shrink:0}.tabs{position:sticky;top:0;z-index:20}
+@media(max-width:560px){.topbar{padding:10px 12px}.topbar-title{font-size:14px}.streak{font-size:9px}.tab{min-height:44px;font-size:9px;letter-spacing:.05em}}
+</style>
 </head>
 <body>
 <div class="topbar">
-  <div class="topbar-title"><span>Michishirube</span></div>
+  <a class="topbar-title" href="./index.html" aria-label="Michishirube Beranda" style="text-decoration:none;color:var(--text)"><span>道標 · Michishirube</span></a>
   <div class="streak" id="streak">🔥 0 hari streak</div>
 </div>
 <div class="tabs"><a class="tab" href="./index.html" style="display:flex;align-items:center;justify-content:center;text-decoration:none">Beranda</a>
@@ -115,7 +119,7 @@ body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif}
       <span class="flag">🇺🇸</span>
       <span class="lname">ENGLISH</span>
     </a>
-    <a href="english-roadmap.html" class="lang-btn">
+    <a href="japanese-roadmap.html" class="lang-btn">
       <span class="flag">🇯🇵</span>
       <span class="lname">JAPANESE</span>
     </a>
