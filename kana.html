@@ -1914,7 +1914,7 @@ body{font-family:'DM Sans',system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI"
   if(!mount||!section){console.error("Halaman kategori gagal dimuat: kana-lab");return;}
   mount.appendChild(section);
   section.hidden=false;
-  const quizLabel=[...section.querySelectorAll(".klab-note")].find(el=>el.textContent.includes("KUIS KANA"));if(quizLabel)quizLabel.innerHTML='<b>KUIS KANA · LATIHAN DUA ARAH</b><p><a class="category-quiz-link" href="./quiz.html#quiz-kana">Buka Kuis Kana →</a></p>';
+  const quizLabel=[...section.querySelectorAll(".klab-note")].find(el=>el.textContent.includes("KUIS KANA"));if(quizLabel)quizLabel.innerHTML='<b>KUIS KANA · LATIHAN DUA ARAH</b><p></p>';
   
 })();
 </script>
