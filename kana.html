@@ -256,6 +256,31 @@ body[data-page="kana"] .category-quiz-link{display:inline-flex;align-items:cente
  .topbar-actions .back-btn{font-size:9px;padding-inline:7px}
 }
 </style>
+
+<style id="michi-mobile-ui-cleanup-v1">
+/* Compact, consistent controls on small screens */
+select,input,textarea{box-sizing:border-box;max-width:100%;min-width:0}
+.vl-controls{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;align-items:center;gap:8px!important;width:100%;min-width:0}
+.vl-controls #vl-search{grid-column:1/-1;width:100%!important;min-width:0!important}
+.vl-controls #vl-level,.vl-controls #vl-category{width:100%!important;min-width:0!important;max-width:100%!important;min-height:42px;padding:9px 28px 9px 10px!important;font-size:12px!important;line-height:1.35;white-space:normal;text-overflow:ellipsis}
+.vl-buttons{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px!important}
+.vl-buttons .vl-btn{width:100%;min-width:0;min-height:42px;padding:9px 8px;font-size:12px;line-height:1.35;overflow-wrap:anywhere}
+.vl-buttons #vl-reveal,.vl-buttons #vl-next{grid-column:span 1}
+.vl-buttons #vl-all-levels{grid-column:1/-1}
+.kl-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+.kl-controls>*{width:100%;min-width:0}
+.kl-buttons{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.kl-buttons .kl-btn{min-width:0;max-width:100%;padding:9px 8px;line-height:1.35;overflow-wrap:anywhere}
+@media(max-width:480px){
+ .vl-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important}
+ .vl-controls #vl-level,.vl-controls #vl-category{font-size:11px!important;padding-inline:8px!important}
+ .vl-buttons{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .vl-buttons .vl-btn{font-size:11px;min-height:40px}
+ .kl-controls{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .kl-buttons{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:340px){.vl-controls,.kl-controls{grid-template-columns:minmax(0,1fr)!important}.vl-controls #vl-search{grid-column:auto}.vl-buttons,.kl-buttons{grid-template-columns:minmax(0,1fr)!important}}
+</style>
 </head>
 <body data-page="kana">
 <div class="topbar">
