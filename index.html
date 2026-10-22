@@ -111,6 +111,60 @@
 @media(prefers-reduced-motion:reduce){.michi-slide{transition:none}}
 </style>
 
+
+<style id="michi-promo-polish">
+/* Public-facing polish: fewer competing controls, calmer hierarchy, stronger mobile finish. */
+.topbar-inner{min-height:70px}
+.brand{letter-spacing:-.02em}
+.nav{gap:clamp(10px,1.7vw,20px)}
+.nav a{font-size:12px}
+.nav a:not(.profile){padding:9px 0;position:relative}
+.nav a:not(.profile):after{content:"";position:absolute;left:0;right:100%;bottom:2px;height:2px;border-radius:2px;background:#c8434b;transition:right .2s}
+.nav a:not(.profile):hover:after,.nav a:not(.profile)[aria-current=page]:after{right:0}
+.hero{margin-top:22px;min-height:clamp(390px,43vw,510px);border:1px solid rgba(255,255,255,.25);box-shadow:0 22px 55px rgba(20,45,69,.14)}
+.hero h1{max-width:680px;text-wrap:balance}
+.hero p{font-size:15px;max-width:470px}
+.michi-hero-slider{border:1px solid rgba(255,255,255,.2)}
+.section{padding-top:44px}
+.section-head{margin-bottom:16px}
+.section-note{max-width:310px}
+.learning-next .section-head,.other-paths .section-head{margin-bottom:14px}
+.learning-next .feature-links{display:grid;grid-template-columns:minmax(0,1fr);max-width:680px}
+.learning-next .feature-link{min-height:88px;border-radius:16px;padding:18px 20px;box-shadow:0 8px 24px rgba(20,45,69,.045)}
+.learning-next .feature-link:hover{transform:translateY(-2px)}
+.other-paths{padding-top:38px}
+.extras a{border-radius:999px;padding:11px 16px}
+.footer{margin-top:46px}
+@media(max-width:900px){.topbar-inner{min-height:unset}.nav{gap:6px 15px}.hero{min-height:400px}.section{padding-top:38px}}
+@media(max-width:600px){
+ .shell{width:calc(100% - 30px)}
+ .topbar{position:sticky}
+ .topbar-inner{gap:8px;padding:12px 0}
+ .brand{font-size:18px}
+ .brand-jp{font-size:21px}
+ .nav{width:100%;gap:5px;overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none;padding:2px 0 6px}
+ .nav::-webkit-scrollbar{display:none}
+ .nav a{flex:0 0 auto;font-size:11px;min-height:34px;padding:8px 10px!important;border-radius:999px;background:rgba(243,238,228,.62)}
+ .nav a[aria-current=page]{background:#efe5d7}
+ .nav a:not(.profile):after{display:none}
+ .nav .profile{margin-left:auto;background:#142d45;color:#fffdf8;border-color:#142d45}
+ .hero{margin-top:12px;min-height:390px;border-radius:18px}
+ .hero-content{padding:24px 21px}
+ .hero h1{font-size:clamp(37px,10vw,46px);line-height:1.07}
+ .hero p{font-size:13px;line-height:1.75}
+ .section{padding-top:34px}
+ .section-head{gap:8px}
+ .section h2{font-size:28px}
+ .section-note{font-size:12px;max-width:100%}
+ .learning-next .feature-link{padding:16px;min-height:80px}
+ .other-paths{padding-top:30px}
+ .extras{gap:8px}
+ .extras a{font-size:11px;padding:10px 13px}
+ .footer{margin-top:34px;padding-bottom:22px}
+}
+@media(prefers-reduced-motion:reduce){.nav a:not(.profile):after{transition:none}}
+</style>
+
 </head>
 <body><script>try{if(sessionStorage.getItem("michi-entry-seen")==="1")document.documentElement.classList.add("entry-seen");else sessionStorage.setItem("michi-entry-seen","1")}catch(e){}</script><style>.entry-seen #entry-screen{display:none!important}
 /* MICHISHIRUBE UI POLISH — keep the artwork; make navigation easier to scan */
