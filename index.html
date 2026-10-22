@@ -111,7 +111,6 @@
 @media(prefers-reduced-motion:reduce){.michi-slide{transition:none}}
 </style>
 
-<script src="https://player.cloudinary.com/latest/cloudinary-player.min.js"></script>
 </head>
 <body><script>try{if(sessionStorage.getItem("michi-entry-seen")==="1")document.documentElement.classList.add("entry-seen");else sessionStorage.setItem("michi-entry-seen","1")}catch(e){}</script><style>.entry-seen #entry-screen{display:none!important}
 /* MICHISHIRUBE UI POLISH — keep the artwork; make navigation easier to scan */
@@ -152,18 +151,16 @@
   </article>
   <article class="michi-slide michi-video-slide" data-slide="1" aria-hidden="true">
     <div class="michi-video-frame">
-      <div id="michi-cloudinary-player" class="michi-cloudinary-player" aria-label="Video promosi Michishirube"></div>
+      <video id="michi-cloudinary-player" class="michi-cloudinary-player" src="https://res.cloudinary.com/w53jbbil/video/upload/v1792660962/gemini_generated_video_0d04b5ff.mp4" controls playsinline muted preload="metadata" aria-label="Video promosi Michishirube"></video>
       <div class="michi-video-caption"><span class="kicker">KENALI MICHISHIRUBE</span><h2>Belajar, berkembang, selangkah demi selangkah.</h2></div>
     </div>
   </article>
 </div>
 <div class="michi-slider-controls" aria-label="Kontrol slide">
-  <button class="michi-slider-arrow" id="michi-slide-prev" type="button" aria-label="Slide sebelumnya">‹</button>
   <div class="michi-slider-dots">
     <button type="button" class="michi-slider-dot is-active" data-go-slide="0" aria-label="Tampilkan slide pengenalan" aria-current="true"></button>
     <button type="button" class="michi-slider-dot" data-go-slide="1" aria-label="Tampilkan video promosi"></button>
   </div>
-  <button class="michi-slider-arrow" id="michi-slide-next" type="button" aria-label="Slide berikutnya">›</button>
 </div>
 </section>
 
@@ -213,35 +210,27 @@ if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.se
  if(!root)return;
  const slides=[...root.querySelectorAll(".michi-slide")];
  const dots=[...root.querySelectorAll(".michi-slider-dot")];
- const prev=document.getElementById("michi-slide-prev");
- const next=document.getElementById("michi-slide-next");
- let current=0, player=null, timer=null, playerReady=false;
+ const player=document.getElementById("michi-cloudinary-player");
+ let current=0, timer=null;
  function showSlide(index){
    current=(index+slides.length)%slides.length;
    slides.forEach((slide,i)=>{const active=i===current;slide.classList.toggle("is-active",active);slide.setAttribute("aria-hidden",String(!active));});
    dots.forEach((dot,i)=>{const active=i===current;dot.classList.toggle("is-active",active);if(active)dot.setAttribute("aria-current","true");else dot.removeAttribute("aria-current");});
    if(timer){clearTimeout(timer);timer=null;}
-   if(player&&typeof player.pause==="function"&&current!==1){try{player.pause();}catch(e){}}
-   // The introductory slide rotates to the promo video. The video slide stays visible until playback ends.
+   if(player&&current!==1)player.pause();
+   // Autoplay video dalam keadaan mute agar didukung browser HP.
    if(current===0)timer=setTimeout(()=>showSlide(1),9000);
-   if(current===1&&player&&typeof player.play==="function"){try{player.play();}catch(e){}}
+   if(current===1&&player)player.play().catch(()=>{});
  }
- prev.addEventListener("click",()=>showSlide(current-1));
- next.addEventListener("click",()=>showSlide(current+1));
  dots.forEach(dot=>dot.addEventListener("click",()=>showSlide(Number(dot.dataset.goSlide))));
  let touchX=0;
+ root.style.touchAction="pan-y";
  root.addEventListener("touchstart",e=>{touchX=e.changedTouches[0].clientX;},{passive:true});
  root.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>55)showSlide(current+(dx<0?1:-1));},{passive:true});
- if(window.cloudinary&&typeof window.cloudinary.player==="function"){
-   try{
-     player=window.cloudinary.player("michi-cloudinary-player",{cloudName:"w53jbbil",publicId:"gemini_generated_video_0d04b5ff",controls:true,autoplay:false,muted:false,loop:false,fluid:true});
-     if(player&&typeof player.on==="function"){
-       player.on("ended",()=>showSlide(0));
-       player.on("play",()=>{if(timer){clearTimeout(timer);timer=null;}});
-       player.on("error",()=>{const frame=document.querySelector(".michi-video-frame");if(frame)frame.classList.add("player-error");});
-     }
-     playerReady=true;
-   }catch(e){console.warn("Cloudinary player could not initialize.",e);}
+ if(player){
+   player.addEventListener("ended",()=>showSlide(0));
+   player.addEventListener("play",()=>{if(timer){clearTimeout(timer);timer=null;}});
+   player.addEventListener("error",()=>{const frame=document.querySelector(".michi-video-frame");if(frame)frame.classList.add("player-error");});
  }
  showSlide(0);
 })();
