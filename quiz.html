@@ -2120,5 +2120,47 @@ body[data-page="kosakata"] .study-switcher a:focus-visible,
 body[data-page="quiz"] .study-switcher a:focus-visible{outline:3px solid var(--coral);outline-offset:2px}
 @media(prefers-reduced-motion:reduce){body[data-page="kana"] .study-switcher,body[data-page="kanji"] .study-switcher,body[data-page="kosakata"] .study-switcher,body[data-page="quiz"] .study-switcher{scroll-behavior:auto}}
 </style>
+
+<style id="michi-study-polish-v2">
+/* Shared quality pass: clearer hierarchy, touch targets, and small-screen safety. */
+body[data-page="quiz"] .topbar{
+  min-height:56px;padding:10px clamp(12px,3vw,24px);gap:12px;
+  position:relative;z-index:5;box-shadow:0 1px 0 rgba(255,255,255,.025)
+}
+body[data-page="quiz"] .topbar-title{
+  font-size:clamp(14px,2vw,17px);line-height:1.25;letter-spacing:-.35px
+}
+body[data-page="quiz"] .back-btn,
+body[data-page="quiz"] .theme-toggle{
+  min-height:36px;display:inline-flex;align-items:center;justify-content:center;
+  border-radius:999px;padding:7px 12px;transition:background .18s ease,border-color .18s ease,color .18s ease
+}
+body[data-page="quiz"] button,
+body[data-page="quiz"] select,
+body[data-page="quiz"] input{
+  max-width:100%
+}
+body[data-page="quiz"] :is(button,a,input,select,textarea,[role="button"]):focus-visible{
+  outline:2px solid var(--en);outline-offset:3px
+}
+body[data-page="quiz"] .tabs{
+  position:relative;z-index:3
+}
+body[data-page="quiz"] .tab{
+  min-height:42px;line-height:1.35
+}
+@media(max-width:520px){
+  body[data-page="quiz"] .topbar{padding:9px 12px;gap:8px}
+  body[data-page="quiz"] .topbar-title{font-size:13px;white-space:normal}
+  body[data-page="quiz"] .back-btn{font-size:10px;padding:7px 10px}
+  body[data-page="quiz"] .pane{padding:12px;padding-bottom:max(76px,env(safe-area-inset-bottom))}
+}
+@media(prefers-reduced-motion:reduce){
+  body[data-page="quiz"] *,
+  body[data-page="quiz"] *::before,
+  body[data-page="quiz"] *::after{transition:none!important;animation:none!important;scroll-behavior:auto!important}
+}
+</style>
+
 </body>
 </html>
