@@ -204,6 +204,7 @@ installButton.addEventListener("click",async()=>{
  installHelp.classList.add("visible");installButton.setAttribute("aria-expanded","true");
 });
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
+</script>
 
 
 <script id="michi-hero-slider-script">
