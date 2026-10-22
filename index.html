@@ -87,7 +87,30 @@
 
 </style>
 <script>document.documentElement.classList.add("auth-pending");</script><style>html.auth-pending body{visibility:hidden!important}</style><script src="./supabase-config.js"></script><script type="module" src="./site-auth.js"></script>
-</head>
+<style id="michi-hero-slider-styles">
+.michi-hero-slider{display:block;min-height:0;aspect-ratio:16/9;max-height:560px;background:#142d45;position:relative}
+.michi-hero-slider:before{display:none}
+.michi-slides{position:absolute;inset:0;overflow:hidden;border-radius:inherit}
+.michi-slide{position:absolute;inset:0;display:flex;align-items:flex-end;opacity:0;visibility:hidden;pointer-events:none;transition:opacity .45s ease; background:#142d45 url('https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2000&q=85') center 54%/cover no-repeat}
+.michi-slide.is-active{opacity:1;visibility:visible;pointer-events:auto}
+.michi-slide:first-child:before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,29,47,.84),rgba(10,29,47,.47) 52%,rgba(10,29,47,.06)),linear-gradient(0deg,rgba(10,29,47,.35),transparent 65%)}
+.michi-slide .hero-content{position:relative;z-index:1}
+.michi-video-slide{align-items:stretch;background:#081522}
+.michi-video-frame{position:absolute;inset:0;background:#081522;display:flex;align-items:center;justify-content:center}
+.michi-cloudinary-player{width:100%;height:100%;min-height:100%;aspect-ratio:16/9}
+.michi-cloudinary-player iframe,.michi-cloudinary-player video{width:100%!important;height:100%!important;object-fit:contain}
+.michi-video-caption{position:absolute;left:clamp(18px,4vw,40px);right:clamp(18px,4vw,40px);bottom:42px;z-index:2;pointer-events:none;text-shadow:0 2px 12px rgba(0,0,0,.75)}
+.michi-video-caption h2{font:500 clamp(20px,3.5vw,36px)/1.15 'Playfair Display','Noto Serif JP',serif;color:white;margin:8px 0 0;max-width:600px}
+.michi-slider-controls{position:absolute;z-index:5;right:16px;bottom:14px;display:flex;align-items:center;gap:10px;padding:6px 8px;border:1px solid rgba(255,255,255,.35);border-radius:999px;background:rgba(10,29,47,.58);backdrop-filter:blur(10px)}
+.michi-slider-arrow{width:28px;height:28px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:white;font-size:22px;line-height:1;cursor:pointer}
+.michi-slider-dots{display:flex;align-items:center;gap:7px}
+.michi-slider-dot{width:7px;height:7px;padding:0;border:0;border-radius:99px;background:rgba(255,255,255,.55);cursor:pointer}
+.michi-slider-dot.is-active{width:20px;background:#fff}
+.michi-slider-arrow:focus-visible,.michi-slider-dot:focus-visible{outline:2px solid white;outline-offset:3px}
+@media(max-width:600px){.michi-hero-slider{aspect-ratio:auto;min-height:510px;max-height:none}.michi-slide:first-child .hero-content{padding:28px}.michi-slide:first-child .hero-content h1{font-size:clamp(38px,10vw,54px)}.michi-video-caption{bottom:54px}.michi-video-caption h2{font-size:22px}.michi-slider-controls{right:12px;bottom:12px}}
+@media(prefers-reduced-motion:reduce){.michi-slide{transition:none}}
+</style>
+\n<script src="https://player.cloudinary.com/latest/cloudinary-player.min.js"></script>\n</head>
 <body><script>try{if(sessionStorage.getItem("michi-entry-seen")==="1")document.documentElement.classList.add("entry-seen");else sessionStorage.setItem("michi-entry-seen","1")}catch(e){}</script><style>.entry-seen #entry-screen{display:none!important}
 /* MICHISHIRUBE UI POLISH — keep the artwork; make navigation easier to scan */
 .feature-link:focus-visible,.extras a:focus-visible,.install-button:focus-visible{outline:3px solid #c8434b;outline-offset:3px}
@@ -115,12 +138,32 @@
 <nav class="nav" aria-label="Navigasi utama"><a href="./index.html" aria-current="page">Beranda</a><a href="./kana.html">Kana</a><a href="./kanji.html">Kanji</a><a href="./kosakata.html">Kosakata</a><a href="./japanese-roadmap.html#roadmap-jp">Roadmap</a><a class="profile" href="./auth.html">Profil ↗</a></nav>
 </div></header>
 <main class="shell">
-<section class="hero" id="home" aria-labelledby="hero-title"><div class="hero-content">
-<div class="kicker">日本語を学ぶ · LEARN WITH INTENTION</div>
-<h1 id="hero-title"><span>学びの道を、共に。</span>Temukan jalan belajarmu.</h1>
-<p>Mulai dari satu karakter, satu kata, satu langkah kecil. Bangun kebiasaan belajar bahasa Jepang dengan tenang dan konsisten.</p>
-<div class="actions"><a class="button primary" href="./kana.html">Mulai dari Kana <span aria-hidden="true">↗</span></a></div>
-</div></section>
+<section class="hero michi-hero-slider" id="home" aria-label="Sorotan Michishirube">
+<div class="michi-slides" id="michi-hero-slides">
+  <article class="michi-slide is-active" data-slide="0" aria-hidden="false">
+    <div class="hero-content">
+      <div class="kicker">日本語を学ぶ · LEARN WITH INTENTION</div>
+      <h1><span>学びの道を、共に。</span>Temukan jalan belajarmu.</h1>
+      <p>Mulai dari satu karakter, satu kata, satu langkah kecil. Bangun kebiasaan belajar bahasa Jepang dengan tenang dan konsisten.</p>
+      <div class="actions"><a class="button primary" href="./kana.html">Mulai dari Kana <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </article>
+  <article class="michi-slide michi-video-slide" data-slide="1" aria-hidden="true">
+    <div class="michi-video-frame">
+      <div id="michi-cloudinary-player" class="michi-cloudinary-player" aria-label="Video promosi Michishirube"></div>
+      <div class="michi-video-caption"><span class="kicker">KENALI MICHISHIRUBE</span><h2>Belajar, berkembang, selangkah demi selangkah.</h2></div>
+    </div>
+  </article>
+</div>
+<div class="michi-slider-controls" aria-label="Kontrol slide">
+  <button class="michi-slider-arrow" id="michi-slide-prev" type="button" aria-label="Slide sebelumnya">‹</button>
+  <div class="michi-slider-dots">
+    <button type="button" class="michi-slider-dot is-active" data-go-slide="0" aria-label="Tampilkan slide pengenalan" aria-current="true"></button>
+    <button type="button" class="michi-slider-dot" data-go-slide="1" aria-label="Tampilkan video promosi"></button>
+  </div>
+  <button class="michi-slider-arrow" id="michi-slide-next" type="button" aria-label="Slide berikutnya">›</button>
+</div>
+</section>
 
 <section class="section" id="ruang-belajar" aria-labelledby="study-title">
 <div class="section-head"><div><div class="eyebrow">JAPANESE · 学習の道</div><h2 id="study-title">Ruang belajar</h2></div><p class="section-note">Tiga ruang utama untuk membangun fondasi bahasa Jepang.</p></div>
@@ -159,6 +202,45 @@ installButton.addEventListener("click",async()=>{
  installHelp.classList.add("visible");installButton.setAttribute("aria-expanded","true");
 });
 if("serviceWorker" in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));}
+<script id="michi-hero-slider-script">
+(function(){
+ const root=document.querySelector(".michi-hero-slider");
+ if(!root)return;
+ const slides=[...root.querySelectorAll(".michi-slide")];
+ const dots=[...root.querySelectorAll(".michi-slider-dot")];
+ const prev=document.getElementById("michi-slide-prev");
+ const next=document.getElementById("michi-slide-next");
+ let current=0, player=null, timer=null, playerReady=false;
+ function showSlide(index){
+   current=(index+slides.length)%slides.length;
+   slides.forEach((slide,i)=>{const active=i===current;slide.classList.toggle("is-active",active);slide.setAttribute("aria-hidden",String(!active));});
+   dots.forEach((dot,i)=>{const active=i===current;dot.classList.toggle("is-active",active);if(active)dot.setAttribute("aria-current","true");else dot.removeAttribute("aria-current");});
+   if(timer){clearTimeout(timer);timer=null;}
+   if(player&&typeof player.pause==="function"&&current!==1){try{player.pause();}catch(e){}}
+   // The introductory slide rotates to the promo video. The video slide stays visible until playback ends.
+   if(current===0)timer=setTimeout(()=>showSlide(1),9000);
+   if(current===1&&player&&typeof player.play==="function"){try{player.play();}catch(e){}}
+ }
+ prev.addEventListener("click",()=>showSlide(current-1));
+ next.addEventListener("click",()=>showSlide(current+1));
+ dots.forEach(dot=>dot.addEventListener("click",()=>showSlide(Number(dot.dataset.goSlide))));
+ let touchX=0;
+ root.addEventListener("touchstart",e=>{touchX=e.changedTouches[0].clientX;},{passive:true});
+ root.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-touchX;if(Math.abs(dx)>55)showSlide(current+(dx<0?1:-1));},{passive:true});
+ if(window.cloudinary&&typeof window.cloudinary.player==="function"){
+   try{
+     player=window.cloudinary.player("michi-cloudinary-player",{cloudName:"w53jbbil",publicId:"gemini_generated_video_0d04b5ff",controls:true,autoplay:false,muted:false,loop:false,fluid:true});
+     if(player&&typeof player.on==="function"){
+       player.on("ended",()=>showSlide(0));
+       player.on("play",()=>{if(timer){clearTimeout(timer);timer=null;}});
+       player.on("error",()=>{const frame=document.querySelector(".michi-video-frame");if(frame)frame.classList.add("player-error");});
+     }
+     playerReady=true;
+   }catch(e){console.warn("Cloudinary player could not initialize.",e);}
+ }
+ showSlide(0);
+})();
 </script>
+
 </body>
 </html>
