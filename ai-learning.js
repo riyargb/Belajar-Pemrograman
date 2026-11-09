@@ -74,7 +74,7 @@ const tasks=[
 ["Buat fungsi yang mencatat metrik latency dan menghitung rata-ratanya.","latencies=[120,95,140,105]\ndef average_latency(values): return sum(values)/len(values) if values else 0\nprint(average_latency(latencies))"],
 ["Buat fungsi estimasi memori model berdasarkan jumlah parameter dan byte per parameter.","def memory_mb(params,bytes_per_param): return params*bytes_per_param/(1024**2)\nprint(round(memory_mb(1000000,2),2))"],
 ["Buat fungsi evaluasi pipeline yang melaporkan jumlah dokumen berhasil dan gagal.","def pipeline_report(statuses):\n    ok=sum(s=='ok' for s in statuses)\n    return {'success':ok,'failed':len(statuses)-ok}\nprint(pipeline_report(['ok','failed','ok','ok']))"]
-
+];
 function start(){
 let n=+$("#exam-level").value,exam=$("#quiz-category").value==="exam",count=exam?Math.min(50,10+2*(n-1)):10,pool=[];
 for(let k=0;k<n;k++)for(let j=0;j<topics[k].length;j++){let topic=topics[k][j],opts=[topic,"Konsep dari level lain","Langkah deployment","Format file yang tidak relevan"].sort(()=>Math.random()-.5);pool.push({q:"Level "+(k+1)+": konsep mana yang sedang diuji pada topik ini — "+topic+"?",opts:opts,ans:opts.indexOf(topic),why:topic+" adalah materi inti pada "+levels[k]+"."})}
