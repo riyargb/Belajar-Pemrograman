@@ -196,7 +196,7 @@ function updateStreak(){
   const today=new Date().toDateString();
   const last=load('sal_lastday','');
   let streak=load('sal_streak',0);
-  const doneToday=Object.keys(checks).some(k=>checks[k]);
+  const doneToday=Object.keys(checks).some(k=>k.startsWith('ai')&&checks[k]);
   if(doneToday&&last!==today){
     const y=new Date();y.setDate(y.getDate()-1);
     streak=last===y.toDateString()?streak+1:1;
