@@ -43,29 +43,43 @@ function show(){let q=vocab.filter(v=>!$("#vocab-search").value||v[0].toLowerCas
 $("#vocab-search").oninput=()=>{i=0;show()};$("#vocab-prev").onclick=()=>{i--;show()};$("#vocab-next").onclick=()=>{i++;show()};$("#vocab-known").onclick=()=>{known[$("#vocab-word").textContent]=true;localStorage.setItem("ai_vocab_known",JSON.stringify(known));i++;show()};show();
 }
 if(view==="flashcards"){
-$("#flash-level").innerHTML=options;let cards=[],i=0,flip=false;
+$("#flash-level").innerHTML=options;let requested=new URLSearchParams(location.search).get("level");if(requested)$("#flash-level").value=requested;let cards=[],i=0,flip=false;
 function show(){let t=cards[i];$("#flash-card").textContent=flip?t+" adalah konsep pada materi Level "+$("#flash-level").value+". Pelajari definisi, kegunaan, dan contohnya.":t;$("#flash-card").classList.toggle("flipped",flip);$("#flash-count").textContent="Level "+$("#flash-level").value+" · "+(i+1)+"/"+cards.length}
 function load(){cards=topics[+$("#flash-level").value-1];i=0;flip=false;show()}
 $("#flash-level").onchange=load;$("#flash-card").onclick=()=>{flip=!flip;show()};$("#flash-prev").onclick=()=>{i=(i+cards.length-1)%cards.length;flip=false;show()};$("#flash-next").onclick=()=>{i=(i+1)%cards.length;flip=false;show()};load();
 }
 if(view==="quiz"){
-$("#exam-level").innerHTML=options;
+$("#exam-level").innerHTML=options;let requested=new URLSearchParams(location.search).get("level");if(requested)$("#exam-level").value=requested;
 const tasks=[
-["Buat fungsi tambah(a,b) dan cetak tambah(7,5).","def tambah(a, b):\n    return a + b\n\nprint(tambah(7, 5))"],
-["Buat list kuadrat dari [2,3,4].","angka = [2, 3, 4]\nprint([x ** 2 for x in angka])"],
+["Buat fungsi tambah(a,b) dan cetak hasil tambah(7,5).","def tambah(a, b):\n    return a + b\nprint(tambah(7, 5))"],
+["Buat fungsi yang mengembalikan kuadrat setiap angka dalam list.","angka = [2, 3, 4]\nprint([x ** 2 for x in angka])"],
 ["Buat fungsi hitung_frekuensi(teks) untuk menghitung kata.","def hitung_frekuensi(teks):\n    hasil = {}\n    for kata in teks.lower().split():\n        hasil[kata] = hasil.get(kata, 0) + 1\n    return hasil\nprint(hitung_frekuensi('ai belajar ai'))"],
-["Gunakan NumPy untuk menghitung mean array [1,2,3,4].","import numpy as np\nx = np.array([1, 2, 3, 4])\nprint(x.mean())"],
-["Buat fungsi yang menghapus None dari list.","def bersihkan(data):\n    return [x for x in data if x is not None]\nprint(bersihkan([1, None, 2, 3]))"],
-["Tulis query SQL untuk total transaksi per customer.","query = 'SELECT customer_id, SUM(total) FROM orders GROUP BY customer_id;'\nprint(query)"],
-["Implementasikan fungsi sigmoid(x).","import math\ndef sigmoid(x):\n    return 1 / (1 + math.exp(-x))\nprint(sigmoid(0))"],
-["Buat fungsi akurasi dari y_true dan y_pred.","def akurasi(a, b):\n    return sum(x == y for x, y in zip(a,b)) / len(a)\nprint(akurasi([1,0,1], [1,1,1]))"],
-["Buat tensor PyTorch dan jumlahkan elemennya.","import torch\nx = torch.tensor([1, 2, 3])\nprint(x.sum().item())"],
-["Buat class LinearModel untuk y = w*x+b.","class LinearModel:\n    def __init__(self, w, b): self.w, self.b = w, b\n    def predict(self, x): return self.w*x + self.b\nm = LinearModel(2, 1)\nprint(m.predict(3))"]];
+["Buat fungsi rata_rata(data) dan tangani list kosong.","def rata_rata(data):\n    return sum(data) / len(data) if data else 0\nprint(rata_rata([2, 4, 6, 8]))"],
+["Bersihkan data dari None dan duplikat, pertahankan urutan.","def bersihkan(data):\n    hasil = []\n    for x in data:\n        if x is not None and x not in hasil: hasil.append(x)\n    return hasil\nprint(bersihkan([1, None, 2, 1, 3]))"],
+["Buat query SQL agregasi total transaksi per customer.","query = 'SELECT customer_id, SUM(total) AS total FROM orders GROUP BY customer_id ORDER BY total DESC;'\nprint(query)"],
+["Implementasikan fungsi sigmoid(x) untuk satu angka.","import math\ndef sigmoid(x): return 1 / (1 + math.exp(-x))\nprint(round(sigmoid(0), 3))"],
+["Buat fungsi precision dan recall dari daftar label biner.","def metrics(y, p):\n    tp=sum(a==1 and b==1 for a,b in zip(y,p))\n    fp=sum(a==0 and b==1 for a,b in zip(y,p))\n    fn=sum(a==1 and b==0 for a,b in zip(y,p))\n    return tp/(tp+fp) if tp+fp else 0, tp/(tp+fn) if tp+fn else 0\nprint(metrics([1,0,1,1],[1,1,1,0]))"],
+["Buat fungsi forward sederhana untuk neuron: jumlah input dikali bobot lalu sigmoid.","import math\ndef neuron(inputs, weights, bias):\n    z=sum(x*w for x,w in zip(inputs,weights))+bias\n    return 1/(1+math.exp(-z))\nprint(round(neuron([1,0],[0.8,0.2],-0.1),3))"],
+["Buat class LinearModel untuk menghitung y=w*x+b.","class LinearModel:\n    def __init__(self,w,b): self.w,self.b=w,b\n    def predict(self,x): return [self.w*v+self.b for v in x]\nm=LinearModel(2,1)\nprint(m.predict([1,2,3]))"],
+["Buat fungsi tokenizer sederhana yang memecah teks menjadi token huruf kecil.","def tokenize(text): return text.lower().split()\nprint(tokenize('AI Engineer belajar RAG'))"],
+["Buat fungsi retry_plan yang menghasilkan jeda eksponensial untuk 4 percobaan.","def retry_plan(base, attempts): return [base*(2**i) for i in range(attempts)]\nprint(retry_plan(1,4))"],
+["Buat fungsi yang merakit prompt dari system instruction dan pertanyaan user.","def build_prompt(system, question):\n    return 'SYSTEM: '+system+'\\nUSER: '+question\nprint(build_prompt('Jawab singkat','Apa itu ML?'))"],
+["Buat cosine similarity dua vektor menggunakan Python standar.","import math\ndef cosine(a,b):\n    dot=sum(x*y for x,y in zip(a,b))\n    na=math.sqrt(sum(x*x for x in a)); nb=math.sqrt(sum(y*y for y in b))\n    return dot/(na*nb) if na and nb else 0\nprint(round(cosine([1,0],[0.8,0.2]),3))"],
+["Buat fungsi chunk_text yang memecah daftar kata menjadi potongan berukuran n.","def chunk_text(words,n): return [words[i:i+n] for i in range(0,len(words),n)]\nprint(chunk_text('RAG mengambil konteks sebelum menjawab'.split(),2))"],
+["Buat agent sederhana yang memilih tool berdasarkan pertanyaan.","def choose_tool(question):\n    q=question.lower()\n    if 'cuaca' in q: return 'weather_tool'\n    if 'hitung' in q: return 'calculator_tool'\n    return 'search_tool'\nprint(choose_tool('tolong hitung 2+2'))"],
+["Buat fungsi adapter_update yang memperbarui parameter kecil tanpa mengubah base model.","base_weight=[1.0,2.0,3.0]\nadapter=[0.1,-0.1,0.2]\ndef adapted(base,delta): return [w+d for w,d in zip(base,delta)]\nprint(adapted(base_weight,adapter))"],
+["Buat fungsi validasi input OCR yang menolak teks kosong.","def validate_ocr(text):\n    cleaned=text.strip()\n    if not cleaned: raise ValueError('Teks OCR kosong')\n    return cleaned\nprint(validate_ocr(' Invoice 2026 '))"],
+["Buat evaluator sederhana yang menghitung exact match dari jawaban model.","def exact_match(expected, actual):\n    return sum(a.strip()==b.strip() for a,b in zip(expected,actual))/len(expected)\nprint(exact_match(['A','B'],['A','C']))"],
+["Buat fungsi normalisasi payload API agar memiliki key question dan user_id.","def normalize(payload):\n    return {'question':str(payload.get('question','')).strip(),'user_id':payload.get('user_id')}\nprint(normalize({'question':'  Halo AI  ','user_id':7}))"],
+["Buat fungsi yang mencatat metrik latency dan menghitung rata-ratanya.","latencies=[120,95,140,105]\ndef average_latency(values): return sum(values)/len(values) if values else 0\nprint(average_latency(latencies))"],
+["Buat fungsi estimasi memori model berdasarkan jumlah parameter dan byte per parameter.","def memory_mb(params,bytes_per_param): return params*bytes_per_param/(1024**2)\nprint(round(memory_mb(1000000,2),2))"],
+["Buat fungsi evaluasi pipeline yang melaporkan jumlah dokumen berhasil dan gagal.","def pipeline_report(statuses):\n    ok=sum(s=='ok' for s in statuses)\n    return {'success':ok,'failed':len(statuses)-ok}\nprint(pipeline_report(['ok','failed','ok','ok']))"]
+
 function start(){
 let n=+$("#exam-level").value,exam=$("#quiz-category").value==="exam",count=exam?Math.min(50,10+2*(n-1)):10,pool=[];
 for(let k=0;k<n;k++)for(let j=0;j<topics[k].length;j++){let topic=topics[k][j],opts=[topic,"Konsep dari level lain","Langkah deployment","Format file yang tidak relevan"];pool.push({q:"Level "+(k+1)+": konsep mana yang sedang diuji pada topik ini — "+topic+"?",opts:opts,ans:0,why:topic+" adalah materi inti pada "+levels[k]+"."})}
 pool=pool.sort(()=>Math.random()-.5).slice(0,count);let at=0,score=0,answered=false;
-$("#quiz-panel").hidden=false;
+$("#quiz-panel").hidden=false;$("#quiz-panel").innerHTML='<div id="quiz-stage"></div>';
 function draw(){answered=false;let q=pool[at];$("#quiz-stage").innerHTML='<div class="quiz-head">SOAL '+(at+1)+' / '+pool.length+'</div><h2>'+esc(q.q)+'</h2><div class="options">'+q.opts.map((o,j)=>'<button class="option" data-a="'+j+'">'+String.fromCharCode(65+j)+'. '+esc(o)+'</button>').join("")+'</div><p id="feedback"></p><button id="next" hidden>'+(at===pool.length-1?"Hasil":"Berikutnya")+'</button>';document.querySelectorAll("[data-a]").forEach(b=>b.onclick=()=>{if(answered)return;answered=true;let ok=+b.dataset.a===q.ans;if(ok)score++;document.querySelectorAll("[data-a]").forEach(x=>{x.disabled=true;if(+x.dataset.a===q.ans)x.classList.add("correct");else if(x===b)x.classList.add("wrong")});$("#feedback").textContent=(ok?"Benar. ":"Belum tepat. ")+q.why;$("#next").hidden=false});$("#next").onclick=()=>{if(at<pool.length-1){at++;draw()}else finish()}}
 function finish(){$("#quiz-stage").innerHTML='<h2>Hasil '+(exam?"ujian akhir":"kuis")+'</h2><div class="score">'+score+' / '+pool.length+' ('+Math.round(score/pool.length*100)+'%)</div><button id="retry">Ulangi</button>';$("#retry").onclick=start}
 draw();
