@@ -39,9 +39,11 @@ $("#language-list").innerHTML=langs.map((x,i)=>'<article class="card"><span clas
 let saved=JSON.parse(localStorage.getItem("ai_lang_done")||"{}");document.querySelectorAll("[data-lang]").forEach(c=>{c.checked=!!saved[c.dataset.lang];c.onchange=()=>{saved[c.dataset.lang]=c.checked;localStorage.setItem("ai_lang_done",JSON.stringify(saved))}});
 }
 if(view==="vocabulary"){
-let i=0,known=JSON.parse(localStorage.getItem("ai_vocab_known")||"{}");
-function show(){let q=vocab.filter(v=>!$("#vocab-search").value||v[0].toLowerCase().includes($("#vocab-search").value.toLowerCase()));i=(i+q.length)%q.length;let v=q[i];$("#vocab-word").textContent=v[0]||"Tidak ditemukan";$("#vocab-def").textContent=v[1]||"Coba kata kunci lain";$("#vocab-count").textContent=(i+1)+" / "+q.length+" · hafal "+Object.keys(known).length}
-$("#vocab-search").oninput=()=>{i=0;show()};$("#vocab-prev").onclick=()=>{i--;show()};$("#vocab-next").onclick=()=>{i++;show()};$("#vocab-known").onclick=()=>{known[$("#vocab-word").textContent]=true;localStorage.setItem("ai_vocab_known",JSON.stringify(known));i++;show()};show();
+$("#vocab-level").innerHTML=options;let requested=new URLSearchParams(location.search).get("level");if(requested)$("#vocab-level").value=requested;
+let i=0,known=JSON.parse(localStorage.getItem("ai_vocab_known")||"{}"),current=[];
+function show(){let q=current.filter(v=>!$("#vocab-search").value||v[0].toLowerCase().includes($("#vocab-search").value.toLowerCase())||v[1].toLowerCase().includes($("#vocab-search").value.toLowerCase()));if(!q.length){$("#vocab-word").textContent="Tidak ditemukan";$("#vocab-def").textContent="Tidak ada istilah pada level ini yang cocok dengan pencarian.";$("#vocab-count").textContent="0 istilah";return}i=(i+q.length)%q.length;let v=q[i];$("#vocab-word").textContent=v[0];$("#vocab-def").textContent=v[1];$("#vocab-count").textContent=(i+1)+" / "+q.length+" istilah · hafal "+Object.keys(known).length;$("#vocab-level-title").textContent="Level "+$("#vocab-level").value+" · "+levels[+$("#vocab-level").value-1]}
+function load(){current=vocabGroups[+$("#vocab-level").value-1].map(term=>[term,vocabDefinitions[term]||"Istilah teknis pada materi ini."]);i=0;show()}
+$("#vocab-level").onchange=load;$("#vocab-search").oninput=()=>{i=0;show()};$("#vocab-prev").onclick=()=>{i--;show()};$("#vocab-next").onclick=()=>{i++;show()};$("#vocab-known").onclick=()=>{let term=$("#vocab-word").textContent;if(term!=="Tidak ditemukan"){known[term]=true;localStorage.setItem("ai_vocab_known",JSON.stringify(known));i++;show()}};load();
 }
 if(view==="flashcards"){
 $("#flash-level").innerHTML=options;let requested=new URLSearchParams(location.search).get("level");if(requested)$("#flash-level").value=requested;let cards=[],i=0,flip=false;
