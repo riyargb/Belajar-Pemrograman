@@ -178,7 +178,6 @@ why:en?item.term+" — "+item.definition:item.term+" — "+item.definition
 });
 });
 }
-}
 const questionCount=category==="vocab"?Math.min(10,pool.length):Math.min(limit,pool.length);
 pool=shuffle(pool).slice(0,questionCount);
 let at=0,score=0,answered=false;
