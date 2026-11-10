@@ -164,27 +164,20 @@ pool.push({q:en?"What does the term '"+item.term+"' mean?":"Apa arti istilah '"+
 }
 });
 }else{
-const ownership=new Map();
-topics.forEach((items,levelIndex)=>items.forEach(topic=>{
-if(!ownership.has(topic))ownership.set(topic,new Set());
-ownership.get(topic).add(levelIndex);
-}));
-const uniqueTopics=[];
-topics.forEach((items,levelIndex)=>items.forEach(topic=>{
-if(ownership.get(topic)?.size===1)uniqueTopics.push({topic,levelIndex});
-}));
-const targetLevels=exam?Array.from({length:n},(_,i)=>i):[n-1];
-const targets=shuffle(uniqueTopics.filter(x=>targetLevels.includes(x.levelIndex)));
-targets.forEach(item=>{
-const distractors=shuffle(uniqueTopics.filter(x=>x.levelIndex!==item.levelIndex&&x.topic!==item.topic)).slice(0,3);
+const allTerms=vocabGroups.flat().filter((term,index,arr)=>arr.indexOf(term)===index).map(term=>({term,definition:vocabDefinitions[term]})).filter(item=>item.definition);
+const scopedTerms=(exam?vocabGroups.slice(0,n).flat():vocabGroups[n-1]).filter((term,index,arr)=>arr.indexOf(term)===index);
+const scopedEntries=scopedTerms.map(term=>({term,definition:vocabDefinitions[term]})).filter(item=>item.definition);
+scopedEntries.forEach(item=>{
+const distractors=shuffle(allTerms.filter(x=>x.term!==item.term)).slice(0,3).map(x=>x.term);
 if(distractors.length!==3)return;
-const opts=shuffle([item.topic,...distractors.map(x=>x.topic)]);
+const opts=shuffle([item.term,...distractors]);
 pool.push({
-q:en?"Which topic belongs to Level "+(item.levelIndex+1)+" — "+levels[item.levelIndex]+"?":"Manakah topik yang termasuk Level "+(item.levelIndex+1)+" — "+levels[item.levelIndex]+"?",
-opts,ans:opts.indexOf(item.topic),
-why:en?item.topic+" is part of "+levels[item.levelIndex]+".":item.topic+" merupakan materi inti pada "+levels[item.levelIndex]+"."
+q:en?"Which term best matches this definition: "+item.definition:"Istilah mana yang paling sesuai dengan definisi berikut: "+item.definition,
+opts,ans:opts.indexOf(item.term),
+why:en?item.term+" — "+item.definition:item.term+" — "+item.definition
 });
 });
+}
 }
 const questionCount=category==="vocab"?Math.min(10,pool.length):Math.min(limit,pool.length);
 pool=shuffle(pool).slice(0,questionCount);
