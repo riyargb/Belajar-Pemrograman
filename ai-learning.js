@@ -193,7 +193,7 @@ draw();
 if(exam){
 const extra=document.createElement("section");
 extra.className="exam-extra";
-const fill=Math.min(10,5+Math.floor((n-1)/5));
+const fill=Math.min(10,5+Math.floor((n-1)/4));
 extra.innerHTML='<h2>'+(en?"Part 2 · Short answers (":"Bagian 2 · Isian singkat (")+fill+(en?" questions)":" soal)")+ '</h2>'+topics[n-1].slice(0,fill).map(t=>'<label class="field">'+(en?"Explain: ":"Jelaskan: ")+'<b>'+esc(t)+'</b><textarea rows="2" placeholder="'+(en?"Write your answer...":"Tulis jawabanmu...")+'"></textarea></label>').join("")+'<h2>'+(en?"Part 3 · Coding practice":"Bagian 3 · Praktik coding")+'</h2><p>'+esc(tasks[n-1][0])+'</p><textarea id="code-editor" class="code-editor" spellcheck="false" placeholder="'+(en?"Type your code here...":"Ketik kode Python kamu sendiri di sini...")+'"></textarea><div class="row"><button id="hint-code" type="button">💡 '+(en?"Show a hint":"Tampilkan petunjuk")+'</button><span id="hint-text" class="hint"></span></div><button id="run-code">▶ Run Python</button><pre id="code-output">'+(en?"Output will appear here.":"Output akan muncul di sini.")+'</pre><p class="hint">'+(en?"Python runs in your browser using Pyodide WebAssembly.":"Python berjalan di browser melalui Pyodide WebAssembly.")+'</p>';
 $("#quiz-panel").appendChild(extra);
 $("#hint-code").onclick=()=>{$("#hint-text").textContent=tasks[n-1][1]};
