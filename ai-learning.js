@@ -95,7 +95,7 @@ let pool=[];
 if(category==="vocab"){
 const allTerms=vocabGroups.flat().filter((term,index,arr)=>arr.indexOf(term)===index);
 const definitionEntries=allTerms.map(term=>({term,definition:vocabDefinitions[term]})).filter(x=>x.definition);
-const bank=vocabGroups[n-1].map(term=>({term,definition:vocabDefinitions[term]})).filter(x=>x.definition);
+const bank=vocabGroups[n-1].map(term=>({term,definition:vocabDefinitions[term]})).filter((x,index,arr)=>x.definition&&arr.findIndex(y=>y.term===x.term)===index);
 bank.forEach(item=>{
 const seen=new Set([item.definition]);
 const distractors=shuffle(definitionEntries.filter(x=>x.term!==item.term&&!seen.has(x.definition)).filter(x=>{if(seen.has(x.definition))return false;seen.add(x.definition);return true})).slice(0,3);
