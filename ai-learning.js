@@ -8,6 +8,39 @@ const vocabDefinitions={"import":"Perintah Python untuk memasukkan modul agar is
 const vocab=vocabGroups.flat().map(term=>[term,vocabDefinitions[term]||'Istilah teknis pada level ini.']);
 const readStore=(key,fallback={})=>{try{const value=JSON.parse(localStorage.getItem(key)||"null");return value&&typeof value==="object"?value:fallback}catch{return fallback}};
 const $=s=>document.querySelector(s), esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+window.MichiPythonRunner=window.MichiPythonRunner||(()=>{
+let runtimePromise=null,scriptPromise=null,queue=Promise.resolve();
+async function getRuntime(){
+if(!runtimePromise){
+runtimePromise=(async()=>{
+if(!window.loadPyodide){
+if(!scriptPromise)scriptPromise=new Promise((resolve,reject)=>{
+const script=document.createElement("script");
+script.src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js";
+script.onload=resolve;
+script.onerror=()=>reject(new Error("Gagal memuat Pyodide. Periksa koneksi internet."));
+document.head.appendChild(script);
+});
+await scriptPromise;
+}
+return window.loadPyodide();
+})();
+}
+try{return await runtimePromise}catch(error){runtimePromise=null;scriptPromise=null;throw error}
+}
+return {run(source){
+const task=queue.then(async()=>{
+const py=await getRuntime();let output="";
+py.setStdout({batched:value=>output+=value});
+py.setStderr({batched:value=>output+=value});
+await py.runPythonAsync(source);
+return output;
+});
+queue=task.catch(()=>{});
+return task;
+}};
+})();
+
 const options=levels.map((x,i)=>'<option value="'+(i+1)+'">Level '+(i+1)+' — '+esc(x)+'</option>').join("");
 const nav='<a href="./python-roadmap.html">Roadmap</a><a href="./ai-languages.html">Bahasa</a><a href="./ai-materials.html">Materi</a><a href="./ai-vocabulary.html">Kosakata</a><a href="./ai-quiz.html">Kuis & Ujian</a>';
 document.querySelectorAll("[data-ai-nav]").forEach(x=>x.innerHTML=nav);
@@ -68,7 +101,7 @@ $("#vocab-level").onchange=load;$("#vocab-search").oninput=()=>{i=0;show()};$("#
 $("#mode-vocab").onclick=()=>setMode("vocab");$("#mode-flash").onclick=()=>setMode("flash");$("#vocab-card").onclick=()=>{if(mode==="flash"){flipped=!flipped;show()}};
 $("#vocab-code-toggle").onclick=()=>{const panel=$("#vocab-code-panel");panel.hidden=!panel.hidden;if(!panel.hidden){const term=$("#vocab-word").textContent.toLowerCase();const hasSpecificExample=Object.prototype.hasOwnProperty.call(examples,term);$("#vocab-code").value=examples[term]||'# Contoh pengenal istilah; bukan implementasi konsep.\nkonsep = "'+$("#vocab-word").textContent+'"\nprint("Istilah:", konsep)';$("#vocab-example-hint").textContent=hasSpecificExample?"Contoh mini terkait istilah ini. Kamu bisa mengedit dan menjalankannya.":"Contoh pengenal istilah saja; belum merupakan implementasi teknis khusus. Kamu bisa mengeditnya untuk eksperimen."}$("#vocab-code-toggle").textContent=panel.hidden?"Tampilkan Contoh Kode":"Sembunyikan Contoh Kode"};
 $("#vocab-copy").onclick=async()=>{await navigator.clipboard?.writeText($("#vocab-code").value);$("#vocab-copy").textContent="Tersalin"};
-$("#vocab-run").onclick=async()=>{const out=$("#vocab-output");if(!$("#vocab-code").value.trim()){out.textContent="Tulis kode terlebih dahulu.";return}$("#vocab-run").disabled=true;out.textContent="Memuat Python...";try{if(!window.loadPyodide){await new Promise((res,rej)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js";s.onload=res;s.onerror=rej;document.head.appendChild(s)})}window.__michiPy=window.__michiPy||await loadPyodide();let log="";window.__michiPy.setStdout({batched:s=>log+=s});await window.__michiPy.runPythonAsync($("#vocab-code").value);out.textContent=log||"Program selesai tanpa output."}catch(e){out.textContent="Error: "+e.message}finally{$("#vocab-run").disabled=false}};
+$("#vocab-run").onclick=async()=>{const out=$("#vocab-output");if(!$("#vocab-code").value.trim()){out.textContent="Tulis kode terlebih dahulu.";return}$("#vocab-run").disabled=true;out.textContent="Memuat Python...";try{const log=await window.MichiPythonRunner.run($("#vocab-code").value);out.textContent=log||"Program selesai tanpa output."}catch(e){out.textContent="Error: "+e.message}finally{$("#vocab-run").disabled=false}};
 load();
 }
 if(view==="flashcards"){
@@ -169,9 +202,7 @@ if(!source.trim()){out.textContent=en?"Type your code first.":"Ketik kode terleb
 btn.disabled=true;out.textContent=en?"Loading Python...":"Memuat Python...";
 try{
 if(!window.loadPyodide){await new Promise((res,rej)=>{const script=document.createElement("script");script.src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js";script.onload=res;script.onerror=rej;document.head.appendChild(script)})}
-window.__michiPy=window.__michiPy||await loadPyodide();
-let log="";window.__michiPy.setStdout({batched:value=>log+=value});
-await window.__michiPy.runPythonAsync(source);
+const log=await window.MichiPythonRunner.run(source);
 out.textContent=log||(en?"Program completed without output.":"Program selesai tanpa output.");
 }catch(error){out.textContent="Error: "+error.message}
 finally{btn.disabled=false}
