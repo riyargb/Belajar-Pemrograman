@@ -5,7 +5,7 @@ document.querySelectorAll('#roadmap [id^="ph-ai"]').forEach(el=>{
  if(!n||el.querySelector(".pytools"))return;
  const target=el.querySelector(".ph-body");if(!target)return;
  const box=document.createElement("div");box.className="pytools";
- box.innerHTML='<a href="./ai-quiz.html?level='+n+'">✦ Kuis level</a><a href="./ai-vocabulary.html?level='+n+'">⌕ Kamus level</a><a href="./ai-flashcards.html?level='+n+'">▤ Flashcard</a>';
+ box.innerHTML='<a href="./ai-quiz.html?level='+n+'">✦ Kuis level</a><a href="./ai-materials.html?level='+n+'">▤ Materi level</a><a href="./ai-vocabulary.html?level='+n+'">⌕ Kosakata & Flashcard</a>';
  target.appendChild(box);
 });
 }
