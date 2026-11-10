@@ -157,7 +157,7 @@ const definitionEntries=allTerms.map(term=>({term,definition:vocabDefinitions[te
 const bank=vocabGroups[n-1].map(term=>({term,definition:vocabDefinitions[term]})).filter((x,index,arr)=>x.definition&&arr.findIndex(y=>y.term===x.term)===index);
 bank.forEach(item=>{
 const seen=new Set([item.definition]);
-const distractors=shuffle(definitionEntries.filter(x=>x.term!==item.term&&!seen.has(x.definition)).filter(x=>{if(seen.has(x.definition))return false;seen.add(x.definition);return true})).slice(0,3);
+const distractors=shuffle(definitionEntries).filter(x=>{if(x.term===item.term||seen.has(x.definition))return false;seen.add(x.definition);return true}).slice(0,3);
 if(distractors.length===3){
 const opts=shuffle([item.definition,...distractors.map(x=>x.definition)]);
 pool.push({q:en?"What does the term '"+item.term+"' mean?":"Apa arti istilah '"+item.term+"'?",opts,ans:opts.indexOf(item.definition),why:item.term+": "+item.definition});
