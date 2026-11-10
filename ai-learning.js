@@ -56,6 +56,17 @@ $("#vocab-level").innerHTML=options;let requested=new URLSearchParams(location.s
 let i=0,known=readStore("ai_vocab_known",{}),current=[],mode=(new URLSearchParams(location.search).get("mode")==="flash"?"flash":"vocab"),flipped=false;
 function vocabExample(term){
 const t=term.toLowerCase();
+if(t==="pydantic")return 'payload = {"question": "Ringkas dokumen", "top_k": 3}'+'\n'+'valid = isinstance(payload["question"], str) and isinstance(payload["top_k"], int)'+'\n'+'print("valid:", valid)'+'\n'+'# Pydantic membuat validasi schema deklaratif.';
+if(t==="etl")return 'raw = [" 12 ", "bad", "15"]'+'\n'+'extracted = raw'+'\n'+'transformed = [int(x) for x in extracted if x.strip().isdigit()]'+'\n'+'loaded = {"scores": transformed}'+'\n'+'print(loaded)';
+if(t==="parquet")return 'table = {"id": [1, 2], "score": [0.8, 0.9]}'+'\n'+'print(table)'+'\n'+'# Simpan Parquet nyata memakai pandas dan pyarrow.';
+if(t==="supervised learning")return 'training_data = [("email A", "spam"), ("email B", "ham")]'+'\n'+'print("input-label pairs:", training_data)';
+if(t==="unsupervised learning")return 'points = [[1, 1], [1.2, 0.9], [8, 8]]'+'\n'+'print("unlabeled observations:", len(points))'+'\n'+'# Clustering mencari kelompok tanpa label target.';
+if(t==="data leakage")return 'split_order = ["split train/test", "fit preprocessing on train only", "transform test"]'+'\n'+'print("safe workflow:", " -> ".join(split_order))';
+if(t==="hugging face")return 'model_card = {"library": "transformers", "task": "text-classification"}'+'\n'+'print(model_card)'+'\n'+'# Model nyata dimuat dari library/model repository tepercaya.';
+if(t==="serialization")return 'import json'+'\n'+'record = {"id": 1, "score": 0.95}'+'\n'+'serialized = json.dumps(record)'+'\n'+'print(serialized)';
+if(t==="json")return 'import json'+'\n'+'payload = {"question": "hello", "top_k": 3}'+'\n'+'text = json.dumps(payload)'+'\n'+'print(json.loads(text))';
+if(t==="pretrained model")return 'model_metadata = {"origin": "pretrained", "task": "classification"}'+'\n'+'print(model_metadata)'+'\n'+'# Metadata ini ilustrasi, bukan model yang dimuat.';
+if(t==="async processing")return 'import asyncio'+'\n'+'async def job():'+'\n'+'    await asyncio.sleep(0)'+'\n'+'    return "finished"'+'\n'+'print(asyncio.run(job()))';
 if(t.includes("pandas")||t==="dataframe"||t==="series"||t.includes("missing value")||t==="outlier"||t==="eda"||t.includes("feature engineering"))return 'rows = [{"score": 0.8}, {"score": None}, {"score": 1.2}]'+'\n'+'valid = [r["score"] for r in rows if r["score"] is not None]'+'\n'+'mean = sum(valid) / len(valid)'+'\n'+'print("mean:", round(mean, 2))'+'\n'+'# Pandas: df = pd.DataFrame(rows); df["score"].fillna(mean)';
 if(t==="numpy"||t.includes("tensor")||t==="gpu"||t==="cuda"||t==="pytorch"||t==="tensorflow"||t==="autograd"||t==="nn.module"||t==="dataloader"||t==="training loop")return 'values = [1.0, 2.0, 3.0]'+'\n'+'squared = [x * x for x in values]'+'\n'+'print("sum of squares:", sum(squared))'+'\n'+'# NumPy/PyTorch menyediakan operasi tensor dan gradien otomatis.';
 if(t==="sql"||t==="query"||t==="table"||t==="primary key"||t==="foreign key"||t==="join"||t==="cte"||t==="aggregation"||t==="index"||t==="transaction"||t==="normalization")return 'sql = """SELECT customer_id, SUM(amount) AS total'+'\n'+'FROM orders'+'\n'+'WHERE status = \'paid\''+'\n'+'GROUP BY customer_id;"""'+'\n'+'print(sql)'+'\n'+'# Jalankan pada database latihan setelah tabel disiapkan.';
