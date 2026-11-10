@@ -227,7 +227,6 @@ const out=$("#code-output"),btn=$("#run-code"),source=$("#code-editor").value;
 if(!source.trim()){out.textContent=en?"Type your code first.":"Ketik kode terlebih dahulu.";return}
 btn.disabled=true;out.textContent=en?"Loading Python...":"Memuat Python...";
 try{
-if(!window.loadPyodide){await new Promise((res,rej)=>{const script=document.createElement("script");script.src="https://cdn.jsdelivr.net/pyodide/v0.27.7/full/pyodide.js";script.onload=res;script.onerror=rej;document.head.appendChild(script)})}
 const log=await window.MichiPythonRunner.run(source);
 out.textContent=log||(en?"Program completed without output.":"Program selesai tanpa output.");
 }catch(error){out.textContent="Error: "+error.message}
